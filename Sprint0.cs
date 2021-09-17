@@ -1,0 +1,103 @@
+﻿// Maxwell Ortwig
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace Game1
+{
+    public class Sprint0 : Game
+    {
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private SpriteFont arialSpriteFont;
+
+        // controllers that detect input from gamepad and keyboard. These only change ObjectUpdater
+        private IController keyboardController;
+        private IController gamepadController;
+        
+        // this object holds flags that tell objects whether or not they need to update
+        private ObjectUpdater objectUpdater;
+        
+        // These are the four sprites used displayed in this game.
+        private ISprite fixedSprite;
+        private ISprite fixedAnimatedSprite;
+        private ISprite movingSprite;
+        private ISprite movingAnimatedSprite;
+
+        public Sprint0()
+        {
+            graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+            IsMouseVisible = true;
+        }
+
+        protected override void Initialize()
+        {
+            // create the ObjectUpdater and controllers
+            objectUpdater = new ObjectUpdater();
+            keyboardController = new KeyboardController(objectUpdater);
+            gamepadController = new GamepadController(objectUpdater);
+            this.Window.Title = "Sprint0";
+
+            base.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            arialSpriteFont = Content.Load<SpriteFont>("ArialSpriteFont");
+            Texture2D marioSpriteSheet = Content.Load<Texture2D>("MarioSpriteSheet");
+            // initialize the 4 sprites to be used with the parameters wanted for initial launch
+            fixedSprite = new FixedSprite(objectUpdater, true, new Vector2(50, 25), marioSpriteSheet, 1, 4);
+            fixedAnimatedSprite = new FixedAnimatedSprite(objectUpdater, true, new Vector2(150,25), marioSpriteSheet, 1, 4);
+            movingSprite = new MovingSprite(objectUpdater, true, new Vector2(250, 25), marioSpriteSheet, 1, 4);
+            movingAnimatedSprite = new MovingAnimatedSprite(objectUpdater, true, new Vector2(350, 25), marioSpriteSheet, 1, 4);
+
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            // Update the controllers
+            gamepadController.Update();
+            keyboardController.Update();
+
+            // check if QuitGame field in objectUpdater has been triggered
+            if (objectUpdater.quitGame)
+            {
+                // is there a need to unload before exiting if all resources are given back to os?
+                this.UnloadContent();
+                this.Exit();
+            }
+
+            // update the sprites
+            fixedSprite.Update();
+            fixedAnimatedSprite.Update();
+            movingSprite.Update();
+            movingAnimatedSprite.Update();
+
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+
+            spriteBatch.Begin();
+
+            // call draw methods from each sprite and pass in sprite batch
+            fixedSprite.Draw(spriteBatch);
+            fixedAnimatedSprite.Draw(spriteBatch);
+            movingSprite.Draw(spriteBatch);
+            movingAnimatedSprite.Draw(spriteBatch);
+
+            // Draw Legend
+            spriteBatch.DrawString(arialSpriteFont, "Controls (Keyboard/Gamepad)\nQ/start: Quit\nW/A:Toggle Visibility of fixedSprite\nE/B:Toggle Visibility of fixedAnimatedSprite\nR/X:Toggle Visibility of movingSprite\nT/Y:Toggle Visibility of movingAnimatedSprite", new Vector2(25, 325), Color.Black);
+
+            spriteBatch.End();
+            base.Draw(gameTime);
+        }
+    }
+
+
+}
