@@ -12,7 +12,6 @@ namespace Game1
 
         protected SpriteCommand(ISprite sprite)
         {
-            // Cast to Sprite from ISprite so we can use Sprite methods in concrete command classes
             this.sprite = sprite;
         }
 

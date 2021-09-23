@@ -41,11 +41,11 @@ namespace Game1
             }
 
             // determines if sprite's visibility needs to be toggled and resets objectUpdater
-            if (objectUpdater.fixedAnimatedSpriteVisibility)
+            /*if (objectUpdater.fixedAnimatedSpriteVisibility)
             {
                 isVisible = !isVisible;
                 objectUpdater.fixedAnimatedSpriteVisibility = false;
-            }
+            }*/
         }
 
         public void ToggleVisibility()
@@ -63,12 +63,7 @@ namespace Game1
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
             // draws sprite visible or transparent
-            if (isVisible)
-            {
-                spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-            } else {
-                spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.Transparent);
-            }
+            if (isVisible) { spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White); }
         }
     }
 }

@@ -25,13 +25,14 @@ namespace Game1
             columns = Columns;
         }
         public void Update()
-        {            
+        {        
+            // DON'T NEED TO DO ANYTHING FOR FIXED NON-ANIMATED
             // determines if sprite's visibility needs to be toggled and resets objectUpdater
-            if (objectUpdater.fixedSpriteVisibility)
+            /*if (objectUpdater.fixedSpriteVisibility)
             {
                 isVisible = !isVisible;
                 objectUpdater.fixedSpriteVisibility = false;
-            }
+            }*/
           }
         
         public void ToggleVisibility()
@@ -48,13 +49,7 @@ namespace Game1
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
-            // draws sprite visible or transparent
-            if (isVisible)
-            {
-                spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-            } else {
-                spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.Transparent);
-            }
+            if (isVisible) { spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White); }
         }
     }
 }
