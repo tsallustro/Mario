@@ -41,6 +41,21 @@ namespace Game1
             {
                 objectUpdater.movingAnimatedSpriteVisibility = true;
             }
+
+            if (state.IsKeyDown(Keys.Divide) && oldState.IsKeyUp(Keys.Divide))
+            {
+                objectUpdater.bumpQuestion();
+            }
+
+            if (state.IsKeyDown(Keys.B) && oldState.IsKeyUp(Keys.B))
+            {
+                objectUpdater.bumpBrick();
+            }
+
+            if (state.IsKeyDown(Keys.H) && oldState.IsKeyUp(Keys.H))
+            {
+                objectUpdater.bumpHidden();
+            }
         }
     }
 }

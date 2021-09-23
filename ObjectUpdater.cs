@@ -26,6 +26,21 @@ namespace Game1
             movingSpriteVisibility = false;
             movingAnimatedSpriteVisibility = false;
         }
+
+        public void bumpQuestion()
+        {
+
+        }
+
+        public void bumpBrick()
+        {
+
+        }
+
+        public void bumpHidden()
+        {
+
+        }
     }
 
 }
