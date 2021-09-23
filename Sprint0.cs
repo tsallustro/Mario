@@ -36,8 +36,8 @@ namespace Game1
         {
             // create the ObjectUpdater and controllers
             objectUpdater = new ObjectUpdater();
-            /*keyboardController = new KeyboardController(objectUpdater);
-            gamepadController = new GamepadController(objectUpdater);*/
+            keyboardController = new KeyboardController();
+            gamepadController = new GamepadController();
             this.Window.Title = "Sprint0";
 
             base.Initialize();
@@ -55,16 +55,14 @@ namespace Game1
             movingSprite = new MovingSprite(objectUpdater, true, new Vector2(250, 25), marioSpriteSheet, 1, 4);
             movingAnimatedSprite = new MovingAnimatedSprite(objectUpdater, true, new Vector2(350, 25), marioSpriteSheet, 1, 4);
 
-            // Initialize keyboard controller and mappings
-            keyboardController = new KeyboardController();
+            // Initialize keyboard controller mappings
             keyboardController.AddMapping((int)Keys.Q, new QuitCommand(this));
             keyboardController.AddMapping((int)Keys.W, new NonMovingNonAnimatedCommand(fixedSprite));
             keyboardController.AddMapping((int)Keys.E, new NonMovingAnimatedCommand(fixedAnimatedSprite));
             keyboardController.AddMapping((int)Keys.R, new MovingNonAnimatedCommand(movingSprite));
             keyboardController.AddMapping((int)Keys.T, new MovingAnimatedCommand(movingAnimatedSprite));
 
-            // Initialize gamepad controller and mappings
-            gamepadController = new GamepadController();
+            // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.Start, new QuitCommand(this));
             gamepadController.AddMapping((int)Buttons.A, new NonMovingNonAnimatedCommand(fixedSprite));
             gamepadController.AddMapping((int)Buttons.B, new NonMovingAnimatedCommand(fixedAnimatedSprite));
