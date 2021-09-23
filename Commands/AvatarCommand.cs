@@ -7,7 +7,7 @@ namespace Game1
 	 */
 	abstract class AvatarCommand : ICommand
 	{
-		protected AvatarSprite sprite;
+		protected ISprite sprite;
 
 		protected AvatarCommand(ISprite sprite)
         {
