@@ -6,7 +6,7 @@ namespace Game1
 {
 	class CrouchCommand : AvatarCommand
 	{
-		public CrouchCommand(ISprite sprite)
+		public CrouchCommand(AvatarSprite sprite)
 			: base(sprite)
 		{
 		}
