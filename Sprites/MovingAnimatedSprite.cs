@@ -11,6 +11,8 @@ namespace Game1
         public Vector2 location { get; set; }
 
         private bool isVisible = true;
+
+        // We'll need to change direction to a 2D vector at some point
         private int movementDirection = 1;
         private int currentFrame = 2;
 
