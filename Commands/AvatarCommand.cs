@@ -9,10 +9,9 @@ namespace Game1
 	{
 		protected AvatarSprite sprite;
 
-		protected AvatarCommand(ISprite sprite)
+		protected AvatarCommand(AvatarSprite sprite)
         {
-			// Cast to AvatarSprite to get added functionality
-			this.sprite = (AvatarSprite)sprite;
+			this.sprite = sprite;
         }
 
 		public abstract void Execute();
