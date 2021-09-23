@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sprint0
+namespace Game1
 {
-    class MovingNonAnimatedCommand : SpriteCommand
+    /*class MovingNonAnimatedCommand : SpriteCommand
     {
         public MovingNonAnimatedCommand(ISprite sprite) 
             : base(sprite)
@@ -17,5 +17,5 @@ namespace Sprint0
         {
             sprite.ToggleVisibility();
         }
-    }
+    }*/
 }

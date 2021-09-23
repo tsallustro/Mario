@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sprint0
+namespace Game1
 {
-    abstract class SpriteCommand : ICommand
+    /*abstract class SpriteCommand : ICommand
     {
         protected Sprite sprite;
 
@@ -17,5 +17,5 @@ namespace Sprint0
         }
 
         public abstract void Execute();
-    }
+    }*/
 }

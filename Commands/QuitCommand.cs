@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace Sprint0
+namespace Game1
 {
     class QuitCommand : ICommand
     {
