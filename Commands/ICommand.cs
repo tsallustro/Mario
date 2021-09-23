@@ -1,9 +1,9 @@
 ﻿using System;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
-interface ICommand
+namespace Game1
 {
-    void Execute();
+    interface ICommand
+    {
+        void Execute();
+    }
 }
