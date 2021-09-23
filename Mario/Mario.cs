@@ -7,7 +7,7 @@ namespace Game1
     class Mario
     {
         ISprite sprite;
-        MarioAction actionState;
-        MarioPower powerState;
+        IMarioActionState actionState;
+        IMarioPowerState powerState;
     }
 }
