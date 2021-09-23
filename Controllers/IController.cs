@@ -5,6 +5,7 @@ namespace Game1
     interface IController
     {
         public void Update();
+        public void AddMapping(int key, ICommand command);
     }
 
 }

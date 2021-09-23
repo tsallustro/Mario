@@ -2,7 +2,7 @@
 
 namespace Game1
 {
-    interface ICommand
+    public interface ICommand
     {
         void Execute();
     }
