@@ -1,11 +1,18 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Game1
 {
     public class KeyboardController : IController
     {
-        private KeyboardState state;
-        private KeyboardState oldState;
+        private readonly Dictionary<int, ICommand> keyMapping;
+        private KeyboardState currentState;
+        private KeyboardState previousState;
         private ObjectUpdater objectUpdater;
 
         // Default constructor
@@ -13,49 +20,83 @@ namespace Game1
         {
             objectUpdater = OU;
         }
+
+        public KeyboardController()
+        {
+            previousState = Keyboard.GetState();
+            keyMapping = new Dictionary<int, ICommand>();
+        }
+
+        public void AddMapping(int key, ICommand command)
+        {
+            this.keyMapping.Add(key, command);
+        }
+
+        private void HandleKeyPress(Keys key)
+        {
+            keyMapping[(int)key].Execute();
+        }
+
         public void Update()
         {
-            oldState = state;
-            state = Keyboard.GetState();
+            currentState = Keyboard.GetState();
+            Keys[] keysPressed = currentState.GetPressedKeys();
 
-            if (state.IsKeyDown(Keys.Q) && oldState.IsKeyUp(Keys.Q))
+            foreach (Keys key in keysPressed)
+            {
+                if (!previousState.IsKeyDown(key) && keyMapping.ContainsKey((int)key))
+                {
+                    HandleKeyPress(key);
+                }
+            }
+
+            previousState = currentState;
+        }
+
+        // TEMPORARILY COMMENTED OUT... for use with ObjectUpdater without Commands
+        /*public void Update()
+        {
+            previousState = currentState;
+            currentState = Keyboard.GetState();
+
+            if (currentState.IsKeyDown(Keys.Q) && previousState.IsKeyUp(Keys.Q))
             {
                 objectUpdater.quitGame = true;
             }
-            if (state.IsKeyDown(Keys.W) && oldState.IsKeyUp(Keys.W))
+            if (currentState.IsKeyDown(Keys.W) && previousState.IsKeyUp(Keys.W))
             {
                 objectUpdater.fixedSpriteVisibility = true;
             }
 
-            if (state.IsKeyDown(Keys.E) && oldState.IsKeyUp(Keys.E))
+            if (currentState.IsKeyDown(Keys.E) && previousState.IsKeyUp(Keys.E))
             {
                 objectUpdater.fixedAnimatedSpriteVisibility = true;
             }
 
-            if (state.IsKeyDown(Keys.R) && oldState.IsKeyUp(Keys.R))
+            if (currentState.IsKeyDown(Keys.R) && previousState.IsKeyUp(Keys.R))
             {
                 objectUpdater.movingSpriteVisibility = true;
             }
 
-            if (state.IsKeyDown(Keys.T) && oldState.IsKeyUp(Keys.T))
+            if (currentState.IsKeyDown(Keys.T) && previousState.IsKeyUp(Keys.T))
             {
                 objectUpdater.movingAnimatedSpriteVisibility = true;
             }
 
-            if (state.IsKeyDown(Keys.Divide) && oldState.IsKeyUp(Keys.Divide))
+            if (currentState.IsKeyDown(Keys.Divide) && previousState.IsKeyUp(Keys.Divide))
             {
                 objectUpdater.bumpQuestion();
             }
 
-            if (state.IsKeyDown(Keys.B) && oldState.IsKeyUp(Keys.B))
+            if (currentState.IsKeyDown(Keys.B) && previousState.IsKeyUp(Keys.B))
             {
                 objectUpdater.bumpBrick();
             }
 
-            if (state.IsKeyDown(Keys.H) && oldState.IsKeyUp(Keys.H))
+            if (currentState.IsKeyDown(Keys.H) && previousState.IsKeyUp(Keys.H))
             {
                 objectUpdater.bumpHidden();
             }
-        }
+        }*/
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Maxwell Ortwig
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
@@ -35,8 +36,8 @@ namespace Game1
         {
             // create the ObjectUpdater and controllers
             objectUpdater = new ObjectUpdater();
-            keyboardController = new KeyboardController(objectUpdater);
-            gamepadController = new GamepadController(objectUpdater);
+            /*keyboardController = new KeyboardController(objectUpdater);
+            gamepadController = new GamepadController(objectUpdater);*/
             this.Window.Title = "Sprint0";
 
             base.Initialize();
@@ -47,11 +48,28 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
             arialSpriteFont = Content.Load<SpriteFont>("ArialSpriteFont");
             Texture2D marioSpriteSheet = Content.Load<Texture2D>("MarioSpriteSheet");
+
             // initialize the 4 sprites to be used with the parameters wanted for initial launch
             fixedSprite = new FixedSprite(objectUpdater, true, new Vector2(50, 25), marioSpriteSheet, 1, 4);
             fixedAnimatedSprite = new FixedAnimatedSprite(objectUpdater, true, new Vector2(150,25), marioSpriteSheet, 1, 4);
             movingSprite = new MovingSprite(objectUpdater, true, new Vector2(250, 25), marioSpriteSheet, 1, 4);
             movingAnimatedSprite = new MovingAnimatedSprite(objectUpdater, true, new Vector2(350, 25), marioSpriteSheet, 1, 4);
+
+            // Initialize keyboard controller and mappings
+            keyboardController = new KeyboardController();
+            keyboardController.AddMapping((int)Keys.Q, new QuitCommand(this));
+            keyboardController.AddMapping((int)Keys.W, new NonMovingNonAnimatedCommand(fixedSprite));
+            keyboardController.AddMapping((int)Keys.E, new NonMovingAnimatedCommand(fixedAnimatedSprite));
+            keyboardController.AddMapping((int)Keys.R, new MovingNonAnimatedCommand(movingSprite));
+            keyboardController.AddMapping((int)Keys.T, new MovingAnimatedCommand(movingAnimatedSprite));
+
+            // Initialize gamepad controller and mappings
+            gamepadController = new GamepadController();
+            gamepadController.AddMapping((int)Buttons.Start, new QuitCommand(this));
+            gamepadController.AddMapping((int)Buttons.A, new NonMovingNonAnimatedCommand(fixedSprite));
+            gamepadController.AddMapping((int)Buttons.B, new NonMovingAnimatedCommand(fixedAnimatedSprite));
+            gamepadController.AddMapping((int)Buttons.X, new MovingNonAnimatedCommand(movingSprite));
+            gamepadController.AddMapping((int)Buttons.Y, new MovingAnimatedCommand(movingAnimatedSprite));
 
         }
 
@@ -62,12 +80,12 @@ namespace Game1
             keyboardController.Update();
 
             // check if QuitGame field in objectUpdater has been triggered
-            if (objectUpdater.quitGame)
+            /*if (objectUpdater.quitGame)
             {
                 // is there a need to unload before exiting if all resources are given back to os?
                 this.UnloadContent();
                 this.Exit();
-            }
+            }*/
 
             // update the sprites
             fixedSprite.Update();
@@ -81,7 +99,6 @@ namespace Game1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
 
             spriteBatch.Begin();
 
