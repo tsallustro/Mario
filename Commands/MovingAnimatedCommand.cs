@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game1
 {
-    /*class MovingAnimatedCommand : SpriteCommand
+    class MovingAnimatedCommand : SpriteCommand
     {
         public MovingAnimatedCommand(ISprite sprite) 
             : base(sprite)
@@ -17,5 +17,5 @@ namespace Game1
         {
             sprite.ToggleVisibility();
         }
-    }*/
+    }
 }

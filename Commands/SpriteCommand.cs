@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Game1
 {
-    /*abstract class SpriteCommand : ICommand
+    abstract class SpriteCommand : ICommand
     {
-        protected Sprite sprite;
+        protected ISprite sprite;
 
         protected SpriteCommand(ISprite sprite)
         {
             // Cast to Sprite from ISprite so we can use Sprite methods in concrete command classes
-            this.sprite = (Sprite)sprite;
+            this.sprite = sprite;
         }
 
         public abstract void Execute();
-    }*/
+    }
 }
