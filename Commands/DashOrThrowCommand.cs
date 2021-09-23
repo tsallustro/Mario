@@ -6,7 +6,7 @@ namespace Game1
 {
 	class DashOrThrowCommand : AvatarCommand
 	{
-		public DashOrThrowCommand(AvatarSprite sprite)
+		public DashOrThrowCommand(ISprite sprite)
 			: base(sprite)
 		{
 		}

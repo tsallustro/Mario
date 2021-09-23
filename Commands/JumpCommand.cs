@@ -6,7 +6,7 @@ namespace Game1
 {
 	class JumpCommand : AvatarCommand
 	{
-		public JumpCommand(AvatarSprite sprite)
+		public JumpCommand(ISprite sprite)
 			: base(sprite)
 		{
 		}

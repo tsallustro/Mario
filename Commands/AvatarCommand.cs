@@ -9,7 +9,7 @@ namespace Game1
 	{
 		protected AvatarSprite sprite;
 
-		protected AvatarCommand(AvatarSprite sprite)
+		protected AvatarCommand(ISprite sprite)
         {
 			this.sprite = sprite;
         }

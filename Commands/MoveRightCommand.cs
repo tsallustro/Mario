@@ -4,7 +4,7 @@ namespace Game1
 {
 	class MoveRightCommand : AvatarCommand
 	{
-		public MoveRightCommand(AvatarSprite sprite)
+		public MoveRightCommand(ISprite sprite)
 			: base(sprite)
 		{
 		}
