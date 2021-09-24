@@ -11,9 +11,12 @@ namespace Game1
 		{
 		}
 
-		public override void Execute()
+		public override void Execute(int pressType)
 		{
-			// Call sprite.Crouch() here
+			if (pressType == 1)
+			{
+				// Call sprite.Crouch() here
+			}
 			return;
 		}
 	}

@@ -31,10 +31,19 @@ namespace Game1
         {
             this.keyMapping.Add(key, command);
         }
-
+        
+        // execute on press
         private void HandleKeyPress(Keys key)
         {
-            keyMapping[(int)key].Execute();
+            keyMapping[(int)key].Execute(1);
+        }
+        private void HandleKeyHold(Keys key)
+        {
+            keyMapping[(int)key].Execute(2);
+        }
+        private void HandleKeyRelease(Keys key)
+        {
+            keyMapping[(int)key].Execute(3);
         }
 
         public void Update()
@@ -44,9 +53,20 @@ namespace Game1
 
             foreach (Keys key in keysPressed)
             {
-                if (!previousState.IsKeyDown(key) && keyMapping.ContainsKey((int)key))
+                // Key Press press
+                if (currentState.IsKeyDown(key) && previousState.IsKeyUp(key) && keyMapping.ContainsKey((int)key))
                 {
                     HandleKeyPress(key);
+                }
+                // Key Press hold down
+                if (currentState.IsKeyDown(key) && previousState.IsKeyDown(key) && keyMapping.ContainsKey((int)key))
+                {
+                    HandleKeyHold(key);
+                }
+                // Key Press release
+                if (currentState.IsKeyUp(key) && previousState.IsKeyDown(key) && keyMapping.ContainsKey((int)key))
+                {
+                    HandleKeyRelease(key);
                 }
             }
 

@@ -35,9 +35,21 @@ namespace Game1
             this.buttonMapping.Add(key, command);
         }
 
+        // TODO: Consider moving these out of seperate methods and right into the update
+        // execute on press
         private void HandleButtonPress(Buttons button)
         {
-            buttonMapping[(int)button].Execute();
+            buttonMapping[(int)button].Execute(1);
+        }
+        // execute on hold
+        private void HandleButtonHold(Buttons button)
+        {
+            buttonMapping[(int)button].Execute(2);
+        }
+        // execute on release
+        private void HandleButtonRelease(Buttons button)
+        {
+            buttonMapping[(int)button].Execute(3);
         }
 
         public void Update()
@@ -50,11 +62,27 @@ namespace Game1
 
                 foreach (var button in buttonsPressed)
                 {
-                    if (currentState.IsButtonDown(button) && !previousState.IsButtonDown(button) &&
-                        buttonMapping.ContainsKey((int)button))
+                    // Button Press press
+                    if (currentState.IsButtonDown(button) &&  previousState.IsButtonUp(button) && buttonMapping.ContainsKey((int)button))
                     {
                         HandleButtonPress(button);
                     }
+                    // Key Press hold down
+                    if (currentState.IsButtonDown(button) && previousState.IsButtonDown(button) && buttonMapping.ContainsKey((int)button))
+                    {
+                        HandleButtonHold(button);
+                    }
+                    // Key Press release
+                    if (currentState.IsButtonUp(button) && previousState.IsButtonDown(button) && buttonMapping.ContainsKey((int)button))
+                    {
+                        HandleButtonRelease(button);
+                    }
+
+
+
+
+
+
                 }
             }
 
