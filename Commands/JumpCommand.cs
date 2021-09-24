@@ -11,7 +11,7 @@ namespace Game1
 		{
 		}
 
-		public override void Execute()
+		public override void Execute(int pressType)
 		{
 			// Call sprite.Jump() here
 			return;

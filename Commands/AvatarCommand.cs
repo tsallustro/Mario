@@ -14,6 +14,6 @@ namespace Game1
 			this.sprite = sprite;
         }
 
-		public abstract void Execute();
+		public abstract void Execute(int pressType);
 	}
 }
