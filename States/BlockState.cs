@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Game1
+namespace States
 {
     public interface IBlockState
     {

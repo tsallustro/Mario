@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-namespace Game1
+using OUpdater;
+namespace Sprites
 {
     public class MovingAnimatedSprite : ISprite
     {

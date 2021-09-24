@@ -1,6 +1,6 @@
 ﻿using System;
-
-namespace Game1
+using Sprites;
+namespace Commands
 {
 	class MoveLeftCommand : AvatarCommand
 	{

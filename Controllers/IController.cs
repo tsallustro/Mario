@@ -1,5 +1,5 @@
-﻿
-namespace Game1
+﻿using Commands;
+namespace Controllers
 {
     // I thought i'd need more in here.
     interface IController

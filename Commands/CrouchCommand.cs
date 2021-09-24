@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-namespace Game1
+using Sprites;
+namespace Commands
 {
 	class CrouchCommand : AvatarCommand
 	{

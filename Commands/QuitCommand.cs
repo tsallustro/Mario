@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-
-namespace Game1
+using Sprites;
+namespace Commands
 {
     class QuitCommand : ICommand
     {

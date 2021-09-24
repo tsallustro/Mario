@@ -1,6 +1,6 @@
 ﻿using System;
-
-namespace Game1
+using Sprites;
+namespace Commands
 {
 	/*
 	 *  Abstract class for commands that apply to the Mario avatar.

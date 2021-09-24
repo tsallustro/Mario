@@ -1,6 +1,6 @@
 ﻿// Maxwell Ortwig
 
-namespace Game1
+namespace OUpdater
 {
     /*
      * This class takes updates from the controllers and is the interface between the controllers commands and the sprites responses without having to pass all sprites to each controller.

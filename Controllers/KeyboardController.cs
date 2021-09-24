@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
-namespace Game1
+using Commands;
+using OUpdater;
+namespace Controllers
 {
     public class KeyboardController : IController
     {
