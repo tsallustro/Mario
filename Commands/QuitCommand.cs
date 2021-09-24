@@ -16,9 +16,14 @@ namespace Game1
             this.game = game;
         }
 
-        public void Execute()
+        public void Execute(int pressType)
         {
-            game.Exit();
+            // 1:ExecuteOnPress
+            if (pressType == 1)
+            {
+                game.Exit();
+            }
+            
         }
     }
 }

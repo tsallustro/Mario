@@ -15,6 +15,7 @@ namespace Game1
             this.sprite = sprite;
         }
 
-        public abstract void Execute();
+        // x corresponds to whether it is a keyboard press (1), hold (2), or release (3).
+        public abstract void Execute(int x);
     }
 }

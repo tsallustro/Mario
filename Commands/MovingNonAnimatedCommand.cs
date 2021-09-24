@@ -13,9 +13,12 @@ namespace Game1
         {
         }
 
-        public override void Execute()
+        public override void Execute(int pressType)
         {
-            sprite.ToggleVisibility();
+            if (pressType == 1)
+            {
+                sprite.ToggleVisibility();
+            }
         }
     }
 }
