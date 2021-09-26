@@ -42,10 +42,10 @@ namespace Sprites
         public void Update()
         {
 
-            ChangeDirection();
-            Move();
-            Jump();
-            ToggleInvisOrNot();
+            //ChangeDirection();
+            //Move();
+            //Jump();
+            //ToggleInvisOrNot();
 
         }
 
