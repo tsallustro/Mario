@@ -10,15 +10,14 @@ namespace GameObjects
     class Mario
     {
         ISprite sprite;
-        MarioPower powerState;
-        MarioAction actionState;
+        IMarioPowerState powerState;
+        IMarioActionState actionState;
 
         public Mario(ISprite startingSprite)
         {
             sprite = startingSprite;
-            powerState = new MarioPower();
-            actionState = new MarioAction(false);
-
+            //powerState = new MarioPower();
+            //actionState = new IdleState(this, false);
         }
 
         //Update all of Mario's members

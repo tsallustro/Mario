@@ -73,51 +73,5 @@ namespace Controllers
 
             previousState = currentState;
         }
-
-        // TEMPORARILY COMMENTED OUT... for use with ObjectUpdater without Commands
-        /*public void Update()
-        {
-            previousState = currentState;
-            currentState = Keyboard.GetState();
-
-            if (currentState.IsKeyDown(Keys.Q) && previousState.IsKeyUp(Keys.Q))
-            {
-                objectUpdater.quitGame = true;
-            }
-            if (currentState.IsKeyDown(Keys.W) && previousState.IsKeyUp(Keys.W))
-            {
-                objectUpdater.fixedSpriteVisibility = true;
-            }
-
-            if (currentState.IsKeyDown(Keys.E) && previousState.IsKeyUp(Keys.E))
-            {
-                objectUpdater.fixedAnimatedSpriteVisibility = true;
-            }
-
-            if (currentState.IsKeyDown(Keys.R) && previousState.IsKeyUp(Keys.R))
-            {
-                objectUpdater.movingSpriteVisibility = true;
-            }
-
-            if (currentState.IsKeyDown(Keys.T) && previousState.IsKeyUp(Keys.T))
-            {
-                objectUpdater.movingAnimatedSpriteVisibility = true;
-            }
-
-            if (currentState.IsKeyDown(Keys.Divide) && previousState.IsKeyUp(Keys.Divide))
-            {
-                objectUpdater.bumpQuestion();
-            }
-
-            if (currentState.IsKeyDown(Keys.B) && previousState.IsKeyUp(Keys.B))
-            {
-                objectUpdater.bumpBrick();
-            }
-
-            if (currentState.IsKeyDown(Keys.H) && previousState.IsKeyUp(Keys.H))
-            {
-                objectUpdater.bumpHidden();
-            }
-        }*/
     }
 }

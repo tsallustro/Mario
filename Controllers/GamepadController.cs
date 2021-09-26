@@ -78,47 +78,10 @@ namespace Controllers
                     {
                         HandleButtonRelease(button);
                     }
-
-
-
-
-
-
                 }
             }
 
             previousState = currentState;
         }
-
-        // TEMPORARILY COMMENTED OUT... use this with Object updater and no commands
-        /*public void Update()
-        {
-            previousState = currentState;
-            currentState = GamePad.GetState(PlayerIndex.One);
-
-            if (currentState.IsButtonDown(Buttons.Start) && previousState.IsButtonUp(Buttons.Start))
-            {
-                objectUpdater.quitGame = true;
-            }
-            if (currentState.IsButtonDown(Buttons.A) && previousState.IsButtonUp(Buttons.A))
-            {
-                objectUpdater.fixedSpriteVisibility = true;
-            }
-
-            if (currentState.IsButtonDown(Buttons.B) && previousState.IsButtonUp(Buttons.B))
-            {
-                objectUpdater.fixedAnimatedSpriteVisibility = true;
-            }
-
-            if (currentState.IsButtonDown(Buttons.Y) && previousState.IsButtonUp(Buttons.Y))
-            {
-                objectUpdater.movingSpriteVisibility = true;
-            }
-
-            if (currentState.IsButtonDown(Buttons.X) && previousState.IsButtonUp(Buttons.X))
-            {
-                objectUpdater.movingAnimatedSpriteVisibility = true;
-            }
-        }*/
     }
 }
