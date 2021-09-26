@@ -12,6 +12,16 @@ namespace Game1
 {
     public class MarioGame : Game
     {
+        static private MarioGame _sprint;
+        public static MarioGame sprint
+        {
+            get
+            {
+                return _sprint;
+            }
+        }
+
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private SpriteFont arialSpriteFont;

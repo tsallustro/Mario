@@ -11,16 +11,16 @@ namespace Sprites
 {
     public class Goomba : Sprite
 	{
-		public Goomba(ObjectUpdater OU, bool IsVisible, Vector2 Location,Texture2D texture)
-			: base(OU, IsVisible, Location, texture, 1, 3, 0, 1)
+		public Goomba(ObjectUpdater OU, bool IsVisible, MarioGame game, Vector2 Location)
+			: base(OU, IsVisible, Location, game.Content.Load<Texture2D>("KoopaTroopa"), 1, 3, 0, 1)
 		{
 		}
     }
 
 	public class KoopaTroopa : Sprite
 	{
-		public KoopaTroopa(ObjectUpdater OU, bool IsVisible, Vector2 Location, Texture2D texture)
-			: base(OU, IsVisible, Location, texture, 1, 3, 0, 1)
+		public KoopaTroopa(ObjectUpdater OU, bool IsVisible, MarioGame game, Vector2 Location)
+			: base(OU, IsVisible, Location, game.Content.Load<Texture2D>("KoopaTroopa"), 1, 3, 0, 1)
 		{
 		}
 	}
