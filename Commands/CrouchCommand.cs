@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using Sprites;
+using GameObjects;
+
 namespace Commands
 {
-	class CrouchCommand : AvatarCommand
+	class CrouchCommand : MarioCommand
 	{
-		public CrouchCommand(ISprite sprite)
-			: base(sprite)
+		public CrouchCommand(Mario mario)
+			: base(mario)
 		{
 		}
 
@@ -15,9 +17,8 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				// Call sprite.Crouch() here
+				// Call mario.Crouch() here
 			}
-			return;
 		}
 	}
 }

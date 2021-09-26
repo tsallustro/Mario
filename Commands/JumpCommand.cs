@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 using Sprites;
+using GameObjects;
+
 namespace Commands
 {
-	class JumpCommand : AvatarCommand
+	class JumpCommand : MarioCommand
 	{
-		public JumpCommand(ISprite sprite)
-			: base(sprite)
+		public JumpCommand(Mario mario)
+			: base(mario)
 		{
 		}
 
 		public override void Execute(int pressType)
 		{
-			// Call sprite.Jump() here
+			// Call mario.Jump() here
 			return;
 		}
 	}
