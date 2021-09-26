@@ -13,6 +13,7 @@ namespace Game1
     public class MarioGame : Game
     {
         static private MarioGame _sprint;
+
         public static MarioGame sprint
         {
             get
@@ -20,7 +21,6 @@ namespace Game1
                 return _sprint;
             }
         }
-
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -41,7 +41,6 @@ namespace Game1
 
         private Mario mario;
 
-        
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -63,6 +62,7 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
             arialSpriteFont = Content.Load<SpriteFont>("ArialSpriteFont");
             Texture2D marioSpriteSheet = Content.Load<Texture2D>("MarioSpriteSheet");
+
             // initialize the 4 sprites to be used with the parameters wanted for initial launch
             fixedSprite = new FixedSprite(objectUpdater, true, new Vector2(50, 25), marioSpriteSheet, 1, 4);
             fixedAnimatedSprite = new FixedAnimatedSprite(objectUpdater, true, new Vector2(150, 25), marioSpriteSheet, 1, 4);
@@ -88,13 +88,7 @@ namespace Game1
             // Update the controllers
             gamepadController.Update();
             keyboardController.Update();
-            // check if QuitGame field in objectUpdater has been triggered
-            /*if (objectUpdater.quitGame)
-            {
-                // is there a need to unload before exiting if all resources are given back to os?
-                this.UnloadContent();
-                this.Exit();
-            }*/
+
             // update the sprites
             fixedSprite.Update();
             fixedAnimatedSprite.Update();
