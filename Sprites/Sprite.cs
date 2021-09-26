@@ -104,7 +104,7 @@ namespace Sprites
             isVisible = !isVisible;
         }
         
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             int width = texture.Width / columns;
             int height = texture.Height / rows;

@@ -7,12 +7,61 @@ using Game1;
 
 namespace Sprites
 {
-    public class MarioSprite : Sprite
+    public class IdlingMarioSprite : Sprite
     {
-        public MarioSprite(ObjectUpdater OU, Vector2 Location, MarioGame game, int initialFrame, int finalFrame)
-            : base(OU, true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, initialFrame, finalFrame)
+        public IdlingMarioSprite(ObjectUpdater OU, Vector2 Location, MarioGame game)
+            : base(OU, true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 0, 0)
         {
         }
     }
- }
+        public class CrouchingMarioSprite : Sprite
+    {
+        public CrouchingMarioSprite(ObjectUpdater OU, Vector2 Location, MarioGame game)
+            : base(OU, true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 1, 1)
+        {
+        }
+    }
+    public class WalkinggMarioSprite : Sprite
+    {
+        public WalkinggMarioSprite(ObjectUpdater OU, Vector2 Location, MarioGame game)
+            : base(OU, true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 2, 3)
+        {
+        }
+
+    }
+    public class RunningMarioSprite : Sprite
+    {
+        public RunningMarioSprite(ObjectUpdater OU, Vector2 Location, MarioGame game)
+            : base(OU, true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 3, 4)
+        {
+        }
+
+    }
+    public class JumpingMarioSprite : Sprite
+    {
+        public JumpingMarioSprite(ObjectUpdater OU, Vector2 Location, MarioGame game)
+            : base(OU, true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 3, 5)
+        {
+        }
+
+    }
+    public class FallingMarioSprite : Sprite
+    {
+        public FallingMarioSprite(ObjectUpdater OU, Vector2 Location, MarioGame game)
+            : base(OU, true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 12, 12)
+        {
+        }
+
+    }
+    public class DyingMarioSprite : Sprite
+    {
+        public DyingMarioSprite(ObjectUpdater OU, Vector2 Location, MarioGame game)
+            : base(OU, true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 13, 13)
+        {
+        }
+
+    }
+
+
+}
 
