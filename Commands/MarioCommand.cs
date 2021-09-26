@@ -1,17 +1,19 @@
 ﻿using System;
 using Sprites;
+using GameObjects;
+
 namespace Commands
 {
 	/*
 	 *  Abstract class for commands that apply to the Mario avatar.
 	 */
-	abstract class AvatarCommand : ICommand
+	abstract class MarioCommand : ICommand
 	{
-		protected ISprite sprite;
+		protected Mario mario;
 
-		protected AvatarCommand(ISprite sprite)
+		protected MarioCommand(Mario mario)
         {
-			this.sprite = sprite;
+			this.mario = mario;
         }
 
 		public abstract void Execute(int pressType);

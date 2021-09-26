@@ -12,6 +12,7 @@ namespace GameObjects
         ISprite sprite;
         MarioPower powerState;
         MarioAction actionState;
+
         public Mario(ISprite startingSprite)
         {
             sprite = startingSprite;
@@ -19,6 +20,7 @@ namespace GameObjects
             actionState = new MarioAction(false);
 
         }
+
         //Update all of Mario's members
         public void Update()
         {
@@ -29,6 +31,26 @@ namespace GameObjects
         public void Draw(SpriteBatch SpriteBatch)
         {
             sprite.Draw(SpriteBatch);
+        }
+
+        public void MoveLeft()
+        {
+
+        }
+
+        public void MoveRight()
+        {
+
+        }
+
+        public void Jump()
+        {
+
+        }
+
+        public void Crouch()
+        {
+
         }
 
         //This class will need more methods as the project grows and the needs/abilities of Mario change. -Tony

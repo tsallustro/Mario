@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 using Sprites;
+using GameObjects;
+
 namespace Commands
 {
-	class DashOrThrowCommand : AvatarCommand
+	class DashOrThrowCommand : MarioCommand
 	{
-		public DashOrThrowCommand(ISprite sprite)
-			: base(sprite)
+		public DashOrThrowCommand(Mario mario)
+			: base(mario)
 		{
 		}
 
 		public override void Execute(int pressType)
 		{
 
-			// Call sprite.DashOrThrow() here
+			// Call mario.DashOrThrow() here
 			return;
 		}
 	}

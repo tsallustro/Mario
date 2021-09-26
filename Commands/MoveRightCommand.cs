@@ -1,17 +1,19 @@
 ﻿using System;
 using Sprites;
+using GameObjects;
+
 namespace Commands
 {
-	class MoveRightCommand : AvatarCommand
+	class MoveRightCommand : MarioCommand
 	{
-		public MoveRightCommand(ISprite sprite)
-			: base(sprite)
+		public MoveRightCommand(Mario mario)
+			: base(mario)
 		{
 		}
 
 		public override void Execute(int pressType)
 		{
-			// Call sprite.MoveRight() here
+			// Call mario.MoveRight() here
 			return;
 		}
 	}
