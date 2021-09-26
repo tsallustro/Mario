@@ -10,11 +10,14 @@ namespace GameObjects
     class Mario
     {
         ISprite sprite;
-        IMarioActionState actionState;
-        IMarioPowerState powerState;
+        MarioPower powerState;
+        MarioAction actionState;
         public Mario(ISprite startingSprite)
         {
-            //Set starting sprite/states
+            sprite = startingSprite;
+            powerState = new MarioPower();
+            actionState = new MarioAction(false);
+
         }
         //Update all of Mario's members
         public void Update()
@@ -28,6 +31,6 @@ namespace GameObjects
             sprite.Draw(SpriteBatch);
         }
 
-        //This class will need more methods as the project grows and the needs/abilities of Mario change -Tony
+        //This class will need more methods as the project grows and the needs/abilities of Mario change. -Tony
     }
 }

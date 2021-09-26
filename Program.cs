@@ -7,7 +7,7 @@ namespace Game1
         [STAThread]
         static void Main()
         {
-            using (var game = new Sprint0())
+            using (var game = new MarioGame())
                 game.Run();
         }
     }
