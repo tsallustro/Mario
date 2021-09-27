@@ -5,12 +5,13 @@ using Microsoft.Xna.Framework;
 
 namespace Sprites
 {
-    public class FixedSprite : ISprite
+    /*public class FixedSprite : ISprite
     {
         public int rows { get; set; }
         public int columns { get; set; }
         public Vector2 location { get; set; }
         public Texture2D texture { get; set; }
+        public int movementDirection { get; set; }
         private int currentFrame = 0;
         private bool isVisible = true;
 
@@ -43,5 +44,5 @@ namespace Sprites
 
             if (isVisible) { spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White); }
         }
-    }
+    }*/
 }

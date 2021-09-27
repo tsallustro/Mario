@@ -12,9 +12,9 @@ namespace Sprites
         public Vector2 location { get; set; }
 
         public bool isVisible = true;
-          
+
         // We'll need to change direction to a 2D vector at some point
-        public int movementDirection = 1;
+        public int movementDirection { get; set; } = 1;
         //To get the animation working
         public int currentFrame = 0;
         //Set the range of frames used in sprite sheet
@@ -76,15 +76,7 @@ namespace Sprites
         //Suggestion: Set boundary of the screen as the point of direction change.
         public void ChangeDirection()
         {
-            if (location.X > 500)
-            {
-                movementDirection = -1;
-            }
-            else if (location.X < 0)
-            {
-                movementDirection = 1;
-            }
-                
+            movementDirection = -movementDirection;
         }
         
         public void ToggleVisibility()
@@ -92,7 +84,7 @@ namespace Sprites
             isVisible = !isVisible;
         }
         
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch, bool left)
         {
             int width = texture.Width / columns;
             int height = texture.Height / rows;
@@ -102,8 +94,11 @@ namespace Sprites
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
             
-            // draws sprite visible or transparent
-            if (isVisible) { spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White); }
+            if (isVisible) { 
+                if (!left) spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
+                else spriteBatch.Draw(texture, destinationRectangle, sourceRectangle,
+                    Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.FlipHorizontally, 0f);
+            }
         }
      }
  }

@@ -34,9 +34,9 @@ namespace GameObjects
             sprite.Update();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, bool direction)
         {
-            sprite.Draw(spriteBatch);
+            sprite.Draw(spriteBatch, direction);
         }
     }
 }

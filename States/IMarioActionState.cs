@@ -6,6 +6,7 @@ namespace States
 {
     public interface IMarioActionState
     {
+        public bool GetDirection();
         public void MoveLeft();
         public void MoveRight();
         public void Crouch();

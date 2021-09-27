@@ -3,17 +3,17 @@ using Microsoft.Xna.Framework;
 
 namespace Sprites
 {
-    public class MovingAnimatedSprite : ISprite
+    /*public class MovingAnimatedSprite : ISprite
     {
         public int rows { get; set; }
         public int columns { get; set; }
         public Texture2D texture { get; set; }
         public Vector2 location { get; set; }
+        public int movementDirection { get; set; } = 1;
 
         private bool isVisible = true;
 
         // We'll need to change direction to a 2D vector at some point
-        private int movementDirection = 1;
         private int currentFrame = 2;
 
 
@@ -64,5 +64,5 @@ namespace Sprites
 
             if (isVisible) { spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White); }
         }
-    }
+    }*/
 }

@@ -24,6 +24,11 @@ namespace GameObjects
             actionState = new IdleState(this, false);
         }
 
+        public ISprite GetSprite()
+        {
+            return this.sprite;
+        }
+
         public void SetSprite(ISprite sprite)
         {
             this.sprite = sprite;
@@ -58,7 +63,7 @@ namespace GameObjects
         //Draw Mario
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch);
+            sprite.Draw(spriteBatch, actionState.GetDirection());
         }
 
         public void MoveLeft()

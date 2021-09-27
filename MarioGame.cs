@@ -30,9 +30,6 @@ namespace Game1
         // controllers that detect input from gamepad and keyboard. These only change ObjectUpdater
         private IController keyboardController;
         private IController gamepadController;
-       
-        // Mario sprites
-        private ISprite idleMario;
 
         // Simple display of sprites for sprint1
         private ISprite flower;
@@ -147,18 +144,18 @@ namespace Game1
             // call draw methods from each sprite and pass in sprite batch
             mario.Draw(spriteBatch);
 
-            flower.Draw(spriteBatch);
-            coin.Draw(spriteBatch);
-            mushroom.Draw(spriteBatch);
-            oneUpMushroom.Draw(spriteBatch);
-            star.Draw(spriteBatch);
-            stairBlock.Draw(spriteBatch);
-            usedBlock.Draw(spriteBatch);
-            questionBlock.Draw(spriteBatch);
-            brickBlock.Draw(spriteBatch);
-            hiddenBlock.Draw(spriteBatch);
-            goomba.Draw(spriteBatch);
-            koopaTroopa.Draw(spriteBatch);
+            flower.Draw(spriteBatch, true);
+            coin.Draw(spriteBatch, true);
+            mushroom.Draw(spriteBatch, true);
+            oneUpMushroom.Draw(spriteBatch, true);
+            star.Draw(spriteBatch, true);
+            stairBlock.Draw(spriteBatch, true);
+            usedBlock.Draw(spriteBatch, true);
+            questionBlock.Draw(spriteBatch, true);
+            brickBlock.Draw(spriteBatch, true);
+            hiddenBlock.Draw(spriteBatch, true);
+            goomba.Draw(spriteBatch, true);
+            koopaTroopa.Draw(spriteBatch, true);
 
             // Draw Legend
             spriteBatch.End();
