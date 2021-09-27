@@ -16,7 +16,7 @@ namespace GameObjects
         Mario(ISprite startingSprite)
         {
             sprite = startingSprite;
-            //powerState = new MarioPower();
+            powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
         }
 
