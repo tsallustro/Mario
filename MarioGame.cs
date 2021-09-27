@@ -169,7 +169,6 @@ namespace Game1
             koopaTroopa.Draw(spriteBatch);
 
             // Draw Legend
-            spriteBatch.DrawString(arialSpriteFont, "Controls (Keyboard/Gamepad)\nQ/start: Quit\nW/A:Toggle Visibility of fixedSprite\nE/B:Toggle Visibility of fixedAnimatedSprite\nR/X:Toggle Visibility of movingSprite\nT/Y:Toggle Visibility of movingAnimatedSprite", new Vector2(25, 325), Color.Black);
             spriteBatch.End();
             base.Draw(gameTime);
         }
