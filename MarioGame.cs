@@ -42,9 +42,11 @@ namespace Game1
         private ISprite questionBlock;
         private ISprite brickBlock;
         private ISprite hiddenBlock;
-        private ISprite goomba;
+        //private ISprite goomba;
         private ISprite koopaTroopa;
 
+        private Goomba goomba;
+        private GoombaSpriteFactory goombaSpriteFactory;
         private Mario mario;
         private MarioSpriteFactory marioSpriteFactory;
 
@@ -60,6 +62,7 @@ namespace Game1
             keyboardController = new KeyboardController();
             gamepadController = new GamepadController();
             marioSpriteFactory = MarioSpriteFactory.Instance;
+            goombaSpriteFactory = GoombaSpriteFactory.Instance;
 
             this.Window.Title = "Sprint0";
             _sprint = this;
@@ -84,10 +87,11 @@ namespace Game1
             questionBlock = new QuestionBlock(true, sprint, new Vector2(150, 150));
             brickBlock = new BrickBlock(true, sprint, new Vector2(200, 150));
             hiddenBlock = new HiddenBlock(true, sprint, new Vector2(250, 150));
-            goomba = new Goomba(true, sprint, new Vector2(300, 100));
+            //goomba = new Goomba(true, sprint, new Vector2(300, 100));
             koopaTroopa = new KoopaTroopa(true, sprint, new Vector2(350, 100));
 
             mario = new Mario();
+            goomba = new Goomba();
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
@@ -110,6 +114,10 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.I, new FireMarioCommand(mario));
             keyboardController.AddMapping((int)Keys.O, new DeadMarioCommand(mario));
 
+            keyboardController.AddMapping((int)Keys.B, new IdleGoombaCommand(goomba));
+            keyboardController.AddMapping((int)Keys.N, new MovingGoombaCommand(goomba));
+            keyboardController.AddMapping((int)Keys.M, new StompedGoombaCommand(goomba));
+
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);
             gamepadController.AddMapping((int)Buttons.DPadRight, moveRight);
@@ -125,6 +133,8 @@ namespace Game1
             // update the sprites
             mario.Update();
 
+            goomba.Update();
+
             flower.Update();
             coin.Update();
             mushroom.Update();
@@ -135,7 +145,7 @@ namespace Game1
             questionBlock.Update();
             brickBlock.Update();
             hiddenBlock.Update();
-            goomba.Update();
+            
             koopaTroopa.Update();
 
             base.Update(gameTime);
@@ -148,6 +158,8 @@ namespace Game1
             // call draw methods from each sprite and pass in sprite batch
             mario.Draw(spriteBatch);
 
+            goomba.Draw(spriteBatch);
+
             flower.Draw(spriteBatch, true);
             coin.Draw(spriteBatch, true);
             mushroom.Draw(spriteBatch, true);
@@ -158,7 +170,7 @@ namespace Game1
             questionBlock.Draw(spriteBatch, true);
             brickBlock.Draw(spriteBatch, true);
             hiddenBlock.Draw(spriteBatch, true);
-            goomba.Draw(spriteBatch, true);
+            
             koopaTroopa.Draw(spriteBatch, true);
 
             // Draw Legend

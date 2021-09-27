@@ -8,9 +8,9 @@ using Game1;
 /// </summary>
 namespace Sprites
 {
-    public class Goomba : Sprite
+    public class GoombaSprites : Sprite
 	{
-		public Goomba(bool IsVisible, MarioGame game, Vector2 Location)
+		public GoombaSprites(bool IsVisible, MarioGame game, Vector2 Location)
 			: base(IsVisible, Location, game.Content.Load<Texture2D>("Goomba"), 1, 3, 0, 1)
 		{
 		}
