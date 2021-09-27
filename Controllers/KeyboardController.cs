@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Commands;
-using OUpdater;
+
 namespace Controllers
 {
     public class KeyboardController : IController
@@ -14,13 +14,6 @@ namespace Controllers
         private readonly Dictionary<int, ICommand> keyMapping;
         private KeyboardState currentState;
         private KeyboardState previousState;
-        private ObjectUpdater objectUpdater;
-
-        // Default constructor
-        public KeyboardController(ObjectUpdater OU)
-        {
-            objectUpdater = OU;
-        }
 
         public KeyboardController()
         {

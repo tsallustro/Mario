@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 using Controllers;
-using OUpdater;
 using Commands;
 using GameObjects;
+
 namespace Game1
 {
     public class MarioGame : Game
@@ -29,9 +29,6 @@ namespace Game1
         // controllers that detect input from gamepad and keyboard. These only change ObjectUpdater
         private IController keyboardController;
         private IController gamepadController;
-        
-        // this object holds flags that tell objects whether or not they need to update
-        private ObjectUpdater objectUpdater;
        
         // Mario sprites
         private ISprite idleMario;
@@ -62,7 +59,6 @@ namespace Game1
         protected override void Initialize()
         {
             // create the ObjectUpdater and controllers
-            objectUpdater = new ObjectUpdater();
             keyboardController = new KeyboardController();
             gamepadController = new GamepadController();
             this.Window.Title = "Sprint0";
@@ -76,21 +72,21 @@ namespace Game1
             Texture2D marioSpriteSheet = Content.Load<Texture2D>("MarioSpriteSheet");
 
             // initialize mario sprites
-            idleMario = new IdlingMarioSprite(objectUpdater, new Vector2(50, 25), this);
+            idleMario = new IdlingMarioSprite(new Vector2(50, 25), this);
 
             //Visuals for Sprint 1
-            flower = new Flower(objectUpdater, true, sprint, new Vector2(50, 50));
-            coin = new Coin(objectUpdater, true, sprint, new Vector2(100, 50));
-            mushroom = new Mushroom(objectUpdater, true, sprint, new Vector2(150, 50));
-            oneUpMushroom = new MushroomOneUp(objectUpdater, true, sprint, new Vector2(200, 50));
-            star = new Flower(objectUpdater, true, sprint, new Vector2(250, 50));
-            stairBlock = new StairBlock(objectUpdater, true, sprint, new Vector2(50, 150));
-            usedBlock = new UsedBlock(objectUpdater, true, sprint, new Vector2(100, 150));
-            questionBlock = new QuestionBlock(objectUpdater, true, sprint, new Vector2(150, 150));
-            brickBlock = new BrickBlock(objectUpdater, true, sprint, new Vector2(200, 150));
-            hiddenBlock = new HiddenBlock(objectUpdater, true, sprint, new Vector2(250, 150));
-            goomba = new Goomba(objectUpdater, true, sprint, new Vector2(300, 100));
-            koopaTroopa = new KoopaTroopa(objectUpdater, true, sprint, new Vector2(350, 100));
+            flower = new Flower(true, sprint, new Vector2(50, 50));
+            coin = new Coin(true, sprint, new Vector2(100, 50));
+            mushroom = new Mushroom(true, sprint, new Vector2(150, 50));
+            oneUpMushroom = new MushroomOneUp(true, sprint, new Vector2(200, 50));
+            star = new Flower(true, sprint, new Vector2(250, 50));
+            stairBlock = new StairBlock(true, sprint, new Vector2(50, 150));
+            usedBlock = new UsedBlock(true, sprint, new Vector2(100, 150));
+            questionBlock = new QuestionBlock(true, sprint, new Vector2(150, 150));
+            brickBlock = new BrickBlock(true, sprint, new Vector2(200, 150));
+            hiddenBlock = new HiddenBlock(true, sprint, new Vector2(250, 150));
+            goomba = new Goomba(true, sprint, new Vector2(300, 100));
+            koopaTroopa = new KoopaTroopa(true, sprint, new Vector2(350, 100));
 
             mario = new Mario(idleMario);
 

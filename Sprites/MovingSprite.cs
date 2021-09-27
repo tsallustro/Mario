@@ -2,12 +2,11 @@
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using OUpdater;
+
 namespace Sprites
 {
     public class MovingSprite : ISprite
     {
-        private ObjectUpdater objectUpdater;
         public int rows { get; set; }
         public int columns { get; set; }
         public Texture2D texture { get; set; }
@@ -17,10 +16,8 @@ namespace Sprites
         private bool isVisible = true;
         private int movementDirection = 1;
 
-
-        public MovingSprite(ObjectUpdater OU, bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns)
+        public MovingSprite(bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns)
         {
-            objectUpdater = OU;
             bool isVisible = IsVisible;
             location = Location;
             texture = Texture;
@@ -37,19 +34,13 @@ namespace Sprites
                 movementDirection = -1;
             }
             location += (new Vector2(0, movementDirection*5));
-            
-            // determines if sprite's visibility needs to be toggled and resets objectUpdater
-            /*if (objectUpdater.movingSpriteVisibility)
-            {
-                isVisible = !isVisible;
-                objectUpdater.movingSpriteVisibility = false;
-            }*/ 
         }
 
         public void ToggleVisibility()
         {
             isVisible = !isVisible;
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             int width = texture.Width / columns;

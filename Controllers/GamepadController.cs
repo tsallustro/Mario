@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Commands;
-using OUpdater;
+
 namespace Controllers
 {
     public class GamepadController : IController
@@ -16,13 +16,6 @@ namespace Controllers
         private GamePadState currentState;
         private GamePadState previousState;
         private GamePadState emptyState;
-        private ObjectUpdater objectUpdater;
-
-        // Default constructor
-        public GamepadController(ObjectUpdater OU)
-        {
-            objectUpdater = OU;
-        }
 
         public GamepadController()
         {
