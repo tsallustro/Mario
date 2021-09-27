@@ -57,7 +57,7 @@ namespace Controllers
                 foreach (var button in buttonsPressed)
                 {
                     // Button Press press
-                    if (currentState.IsButtonDown(button) &&  previousState.IsButtonUp(button) && buttonMapping.ContainsKey((int)button))
+                    if (currentState.IsButtonDown(button) && previousState.IsButtonUp(button) && buttonMapping.ContainsKey((int)button))
                     {
                         HandleButtonPress(button);
                     }
