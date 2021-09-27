@@ -44,22 +44,22 @@ namespace GameObjects
 
         public void MoveLeft()
         {
-            this.actionState.MoveLeft();
+            actionState.MoveLeft();
         }
 
         public void MoveRight()
         {
-            this.actionState.MoveRight();
+            actionState.MoveRight();
         }
 
         public void Jump()
         {
-            this.actionState.Jump();
+            actionState.Jump();
         }
 
         public void Crouch()
         {
-            this.actionState.Crouch();
+            actionState.Crouch();
         }
 
         //This class will need more methods as the project grows and the needs/abilities of Mario change. -Tony
