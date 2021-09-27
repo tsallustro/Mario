@@ -75,6 +75,7 @@ namespace Game1
             Texture2D marioSpriteSheet = Content.Load<Texture2D>("MarioSpriteSheet");
 
             marioSpriteFactory.LoadTextures(this);
+            goombaSpriteFactory.LoadTextures(this);
 
             //Visuals for Sprint 1
             flower = new Flower(true, sprint, new Vector2(50, 50));
