@@ -16,6 +16,11 @@ namespace States
             this.left = left;
         }
 
+        public bool GetDirection()
+        {
+            return this.left;
+        }
+
         public void MoveLeft()
         {
             if (!this.left)

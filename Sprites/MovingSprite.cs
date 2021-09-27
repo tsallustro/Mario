@@ -5,16 +5,16 @@ using Microsoft.Xna.Framework;
 
 namespace Sprites
 {
-    public class MovingSprite : ISprite
+    /*public class MovingSprite : ISprite
     {
         public int rows { get; set; }
         public int columns { get; set; }
         public Texture2D texture { get; set; }
         public Vector2 location { get; set; }
+        public int movementDirection { get; set; } = 1;
 
         private int currentFrame = 0;
         private bool isVisible = true;
-        private int movementDirection = 1;
 
         public MovingSprite(bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns)
         {
@@ -53,5 +53,5 @@ namespace Sprites
 
             if (isVisible) { spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White); }
         } 
-    }
+    }*/
 }
