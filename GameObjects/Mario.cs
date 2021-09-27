@@ -7,17 +7,27 @@ using States;
 using Sprites;
 namespace GameObjects
 {
-    class Mario
+    public class Mario
     {
-        ISprite sprite;
-        IMarioPowerState powerState;
-        IMarioActionState actionState;
+        private ISprite sprite;
+        private IMarioPowerState powerState;
+        private IMarioActionState actionState;
 
-        public Mario(ISprite startingSprite)
+        Mario(ISprite startingSprite)
         {
             sprite = startingSprite;
             //powerState = new MarioPower();
-            //actionState = new IdleState(this, false);
+            actionState = new IdleState(this, false);
+        }
+
+        public void SetPowerState(IMarioPowerState powerState)
+        {
+            this.powerState = powerState;
+        }
+
+        public void SetActionState(IMarioActionState actionState)
+        {
+            this.actionState = actionState;
         }
 
         //Update all of Mario's members
