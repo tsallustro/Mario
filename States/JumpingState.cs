@@ -13,7 +13,6 @@ namespace States
         public JumpingState(Mario mario, bool left)
         {
             this.mario = mario;
-            this.mario.SetSprite(mario.GetSpriteFactory().CreateStandardJumpingMario(mario.GetSpriteLocation()));
             this.left = left;
         }
 

@@ -13,7 +13,6 @@ namespace States
         public CrouchingState(Mario mario, bool left)
         {
             this.mario = mario;
-            this.mario.SetSprite(mario.GetSpriteFactory().CreateStandardCrouchingMario(mario.GetSpriteLocation()));
             this.left = left;
         }
 
