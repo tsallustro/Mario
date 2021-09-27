@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 using States;
 
-namespace CornetGame.GameObjects
+namespace GameObjects
 {
-    class Block
+    public class Block
     {
         ISprite sprite;
         IBlockState state;

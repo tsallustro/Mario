@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GameObjects;
 
 namespace States
 {
@@ -9,30 +10,18 @@ namespace States
         public void Bump();
     }
 
-    public class Block
-    {
-        public IBlockState state;
-
-        public Block()
-        {
-            state = new NormalBlock(this);
-        }
-    }
-
-    public class NormalBlock : IBlockState
+    public class BrickBlockState : IBlockState
     {
         private Block block;
 
-        public NormalBlock(Block block)
+        public BrickBlockState(Block block)
         {
             this.block = block;
         }
 
         public void Bump()
         {
-            block.state = new BumpBlock(block);
-
-            //Do some stuff on bump
+            block.SetBlockState(new BumpBlock(block));
         }
     }
 
@@ -47,7 +36,7 @@ namespace States
 
         public void Bump()
         {
-            block.state = new UsedBlock(block);
+            block.SetBlockState(new UsedBlock(block));
 
             //Do some stuff on used
         }
@@ -79,7 +68,7 @@ namespace States
 
         public void Bump()
         {
-            block.state = new NormalBlock(block);
+            block.SetBlockState(new BrickBlockState(block));
 
             //Do some stuff on bump
         }
