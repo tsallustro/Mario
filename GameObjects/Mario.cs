@@ -24,16 +24,6 @@ namespace GameObjects
             actionState = new IdleState(this, false);
         }
 
-        public ISprite GetSprite()
-        {
-            return this.sprite;
-        }
-
-        public void SetSprite(ISprite sprite)
-        {
-            this.sprite = sprite;
-        }
-
         public IMarioPowerState GetPowerState()
         {
             return this.powerState;
@@ -47,16 +37,6 @@ namespace GameObjects
         public void SetActionState(IMarioActionState actionState)
         {
             this.actionState = actionState;
-        }
-
-        public Vector2 GetSpriteLocation()
-        {
-            return sprite.location;
-        }
-
-        public MarioSpriteFactory GetSpriteFactory()
-        {
-            return spriteFactory;
         }
 
         //Update all of Mario's members
