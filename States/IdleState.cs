@@ -30,7 +30,6 @@ namespace States
             else
             {
                 this.left = !this.left;
-                mario.SetActionState(new IdleState(mario, this.left));
             }
         }
 
@@ -43,7 +42,6 @@ namespace States
             else
             {
                 this.left = !this.left;
-                mario.SetActionState(new IdleState(mario, this.left));
             }
         }
 
