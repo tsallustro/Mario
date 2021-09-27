@@ -43,14 +43,14 @@ namespace Sprites
 	public class StairBlock : Sprite
 	{
 		public StairBlock(bool IsVisible, MarioGame game, Vector2 Location)
-			: base(IsVisible, Location, game.Content.Load<Texture2D>("Items"), 1, 10, 2, 2)
+			: base(IsVisible, Location, game.Content.Load<Texture2D>("Blocks"), 1, 10, 2, 2)
 		{
 		}
 	}
 	public class HiddenBlock : Sprite
 	{
 		public HiddenBlock(bool IsVisible, MarioGame game, Vector2 Location)
-			: base(IsVisible, Location, game.Content.Load<Texture2D>("Items"), 1, 10, 9, 9)
+			: base(IsVisible, Location, game.Content.Load<Texture2D>("Blocks"), 1, 10, 9, 9)
 		{
 		}
 	}

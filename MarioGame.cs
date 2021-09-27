@@ -78,7 +78,7 @@ namespace Game1
             coin = new Coin(true, sprint, new Vector2(100, 50));
             mushroom = new Mushroom(true, sprint, new Vector2(150, 50));
             oneUpMushroom = new MushroomOneUp(true, sprint, new Vector2(200, 50));
-            star = new Flower(true, sprint, new Vector2(250, 50));
+            star = new Star (true, sprint, new Vector2(250, 50));
             stairBlock = new StairBlock(true, sprint, new Vector2(50, 150));
             usedBlock = new UsedBlock(true, sprint, new Vector2(100, 150));
             questionBlock = new QuestionBlock(true, sprint, new Vector2(150, 150));
