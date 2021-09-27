@@ -39,6 +39,20 @@ namespace Game1
         private ISprite movingSprite;
         private ISprite movingAnimatedSprite;
 
+        // Simple display of sprites for sprint1
+        private ISprite flower;
+        private ISprite coin;
+        private ISprite mushroom;
+        private ISprite oneUpMushroom;
+        private ISprite star;
+        private ISprite stairBlock;
+        private ISprite usedBlock;
+        private ISprite questionBlock;
+        private ISprite brickBlock;
+        private ISprite hiddenBlock;
+        private ISprite goomba;
+        private ISprite koopaTroopa;
+
         private Mario mario;
 
         public MarioGame()
@@ -55,6 +69,7 @@ namespace Game1
             keyboardController = new KeyboardController();
             gamepadController = new GamepadController();
             this.Window.Title = "Sprint0";
+            _sprint = this;
             base.Initialize();
         }
         protected override void LoadContent()
@@ -68,6 +83,20 @@ namespace Game1
             /*fixedAnimatedSprite = new FixedAnimatedSprite(objectUpdater, true, new Vector2(150, 25), marioSpriteSheet, 1, 4);
             movingSprite = new MovingSprite(objectUpdater, true, new Vector2(250, 25), marioSpriteSheet, 1, 4);
             movingAnimatedSprite = new MovingAnimatedSprite(objectUpdater, true, new Vector2(350, 25), marioSpriteSheet, 1, 4);*/
+
+            //Visuals for Sprint 1
+            flower = new Flower(objectUpdater, true, sprint, new Vector2(50, 50));
+            coin = new Coin(objectUpdater, true, sprint, new Vector2(100, 50));
+            mushroom = new Mushroom(objectUpdater, true, sprint, new Vector2(150, 50));
+            oneUpMushroom = new MushroomOneUp(objectUpdater, true, sprint, new Vector2(200, 50));
+            star = new Flower(objectUpdater, true, sprint, new Vector2(250, 50));
+            stairBlock = new StairBlock(objectUpdater, true, sprint, new Vector2(50, 150));
+            usedBlock = new UsedBlock(objectUpdater, true, sprint, new Vector2(100, 150));
+            questionBlock = new QuestionBlock(objectUpdater, true, sprint, new Vector2(150, 150));
+            brickBlock = new BrickBlock(objectUpdater, true, sprint, new Vector2(200, 150));
+            hiddenBlock = new HiddenBlock(objectUpdater, true, sprint, new Vector2(250, 150));
+            goomba = new Goomba(objectUpdater, true, sprint, new Vector2(300, 100));
+            koopaTroopa = new KoopaTroopa(objectUpdater, true, sprint, new Vector2(350, 100));
 
             mario = new Mario(fixedSprite);
 
@@ -103,6 +132,19 @@ namespace Game1
             // update the sprites
             mario.Update();
 
+            flower.Update();
+            coin.Update();
+            mushroom.Update();
+            oneUpMushroom.Update();
+            star.Update();
+            stairBlock.Update();
+            usedBlock.Update();
+            questionBlock.Update();
+            brickBlock.Update();
+            hiddenBlock.Update();
+            goomba.Update();
+            koopaTroopa.Update();
+
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -112,6 +154,19 @@ namespace Game1
 
             // call draw methods from each sprite and pass in sprite batch
             mario.Draw(spriteBatch);
+
+            flower.Draw(spriteBatch);
+            coin.Draw(spriteBatch);
+            mushroom.Draw(spriteBatch);
+            oneUpMushroom.Draw(spriteBatch);
+            star.Draw(spriteBatch);
+            stairBlock.Draw(spriteBatch);
+            usedBlock.Draw(spriteBatch);
+            questionBlock.Draw(spriteBatch);
+            brickBlock.Draw(spriteBatch);
+            hiddenBlock.Draw(spriteBatch);
+            goomba.Draw(spriteBatch);
+            koopaTroopa.Draw(spriteBatch);
 
             // Draw Legend
             spriteBatch.DrawString(arialSpriteFont, "Controls (Keyboard/Gamepad)\nQ/start: Quit\nW/A:Toggle Visibility of fixedSprite\nE/B:Toggle Visibility of fixedAnimatedSprite\nR/X:Toggle Visibility of movingSprite\nT/Y:Toggle Visibility of movingAnimatedSprite", new Vector2(25, 325), Color.Black);
