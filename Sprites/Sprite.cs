@@ -48,7 +48,7 @@ namespace Sprites
         // Sets Frame Animation. @param int initialFrame int finalFrame
         public void Animation()
         {
-            if (timer > 5)
+            if (timer > 35)
             {
                 currentFrame++;
                 if (currentFrame == FinalFrame + 1)

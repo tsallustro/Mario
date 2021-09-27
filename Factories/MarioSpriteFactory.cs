@@ -68,7 +68,7 @@ namespace Factories
 
 		public ISprite CreateStandardIdleMario(Vector2 location)
 		{
-			return new Sprite(true, location, standardMarioSprites, 1, 14, 2, 2);
+			return new Sprite(true, location, standardMarioSprites, 1, 14, 0, 0);
 		}
 
 		public ISprite CreateStandardCrouchingMario(Vector2 location)
@@ -78,7 +78,7 @@ namespace Factories
 
 		public ISprite CreateStandardRunningMario(Vector2 location)
         {
-			return new Sprite(true, location, standardMarioSprites, 1, 14, 3, 4);
+			return new Sprite(true, location, standardMarioSprites, 1, 14, 2, 4);
 		}
 
 		public ISprite CreateStandardJumpingMario(Vector2 location)
@@ -88,7 +88,7 @@ namespace Factories
 
 		public ISprite CreateSuperIdleMario(Vector2 location)
 		{
-			return new Sprite(true, location, superMarioSprites, 1, 14, 2, 2);
+			return new Sprite(true, location, superMarioSprites, 1, 14, 0, 0);
 		}
 
 		public ISprite CreateSuperCrouchingMario(Vector2 location)
@@ -98,7 +98,7 @@ namespace Factories
 
 		public ISprite CreateSuperRunningMario(Vector2 location)
 		{
-			return new Sprite(true, location, superMarioSprites, 1, 14, 3, 4);
+			return new Sprite(true, location, superMarioSprites, 1, 14, 2, 4);
 		}
 
 		public ISprite CreateSuperJumpingMario(Vector2 location)
@@ -108,7 +108,7 @@ namespace Factories
 
 		public ISprite CreateFireIdleMario(Vector2 location)
 		{
-			return new Sprite(true, location, fireMarioSprites, 1, 14, 2, 2);
+			return new Sprite(true, location, fireMarioSprites, 1, 14, 0, 0);
 		}
 
 		public ISprite CreateFireCrouchingMario(Vector2 location)
@@ -118,7 +118,7 @@ namespace Factories
 
 		public ISprite CreateFireRunningMario(Vector2 location)
 		{
-			return new Sprite(true, location, fireMarioSprites, 1, 14, 3, 4);
+			return new Sprite(true, location, fireMarioSprites, 1, 14, 2, 4);
 		}
 
 		public ISprite CreateFireJumpingMario(Vector2 location)

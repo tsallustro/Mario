@@ -19,7 +19,7 @@ namespace GameObjects
         public Mario()
         {
             spriteFactory = MarioSpriteFactory.Instance;
-            sprite = spriteFactory.CreateStandardIdleMario(new Vector2(50, 25));
+            sprite = spriteFactory.CreateStandardIdleMario(new Vector2(50, 225));
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
         }
