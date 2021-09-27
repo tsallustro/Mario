@@ -36,12 +36,12 @@ namespace Factories
 
 		public ISprite CreateStandardIdleMario(Vector2 location)
 		{
-			return new Sprite(true, location, standardMarioSprites, 1, 14, 1, 1);
+			return new Sprite(true, location, standardMarioSprites, 1, 14, 2, 2);
 		}
 
 		public ISprite CreateStandardCrouchMario(Vector2 location)
         {
-			return new Sprite(true, location, standardMarioSprites, 1, 14, 2, 2);
+			return new Sprite(true, location, standardMarioSprites, 1, 14, 1, 1);
         }
 	}
 }
