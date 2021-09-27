@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using States;
 using Sprites;
+using Factories;
 
 namespace GameObjects
 {
@@ -13,12 +14,14 @@ namespace GameObjects
         private ISprite sprite;
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
+        private MarioSpriteFactory spriteFactory;
 
         public Mario(ISprite startingSprite)
         {
             sprite = startingSprite;
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
+            spriteFactory = MarioSpriteFactory.Instance;
         }
 
         public void SetSprite(ISprite sprite)
@@ -34,6 +37,16 @@ namespace GameObjects
         public void SetActionState(IMarioActionState actionState)
         {
             this.actionState = actionState;
+        }
+
+        public Vector2 GetSpriteLocation()
+        {
+            return sprite.location;
+        }
+
+        public MarioSpriteFactory GetSpriteFactory()
+        {
+            return spriteFactory;
         }
 
         //Update all of Mario's members

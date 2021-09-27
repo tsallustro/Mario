@@ -7,6 +7,7 @@ using Sprites;
 using Controllers;
 using Commands;
 using GameObjects;
+using Factories;
 
 namespace Game1
 {
@@ -48,6 +49,7 @@ namespace Game1
         private ISprite koopaTroopa;
 
         private Mario mario;
+        private MarioSpriteFactory marioSpriteFactory;
 
         public MarioGame()
         {
@@ -62,6 +64,7 @@ namespace Game1
             keyboardController = new KeyboardController();
             gamepadController = new GamepadController();
             this.Window.Title = "Sprint0";
+            marioSpriteFactory = MarioSpriteFactory.Instance;
             _sprint = this;
             base.Initialize();
         }
@@ -70,6 +73,8 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
             arialSpriteFont = Content.Load<SpriteFont>("ArialSpriteFont");
             Texture2D marioSpriteSheet = Content.Load<Texture2D>("MarioSpriteSheet");
+
+            marioSpriteFactory.LoadTextures(this);
 
             // initialize mario sprites
             idleMario = new IdlingMarioSprite(new Vector2(50, 25), this);
