@@ -34,6 +34,11 @@ namespace GameObjects
             this.sprite = sprite;
         }
 
+        public IMarioPowerState GetPowerState()
+        {
+            return this.powerState;
+        }
+
         public void SetPowerState(IMarioPowerState powerState)
         {
             this.powerState = powerState;

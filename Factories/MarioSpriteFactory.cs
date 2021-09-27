@@ -124,7 +124,7 @@ namespace Factories
 		
 		public ISprite CreateDeadMario(Vector2 location)
         {
-			return new Sprite(true, location, deadMarioSprite, 1, 1, 1, 1);
+			return new Sprite(true, location, deadMarioSprite, 1, 1, 0, 0);
 		}
 	}
 }
