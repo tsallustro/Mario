@@ -2,12 +2,11 @@
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using OUpdater;
+
 namespace Sprites
 {
     public class FixedSprite : ISprite
     {
-        private ObjectUpdater objectUpdater;
         public int rows { get; set; }
         public int columns { get; set; }
         public Vector2 location { get; set; }
@@ -16,9 +15,8 @@ namespace Sprites
         private bool isVisible = true;
 
 
-        public FixedSprite(ObjectUpdater OU, bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns)
+        public FixedSprite(bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns)
         {
-            objectUpdater = OU;
             isVisible = IsVisible;
             location = Location;
             texture = Texture;
@@ -27,14 +25,7 @@ namespace Sprites
         }
         public void Update()
         {        
-            // DON'T NEED TO DO ANYTHING FOR FIXED NON-ANIMATED
-            // determines if sprite's visibility needs to be toggled and resets objectUpdater
-            /*if (objectUpdater.fixedSpriteVisibility)
-            {
-                isVisible = !isVisible;
-                objectUpdater.fixedSpriteVisibility = false;
-            }*/
-          }
+        }
         
         public void ToggleVisibility()
         {

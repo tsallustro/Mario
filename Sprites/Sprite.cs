@@ -1,14 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using OUpdater;
 
 // Base sprites class for all sprites
 namespace Sprites
 {
     public class Sprite : ISprite
     {
-
-        public ObjectUpdater objectUpdater;
         public int rows { get; set; }
         public int columns { get; set; }
         public Texture2D texture { get; set; }
@@ -26,10 +23,8 @@ namespace Sprites
         //Timer to slow down animation
         public int timer = 0;
 
-        public Sprite(ObjectUpdater OU, bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns, int initialFrame, int finalFrame)
+        public Sprite(bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns, int initialFrame, int finalFrame)
         {
-            
-            objectUpdater = OU;
             isVisible = IsVisible;
             location = Location;
             texture = Texture;
@@ -37,8 +32,8 @@ namespace Sprites
             columns = Columns;
             InitialFrame = initialFrame;
             FinalFrame = finalFrame;
-
         }
+
         public void Update()
         {
 
@@ -47,16 +42,6 @@ namespace Sprites
             //Jump();
             //ToggleInvisOrNot();
 
-        }
-
-        private void ToggleInvisOrNot()
-        {
-            // determines if sprite's visibility needs to be toggled and resets objectUpdater
-            if (objectUpdater.movingAnimatedSpriteVisibility)
-            {
-                isVisible = !isVisible;
-                objectUpdater.movingAnimatedSpriteVisibility = false;
-            }
         }
 
         // Sets Frame Animation. @param int initialFrame int finalFrame
@@ -71,12 +56,14 @@ namespace Sprites
             }
             timer++;
         }
+
         //Move Method
         public void Move()
         {
             location += (new Vector2(movementDirection * 1, 0));
             Animation();
         }
+
         //Jump Method
         public void Jump()
         {
@@ -115,14 +102,7 @@ namespace Sprites
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
             
             // draws sprite visible or transparent
-            if (isVisible)
-            {
-                spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-            }
-            else
-            {
-                spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.Transparent);
-            }
+            if (isVisible) { spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White); }
         }
      }
  }

@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using OUpdater;
 using Game1;
 
 /* This doesn't work right now. I'm cleaning at the moment. There was problem uploading it, so I'm reworking on it to get it to work */
 
 namespace Sprites
 {
-    public class SuperMarioSprite : Sprite
+    /*public class SuperMarioSprite : Sprite
     {
         public SuperMarioSprite(ObjectUpdater OU, bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns, int initialFrame, int finalFrame)
             : base(OU, IsVisible, Location, Texture, 7, 14, initialFrame, finalFrame)
@@ -88,6 +87,6 @@ namespace Sprites
         {
         }
 
-    }
+    }*/
 }
 

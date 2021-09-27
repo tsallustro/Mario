@@ -2,12 +2,11 @@
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using OUpdater;
+
 namespace Sprites
 {
     public class FixedAnimatedSprite : ISprite
     {
-        private ObjectUpdater objectUpdater;
         public int rows { get; set; }
         public int columns { get; set; }
         public Texture2D texture { get; set; }
@@ -19,10 +18,8 @@ namespace Sprites
         private int frameDelayCount = 0;
 
 
-        public FixedAnimatedSprite(ObjectUpdater OU, bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns)
+        public FixedAnimatedSprite(bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns)
         {
-
-            objectUpdater = OU;
             isVisible = IsVisible;
             location = Location;
             texture = Texture;
@@ -40,19 +37,13 @@ namespace Sprites
                     currentFrame = 2;
                 }
             }
-
-            // determines if sprite's visibility needs to be toggled and resets objectUpdater
-            /*if (objectUpdater.fixedAnimatedSpriteVisibility)
-            {
-                isVisible = !isVisible;
-                objectUpdater.fixedAnimatedSpriteVisibility = false;
-            }*/
         }
 
         public void ToggleVisibility()
         {
             isVisible = !isVisible;
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             int width = texture.Width / columns;
@@ -63,7 +54,6 @@ namespace Sprites
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
-            // draws sprite visible or transparent
             if (isVisible) { spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White); }
         }
     }

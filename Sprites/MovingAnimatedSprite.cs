@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using OUpdater;
+
 namespace Sprites
 {
     public class MovingAnimatedSprite : ISprite
     {
-        private ObjectUpdater objectUpdater;
         public int rows { get; set; }
         public int columns { get; set; }
         public Texture2D texture { get; set; }
@@ -18,16 +17,15 @@ namespace Sprites
         private int currentFrame = 2;
 
 
-        public MovingAnimatedSprite(ObjectUpdater OU, bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns)
+        public MovingAnimatedSprite(bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns)
         {
-            
-            objectUpdater = OU;
             isVisible = IsVisible;
             location = Location;
             texture = Texture;
             rows = Rows;
             columns = Columns;
         }
+
         public void Update()
         {
             // handles moving up and down
@@ -48,13 +46,8 @@ namespace Sprites
             } else {
                 currentFrame = 1;
             }
-            // determines if sprite's visibility needs to be toggled and resets objectUpdater
-            /*if (objectUpdater.movingAnimatedSpriteVisibility)
-            {
-                isVisible = !isVisible;
-                objectUpdater.movingAnimatedSpriteVisibility = false;
-            }*/ 
         }
+
         public void ToggleVisibility()
         {
             isVisible = !isVisible;
