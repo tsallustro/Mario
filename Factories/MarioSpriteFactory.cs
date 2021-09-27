@@ -8,7 +8,9 @@ namespace Factories
 {
     public class MarioSpriteFactory
     {
-        private Texture2D marioSpritesheet;
+        private Texture2D standardMarioSprites;
+		private Texture2D superMarioSprites;
+		private Texture2D fireMarioSprites;
 
 		private static MarioSpriteFactory factoryInstance = new MarioSpriteFactory();
 
@@ -26,7 +28,9 @@ namespace Factories
 
 		public void LoadTextures(Game game)
 		{
-			marioSpritesheet = game.Content.Load<Texture2D>("Mario");
+			standardMarioSprites = game.Content.Load<Texture2D>("StandardMario");
+			superMarioSprites = game.Content.Load<Texture2D>("SuperMario");
+			fireMarioSprites = game.Content.Load<Texture2D>("FireMario");
 		}
 	}
 }
