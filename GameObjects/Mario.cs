@@ -19,19 +19,14 @@ namespace GameObjects
         public Mario()
         {
             spriteFactory = MarioSpriteFactory.Instance;
-            sprite = spriteFactory.CreateStandardIdleMario(new Vector2(50, 25));
+            sprite = spriteFactory.CreateStandardIdleMario(new Vector2(50, 225));
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
         }
 
-        public ISprite GetSprite()
+        public IMarioPowerState GetPowerState()
         {
-            return this.sprite;
-        }
-
-        public void SetSprite(ISprite sprite)
-        {
-            this.sprite = sprite;
+            return this.powerState;
         }
 
         public void SetPowerState(IMarioPowerState powerState)
@@ -42,16 +37,6 @@ namespace GameObjects
         public void SetActionState(IMarioActionState actionState)
         {
             this.actionState = actionState;
-        }
-
-        public Vector2 GetSpriteLocation()
-        {
-            return sprite.location;
-        }
-
-        public MarioSpriteFactory GetSpriteFactory()
-        {
-            return spriteFactory;
         }
 
         //Update all of Mario's members

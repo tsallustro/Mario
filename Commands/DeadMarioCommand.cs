@@ -17,7 +17,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				mario.SetPowerState(new DeadMario(mario));
+				mario.GetPowerState().TakeDamage();
 			}
 		}
 	}

@@ -17,6 +17,21 @@ namespace Factories
 
 		private static MarioSpriteFactory factoryInstance = new MarioSpriteFactory();
 
+		// We don't want to continually instantiate more and more sprites.
+		private ISprite standardIdle;
+		private ISprite standardCrouch;
+		private ISprite standardRun;
+		private ISprite standardJump;
+		private ISprite superIdle;
+		private ISprite superCrouch;
+		private ISprite superRun;
+		private ISprite superJump;
+		private ISprite fireIdle;
+		private ISprite fireCrouch;
+		private ISprite fireRun;
+		private ISprite fireJump;
+		private ISprite dead;
+
 		public static MarioSpriteFactory Instance
 		{
 			get
@@ -37,6 +52,10 @@ namespace Factories
 			deadMarioSprite = game.Content.Load<Texture2D>("DeadMario");
 		}
 
+		/*
+		 *  This method returns the correct sprite given the current action and
+		 *  power-up states of Mario.
+		 */
 		public ISprite GetCurrentSprite(Vector2 location, IMarioActionState actionState, IMarioPowerState powerState)
         {
 			if (powerState is StandardMario)
@@ -64,67 +83,132 @@ namespace Factories
 
 		public ISprite CreateStandardIdleMario(Vector2 location)
 		{
-			return new Sprite(true, location, standardMarioSprites, 1, 14, 2, 2);
+			if (standardIdle == null)
+			{
+				standardIdle = new Sprite(true, location, standardMarioSprites, 1, 14, 0, 0);
+				return standardIdle;
+			}
+			else return standardIdle;
 		}
 
 		public ISprite CreateStandardCrouchingMario(Vector2 location)
         {
-			return new Sprite(true, location, standardMarioSprites, 1, 14, 1, 1);
+			if (standardCrouch == null)
+			{
+				standardCrouch = new Sprite(true, location, standardMarioSprites, 1, 14, 1, 1);
+				return standardCrouch;
+			}
+			else return standardCrouch;
         }
 
 		public ISprite CreateStandardRunningMario(Vector2 location)
-        {
-			return new Sprite(true, location, standardMarioSprites, 1, 14, 3, 4);
+		{
+			if (standardRun == null)
+			{
+				standardRun = new Sprite(true, location, standardMarioSprites, 1, 14, 2, 4);
+				return standardRun;
+			}
+			else return standardRun;
 		}
 
 		public ISprite CreateStandardJumpingMario(Vector2 location)
         {
-			return new Sprite(true, location, standardMarioSprites, 1, 14, 5, 5);
+			if (standardJump == null)
+			{
+				standardJump = new Sprite(true, location, standardMarioSprites, 1, 14, 5, 5);
+				return standardJump;
+			}
+			else return standardJump;
 		}
 
 		public ISprite CreateSuperIdleMario(Vector2 location)
 		{
-			return new Sprite(true, location, superMarioSprites, 1, 14, 2, 2);
+			if (superIdle == null)
+			{
+				superIdle = new Sprite(true, location, superMarioSprites, 1, 14, 0, 0);
+				return superIdle;
+			}
+			else return superIdle;
 		}
 
 		public ISprite CreateSuperCrouchingMario(Vector2 location)
 		{
-			return new Sprite(true, location, superMarioSprites, 1, 14, 1, 1);
+			if (superCrouch == null)
+			{
+				superCrouch = new Sprite(true, location, superMarioSprites, 1, 14, 1, 1);
+				return superCrouch;
+			}
+			else return superCrouch;
 		}
 
 		public ISprite CreateSuperRunningMario(Vector2 location)
 		{
-			return new Sprite(true, location, superMarioSprites, 1, 14, 3, 4);
+			if (superRun == null)
+			{
+				superRun = new Sprite(true, location, superMarioSprites, 1, 14, 2, 4);
+				return superRun;
+			}
+			else return superRun;
 		}
 
 		public ISprite CreateSuperJumpingMario(Vector2 location)
 		{
-			return new Sprite(true, location, superMarioSprites, 1, 14, 5, 5);
+			if (superJump == null)
+			{
+				superJump = new Sprite(true, location, superMarioSprites, 1, 14, 5, 5);
+				return superJump;
+			}
+			else return superJump;
 		}
 
 		public ISprite CreateFireIdleMario(Vector2 location)
 		{
-			return new Sprite(true, location, fireMarioSprites, 1, 14, 2, 2);
+			if (fireIdle == null)
+			{
+				fireIdle = new Sprite(true, location, fireMarioSprites, 1, 14, 0, 0);
+				return fireIdle;
+			}
+			else return fireIdle;
 		}
 
 		public ISprite CreateFireCrouchingMario(Vector2 location)
 		{
-			return new Sprite(true, location, fireMarioSprites, 1, 14, 1, 1);
+			if (fireCrouch == null)
+			{
+				fireCrouch = new Sprite(true, location, fireMarioSprites, 1, 14, 1, 1);
+				return fireCrouch;
+			}
+			else return fireCrouch;
 		}
 
 		public ISprite CreateFireRunningMario(Vector2 location)
 		{
-			return new Sprite(true, location, fireMarioSprites, 1, 14, 3, 4);
+			if (fireRun == null)
+			{
+				fireRun = new Sprite(true, location, fireMarioSprites, 1, 14, 2, 4);
+				return fireRun;
+			}
+			else return fireRun;
 		}
 
 		public ISprite CreateFireJumpingMario(Vector2 location)
 		{
-			return new Sprite(true, location, fireMarioSprites, 1, 14, 5, 5);
+			if (fireJump == null)
+			{
+				fireJump = new Sprite(true, location, fireMarioSprites, 1, 14, 5, 5);
+				return fireJump;
+			}
+			else return fireJump;
 		}
 		
 		public ISprite CreateDeadMario(Vector2 location)
         {
-			return new Sprite(true, location, deadMarioSprite, 1, 1, 1, 1);
+			if (dead == null)
+			{
+				dead = new Sprite(true, location, deadMarioSprite, 1, 1, 0, 0);
+				return dead;
+			}
+			else return dead;
 		}
 	}
 }
