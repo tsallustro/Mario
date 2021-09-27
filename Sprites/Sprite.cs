@@ -37,7 +37,7 @@ namespace Sprites
 
         public void Update()
         {
-            //Animation();
+            Animation();
             //ChangeDirection();
             //Move();
             //Jump();
