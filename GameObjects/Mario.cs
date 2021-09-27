@@ -21,6 +21,11 @@ namespace GameObjects
             actionState = new IdleState(this, false);
         }
 
+        public void SetSprite(ISprite sprite)
+        {
+            this.sprite = sprite;
+        }
+
         public void SetPowerState(IMarioPowerState powerState)
         {
             this.powerState = powerState;
