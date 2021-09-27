@@ -43,9 +43,9 @@ namespace GameObjects
         }
 
         //Draw Mario
-        public void Draw(SpriteBatch SpriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(SpriteBatch);
+            sprite.Draw(spriteBatch);
         }
 
         public void MoveLeft()
