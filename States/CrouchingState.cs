@@ -39,7 +39,7 @@ namespace States
 
         public void Jump()
         {
-            mario.SetActionState(new JumpingState(mario, this.left));
+            mario.SetActionState(new IdleState(mario, this.left));
         }
     }
 }

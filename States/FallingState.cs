@@ -34,12 +34,12 @@ namespace States
 
         public void Crouch()
         {
-            mario.SetActionState(new CrouchingState(mario, this.left));
+            // Do nothing
         }
 
         public void Jump()
         {
-            mario.SetActionState(new JumpingState(mario, this.left));
+            // Do nothing
         }
     }
 }
