@@ -105,6 +105,10 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.W, jump);
             keyboardController.AddMapping((int)Keys.Down, crouch);
             keyboardController.AddMapping((int)Keys.S, crouch);
+            keyboardController.AddMapping((int)Keys.Y, new StandardMarioCommand(mario));
+            keyboardController.AddMapping((int)Keys.U, new SuperMarioCommand(mario));
+            keyboardController.AddMapping((int)Keys.I, new FireMarioCommand(mario));
+            keyboardController.AddMapping((int)Keys.O, new DeadMarioCommand(mario));
 
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);

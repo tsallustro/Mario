@@ -57,6 +57,7 @@ namespace GameObjects
         //Update all of Mario's members
         public void Update()
         {
+            sprite = spriteFactory.GetCurrentSprite(sprite.location, actionState, powerState);
             sprite.Update();
         }
 

@@ -13,7 +13,6 @@ namespace States
         public IdleState(Mario mario, bool left)
         {
             this.mario = mario;
-            this.mario.SetSprite(mario.GetSpriteFactory().CreateStandardIdleMario(mario.GetSpriteLocation()));
             this.left = left;
         }
 
