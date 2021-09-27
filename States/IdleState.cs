@@ -44,7 +44,7 @@ namespace States
 
         public void Crouch()
         {
-            mario.SetSprite(mario.GetSpriteFactory().CreateCrouchMario(mario.GetSpriteLocation()));
+            mario.SetSprite(mario.GetSpriteFactory().CreateStandardCrouchMario(mario.GetSpriteLocation()));
             mario.SetActionState(new CrouchingState(mario, this.left));
         }
 

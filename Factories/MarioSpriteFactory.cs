@@ -34,12 +34,12 @@ namespace Factories
 			fireMarioSprites = game.Content.Load<Texture2D>("FireMario");
 		}
 
-		public ISprite CreateIdleMario(Vector2 location)
+		public ISprite CreateStandardIdleMario(Vector2 location)
 		{
 			return new Sprite(true, location, standardMarioSprites, 1, 14, 1, 1);
 		}
 
-		public ISprite CreateCrouchMario(Vector2 location)
+		public ISprite CreateStandardCrouchMario(Vector2 location)
         {
 			return new Sprite(true, location, standardMarioSprites, 1, 14, 2, 2);
         }
