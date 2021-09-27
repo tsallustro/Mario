@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace Sprites
 {
-    interface ISprite
+    public interface ISprite
     {
         public int rows { get; set; }
         public int columns { get; set; }

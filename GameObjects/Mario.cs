@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using States;
 using Sprites;
+
 namespace GameObjects
 {
     public class Mario
@@ -13,7 +14,7 @@ namespace GameObjects
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
 
-        Mario(ISprite startingSprite)
+        public Mario(ISprite startingSprite)
         {
             sprite = startingSprite;
             powerState = new StandardMario(this);
