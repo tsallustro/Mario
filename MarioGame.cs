@@ -103,10 +103,6 @@ namespace Game1
             // update the sprites
             mario.Update();
 
-            /*fixedAnimatedSprite.Update();
-            movingSprite.Update();
-            movingAnimatedSprite.Update();*/
-
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -116,10 +112,6 @@ namespace Game1
 
             // call draw methods from each sprite and pass in sprite batch
             mario.Draw(spriteBatch);
-
-            /*fixedAnimatedSprite.Draw(spriteBatch);
-            movingSprite.Draw(spriteBatch);
-            movingAnimatedSprite.Draw(spriteBatch);*/
 
             // Draw Legend
             spriteBatch.DrawString(arialSpriteFont, "Controls (Keyboard/Gamepad)\nQ/start: Quit\nW/A:Toggle Visibility of fixedSprite\nE/B:Toggle Visibility of fixedAnimatedSprite\nR/X:Toggle Visibility of movingSprite\nT/Y:Toggle Visibility of movingAnimatedSprite", new Vector2(25, 325), Color.Black);
