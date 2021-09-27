@@ -16,12 +16,12 @@ namespace GameObjects
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
 
-        public Mario(ISprite startingSprite)
+        public Mario()
         {
-            sprite = startingSprite;
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
             spriteFactory = MarioSpriteFactory.Instance;
+            sprite = spriteFactory.CreateStandardIdleMario(new Vector2(50, 25));
         }
 
         public void SetSprite(ISprite sprite)

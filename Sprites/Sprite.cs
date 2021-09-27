@@ -30,6 +30,7 @@ namespace Sprites
             texture = Texture;
             rows = Rows;
             columns = Columns;
+            currentFrame = initialFrame;
             InitialFrame = initialFrame;
             FinalFrame = finalFrame;
         }

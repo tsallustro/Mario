@@ -60,11 +60,11 @@ namespace Game1
 
         protected override void Initialize()
         {
-            // create the ObjectUpdater and controllers
             keyboardController = new KeyboardController();
             gamepadController = new GamepadController();
-            this.Window.Title = "Sprint0";
             marioSpriteFactory = MarioSpriteFactory.Instance;
+
+            this.Window.Title = "Sprint0";
             _sprint = this;
             base.Initialize();
         }
@@ -75,9 +75,6 @@ namespace Game1
             Texture2D marioSpriteSheet = Content.Load<Texture2D>("MarioSpriteSheet");
 
             marioSpriteFactory.LoadTextures(this);
-
-            // initialize mario sprites
-            idleMario = new IdlingMarioSprite(new Vector2(50, 25), this);
 
             //Visuals for Sprint 1
             flower = new Flower(true, sprint, new Vector2(50, 50));
@@ -93,7 +90,7 @@ namespace Game1
             goomba = new Goomba(true, sprint, new Vector2(300, 100));
             koopaTroopa = new KoopaTroopa(true, sprint, new Vector2(350, 100));
 
-            mario = new Mario(idleMario);
+            mario = new Mario();
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
