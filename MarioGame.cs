@@ -65,23 +65,34 @@ namespace Game1
 
             // initialize the 4 sprites to be used with the parameters wanted for initial launch
             fixedSprite = new FixedSprite(objectUpdater, true, new Vector2(50, 25), marioSpriteSheet, 1, 4);
-            fixedAnimatedSprite = new FixedAnimatedSprite(objectUpdater, true, new Vector2(150, 25), marioSpriteSheet, 1, 4);
+            /*fixedAnimatedSprite = new FixedAnimatedSprite(objectUpdater, true, new Vector2(150, 25), marioSpriteSheet, 1, 4);
             movingSprite = new MovingSprite(objectUpdater, true, new Vector2(250, 25), marioSpriteSheet, 1, 4);
-            movingAnimatedSprite = new MovingAnimatedSprite(objectUpdater, true, new Vector2(350, 25), marioSpriteSheet, 1, 4);
-            
+            movingAnimatedSprite = new MovingAnimatedSprite(objectUpdater, true, new Vector2(350, 25), marioSpriteSheet, 1, 4);*/
+
+            mario = new Mario(fixedSprite);
+
+            // Initialize commands that will be repeated
+            ICommand moveLeft = new MoveLeftCommand(mario);
+            ICommand moveRight = new MoveRightCommand(mario);
+            ICommand jump = new JumpCommand(mario);
+            ICommand crouch = new CrouchCommand(mario);
+
             // Initialize keyboard controller mappings
             keyboardController.AddMapping((int)Keys.Q, new QuitCommand(this));
-            keyboardController.AddMapping((int)Keys.W, new NonMovingNonAnimatedCommand(fixedSprite));
-            keyboardController.AddMapping((int)Keys.E, new NonMovingAnimatedCommand(fixedAnimatedSprite));
-            keyboardController.AddMapping((int)Keys.R, new MovingNonAnimatedCommand(movingSprite));
-            keyboardController.AddMapping((int)Keys.T, new MovingAnimatedCommand(movingAnimatedSprite));
-           
+            keyboardController.AddMapping((int)Keys.Left, moveLeft);
+            keyboardController.AddMapping((int)Keys.A, moveLeft);
+            keyboardController.AddMapping((int)Keys.Right, moveRight);
+            keyboardController.AddMapping((int)Keys.D, moveRight);
+            keyboardController.AddMapping((int)Keys.Up, jump);
+            keyboardController.AddMapping((int)Keys.W, jump);
+            keyboardController.AddMapping((int)Keys.Down, crouch);
+            keyboardController.AddMapping((int)Keys.S, crouch);
+
             // Initialize gamepad controller mappings
-            gamepadController.AddMapping((int)Buttons.Start, new QuitCommand(this));
-            gamepadController.AddMapping((int)Buttons.A, new NonMovingNonAnimatedCommand(fixedSprite));
-            gamepadController.AddMapping((int)Buttons.B, new NonMovingAnimatedCommand(fixedAnimatedSprite));
-            gamepadController.AddMapping((int)Buttons.X, new MovingNonAnimatedCommand(movingSprite));
-            gamepadController.AddMapping((int)Buttons.Y, new MovingAnimatedCommand(movingAnimatedSprite));
+            gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);
+            gamepadController.AddMapping((int)Buttons.DPadRight, moveRight);
+            gamepadController.AddMapping((int)Buttons.A, jump);
+            gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
         }
         protected override void Update(GameTime gameTime)
         {
@@ -90,21 +101,26 @@ namespace Game1
             keyboardController.Update();
 
             // update the sprites
-            fixedSprite.Update();
-            fixedAnimatedSprite.Update();
+            mario.Update();
+
+            /*fixedAnimatedSprite.Update();
             movingSprite.Update();
-            movingAnimatedSprite.Update();
+            movingAnimatedSprite.Update();*/
+
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+
             // call draw methods from each sprite and pass in sprite batch
-            fixedSprite.Draw(spriteBatch);
-            fixedAnimatedSprite.Draw(spriteBatch);
+            mario.Draw(spriteBatch);
+
+            /*fixedAnimatedSprite.Draw(spriteBatch);
             movingSprite.Draw(spriteBatch);
-            movingAnimatedSprite.Draw(spriteBatch);
+            movingAnimatedSprite.Draw(spriteBatch);*/
+
             // Draw Legend
             spriteBatch.DrawString(arialSpriteFont, "Controls (Keyboard/Gamepad)\nQ/start: Quit\nW/A:Toggle Visibility of fixedSprite\nE/B:Toggle Visibility of fixedAnimatedSprite\nR/X:Toggle Visibility of movingSprite\nT/Y:Toggle Visibility of movingAnimatedSprite", new Vector2(25, 325), Color.Black);
             spriteBatch.End();
