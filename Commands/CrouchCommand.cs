@@ -17,7 +17,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				// Call mario.Crouch() here
+				mario.Crouch();
 			}
 		}
 	}

@@ -15,8 +15,7 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			// Call mario.Jump() here
-			return;
+			mario.Jump();
 		}
 	}
 }

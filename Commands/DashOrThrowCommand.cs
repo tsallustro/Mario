@@ -15,9 +15,7 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-
 			// Call mario.DashOrThrow() here
-			return;
 		}
 	}
 }

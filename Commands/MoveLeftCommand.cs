@@ -13,8 +13,7 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			// Call mario.MoveLeft() here
-			return;
+			mario.MoveLeft();
 		}
 	}
 }
