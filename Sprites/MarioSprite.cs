@@ -21,9 +21,9 @@ namespace Sprites
         {
         }
     }
-    public class WalkinggMarioSprite : Sprite
+    public class WalkingMarioSprite : Sprite
     {
-        public WalkinggMarioSprite(ObjectUpdater OU, Vector2 Location, MarioGame game)
+        public WalkingMarioSprite(ObjectUpdater OU, Vector2 Location, MarioGame game)
             : base(OU, true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 2, 3)
         {
         }

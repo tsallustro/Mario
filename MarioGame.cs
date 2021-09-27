@@ -33,11 +33,8 @@ namespace Game1
         // this object holds flags that tell objects whether or not they need to update
         private ObjectUpdater objectUpdater;
        
-        // These are the four sprites used displayed in this game.
-        private ISprite fixedSprite;
-        private ISprite fixedAnimatedSprite;
-        private ISprite movingSprite;
-        private ISprite movingAnimatedSprite;
+        // Mario sprites
+        private ISprite idleMario;
 
         // Simple display of sprites for sprint1
         private ISprite flower;
@@ -78,11 +75,8 @@ namespace Game1
             arialSpriteFont = Content.Load<SpriteFont>("ArialSpriteFont");
             Texture2D marioSpriteSheet = Content.Load<Texture2D>("MarioSpriteSheet");
 
-            // initialize the 4 sprites to be used with the parameters wanted for initial launch
-            fixedSprite = new FixedSprite(objectUpdater, true, new Vector2(50, 25), marioSpriteSheet, 1, 4);
-            /*fixedAnimatedSprite = new FixedAnimatedSprite(objectUpdater, true, new Vector2(150, 25), marioSpriteSheet, 1, 4);
-            movingSprite = new MovingSprite(objectUpdater, true, new Vector2(250, 25), marioSpriteSheet, 1, 4);
-            movingAnimatedSprite = new MovingAnimatedSprite(objectUpdater, true, new Vector2(350, 25), marioSpriteSheet, 1, 4);*/
+            // initialize mario sprites
+            idleMario = new IdlingMarioSprite(objectUpdater, new Vector2(50, 25), this);
 
             //Visuals for Sprint 1
             flower = new Flower(objectUpdater, true, sprint, new Vector2(50, 50));
@@ -98,7 +92,7 @@ namespace Game1
             goomba = new Goomba(objectUpdater, true, sprint, new Vector2(300, 100));
             koopaTroopa = new KoopaTroopa(objectUpdater, true, sprint, new Vector2(350, 100));
 
-            mario = new Mario(fixedSprite);
+            mario = new Mario(idleMario);
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
