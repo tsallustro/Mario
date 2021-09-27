@@ -37,6 +37,10 @@ namespace Factories
 			deadMarioSprite = game.Content.Load<Texture2D>("DeadMario");
 		}
 
+		/*
+		 *  This method returns the correct sprite given the current action and
+		 *  power-up states of Mario.
+		 */
 		public ISprite GetCurrentSprite(Vector2 location, IMarioActionState actionState, IMarioPowerState powerState)
         {
 			if (powerState is StandardMario)
