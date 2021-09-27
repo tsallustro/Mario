@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GameObjects;
 
 namespace States
 {
@@ -23,7 +24,7 @@ namespace States
 
         public MarioPower()
         {
-            state = new StandardMario(this);
+            //state = new StandardMario(this);
         }
 
         //COMMON METHODS
@@ -31,9 +32,9 @@ namespace States
 
     public class StandardMario : IMarioPowerState
     {
-        private MarioPower mario;
+        private Mario mario;
 
-        public StandardMario(MarioPower mario)
+        public StandardMario(Mario mario)
         {
             this.mario = mario;
 
@@ -42,17 +43,17 @@ namespace States
 
         public void FireFlower()
         {
-            mario.state = new SuperMario(mario);
+            mario.SetPowerState(new FireMario(mario));
         }
 
         public void Mushroom()
         {
-            mario.state = new SuperMario(mario);
+            mario.SetPowerState(new SuperMario(mario));
         }
 
         public void TakeDamage()
         {
-            mario.state = new DeadMario(mario);
+            mario.SetPowerState(new DeadMario(mario));
         }
 
         public void SmallMario()
@@ -62,20 +63,20 @@ namespace States
 
         public void BigMario()
         {
-            mario.state = new SuperMario(mario);
+            mario.SetPowerState(new SuperMario(mario));
         }
 
         public void FlameMario()
         {
-            mario.state = new FireMario(mario);
+            mario.SetPowerState(new FireMario(mario));
         }
     }
 
     public class SuperMario : IMarioPowerState
     {
-        private MarioPower mario;
+        private Mario mario;
 
-        public SuperMario(MarioPower mario)
+        public SuperMario(Mario mario)
         {
             this.mario = mario;
 
@@ -84,7 +85,7 @@ namespace States
 
         public void FireFlower()
         {
-            mario.state = new FireMario(mario);
+            mario.SetPowerState(new FireMario(mario));
         }
 
         public void Mushroom()
@@ -94,12 +95,12 @@ namespace States
 
         public void TakeDamage()
         {
-            mario.state = new StandardMario(mario);
+            mario.SetPowerState(new StandardMario(mario));
         }
 
         public void SmallMario()
         {
-            mario.state = new StandardMario(mario);
+            mario.SetPowerState(new StandardMario(mario));
         }
 
         public void BigMario()
@@ -109,15 +110,15 @@ namespace States
 
         public void FlameMario()
         {
-            mario.state = new FireMario(mario);
+            mario.SetPowerState(new FireMario(mario));
         }
     }
 
     public class FireMario : IMarioPowerState
     {
-        private MarioPower mario;
+        private Mario mario;
 
-        public FireMario(MarioPower mario)
+        public FireMario(Mario mario)
         {
             this.mario = mario;
 
@@ -136,17 +137,17 @@ namespace States
 
         public void TakeDamage()
         {
-            mario.state = new SuperMario(mario);
+            mario.SetPowerState(new SuperMario(mario));
         }
 
         public void SmallMario()
         {
-            mario.state = new StandardMario(mario);
+            mario.SetPowerState(new StandardMario(mario));
         }
 
         public void BigMario()
         {
-            mario.state = new SuperMario(mario);
+            mario.SetPowerState(new SuperMario(mario));
         }
 
         public void FlameMario()
@@ -157,9 +158,9 @@ namespace States
 
     public class DeadMario : IMarioPowerState
     {
-        private MarioPower mario;
+        private Mario mario;
 
-        public DeadMario(MarioPower mario)
+        public DeadMario(Mario mario)
         {
             this.mario = mario;
 
