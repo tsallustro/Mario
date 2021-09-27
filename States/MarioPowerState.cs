@@ -18,18 +18,6 @@ namespace States
         void FlameMario();
     }
 
-    public class MarioPower
-    {
-        public IMarioPowerState state;
-
-        public MarioPower()
-        {
-            //state = new StandardMario(this);
-        }
-
-        //COMMON METHODS
-    }
-
     public class StandardMario : IMarioPowerState
     {
         private Mario mario;

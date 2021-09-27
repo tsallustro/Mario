@@ -14,16 +14,6 @@ namespace States
         //void DashOrThrowFireball();
     }
 
-    public class MarioAction
-    {
-        public IMarioActionState state;
-
-        public MarioAction(bool left)
-        {
-            //state = new IdleState(this, left);
-        }
-    }
-
     public class IdleState : IMarioActionState
     {
         private Mario mario;
