@@ -85,7 +85,7 @@ namespace Factories
 		{
 			if (standardIdle == null)
 			{
-				standardIdle = new Sprite(true, location, standardMarioSprites, 1, 14, 0, 0);
+				standardIdle = new Sprite(true, location, standardMarioSprites, 1, 15, 0, 0);
 				return standardIdle;
 			}
 			else return standardIdle;
@@ -95,7 +95,7 @@ namespace Factories
         {
 			if (standardCrouch == null)
 			{
-				standardCrouch = new Sprite(true, location, standardMarioSprites, 1, 14, 1, 1);
+				standardCrouch = new Sprite(true, location, standardMarioSprites, 1, 15, 1, 1);
 				return standardCrouch;
 			}
 			else return standardCrouch;
@@ -105,7 +105,7 @@ namespace Factories
 		{
 			if (standardRun == null)
 			{
-				standardRun = new Sprite(true, location, standardMarioSprites, 1, 14, 2, 4);
+				standardRun = new Sprite(true, location, standardMarioSprites, 1, 15, 2, 4);
 				return standardRun;
 			}
 			else return standardRun;
@@ -115,7 +115,7 @@ namespace Factories
         {
 			if (standardJump == null)
 			{
-				standardJump = new Sprite(true, location, standardMarioSprites, 1, 14, 5, 5);
+				standardJump = new Sprite(true, location, standardMarioSprites, 1, 15, 5, 5);
 				return standardJump;
 			}
 			else return standardJump;
@@ -125,7 +125,7 @@ namespace Factories
 		{
 			if (superIdle == null)
 			{
-				superIdle = new Sprite(true, location, superMarioSprites, 1, 14, 0, 0);
+				superIdle = new Sprite(true, location, superMarioSprites, 1, 15, 0, 0);
 				return superIdle;
 			}
 			else return superIdle;
@@ -135,7 +135,7 @@ namespace Factories
 		{
 			if (superCrouch == null)
 			{
-				superCrouch = new Sprite(true, location, superMarioSprites, 1, 14, 1, 1);
+				superCrouch = new Sprite(true, location, superMarioSprites, 1, 15, 1, 1);
 				return superCrouch;
 			}
 			else return superCrouch;
@@ -145,7 +145,7 @@ namespace Factories
 		{
 			if (superRun == null)
 			{
-				superRun = new Sprite(true, location, superMarioSprites, 1, 14, 2, 4);
+				superRun = new Sprite(true, location, superMarioSprites, 1, 15, 2, 4);
 				return superRun;
 			}
 			else return superRun;
@@ -155,7 +155,7 @@ namespace Factories
 		{
 			if (superJump == null)
 			{
-				superJump = new Sprite(true, location, superMarioSprites, 1, 14, 5, 5);
+				superJump = new Sprite(true, location, superMarioSprites, 1, 15, 5, 5);
 				return superJump;
 			}
 			else return superJump;
@@ -165,7 +165,7 @@ namespace Factories
 		{
 			if (fireIdle == null)
 			{
-				fireIdle = new Sprite(true, location, fireMarioSprites, 1, 14, 0, 0);
+				fireIdle = new Sprite(true, location, fireMarioSprites, 1, 15, 0, 0);
 				return fireIdle;
 			}
 			else return fireIdle;
@@ -175,7 +175,7 @@ namespace Factories
 		{
 			if (fireCrouch == null)
 			{
-				fireCrouch = new Sprite(true, location, fireMarioSprites, 1, 14, 1, 1);
+				fireCrouch = new Sprite(true, location, fireMarioSprites, 1, 15, 1, 1);
 				return fireCrouch;
 			}
 			else return fireCrouch;
@@ -185,7 +185,7 @@ namespace Factories
 		{
 			if (fireRun == null)
 			{
-				fireRun = new Sprite(true, location, fireMarioSprites, 1, 14, 2, 4);
+				fireRun = new Sprite(true, location, fireMarioSprites, 1, 15, 2, 4);
 				return fireRun;
 			}
 			else return fireRun;
@@ -195,7 +195,7 @@ namespace Factories
 		{
 			if (fireJump == null)
 			{
-				fireJump = new Sprite(true, location, fireMarioSprites, 1, 14, 5, 5);
+				fireJump = new Sprite(true, location, fireMarioSprites, 1, 15, 5, 5);
 				return fireJump;
 			}
 			else return fireJump;

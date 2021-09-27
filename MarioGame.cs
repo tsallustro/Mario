@@ -72,7 +72,6 @@ namespace Game1
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             arialSpriteFont = Content.Load<SpriteFont>("ArialSpriteFont");
-            Texture2D marioSpriteSheet = Content.Load<Texture2D>("MarioSpriteSheet");
 
             marioSpriteFactory.LoadTextures(this);
             goombaSpriteFactory.LoadTextures(this);

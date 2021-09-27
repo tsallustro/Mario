@@ -9,21 +9,21 @@ namespace Sprites
     public class IdlingMarioSprite : Sprite
     {
         public IdlingMarioSprite(Vector2 Location, MarioGame game)
-            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 0, 0)
+            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 15, 0, 0)
         {
         }
     }
         public class CrouchingMarioSprite : Sprite
     {
         public CrouchingMarioSprite(Vector2 Location, MarioGame game)
-            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 1, 1)
+            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 15, 1, 1)
         {
         }
     }
     public class WalkingMarioSprite : Sprite
     {
         public WalkingMarioSprite(Vector2 Location, MarioGame game)
-            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 2, 3)
+            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 15, 2, 3)
         {
         }
 
@@ -31,7 +31,7 @@ namespace Sprites
     public class RunningMarioSprite : Sprite
     {
         public RunningMarioSprite(Vector2 Location, MarioGame game)
-            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 3, 4)
+            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 15, 3, 4)
         {
         }
 
@@ -39,7 +39,7 @@ namespace Sprites
     public class JumpingMarioSprite : Sprite
     {
         public JumpingMarioSprite(Vector2 Location, MarioGame game)
-            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 3, 5)
+            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 15, 3, 5)
         {
         }
 
@@ -47,7 +47,7 @@ namespace Sprites
     public class FallingMarioSprite : Sprite
     {
         public FallingMarioSprite(Vector2 Location, MarioGame game)
-            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 12, 12)
+            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 15, 12, 12)
         {
         }
 
@@ -55,7 +55,7 @@ namespace Sprites
     public class DyingMarioSprite : Sprite
     {
         public DyingMarioSprite(Vector2 Location, MarioGame game)
-            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 14, 13, 13)
+            : base(true, Location, game.Content.Load<Texture2D>("Mario"), 7, 15, 13, 13)
         {
         }
 
