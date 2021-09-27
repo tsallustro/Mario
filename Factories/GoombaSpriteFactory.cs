@@ -14,6 +14,11 @@ namespace Factories
 
 		private static GoombaSpriteFactory factoryInstance = new GoombaSpriteFactory();
 
+		private ISprite idleGoomba;
+		private ISprite stompedGoomba;
+		private ISprite movingGoomba;
+		private ISprite deadGoomba;
+
 		public static GoombaSpriteFactory Instance
 		{
 			get
@@ -49,19 +54,39 @@ namespace Factories
 		}
 		public ISprite CreateIdleGoomba(Vector2 location)
 		{
-			return new Sprite(true, location, goombaSprites, 9, 15, 0, 0);
+			if(idleGoomba == null)
+            {
+				idleGoomba = new Sprite(true, location, goombaSprites, 9, 15, 0, 0);
+			    return idleGoomba;
+			}
+			else return idleGoomba;
 		}
 		public ISprite CreateMovingGoomba(Vector2 location)
 		{
-			return new Sprite(true, location, goombaSprites, 9, 15, 0, 1);
+			if (movingGoomba == null)
+			{
+				movingGoomba = new Sprite(true, location, goombaSprites, 9, 15, 0, 1);
+				return movingGoomba;
+			}
+			else return movingGoomba;
 		}
 		public ISprite CreateStompedGoomba(Vector2 location)
 		{
-			return new Sprite(true, location, goombaSprites, 9, 15, 2, 2);
+			if (stompedGoomba == null)
+			{
+				stompedGoomba = new Sprite(true, location, goombaSprites, 9, 15, 2, 2);
+				return stompedGoomba;
+			}
+			else return stompedGoomba;
 		}
 		public ISprite CreateDeadGoomba(Vector2 location)
 		{
-			return new Sprite(true, location, goombaSprites, 9, 15, 0, 0);
+			if (deadGoomba == null)
+			{
+				deadGoomba = new Sprite(true, location, goombaSprites, 9, 15, 0, 0);
+				return deadGoomba;
+			}
+			else return deadGoomba;
 		}
 	}
 }
