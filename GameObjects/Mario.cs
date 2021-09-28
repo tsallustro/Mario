@@ -14,11 +14,13 @@ namespace GameObjects
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
         private Vector2 velocity;
+        private Vector2 location;
 
         public Mario()
         {
             spriteFactory = MarioSpriteFactory.Instance;
-            sprite = spriteFactory.CreateStandardIdleMario(new Vector2(50, 225));
+            location = new Vector2(50, 225);
+            sprite = spriteFactory.CreateStandardIdleMario(location);
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
             velocity = new Vector2(0, 0);
@@ -48,45 +50,32 @@ namespace GameObjects
             if (this.actionState is JumpingState || this.actionState is FallingState)
             {
                 velocity.Y -= 1;
-
-
                 if (velocity.Y < 0 && this.actionState is JumpingState)
                 {
-                    this.SetActionState(spriteFactory.CreateStandardFallingMario(sprite.location));
-
+                    this.SetActionState(new FallingState(this, actionState.GetDirection()));
                 }
-                if (sprite.location.Y > Graphics.PreferredBackBufferHeight)
+                if (sprite.location.Y > Graphics.PreferredBackBufferHeight-16)
                 {
-                    velocity.Y = 0;
                     this.SetActionState(new IdleState(this, actionState.GetDirection()));
-                    sprite.location = new Vector2(sprite.location.X, Graphics.PreferredBackBufferHeight);
+                    velocity.Y = 0;
+                    location.Y = Graphics.PreferredBackBufferHeight - 20;
                 }
-
-
             }
             else
             {
                 velocity.Y = 0;
             }
-            sprite.location = sprite.location - velocity * timeElapsed;
+            location = location - velocity * timeElapsed;
 
-            sprite = spriteFactory.GetCurrentSprite(sprite.location, actionState, powerState);
-            sprite.Update();
-
-
-
-
-
-
-
-
-
+            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
+            System.Diagnostics.Debug.WriteLine("AS:" + actionState);
             sprite.Update();
         }
 
         //Draw Mario
         public void Draw(SpriteBatch spriteBatch)
         {
+            sprite.location = location;
             sprite.Draw(spriteBatch, actionState.GetDirection());
         }
 
@@ -103,12 +92,23 @@ namespace GameObjects
         public void Jump()
         {
             velocity.Y = 100;
+            this.SetActionState(new IdleState(this, actionState.GetDirection()));
             actionState.Jump();
+            if (this.actionState is CrouchingState)
+            {
+                this.SetActionState(new IdleState(this, actionState.GetDirection()));
+                velocity.Y = 0;
+            }
         }
 
         public void Crouch()
         {
             actionState.Crouch();
+            if (this.actionState is JumpingState || this.actionState is FallingState)
+            {
+                this.SetActionState(new IdleState(this, actionState.GetDirection()));
+                velocity.Y = 0;
+            }
         }
 
 
