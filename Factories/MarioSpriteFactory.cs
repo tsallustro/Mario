@@ -52,7 +52,6 @@ namespace Factories
 			standardMarioSprites = game.Content.Load<Texture2D>("StandardMario");
 			superMarioSprites = game.Content.Load<Texture2D>("SuperMario");
 			fireMarioSprites = game.Content.Load<Texture2D>("FireMario");
-			deadMarioSprite = game.Content.Load<Texture2D>("DeadMario");
 		}
 
 		/*
@@ -237,7 +236,7 @@ namespace Factories
         {
 			if (dead == null)
 			{
-				dead = new Sprite(true, location, deadMarioSprite, 1, 1, 0, 0);
+				dead = new Sprite(true, location, standardMarioSprites, 1, 15, 14, 14);
 				return dead;
 			}
 			else return dead;
