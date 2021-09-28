@@ -34,21 +34,6 @@ namespace Game1
         private IController gamepadController;
 
         //Game Objects
-        //Block States
-        private IBlockState questionBlockState;
-        private IBlockState usedBlockState;
-        private IBlockState brickBlockState;
-        private IBlockState floorBlockState;
-        private IBlockState stairBlockState;
-        private IBlockState hiddenBlockState;
-
-        //Item States
-        private IItemState coinState;
-        private IItemState superMushroomState;
-        private IItemState oneUpMushroomState;
-        private IItemState fireFlowerState;
-        private IItemState starState;
-
         //Enemy objects
         private IEnemy goomba;
         private IEnemy koopaTroopa;
@@ -64,12 +49,6 @@ namespace Game1
         private IBlock floorBlock;
         private IBlock stairBlock;
         private IBlock hiddenBlock;
-
-        //Block objects
-        /*private IBlock testBrickBlock;
-        private IBlock testQuestionBlock;
-        private IBlock testHiddenBlock;
-        private IBlock block;*/
 
         //Item objects
         private IItem item;
@@ -135,11 +114,6 @@ namespace Game1
             stairBlock = new Block(new Vector2(400, 200));
             hiddenBlock = new Block(new Vector2(450, 200));
 
-            /*block = new Block(new Vector2(25,25));
-            testBrickBlock = new Block(new Vector2(100, 400));
-            testQuestionBlock = new Block(new Vector2(200, 400));
-            testHiddenBlock = new Block(new Vector2(300, 400));*/
-
             item = new Item(new Vector2(0, 0));
             coin = new Item(new Vector2(100, 50));
             superMushroom = new Item(new Vector2(150, 50));
@@ -154,11 +128,6 @@ namespace Game1
             floorBlock.SetBlockState(new FloorBlockState(floorBlock));
             stairBlock.SetBlockState(new StairBlockState(stairBlock));
             hiddenBlock.SetBlockState(new HiddenBlockState(hiddenBlock));
-
-            // Set changing block states 
-            /*testBrickBlock.SetBlockState(brickBlockState);
-            testQuestionBlock.SetBlockState(questionBlockState);
-            testHiddenBlock.SetBlockState(hiddenBlockState);*/
 
             // Set item states
             coin.SetItemState(new CoinState(item));
@@ -232,10 +201,6 @@ namespace Game1
             stairBlock.Update();
             hiddenBlock.Update();
 
-            /*testBrickBlock.Update();
-            testQuestionBlock.Update();
-            testHiddenBlock.Update();*/
-
             coin.Update();
             superMushroom.Update();
             oneUpMushroom.Update();
@@ -261,10 +226,6 @@ namespace Game1
             floorBlock.Draw(spriteBatch);
             stairBlock.Draw(spriteBatch);
             hiddenBlock.Draw(spriteBatch);
-
-            /*testBrickBlock.Draw(spriteBatch);
-            testQuestionBlock.Draw(spriteBatch);
-            testHiddenBlock.Draw(spriteBatch);*/
 
             coin.Draw(spriteBatch);
             superMushroom.Draw(spriteBatch);
