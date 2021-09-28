@@ -97,7 +97,7 @@ namespace Game1
             itemSpriteFactory.LoadTextures(this);
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
-            Texture2D blockSprites = Content.Load<Texture2D>("BlocksV2");
+            Texture2D blockSprites = Content.Load<Texture2D>("BlocksV3");
 
             // Visuals for Sprint 1
             mario = new Mario(new Vector2(50, 225));

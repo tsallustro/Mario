@@ -54,7 +54,7 @@ namespace Factories
 		{
 			if (questionSprite == null)
             {
-				questionSprite = new Sprite(true, location, blockSprites, 1, 8, 4, 5);
+				questionSprite = new Sprite(true, location, blockSprites, 1, 9, 4, 5);
 				return questionSprite;
 			} else
             {
@@ -64,37 +64,37 @@ namespace Factories
 
 		public ISprite CreateUsedBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 8, 6, 6);
+			return new Sprite(true, location, blockSprites, 1, 9, 6, 6);
 		}
 
 		public ISprite CreateBrickBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 8, 0, 0);
+			return new Sprite(true, location, blockSprites, 1, 9, 0, 0);
 		}
 
 		public ISprite CreateFloorBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 8, 2, 2);
+			return new Sprite(true, location, blockSprites, 1, 9, 7, 7);
         }
 
 		public ISprite CreateStairBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 8, 3, 3);
+			return new Sprite(true, location, blockSprites, 1, 9, 3, 3);
         }
 
 		public ISprite CreateHiddenBlock(Vector2 location)
 		{
-			return new Sprite(false, location, blockSprites, 1, 8, 7, 7);
+			return new Sprite(false, location, blockSprites, 1, 9, 8, 8);
 		}
 
 		public ISprite CreateBumpedBrickBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 8, 0, 0);
+			return new Sprite(true, location, blockSprites, 1, 9, 0, 0);
         }
 
 		public ISprite CreateBrokenBrickBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 8, 1, 1);
+			return new Sprite(true, location, blockSprites, 1, 9, 1, 1);
         }	
 	}
 }
