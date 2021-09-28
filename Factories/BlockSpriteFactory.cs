@@ -39,7 +39,6 @@ namespace Factories
 		public void LoadTextures(Game game)
 		{
 			blockSprites = game.Content.Load<Texture2D>("Blocks");
-
 		}
 
 		/*
@@ -52,32 +51,19 @@ namespace Factories
 			if (blockState is BrickBlockState)
 			{
 				return CreateBrickBlock(location);
-			}
-			else if (blockState is BumpedBrickBlockState)
-			{
-				return CreateBumpedBrickBlock(location);
-			}
-			else if (blockState is BrokenBrickBlockState)
-			{
-				return CreateBrokenBrickBlock(location);
-			}
-			else if (blockState is QuestionBlockState)
+			}else if (blockState is QuestionBlockState)
 			{
 				return CreateQuestionBlock(location);
-			}
-			else if (blockState is UsedBlockState)
+			}else if (blockState is UsedBlockState)
 			{
 				return CreateUsedBlock(location);
-			}
-			else if (blockState is HiddenBlockState)
+			}else if (blockState is HiddenBlockState)
 			{
 				return CreateHiddenBlock(location);
-			}
-			else if (blockState is FloorBlockState)
+			}else if (blockState is FloorBlockState)
 			{
 				return CreateFloorBlock(location);
-			}
-			else
+			}else
 			{
 				return CreateBrickBlock(location);
 			}
@@ -97,17 +83,6 @@ namespace Factories
 		{
 			if (brickBlock == null)
 			{
-
-				if (i < 5)
-				{
-					location.Y += 1;
-					brickBlock = new Sprite(true, location, blockSprites, 1, 11, 0, 0);
-					i++;
-				}
-				else if (i > 5)
-				{
-
-				}
 				brickBlock = new Sprite(true, location, blockSprites, 1, 11, 0, 0);
 				return brickBlock;
 			}
@@ -165,7 +140,7 @@ namespace Factories
 		{
 			if (hiddenBlock == null)
 			{
-				hiddenBlock = new Sprite(true, location, blockSprites, 1, 11, 10, 10);
+				hiddenBlock = new Sprite(false, location, blockSprites, 1, 11, 10, 10);
 				return hiddenBlock;
 			}
 			else return hiddenBlock;

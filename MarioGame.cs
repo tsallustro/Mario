@@ -105,10 +105,10 @@ namespace Game1
 
             mario = new Mario();
             goomba = new Goomba();
-            brickBlock = new Block();
-            questionBlock = new Block();
-            hiddenBlock = new Block();
-            block = new Block();
+            brickBlock = new Block(new Vector2(100, 200));
+            questionBlock = new Block(new Vector2(200, 200));
+            hiddenBlock = new Block(new Vector2(300, 200));
+            block = new Block(new Vector2(0,0));
 
             //Set each blocks' states
             brickBlockState = new BrickBlockState(block);
@@ -118,9 +118,9 @@ namespace Game1
             questionBlock.SetBlockState(questoinBlockState);
             hiddenBlock.SetBlockState(hiddenBlockState);
             //Set block locations
-            brickBlock.setBlockLocation(new Vector2(250, 200));
-            questionBlock.setBlockLocation(new Vector2(300, 200));
-            hiddenBlock.setBlockLocation(new Vector2(500, 200));
+            brickBlock.SetBlockLocation(new Vector2(100, 200));
+            questionBlock.SetBlockLocation(new Vector2(200, 200));
+            hiddenBlock.SetBlockLocation(new Vector2(300, 200));
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);

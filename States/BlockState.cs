@@ -13,7 +13,6 @@ namespace States
     public class BrickBlockState : IBlockState
     {
         private Block block;
-        private Mario mario;
 
         public BrickBlockState(Block block)
         {
@@ -21,10 +20,6 @@ namespace States
         }
 
         public void Bump()
-        {
-            block.SetBlockState(new BumpedBrickBlockState(block));
-        }
-        public void BumpBump()
         {
             block.SetBlockState(new BrokenBrickBlockState(block));
         }

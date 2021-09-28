@@ -15,16 +15,16 @@ namespace GameObjects
         private IBlockState blockState;
         private BlockSpriteFactory spriteFactory;
 
-        public Block()
+        public Block(Vector2 position)
         {
             spriteFactory = BlockSpriteFactory.Instance;
-            sprite = spriteFactory.CreateBrickBlock(new Vector2(300, 100));
+            sprite = spriteFactory.CreateBrickBlock(position);
             blockState = new BrickBlockState(this);
         }
         //Sets location of the block
-        public void setBlockLocation(Vector2 Location)
+        public void SetBlockLocation(Vector2 position)
         {
-            this.sprite.location = Location;
+            this.sprite.location = position;
         }
         public IBlockState GetBlockState()
         {
