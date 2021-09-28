@@ -148,12 +148,12 @@ namespace Game1
             star = new Item(new Vector2(250, 50));
 
             // Set obstacle states
-            questionBlockState = new QuestionBlockState(block);
-            usedBlockState = new UsedBlockState(block);
-            brickBlockState = new BrickBlockState(block);
-            floorBlockState = new FloorBlockState(block);
-            stairBlockState = new StairBlockState(block);
-            hiddenBlockState = new HiddenBlockState(block);
+            questionBlockState = new QuestionBlockState(questionBlock);
+            usedBlockState = new UsedBlockState(usedBlock);
+            brickBlockState = new BrickBlockState(brickBlock);
+            floorBlockState = new FloorBlockState(floorBlock);
+            stairBlockState = new StairBlockState(stairBlock);
+            hiddenBlockState = new HiddenBlockState(hiddenBlock);
 
             questionBlock.SetBlockState(questionBlockState);
             usedBlock.SetBlockState(usedBlockState);
