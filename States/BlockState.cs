@@ -58,11 +58,11 @@ namespace States
         }
     }
 
-    public class QuestionBlock : IBlockState
+    public class QuestionBlockState : IBlockState
     {
         private Block block;
 
-        public QuestionBlock(Block block)
+        public QuestionBlockState(Block block)
         {
             this.block = block;
         }
@@ -87,11 +87,11 @@ namespace States
         }
     }
 
-    public class HiddenBlock : IBlockState
+    public class HiddenBlockState : IBlockState
     {
         private Block block;
 
-        public HiddenBlock(Block block)
+        public HiddenBlockState(Block block)
         {
             this.block = block;
         }
@@ -103,7 +103,7 @@ namespace States
             //Do some stuff on bump
         }
     }
-    public class FloorBlock : IBlockState
+    public class FloorBlockState : IBlockState
     {
         private Block block;
 
