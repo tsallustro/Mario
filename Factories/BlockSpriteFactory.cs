@@ -11,6 +11,7 @@ namespace Factories
 	public class BlockSpriteFactory
 	{
 		private Texture2D blockSprites;
+		private ISprite questionSprite;
 
 		public BlockSpriteFactory(Texture2D blockSprites)
 		{
@@ -51,7 +52,14 @@ namespace Factories
 
 		public ISprite CreateQuestionBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 8, 4, 5);
+			if (questionSprite == null)
+            {
+				questionSprite = new Sprite(true, location, blockSprites, 1, 8, 4, 5);
+				return questionSprite;
+			} else
+            {
+				return questionSprite;
+            }
 		}
 
 		public ISprite CreateUsedBlock(Vector2 location)
