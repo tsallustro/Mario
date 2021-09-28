@@ -21,14 +21,17 @@ namespace Factories
 		private ISprite standardIdle;
 		private ISprite standardCrouch;
 		private ISprite standardRun;
+		private ISprite standardFall;
 		private ISprite standardJump;
 		private ISprite superIdle;
 		private ISprite superCrouch;
 		private ISprite superRun;
+		private ISprite superFall;
 		private ISprite superJump;
 		private ISprite fireIdle;
 		private ISprite fireCrouch;
 		private ISprite fireRun;
+		private ISprite fireFall;
 		private ISprite fireJump;
 		private ISprite dead;
 
@@ -59,23 +62,28 @@ namespace Factories
 		public ISprite GetCurrentSprite(Vector2 location, IMarioActionState actionState, IMarioPowerState powerState)
         {
 			if (powerState is StandardMario)
-            {
+			{
 				if (actionState is IdleState) return CreateStandardIdleMario(location);
 				else if (actionState is CrouchingState) return CreateStandardCrouchingMario(location);
 				else if (actionState is RunningState) return CreateStandardRunningMario(location);
 				else if (actionState is JumpingState) return CreateStandardJumpingMario(location);
-			} else if (powerState is SuperMario)
-            {
+				else if (actionState is FallingState) return CreateStandardFallingMario(location);
+			}
+			else if (powerState is SuperMario)
+			{
 				if (actionState is IdleState) return CreateSuperIdleMario(location);
 				else if (actionState is CrouchingState) return CreateSuperCrouchingMario(location);
 				else if (actionState is RunningState) return CreateSuperRunningMario(location);
 				else if (actionState is JumpingState) return CreateSuperJumpingMario(location);
-			} else if (powerState is FireMario)
-            {
+				else if (actionState is FallingState) return CreateSuperFallingMario(location);
+			}
+			else if (powerState is FireMario)
+			{
 				if (actionState is IdleState) return CreateFireIdleMario(location);
 				else if (actionState is CrouchingState) return CreateFireCrouchingMario(location);
 				else if (actionState is RunningState) return CreateFireRunningMario(location);
 				else if (actionState is JumpingState) return CreateFireJumpingMario(location);
+				else if (actionState is FallingState) return CreateFireFallingMario(location);
 			}
 
 			return CreateDeadMario(location);
@@ -109,6 +117,16 @@ namespace Factories
 				return standardRun;
 			}
 			else return standardRun;
+		}
+
+		public ISprite CreateStandardFallingMario(Vector2 location)
+		{
+			if (standardFall == null)
+			{
+				standardFall = new Sprite(true, location, standardMarioSprites, 1, 15, 5, 5);
+				return standardFall;
+			}
+			else return standardFall;
 		}
 
 		public ISprite CreateStandardJumpingMario(Vector2 location)
@@ -151,6 +169,15 @@ namespace Factories
 			else return superRun;
 		}
 
+		public ISprite CreateSuperFallingMario(Vector2 location)
+		{
+			if (superFall == null)
+			{
+				superFall = new Sprite(true, location, standardMarioSprites, 1, 15, 5, 5);
+				return superFall;
+			}
+			else return superFall;
+		}
 		public ISprite CreateSuperJumpingMario(Vector2 location)
 		{
 			if (superJump == null)
@@ -189,6 +216,16 @@ namespace Factories
 				return fireRun;
 			}
 			else return fireRun;
+		}
+
+		public ISprite CreateFireFallingMario(Vector2 location)
+		{
+			if (fireFall == null)
+			{
+				fireFall = new Sprite(true, location, standardMarioSprites, 1, 15, 5, 5);
+				return fireFall;
+			}
+			else return fireFall;
 		}
 
 		public ISprite CreateFireJumpingMario(Vector2 location)
