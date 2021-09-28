@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using States;
 using Sprites;
-using Factories;
+using States;
+
 
 namespace GameObjects
 {
@@ -15,7 +13,7 @@ namespace GameObjects
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
-        private int velocity;
+        private Vector2 velocity;
 
         public Mario()
         {
@@ -23,7 +21,7 @@ namespace GameObjects
             sprite = spriteFactory.CreateStandardIdleMario(new Vector2(50, 225));
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
-            velocity = 0;
+            velocity = new Vector2(0, 0);
         }
 
         public IMarioPowerState GetPowerState()
@@ -42,9 +40,23 @@ namespace GameObjects
         }
 
         //Update all of Mario's members
-        public void Update()
+        public void Update(GameTime GameTime)
         {
+            float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
             sprite = spriteFactory.GetCurrentSprite(sprite.location, actionState, powerState);
+
+            // Velocity calculations and state changes depending on velocity
+            
+            if (velocity.Y > 0) 
+            {
+                velocity.Y -= 1 * timeElapsed;
+            } else {
+                if (this.actionState is JumpingState)
+                    this.SetActionState(new FallingState(this, actionState.GetDirection()));
+                velocity.Y += 1 * timeElapsed;
+            }
+
+            sprite.location = sprite.location + velocity * timeElapsed;
             sprite.Update();
         }
 
@@ -74,6 +86,6 @@ namespace GameObjects
             actionState.Crouch();
         }
 
-        
+
     }
 }

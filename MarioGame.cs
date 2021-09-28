@@ -136,7 +136,7 @@ namespace Game1
             keyboardController.Update();
 
             //Update the Game Objects
-            mario.Update();
+            mario.Update(gameTime);
 
             goomba.Update();
 
