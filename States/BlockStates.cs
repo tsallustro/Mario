@@ -5,11 +5,6 @@ using GameObjects;
 
 namespace States
 {
-    public interface IBlockState
-    {
-        public void Bump();
-    }
-
     public class QuestionBlockState : IBlockState
     {
         private IBlock block;
