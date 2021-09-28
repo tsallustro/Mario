@@ -40,29 +40,46 @@ namespace GameObjects
         }
 
         //Update all of Mario's members
-        public void Update(GameTime GameTime)
+        public void Update(GameTime GameTime, GraphicsDeviceManager Graphics)
         {
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
 
             // Velocity calculations and state changes depending on velocity
-            if (velocity.Y > 0 && this.actionState is JumpingState) 
+            if (this.actionState is JumpingState || this.actionState is FallingState)
             {
                 velocity.Y -= 1;
-            } else {
-                if (this.actionState is JumpingState)
+
+
+                if (velocity.Y < 0 && this.actionState is JumpingState)
                 {
-                    this.SetActionState(new FallingState(this, actionState.GetDirection()));
-                    velocity.Y -= 1;
+                    this.SetActionState(spriteFactory.CreateStandardFallingMario(sprite.location));
+
                 }
-                if (this.actionState is FallingState)
+                if (sprite.location.Y > Graphics.PreferredBackBufferHeight)
                 {
-                    velocity.Y -= 1;
-                    // TODO: Cycle animation
+                    velocity.Y = 0;
+                    this.SetActionState(new IdleState(this, actionState.GetDirection()));
+                    sprite.location = new Vector2(sprite.location.X, Graphics.PreferredBackBufferHeight);
                 }
+
+
+            }
+            else
+            {
+                velocity.Y = 0;
             }
             sprite.location = sprite.location - velocity * timeElapsed;
 
             sprite = spriteFactory.GetCurrentSprite(sprite.location, actionState, powerState);
+            sprite.Update();
+
+
+
+
+
+
+
+
 
             sprite.Update();
         }

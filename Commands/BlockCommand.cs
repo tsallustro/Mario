@@ -8,7 +8,8 @@ namespace Commands
     abstract class BlockCommand : ICommand 
     {
 		protected Block block;
-		public BlockCommand(Block block)
+
+		protected BlockCommand(Block block)
 		{
 			this.block = block;
 		}
