@@ -80,7 +80,7 @@ namespace Factories
 		{
 			if (usedBlock == null)
 			{
-				usedBlock = new Sprite(true, location, blockSprites, 1, 11, 9, 9);
+				usedBlock = new Sprite(true, location, blockSprites, 1, 11, 8, 8);
 				return usedBlock;
 			}
 			else return usedBlock;
@@ -117,7 +117,7 @@ namespace Factories
 		{
 			if (hiddenBlock == null)
 			{
-				hiddenBlock = new Sprite(false, location, blockSprites, 1, 11, 10, 10);
+				hiddenBlock = new Sprite(false, location, blockSprites, 1, 11, 9, 9);
 				return hiddenBlock;
 			}
 			else return hiddenBlock;
