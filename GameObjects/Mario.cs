@@ -15,6 +15,7 @@ namespace GameObjects
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
+        private int velocity;
 
         public Mario()
         {
@@ -22,6 +23,7 @@ namespace GameObjects
             sprite = spriteFactory.CreateStandardIdleMario(new Vector2(50, 225));
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
+            velocity = 0;
         }
 
         public IMarioPowerState GetPowerState()
@@ -72,6 +74,6 @@ namespace GameObjects
             actionState.Crouch();
         }
 
-        //This class will need more methods as the project grows and the needs/abilities of Mario change. -Tony
+        
     }
 }
