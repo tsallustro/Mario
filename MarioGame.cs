@@ -14,17 +14,6 @@ namespace Game1
     public class MarioGame : Game
     {
         
-        //Temporary for debugging. Needs to be deleted prior to submit.
-        static private MarioGame _sprint;
-
-        public static MarioGame Sprint
-        {
-            get
-            {
-                return _sprint;
-            }
-        }
-
         //Monogame Objects
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -84,7 +73,6 @@ namespace Game1
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
 
             this.Window.Title = "Cornet Mario Game";
-            _sprint = this;
             base.Initialize();
         }
 
