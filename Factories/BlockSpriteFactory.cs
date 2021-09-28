@@ -27,7 +27,7 @@ namespace Factories
 
 		public void LoadTextures(Game game)
 		{
-			blockSprites = game.Content.Load<Texture2D>("Blocks");
+			blockSprites = game.Content.Load<Texture2D>("BlocksV2");
 		}
 
 		/*
@@ -60,42 +60,42 @@ namespace Factories
 
 		public ISprite CreateQuestionBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 11, 7, 8);
+			return new Sprite(true, location, blockSprites, 1, 8, 4, 5);
 		}
 
 		public ISprite CreateUsedBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 11, 8, 8);
+			return new Sprite(true, location, blockSprites, 1, 8, 6, 6);
 		}
 
 		public ISprite CreateBrickBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 11, 0, 0);
+			return new Sprite(true, location, blockSprites, 1, 8, 0, 0);
 		}
 
 		public ISprite CreateFloorBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 11, 5, 5);
+			return new Sprite(true, location, blockSprites, 1, 8, 2, 2);
         }
 
 		public ISprite CreateStairBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 11, 3, 3);
+			return new Sprite(true, location, blockSprites, 1, 8, 3, 3);
         }
 
 		public ISprite CreateHiddenBlock(Vector2 location)
 		{
-			return new Sprite(false, location, blockSprites, 1, 11, 9, 9);
+			return new Sprite(false, location, blockSprites, 1, 8, 7, 7);
 		}
 
 		public ISprite CreateBumpedBrickBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 11, 0, 0);
+			return new Sprite(true, location, blockSprites, 1, 8, 0, 0);
         }
 
 		public ISprite CreateBrokenBrickBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 11, 1, 1);
+			return new Sprite(true, location, blockSprites, 1, 8, 1, 1);
         }	
 	}
 }
