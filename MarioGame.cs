@@ -117,6 +117,7 @@ namespace Game1
             brickBlock.SetBlockState(brickBlockState);
             questionBlock.SetBlockState(questoinBlockState);
             hiddenBlock.SetBlockState(hiddenBlockState);
+
             //Set block locations
             brickBlock.SetBlockLocation(new Vector2(100, 200));
             questionBlock.SetBlockLocation(new Vector2(200, 200));
@@ -173,7 +174,6 @@ namespace Game1
             brickBlock.Update();
             hiddenBlock.Update();
 
-
             flower.Update();
             coin.Update();
             mushroom.Update();
@@ -195,7 +195,6 @@ namespace Game1
             brickBlock.Draw(spriteBatch);
             questionBlock.Draw(spriteBatch);
             hiddenBlock.Draw(spriteBatch);
-
 
             //erase later
             flower.Draw(spriteBatch, true);

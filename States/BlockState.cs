@@ -102,7 +102,7 @@ namespace States
     {
         private Block block;
 
-        public FloorBlockState(Block block)
+        public void FloorBlock(Block block)
         {
             this.block = block;
         }
