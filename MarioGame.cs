@@ -110,9 +110,9 @@ namespace Game1
             questionBlock = new Block(new Vector2(100, 200));
             usedBlock = new Block(new Vector2(150, 200));
             brickBlock = new Block(new Vector2(200, 200));
-            floorBlock = new Block(new Vector2(350, 200));
-            stairBlock = new Block(new Vector2(400, 200));
-            hiddenBlock = new Block(new Vector2(450, 200));
+            floorBlock = new Block(new Vector2(250, 200));
+            stairBlock = new Block(new Vector2(300, 200));
+            hiddenBlock = new Block(new Vector2(350, 200));
 
             item = new Item(new Vector2(0, 0));
             coin = new Item(new Vector2(100, 50));
