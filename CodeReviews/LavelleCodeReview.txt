@@ -6,7 +6,7 @@ Sprint #: 1
 
 File Reviewed: MarioSpriteFactory.cs
 
-Author of File Reviewed: 25 minutes
+Author of File Reviewed: Jesse Fowler
 
 Code Quality:
 	MarioSpriteFactory.cs is an excellent balance that includes low coupling and high cohesion.
