@@ -46,17 +46,23 @@ namespace GameObjects
             sprite = spriteFactory.GetCurrentSprite(sprite.location, actionState, powerState);
 
             // Velocity calculations and state changes depending on velocity
-            
-            if (velocity.Y > 0) 
+            if (velocity.Y > 0 && this.actionState is JumpingState) 
             {
-                velocity.Y -= 1 * timeElapsed;
+                velocity.Y -= 1;
             } else {
                 if (this.actionState is JumpingState)
+                {
                     this.SetActionState(new FallingState(this, actionState.GetDirection()));
-                velocity.Y += 1 * timeElapsed;
+                    velocity.Y -= 1;
+                }
+                if (this.actionState is FallingState)
+                {
+                    velocity.Y -= 1;
+                    // TODO: Cycle animation
+                }
             }
-
-            sprite.location = sprite.location + velocity * timeElapsed;
+            sprite.location = sprite.location - velocity * timeElapsed;
+            
             sprite.Update();
         }
 
@@ -78,6 +84,7 @@ namespace GameObjects
 
         public void Jump()
         {
+            velocity.Y = 100;
             actionState.Jump();
         }
 
