@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using GameObjects;
-using States;
 
 namespace Commands
 {
@@ -16,21 +15,4 @@ namespace Commands
 
 		public abstract void Execute(int pressType);
 	}
-
-	class BlockBumpCommand : BlockCommand
-	{
-		public BlockBumpCommand(Block block)
-			:base(block)
-		{
-		}
-
-		public override void Execute(int pressType)
-        {
-			if (pressType == 1)
-			{
-				block.Bump();
-			}
-		}
-	}
-
 }
