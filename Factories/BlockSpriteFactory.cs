@@ -61,7 +61,7 @@ namespace Factories
 			{
 				return CreateBrokenBrickBlock(location);
 			}
-			else if (blockState is QuestionBlock)
+			else if (blockState is QuestionBlockState)
 			{
 				return CreateQuestionBlock(location);
 			}
@@ -69,11 +69,11 @@ namespace Factories
 			{
 				return CreateUsedBlock(location);
 			}
-			else if (blockState is HiddenBlock)
+			else if (blockState is HiddenBlockState)
 			{
 				return CreateHiddenBlock(location);
 			}
-			else if (blockState is FloorBlock)
+			else if (blockState is FloorBlockState)
 			{
 				return CreateFloorBlock(location);
 			}

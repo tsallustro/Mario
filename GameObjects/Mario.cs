@@ -52,7 +52,7 @@ namespace GameObjects
 
                 if (velocity.Y < 0 && this.actionState is JumpingState)
                 {
-                    this.SetActionState(spriteFactory.CreateStandardFallingMario(sprite.location));
+                    this.SetActionState(new FallingState(this, actionState.GetDirection()));
 
                 }
                 if (sprite.location.Y > Graphics.PreferredBackBufferHeight)

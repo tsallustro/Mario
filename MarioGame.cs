@@ -148,9 +148,9 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.X, new MovingGoombaCommand(goomba));
             keyboardController.AddMapping((int)Keys.C, new StompedGoombaCommand(goomba));
 
-            keyboardController.AddMapping((int)Keys.OemBackslash, new BlockBumpCommand(brickBlock));
-            keyboardController.AddMapping((int)Keys.B, new BlockBumpCommand(questionBlock));
-            keyboardController.AddMapping((int)Keys.H, new BlockBumpCommand(hiddenBlock));
+            keyboardController.AddMapping((int)Keys.OemBackslash, new BumpCommand(brickBlock));
+            keyboardController.AddMapping((int)Keys.B, new BumpCommand(questionBlock));
+            keyboardController.AddMapping((int)Keys.H, new BumpCommand(hiddenBlock));
 
             
 
@@ -167,12 +167,11 @@ namespace Game1
             keyboardController.Update();
 
             //Update the Game Objects
-            mario.Update(gameTime);
+            mario.Update(gameTime, graphics);
             goomba.Update(); 
             questionBlock.Update();
             brickBlock.Update();
             hiddenBlock.Update();
-
 
             flower.Update();
             coin.Update();

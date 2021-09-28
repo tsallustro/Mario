@@ -107,7 +107,7 @@ namespace States
     {
         private Block block;
 
-        public FloorBlock(Block block)
+        public void FloorBlock(Block block)
         {
             this.block = block;
         }
