@@ -1,0 +1,30 @@
+Author: Michael Lavelle
+
+Date: September 28th, 2021
+
+Sprint #: 1
+
+File Reviewed: MarioSpriteFactory.cs
+
+Author of File Reviewed: 25 minutes
+
+Code Quality:
+	MarioSpriteFactory.cs is an excellent balance that includes low coupling and high cohesion.
+	The code is a bit complex with the consecutive if blocks, but is easily understood to the
+	human eye that understands the task, so I believe that it is simple in reality and needs
+	no obvious change. Bugs have and still could arise from the "conditionless" return of the
+	dead mario power state. The multiple return statements cause no problems, and there is
+	nothing technically wrong with them, but years of "single return statement from a method
+	whenever possible" make me wary of them. The GetCurrentSprite function is well written and
+	does its task well, but seems like it might cause errors if not carefully used and should
+	be checked first when problems relating to the MarioSpriteFactory arise.
+
+Time Length of Review:
+
+Hypothetical Change: 
+	Since the jumping state and falling state share the same sprite, so they both call the method
+	CreateStandardJumpingMario to create the sprite. I suggest possibly utilizing the
+	currently unused CreateStandardFallingMario functions that still technically creates the same
+	sprite image, but allows for easy possible future changes if the falling sprite ever differs
+	from the jumping sprite.
+
