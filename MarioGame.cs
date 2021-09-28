@@ -3,7 +3,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Sprites;
 using Controllers;
 using Commands;
 using GameObjects;
@@ -123,7 +122,7 @@ namespace Game1
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
 
-            //Visuals for Sprint 1
+            // Visuals for Sprint 1
             mario = new Mario(new Vector2(50, 225));
             goomba = new Goomba(new Vector2(300, 100));
             koopaTroopa = new KoopaTroopa(new Vector2(350, 100));
@@ -148,7 +147,7 @@ namespace Game1
             fireFlower = new Item(new Vector2(50, 50));
             star = new Item(new Vector2(250, 50));
 
-            //Set obstacle states
+            // Set obstacle states
             questionBlockState = new QuestionBlockState(block);
             usedBlockState = new UsedBlockState(block);
             brickBlockState = new BrickBlockState(block);
@@ -163,12 +162,12 @@ namespace Game1
             stairBlock.SetBlockState(stairBlockState);
             hiddenBlock.SetBlockState(hiddenBlockState);
 
-            //Set changing block states 
+            // Set changing block states 
             testBrickBlock.SetBlockState(brickBlockState);
             testQuestionBlock.SetBlockState(questionBlockState);
             testHiddenBlock.SetBlockState(hiddenBlockState);
 
-            //Set item states
+            // Set item states
             coinState = new CoinState(item);
             superMushroomState = new SuperMushroomState(item);
             oneUpMushroomState = new OneUpMushroomState(item);
@@ -188,6 +187,7 @@ namespace Game1
             ICommand crouch = new CrouchCommand(mario);
 
             // Initialize keyboard controller mappings
+            // Action commands
             keyboardController.AddMapping((int)Keys.Q, new QuitCommand(this));
             keyboardController.AddMapping((int)Keys.Left, moveLeft);
             keyboardController.AddMapping((int)Keys.A, moveLeft);
@@ -198,23 +198,24 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.Down, crouch);
             keyboardController.AddMapping((int)Keys.S, crouch);
 
+            // Power-up commands
             keyboardController.AddMapping((int)Keys.Y, new StandardMarioCommand(mario));
             keyboardController.AddMapping((int)Keys.U, new SuperMarioCommand(mario));
             keyboardController.AddMapping((int)Keys.I, new FireMarioCommand(mario));
             keyboardController.AddMapping((int)Keys.O, new DeadMarioCommand(mario));
 
+            // Enemy commands
             keyboardController.AddMapping((int)Keys.Z, new IdleGoombaCommand(goomba));
             keyboardController.AddMapping((int)Keys.X, new MovingGoombaCommand(goomba));
             keyboardController.AddMapping((int)Keys.C, new StompedGoombaCommand(goomba));
-
             keyboardController.AddMapping((int)Keys.V, new IdleKoopaTroopaCommand(koopaTroopa));
             keyboardController.AddMapping((int)Keys.N, new MovingKoopaTroopaCommand(koopaTroopa));
             keyboardController.AddMapping((int)Keys.M, new StompedKoopaTroopaCommand(koopaTroopa));
-
             keyboardController.AddMapping((int)Keys.J, new IdleRedKoopaTroopaCommand(redKoopaTroopa));
             keyboardController.AddMapping((int)Keys.K, new MovingRedKoopaTroopaCommand(redKoopaTroopa));
             keyboardController.AddMapping((int)Keys.L, new StompedRedKoopaTroopaCommand(redKoopaTroopa));
 
+            // Brick commands
             keyboardController.AddMapping((int)Keys.OemBackslash, new BumpCommand(testBrickBlock));
             keyboardController.AddMapping((int)Keys.B, new BumpCommand(testQuestionBlock));
             keyboardController.AddMapping((int)Keys.H, new BumpCommand(testHiddenBlock));
