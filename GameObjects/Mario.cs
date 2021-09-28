@@ -14,11 +14,13 @@ namespace GameObjects
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
         private Vector2 velocity;
+        private Vector2 location;
 
-        public Mario()
+        public Mario(Vector2 position)
         {
             spriteFactory = MarioSpriteFactory.Instance;
-            sprite = spriteFactory.CreateStandardIdleMario(new Vector2(50, 225));
+            this.location = position;
+            sprite = spriteFactory.CreateStandardIdleMario(location);
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
             velocity = new Vector2(0, 0);
