@@ -42,18 +42,22 @@ namespace Game1
         private IBlockState floorBlockState;
         private IBlockState stairBlockState;
         private IBlockState hiddenBlockState;
+
         //Item States
         private IItemState coinState;
         private IItemState superMushroomState;
         private IItemState oneUpMushroomState;
         private IItemState fireFlowerState;
         private IItemState starState;
+
         //Enemy objects
         private IEnemy goomba;
         private IEnemy koopaTroopa;
         private IEnemy redKoopaTroopa;
+
         //Character ojbects
         private IAvatar mario;
+
         //Obstacle objects
         private IBlock questionBlock;
         private IBlock usedBlock; 
@@ -61,11 +65,13 @@ namespace Game1
         private IBlock floorBlock;
         private IBlock stairBlock;
         private IBlock hiddenBlock;
+
         //Block objects
         private IBlock testBrickBlock;
         private IBlock testQuestionBlock;
         private IBlock testHiddenBlock;
         private IBlock block;
+
         //Item objects
         private IItem item;
         private IItem fireFlower;
