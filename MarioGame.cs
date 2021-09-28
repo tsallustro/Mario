@@ -126,6 +126,7 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.W, jump);
             keyboardController.AddMapping((int)Keys.Down, crouch);
             keyboardController.AddMapping((int)Keys.S, crouch);
+
             keyboardController.AddMapping((int)Keys.Y, new StandardMarioCommand(mario));
             keyboardController.AddMapping((int)Keys.U, new SuperMarioCommand(mario));
             keyboardController.AddMapping((int)Keys.I, new FireMarioCommand(mario));
@@ -134,6 +135,8 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.Z, new IdleGoombaCommand(goomba));
             keyboardController.AddMapping((int)Keys.X, new MovingGoombaCommand(goomba));
             keyboardController.AddMapping((int)Keys.C, new StompedGoombaCommand(goomba));
+
+            keyboardController.AddMapping((int)Keys.OemQuestion, new BumpCommand(brickBlocks));
 
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);
@@ -157,11 +160,11 @@ namespace Game1
             mushroom.Update();
             oneUpMushroom.Update();
             star.Update();
-            stairBlock.Update();
+            /*stairBlock.Update();
             usedBlock.Update();
             questionBlock.Update();
             brickBlock.Update();
-            hiddenBlock.Update();
+            hiddenBlock.Update();*/
             
             koopaTroopa.Update();
 
@@ -182,11 +185,11 @@ namespace Game1
             mushroom.Draw(spriteBatch, true);
             oneUpMushroom.Draw(spriteBatch, true);
             star.Draw(spriteBatch, true);
-            stairBlock.Draw(spriteBatch, true);
+            /*stairBlock.Draw(spriteBatch, true);
             usedBlock.Draw(spriteBatch, true);
             questionBlock.Draw(spriteBatch, true);
             brickBlock.Draw(spriteBatch, true);
-            hiddenBlock.Draw(spriteBatch, true);
+            hiddenBlock.Draw(spriteBatch, true);*/
             
             koopaTroopa.Draw(spriteBatch, true);
 
