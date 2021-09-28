@@ -91,13 +91,15 @@ namespace GameObjects
 
         public void Jump()
         {
-            velocity.Y = 100;
-            this.SetActionState(new IdleState(this, actionState.GetDirection()));
-            actionState.Jump();
             if (this.actionState is CrouchingState)
             {
                 this.SetActionState(new IdleState(this, actionState.GetDirection()));
                 velocity.Y = 0;
+            } else
+            {
+                velocity.Y = 100;
+                this.SetActionState(new IdleState(this, actionState.GetDirection()));
+                actionState.Jump();
             }
         }
 
