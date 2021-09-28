@@ -93,6 +93,11 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
            
             marioSpriteFactory.LoadTextures(this);
+
+            /*
+             * Since we will have multiple enemies and items, we should make
+             * these factories not be singletons.
+             */
             goombaSpriteFactory.LoadTextures(this);
             itemSpriteFactory.LoadTextures(this);
             koopaTroopaSpriteFactory.LoadTextures(this);

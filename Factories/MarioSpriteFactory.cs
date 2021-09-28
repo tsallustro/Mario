@@ -13,7 +13,6 @@ namespace Factories
         private Texture2D standardMarioSprites;
 		private Texture2D superMarioSprites;
 		private Texture2D fireMarioSprites;
-		private Texture2D deadMarioSprite;
 
 		private static MarioSpriteFactory factoryInstance = new MarioSpriteFactory();
 
