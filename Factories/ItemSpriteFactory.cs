@@ -13,7 +13,8 @@ namespace Factories
         private Texture2D itemSprites;
 
 		private static ItemSpriteFactory factoryInstance = new ItemSpriteFactory();
-
+		
+		// TODO - Since we'll have multiple items, DO NOT cache the sprites
 		// We don't want to continually instantiate more and more sprites.
 		private ISprite coin;
 		private ISprite superMushroom;

@@ -45,7 +45,7 @@ namespace GameObjects
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.location = location;
-            sprite.Draw(spriteBatch, true);
+            sprite.Draw(spriteBatch, false);
         }
 
     }

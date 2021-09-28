@@ -48,7 +48,7 @@ namespace GameObjects
         //Draw Blocks
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, true);
+            sprite.Draw(spriteBatch, false);
         }
 
         public void Bump()
