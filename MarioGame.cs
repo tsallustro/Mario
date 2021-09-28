@@ -61,7 +61,6 @@ namespace Game1
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
         private GoombaSpriteFactory goombaSpriteFactory;
-        private BlockSpriteFactory blockSpriteFactory;
         private ItemSpriteFactory itemSpriteFactory;
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
