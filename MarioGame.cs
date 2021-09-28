@@ -64,7 +64,7 @@ namespace Game1
             marioSpriteFactory = MarioSpriteFactory.Instance;
             goombaSpriteFactory = GoombaSpriteFactory.Instance;
 
-            this.Window.Title = "Sprint0";
+            this.Window.Title = "Cornet Mario Game";
             _sprint = this;
             base.Initialize();
         }
@@ -87,6 +87,7 @@ namespace Game1
             questionBlock = new QuestionBlock(true, sprint, new Vector2(150, 150));
             brickBlock = new BrickBlock(true, sprint, new Vector2(200, 150));
             hiddenBlock = new HiddenBlock(true, sprint, new Vector2(250, 150));
+           
             //goomba = new Goomba(true, sprint, new Vector2(300, 100));
             koopaTroopa = new KoopaTroopa(true, sprint, new Vector2(350, 100));
 
