@@ -9,33 +9,34 @@ using Factories;
 
 namespace GameObjects
 {
-    public class Goomba
+    public class RedKoopaTroopa
     {
         private ISprite sprite;
-        private IGoombaState goombaState;
-        private GoombaSpriteFactory spriteFactory;
+        private IRedKoopaTroopaState redKoopaTroopaState;
+        private RedKoopaTroopaSpriteFactory spriteFactory;
+        private Vector2 velocity;
         private Vector2 location;
 
-        public Goomba(Vector2 position)
+        public RedKoopaTroopa(Vector2 position)
         {
-            spriteFactory = GoombaSpriteFactory.Instance;
+            spriteFactory = RedKoopaTroopaSpriteFactory.Instance;
             this.location = position;
-            sprite = spriteFactory.CreateIdleGoomba(position);
-            goombaState = new IdleGoombaState(this);
+            sprite = spriteFactory.CreateIdleRedKoopaTroopa(position);
+            redKoopaTroopaState = new IdleRedKoopaTroopaState(this);
         }
-        public IGoombaState GetGoombaState()
+        public IRedKoopaTroopaState GetRedKoopaTroopaState()
         {
-            return this.goombaState;
+            return this.redKoopaTroopaState;
         }
-        public void SetGoombaState(IGoombaState goombaState)
+        public void SetRedKoopaTroopaState(IRedKoopaTroopaState redKoopaTroopaState)
         {
-            this.goombaState = goombaState;
+            this.redKoopaTroopaState = redKoopaTroopaState;
         }
 
         //Update all of Goomba's members
         public void Update()
         {
-            sprite = spriteFactory.GetCurrentSprite(sprite.location, goombaState);
+            sprite = spriteFactory.GetCurrentSprite(sprite.location, redKoopaTroopaState);
             sprite.Update();
         }
 
@@ -47,17 +48,17 @@ namespace GameObjects
         //Change Goomba state to stomped mode
         public void Stomped()
         {
-            goombaState.Stomped();
+            redKoopaTroopaState.Stomped();
         }
         //Change Goomba state to moving mode
         public void Move()
         {
-            goombaState.Move();
+            redKoopaTroopaState.Move();
         }
         //Change Goomba state to idle mode
         public void StayIdle()
         {
-            goombaState.StayIdle();
+            redKoopaTroopaState.StayIdle();
         }
 
     }

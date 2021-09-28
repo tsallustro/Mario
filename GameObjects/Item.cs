@@ -35,7 +35,7 @@ namespace GameObjects
         }
 
         //Update all items
-        public void Update(GameTime GameTime, GraphicsDeviceManager Graphics)
+        public void Update()
         {
             sprite = spriteFactory.GetCurrentSprite(sprite.location, itemState);
             sprite.Update();

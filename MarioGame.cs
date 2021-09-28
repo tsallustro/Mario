@@ -37,10 +37,13 @@ namespace Game1
 
         // Simple display of sprites for sprint1
 
-
+        //Game Objects
         //Block States
+        private IBlockState questionBlockState;
+        private IBlockState usedBlockState;
         private IBlockState brickBlockState;
-        private IBlockState questoinBlockState;
+        private IBlockState floorBlockState;
+        private IBlockState stairBlockState;
         private IBlockState hiddenBlockState;
         //Item States
         private ItemState coinState;
@@ -48,13 +51,23 @@ namespace Game1
         private ItemState oneUpMushroomState;
         private ItemState fireFlowerState;
         private ItemState starState;
-        //Game objects
+        //Enemy objects
         private Goomba goomba;
+        private KoopaTroopa koopaTroopa;
+        private RedKoopaTroopa redKoopaTroopa;
+        //Character ojbects
         private Mario mario;
-        //Block sbjects
-        private Block brickBlock;
+        //Obstacle objects
         private Block questionBlock;
+        private Block usedBlock; 
+        private Block brickBlock;
+        private Block floorBlock;
+        private Block stairBlock;
         private Block hiddenBlock;
+        //Block objects
+        private Block testBrickBlock;
+        private Block testQuestionBlock;
+        private Block testHiddenBlock;
         private Block block;
         //Item objects
         private Item item;
@@ -63,13 +76,14 @@ namespace Game1
         private Item superMushroom;
         private Item oneUpMushroom;
         private Item star;
-        private ISprite koopaTroopa;
 
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
         private GoombaSpriteFactory goombaSpriteFactory;
         private BlockSpriteFactory blockSpriteFactory;
         private ItemSpriteFactory itemSpriteFactory;
+        private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
+        private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -86,6 +100,8 @@ namespace Game1
             goombaSpriteFactory = GoombaSpriteFactory.Instance;
             blockSpriteFactory = BlockSpriteFactory.Instance;
             itemSpriteFactory = ItemSpriteFactory.Instance;
+            koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
+            redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
 
             this.Window.Title = "Cornet Mario Game";
             _sprint = this;
@@ -99,31 +115,53 @@ namespace Game1
             goombaSpriteFactory.LoadTextures(this);
             blockSpriteFactory.LoadTextures(this);
             itemSpriteFactory.LoadTextures(this);
-
+            koopaTroopaSpriteFactory.LoadTextures(this);
+            redKoopaTroopaSpriteFactory.LoadTextures(this);
 
             //Visuals for Sprint 1
-
-            koopaTroopa = new KoopaTroopa(true, Sprint, new Vector2(350, 100));
-
             mario = new Mario(new Vector2(50, 225));
-            goomba = new Goomba();
-            brickBlock = new Block(new Vector2(100, 200));
-            questionBlock = new Block(new Vector2(200, 200));
-            hiddenBlock = new Block(new Vector2(300, 200));
+            goomba = new Goomba(new Vector2(300, 100));
+            koopaTroopa = new KoopaTroopa(new Vector2(350, 100));
+            redKoopaTroopa = new RedKoopaTroopa(new Vector2(400, 100));
+
+            questionBlock = new Block(new Vector2(100, 200));
+            usedBlock = new Block(new Vector2(150, 200));
+            brickBlock = new Block(new Vector2(200, 200));
+            floorBlock = new Block(new Vector2(350, 200));
+            stairBlock = new Block(new Vector2(400, 200));
+            hiddenBlock = new Block(new Vector2(450, 200));
             block = new Block(new Vector2(0,0));
+
+            testBrickBlock = new Block(new Vector2(100, 400));
+            testQuestionBlock = new Block(new Vector2(200, 400));
+            testHiddenBlock = new Block(new Vector2(300, 400));
+
+            item = new Item(new Vector2(0, 0));
             coin = new Item(new Vector2(100, 50));
             superMushroom = new Item(new Vector2(150, 50));
             oneUpMushroom = new Item(new Vector2(200, 50));
             fireFlower = new Item(new Vector2(50, 50));
             star = new Item(new Vector2(250, 50));
 
-            //Set block states
+            //Set obstacle states
+            questionBlockState = new QuestionBlockState(block);
+            usedBlockState = new UsedBlockState(block);
             brickBlockState = new BrickBlockState(block);
-            questoinBlockState = new QuestionBlockState(block);
+            floorBlockState = new FloorBlockState(block);
+            stairBlockState = new StairBlockState(block);
             hiddenBlockState = new HiddenBlockState(block);
+
+            questionBlock.SetBlockState(questionBlockState);
+            usedBlock.SetBlockState(usedBlockState);
             brickBlock.SetBlockState(brickBlockState);
-            questionBlock.SetBlockState(questoinBlockState);
+            floorBlock.SetBlockState(floorBlockState);
+            stairBlock.SetBlockState(stairBlockState);
             hiddenBlock.SetBlockState(hiddenBlockState);
+
+            //Set changing block states 
+            testBrickBlock.SetBlockState(brickBlockState);
+            testQuestionBlock.SetBlockState(questionBlockState);
+            testHiddenBlock.SetBlockState(hiddenBlockState);
 
             //Set item states
             coinState = new CoinState(item);
@@ -131,6 +169,7 @@ namespace Game1
             oneUpMushroomState = new OneUpMushroomState(item);
             fireFlowerState = new FireFlowerState(item);
             starState = new StarState(item);
+
             coin.SetItemState(coinState);
             superMushroom.SetItemState(superMushroomState);
             oneUpMushroom.SetItemState(oneUpMushroomState);
@@ -163,9 +202,17 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.X, new MovingGoombaCommand(goomba));
             keyboardController.AddMapping((int)Keys.C, new StompedGoombaCommand(goomba));
 
-            keyboardController.AddMapping((int)Keys.OemBackslash, new BumpCommand(brickBlock));
-            keyboardController.AddMapping((int)Keys.B, new BumpCommand(questionBlock));
-            keyboardController.AddMapping((int)Keys.H, new BumpCommand(hiddenBlock));
+            keyboardController.AddMapping((int)Keys.V, new IdleKoopaTroopaCommand(koopaTroopa));
+            keyboardController.AddMapping((int)Keys.N, new MovingKoopaTroopaCommand(koopaTroopa));
+            keyboardController.AddMapping((int)Keys.M, new StompedKoopaTroopaCommand(koopaTroopa));
+
+            keyboardController.AddMapping((int)Keys.J, new IdleRedKoopaTroopaCommand(redKoopaTroopa));
+            keyboardController.AddMapping((int)Keys.K, new MovingRedKoopaTroopaCommand(redKoopaTroopa));
+            keyboardController.AddMapping((int)Keys.L, new StompedRedKoopaTroopaCommand(redKoopaTroopa));
+
+            keyboardController.AddMapping((int)Keys.OemBackslash, new BumpCommand(testBrickBlock));
+            keyboardController.AddMapping((int)Keys.B, new BumpCommand(testQuestionBlock));
+            keyboardController.AddMapping((int)Keys.H, new BumpCommand(testHiddenBlock));
 
             
 
@@ -184,17 +231,27 @@ namespace Game1
             //Update the Game Objects
             mario.Update(gameTime, graphics);
             goomba.Update(); 
+            koopaTroopa.Update();
+            redKoopaTroopa.Update();
+
             questionBlock.Update();
+            usedBlock.Update();
             brickBlock.Update();
+            floorBlock.Update();
+            stairBlock.Update();
             hiddenBlock.Update();
 
-            coin.Update(gameTime, graphics);
-            superMushroom.Update(gameTime, graphics);
-            oneUpMushroom.Update(gameTime, graphics);
-            fireFlower.Update(gameTime, graphics);
-            star.Update(gameTime, graphics);
+            testBrickBlock.Update();
+            testQuestionBlock.Update();
+            testHiddenBlock.Update();
+
+            coin.Update();
+            superMushroom.Update();
+            oneUpMushroom.Update();
+            fireFlower.Update();
+            star.Update();
             
-            koopaTroopa.Update();
+            
 
             base.Update(gameTime);
         }
@@ -206,16 +263,25 @@ namespace Game1
             // call draw methods from each sprite and pass in sprite batch
             mario.Draw(spriteBatch);
             goomba.Draw(spriteBatch);
-            brickBlock.Draw(spriteBatch);
+            koopaTroopa.Draw(spriteBatch);
+            redKoopaTroopa.Draw(spriteBatch);
+
             questionBlock.Draw(spriteBatch);
+            usedBlock.Draw(spriteBatch);
+            brickBlock.Draw(spriteBatch);
+            floorBlock.Draw(spriteBatch);
+            stairBlock.Draw(spriteBatch);
             hiddenBlock.Draw(spriteBatch);
+
+            testBrickBlock.Draw(spriteBatch);
+            testQuestionBlock.Draw(spriteBatch);
+            testHiddenBlock.Draw(spriteBatch);
+
             coin.Draw(spriteBatch);
             superMushroom.Draw(spriteBatch);
             oneUpMushroom.Draw(spriteBatch);
             fireFlower.Draw(spriteBatch);
             star.Draw(spriteBatch);
-            
-            koopaTroopa.Draw(spriteBatch, true);
 
             // Draw Legend
             spriteBatch.End();

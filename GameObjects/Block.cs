@@ -14,11 +14,13 @@ namespace GameObjects
         private ISprite sprite;
         private IBlockState blockState;
         private BlockSpriteFactory spriteFactory;
+        private Vector2 location;
 
         public Block(Vector2 position)
         {
             spriteFactory = BlockSpriteFactory.Instance;
-            sprite = spriteFactory.CreateBrickBlock(position);
+            this.location = position;
+            sprite = spriteFactory.CreateBrickBlock(location);
             blockState = new BrickBlockState(this);
         }
         //Sets location of the block
@@ -36,14 +38,14 @@ namespace GameObjects
             this.blockState = blockState;
         }
 
-        //Update all of Goomba's members
+        //Update all blocks
         public void Update()
         {
             sprite = spriteFactory.GetCurrentSprite(sprite.location, blockState);
             sprite.Update();
         }
 
-        //Draw Goomba
+        //Draw Blocks
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch, true);

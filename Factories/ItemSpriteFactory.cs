@@ -39,7 +39,7 @@ namespace Factories
 		}
 
 		/*
-		 *  This method returns the correct sprite. Don't need it?
+		 *  This method returns the correct sprite.
 		 */
 		
 		public ISprite GetCurrentSprite(Vector2 location, ItemState itemState)
