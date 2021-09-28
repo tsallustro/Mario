@@ -13,9 +13,12 @@ namespace Game1
 {
     public class MarioGame : Game
     {
+        
+        
+        //Temporary for debugging. Needs to be deleted prior to submit.
         static private MarioGame _sprint;
 
-        public static MarioGame sprint
+        public static MarioGame Sprint
         {
             get
             {
@@ -23,9 +26,9 @@ namespace Game1
             }
         }
 
+        //Monogame Objects
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private SpriteFont arialSpriteFont;
 
         // controllers that detect input from gamepad and keyboard. These only change ObjectUpdater
         private IController keyboardController;
@@ -42,14 +45,15 @@ namespace Game1
         private ISprite questionBlock;
         private ISprite brickBlock;
         private ISprite hiddenBlock;
-        //private ISprite goomba;
         private ISprite koopaTroopa;
 
+        //Game objects
         private Goomba goomba;
-        private GoombaSpriteFactory goombaSpriteFactory;
         private Mario mario;
+       
+        //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
-
+        private GoombaSpriteFactory goombaSpriteFactory;
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -64,31 +68,32 @@ namespace Game1
             marioSpriteFactory = MarioSpriteFactory.Instance;
             goombaSpriteFactory = GoombaSpriteFactory.Instance;
 
-            this.Window.Title = "Sprint0";
+            this.Window.Title = "Cornet Mario Game";
             _sprint = this;
             base.Initialize();
         }
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            arialSpriteFont = Content.Load<SpriteFont>("ArialSpriteFont");
+           
 
             marioSpriteFactory.LoadTextures(this);
             goombaSpriteFactory.LoadTextures(this);
 
             //Visuals for Sprint 1
-            flower = new Flower(true, sprint, new Vector2(50, 50));
-            coin = new Coin(true, sprint, new Vector2(100, 50));
-            mushroom = new Mushroom(true, sprint, new Vector2(150, 50));
-            oneUpMushroom = new MushroomOneUp(true, sprint, new Vector2(200, 50));
-            star = new Star (true, sprint, new Vector2(250, 50));
-            stairBlock = new StairBlock(true, sprint, new Vector2(50, 150));
-            usedBlock = new UsedBlock(true, sprint, new Vector2(100, 150));
-            questionBlock = new QuestionBlock(true, sprint, new Vector2(150, 150));
-            brickBlock = new BrickBlock(true, sprint, new Vector2(200, 150));
-            hiddenBlock = new HiddenBlock(true, sprint, new Vector2(250, 150));
+            flower = new Flower(true, Sprint, new Vector2(50, 50));
+            coin = new Coin(true, Sprint, new Vector2(100, 50));
+            mushroom = new Mushroom(true, Sprint, new Vector2(150, 50));
+            oneUpMushroom = new MushroomOneUp(true, Sprint, new Vector2(200, 50));
+            star = new Star (true, Sprint, new Vector2(250, 50));
+            stairBlock = new StairBlock(true, Sprint, new Vector2(50, 150));
+            usedBlock = new UsedBlock(true, Sprint, new Vector2(100, 150));
+            questionBlock = new QuestionBlock(true, Sprint, new Vector2(150, 150));
+            brickBlock = new BrickBlock(true, Sprint, new Vector2(200, 150));
+            hiddenBlock = new HiddenBlock(true, Sprint, new Vector2(250, 150));
+           
             //goomba = new Goomba(true, sprint, new Vector2(300, 100));
-            koopaTroopa = new KoopaTroopa(true, sprint, new Vector2(350, 100));
+            koopaTroopa = new KoopaTroopa(true, Sprint, new Vector2(350, 100));
 
             mario = new Mario();
             goomba = new Goomba();
@@ -130,7 +135,7 @@ namespace Game1
             gamepadController.Update();
             keyboardController.Update();
 
-            // update the sprites
+            //Update the Game Objects
             mario.Update();
 
             goomba.Update();

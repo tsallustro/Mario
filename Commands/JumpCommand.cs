@@ -15,7 +15,10 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			mario.Jump();
+			if( pressType ==1)
+            {
+				mario.Jump();
+			}
 		}
 	}
 }

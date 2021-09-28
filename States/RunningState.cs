@@ -26,7 +26,7 @@ namespace States
             if (!this.left)
             {
                 mario.SetActionState(new IdleState(mario, this.left));
-            }
+            } 
         }
 
         public void MoveRight()

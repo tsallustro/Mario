@@ -13,7 +13,10 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			mario.MoveRight();
+			if(pressType == 1)
+            {
+				mario.MoveRight();
+			}
 		}
 	}
 }
