@@ -41,20 +41,20 @@ namespace Game1
         private ISprite mushroom;
         private ISprite oneUpMushroom;
         private ISprite star;
-        private ISprite stairBlock;
-        private ISprite usedBlock;
-        private ISprite questionBlock;
-        private ISprite brickBlock;
-        private ISprite hiddenBlock;
         private ISprite koopaTroopa;
 
+        //Block States
         private IBlockState brickBlockState;
-
+        private IBlockState questoinBlockState;
+        private IBlockState hiddenBlockState;
         //Game objects
         private Goomba goomba;
         private Mario mario;
-        private Block brickBlocks;
-       
+        private Block brickBlock;
+        private Block questionBlock;
+        private Block hiddenBlock;
+        private Block block;
+
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
         private GoombaSpriteFactory goombaSpriteFactory;
@@ -87,7 +87,6 @@ namespace Game1
             goombaSpriteFactory.LoadTextures(this);
             blockSpriteFactory.LoadTextures(this);
 
-            brickBlockState = new BrickBlockState(brickBlocks);
 
             //Visuals for Sprint 1
             flower = new Flower(true, Sprint, new Vector2(50, 50));
@@ -106,9 +105,23 @@ namespace Game1
 
             mario = new Mario();
             goomba = new Goomba();
-            brickBlocks = new Block();
-            brickBlocks.SetBlockState(brickBlockState);
+            brickBlock = new Block();
+            questionBlock = new Block();
+            hiddenBlock = new Block();
+            block = new Block();
 
+            //Set each blocks' states
+            brickBlockState = new BrickBlockState(block);
+            questoinBlockState = new QuestionBlockState(block);
+            hiddenBlockState = new HiddenBlockState(block);
+            brickBlock.SetBlockState(brickBlockState);
+            questionBlock.SetBlockState(questoinBlockState);
+            hiddenBlock.SetBlockState(hiddenBlockState);
+
+            //Set block locations
+            brickBlock.setBlockLocation(new Vector2(200, 400));
+            questionBlock.setBlockLocation(new Vector2(400, 400));
+            hiddenBlock.setBlockLocation(new Vector2(600, 400));
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
@@ -136,7 +149,9 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.X, new MovingGoombaCommand(goomba));
             keyboardController.AddMapping((int)Keys.C, new StompedGoombaCommand(goomba));
 
-            keyboardController.AddMapping((int)Keys.OemQuestion, new BumpCommand(brickBlocks));
+            keyboardController.AddMapping((int)Keys.OemBackslash, new BumpCommand(brickBlock));
+            keyboardController.AddMapping((int)Keys.B, new BumpCommand(questionBlock));
+            keyboardController.AddMapping((int)Keys.H, new BumpCommand(hiddenBlock));
 
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);
@@ -152,19 +167,16 @@ namespace Game1
 
             //Update the Game Objects
             mario.Update(gameTime, graphics);
-
-            goomba.Update();
+            goomba.Update(); 
+            questionBlock.Update();
+            brickBlock.Update();
+            hiddenBlock.Update();
 
             flower.Update();
             coin.Update();
             mushroom.Update();
             oneUpMushroom.Update();
             star.Update();
-            /*stairBlock.Update();
-            usedBlock.Update();
-            questionBlock.Update();
-            brickBlock.Update();
-            hiddenBlock.Update();*/
             
             koopaTroopa.Update();
 
@@ -177,19 +189,17 @@ namespace Game1
 
             // call draw methods from each sprite and pass in sprite batch
             mario.Draw(spriteBatch);
-
             goomba.Draw(spriteBatch);
+            brickBlock.Draw(spriteBatch);
+            questionBlock.Draw(spriteBatch);
+            hiddenBlock.Draw(spriteBatch);
 
+            //erase later
             flower.Draw(spriteBatch, true);
             coin.Draw(spriteBatch, true);
             mushroom.Draw(spriteBatch, true);
             oneUpMushroom.Draw(spriteBatch, true);
             star.Draw(spriteBatch, true);
-            /*stairBlock.Draw(spriteBatch, true);
-            usedBlock.Draw(spriteBatch, true);
-            questionBlock.Draw(spriteBatch, true);
-            brickBlock.Draw(spriteBatch, true);
-            hiddenBlock.Draw(spriteBatch, true);*/
             
             koopaTroopa.Draw(spriteBatch, true);
 

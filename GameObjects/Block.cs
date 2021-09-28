@@ -21,11 +21,16 @@ namespace GameObjects
             sprite = spriteFactory.CreateBrickBlock(new Vector2(300, 100));
             blockState = new BrickBlockState(this);
         }
-
+        //Sets location of the block
+        public void setBlockLocation(Vector2 Location)
+        {
+            sprite.location = Location;
+        }
         public IBlockState GetBlockState()
         {
             return this.blockState;
         }
+
         public void SetBlockState(IBlockState blockState)
         {
             this.blockState = blockState;
