@@ -24,6 +24,17 @@ namespace GameObjects
             sprite = this.spriteFactory.CreateBrickBlock(location);
             blockState = new BrickBlockState(this);
         }
+
+        // Future constructor for adding items to block
+        public Block(Vector2 position, Texture2D blockSprites, HashSet<IItem> items)
+        {
+            this.location = position;
+            this.spriteFactory = new BlockSpriteFactory(blockSprites);
+            this.items = items;
+            sprite = this.spriteFactory.CreateBrickBlock(location);
+            blockState = new BrickBlockState(this);
+        }
+
         //Sets location of the block
         public void SetBlockLocation(Vector2 position)
         {
