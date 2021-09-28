@@ -117,6 +117,7 @@ namespace Game1
             brickBlock.SetBlockState(brickBlockState);
             questionBlock.SetBlockState(questoinBlockState);
             hiddenBlock.SetBlockState(hiddenBlockState);
+
             //Set block locations
             brickBlock.setBlockLocation(new Vector2(200, 400));
             questionBlock.setBlockLocation(new Vector2(400, 400));
@@ -151,8 +152,6 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.OemBackslash, new BumpCommand(brickBlock));
             keyboardController.AddMapping((int)Keys.B, new BumpCommand(questionBlock));
             keyboardController.AddMapping((int)Keys.H, new BumpCommand(hiddenBlock));
-
-            
 
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);
@@ -194,7 +193,6 @@ namespace Game1
             brickBlock.Draw(spriteBatch);
             questionBlock.Draw(spriteBatch);
             hiddenBlock.Draw(spriteBatch);
-
 
             //erase later
             flower.Draw(spriteBatch, true);
