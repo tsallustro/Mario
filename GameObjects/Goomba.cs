@@ -12,7 +12,7 @@ namespace GameObjects
     public class Goomba : IEnemy
     {
         private ISprite sprite;
-        private IGoombaState goombaState;
+        private IEnemyState goombaState;
         private GoombaSpriteFactory spriteFactory;
         private Vector2 location;
 
@@ -23,11 +23,11 @@ namespace GameObjects
             sprite = spriteFactory.CreateIdleGoomba(position);
             goombaState = new IdleGoombaState(this);
         }
-        public IGoombaState GetGoombaState()
+        public IEnemyState GetGoombaState()
         {
             return this.goombaState;
         }
-        public void SetGoombaState(IGoombaState goombaState)
+        public void SetGoombaState(IEnemyState goombaState)
         {
             this.goombaState = goombaState;
         }

@@ -40,7 +40,7 @@ namespace Factories
 		 *  This method returns the correct sprite given the current action and
 		 *  power-up states of Goomba.
 		 */
-		public ISprite GetCurrentSprite(Vector2 location, IGoombaState goombaState)
+		public ISprite GetCurrentSprite(Vector2 location, IEnemyState goombaState)
 		{
 			if (goombaState is IdleGoombaState)
 			{

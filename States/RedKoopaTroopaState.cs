@@ -5,14 +5,7 @@ using GameObjects;
 
 namespace States
 {
-    public interface IRedKoopaTroopaState
-    {
-        public void Stomped();
-        public void Move();
-        public void StayIdle();
-    }
-
-    public class IdleRedKoopaTroopaState : IRedKoopaTroopaState
+    public class IdleRedKoopaTroopaState : IEnemyState
     {
         private RedKoopaTroopa redKoopaTroopa;
 
@@ -34,7 +27,7 @@ namespace States
             //Do Nothing.
         }
     }
-    public class MovingRedKoopaTroopaState : IRedKoopaTroopaState
+    public class MovingRedKoopaTroopaState : IEnemyState
     {
         private RedKoopaTroopa redKoopaTroopa;
 
@@ -57,7 +50,7 @@ namespace States
         }
     }
 
-    public class StompedRedKoopaTroopaState : IRedKoopaTroopaState
+    public class StompedRedKoopaTroopaState : IEnemyState
     {
         private RedKoopaTroopa redKoopaTroopa;
 
@@ -79,7 +72,7 @@ namespace States
             //Do Nothing.
         }
     }
-    public class DeadRedKoopaTroopaState : IRedKoopaTroopaState
+    public class DeadRedKoopaTroopaState : IEnemyState
     {
         private RedKoopaTroopa redKoopaTroopa;
 

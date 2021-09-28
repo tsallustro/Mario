@@ -5,14 +5,7 @@ using GameObjects;
 
 namespace States
 {
-    public interface IGoombaState
-    {
-        public void Stomped();
-        public void Move();
-        public void StayIdle();
-    }
-
-    public class IdleGoombaState : IGoombaState
+    public class IdleGoombaState : IEnemyState
     {
         private Goomba goomba;
 
@@ -34,7 +27,7 @@ namespace States
             //Do Nothing.
         }
     }
-    public class MovingGoombaState : IGoombaState
+    public class MovingGoombaState : IEnemyState
     {
         private Goomba goomba;
 
@@ -57,7 +50,7 @@ namespace States
         }
     }
 
-    public class StompedGoombaState : IGoombaState
+    public class StompedGoombaState : IEnemyState
     {
         private Goomba goomba;
 
@@ -80,7 +73,7 @@ namespace States
         }
     }
     //Once dead, Goomba's gone
-    public class DeadGoombaState : IGoombaState
+    public class DeadGoombaState : IEnemyState
     {
         private Goomba goomba;
 

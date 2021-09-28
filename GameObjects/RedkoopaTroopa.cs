@@ -12,7 +12,7 @@ namespace GameObjects
     public class RedKoopaTroopa : IEnemy
     {
         private ISprite sprite;
-        private IRedKoopaTroopaState redKoopaTroopaState;
+        private IEnemyState redKoopaTroopaState;
         private RedKoopaTroopaSpriteFactory spriteFactory;
         private Vector2 velocity;
         private Vector2 location;
@@ -24,11 +24,11 @@ namespace GameObjects
             sprite = spriteFactory.CreateIdleRedKoopaTroopa(position);
             redKoopaTroopaState = new IdleRedKoopaTroopaState(this);
         }
-        public IRedKoopaTroopaState GetRedKoopaTroopaState()
+        public IEnemyState GetRedKoopaTroopaState()
         {
             return this.redKoopaTroopaState;
         }
-        public void SetRedKoopaTroopaState(IRedKoopaTroopaState redKoopaTroopaState)
+        public void SetRedKoopaTroopaState(IEnemyState redKoopaTroopaState)
         {
             this.redKoopaTroopaState = redKoopaTroopaState;
         }
