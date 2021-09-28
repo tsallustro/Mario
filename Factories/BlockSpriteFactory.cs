@@ -45,7 +45,11 @@ namespace Factories
 			}else if (blockState is BrickBlockState)
 			{
 				return CreateBrickBlock(location);
-			}else if (blockState is FloorBlockState)
+			}else if (blockState is BrokenBrickBlockState)
+            {
+				return CreateBrokenBrickBlock(location);
+            }
+			else if (blockState is FloorBlockState)
 			{
 				return CreateFloorBlock(location);
 			}else if (blockState is StairBlockState)
