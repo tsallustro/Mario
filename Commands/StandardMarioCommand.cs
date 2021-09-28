@@ -9,8 +9,8 @@ namespace Commands
     class StandardMarioCommand : MarioCommand 
     {
 
-		public StandardMarioCommand(Mario mario)
-			: base(mario)
+		public StandardMarioCommand(IAvatar avatar)
+			: base(avatar)
 		{
 		}
 
@@ -18,7 +18,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				mario.SetPowerState(new StandardMario(mario));
+				avatar.SetPowerState(new StandardMario(avatar));
 			}
 		}
 	}

@@ -8,8 +8,8 @@ namespace Commands
 {
     class DeadMarioCommand : MarioCommand
     {
-		public DeadMarioCommand(Mario mario)
-			: base(mario)
+		public DeadMarioCommand(IAvatar avatar)
+			: base(avatar)
 		{
 		}
 
@@ -17,7 +17,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				mario.GetPowerState().TakeDamage();
+				avatar.GetPowerState().TakeDamage();
 			}
 		}
 	}

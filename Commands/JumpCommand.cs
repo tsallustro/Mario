@@ -8,8 +8,8 @@ namespace Commands
 {
 	class JumpCommand : MarioCommand
 	{
-		public JumpCommand(Mario mario)
-			: base(mario)
+		public JumpCommand(IAvatar avatar)
+			: base(avatar)
 		{
 		}
 
@@ -17,7 +17,7 @@ namespace Commands
 		{
 			if(pressType == 1)
             {
-				mario.Jump();
+				avatar.Up();
 			}
 		}
 	}

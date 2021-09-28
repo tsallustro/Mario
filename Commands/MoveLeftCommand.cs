@@ -6,8 +6,8 @@ namespace Commands
 {
 	class MoveLeftCommand : MarioCommand
 	{
-		public MoveLeftCommand(Mario mario)
-			: base(mario)
+		public MoveLeftCommand(IAvatar avatar) 
+			: base(avatar)
 		{
 		}
 
@@ -15,7 +15,7 @@ namespace Commands
 		{
 			if(pressType == 1)
             {
-				mario.MoveLeft();
+				avatar.MoveLeft();
 			}
 			
 		}

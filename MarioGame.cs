@@ -56,7 +56,7 @@ namespace Game1
         private IEnemy koopaTroopa;
         private IEnemy redKoopaTroopa;
         //Character ojbects
-        private Mario mario;
+        private IAvatar mario;
         //Obstacle objects
         private Block questionBlock;
         private Block usedBlock; 
@@ -107,6 +107,7 @@ namespace Game1
             _sprint = this;
             base.Initialize();
         }
+
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);

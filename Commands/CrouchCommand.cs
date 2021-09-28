@@ -8,8 +8,8 @@ namespace Commands
 {
 	class CrouchCommand : MarioCommand
 	{
-		public CrouchCommand(Mario mario)
-			: base(mario)
+		public CrouchCommand(IAvatar avatar)
+			: base(avatar)
 		{
 		}
 
@@ -17,7 +17,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				mario.Crouch();
+				avatar.Down();
 			}
 		}
 	}

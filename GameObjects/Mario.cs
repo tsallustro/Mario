@@ -7,7 +7,7 @@ using States;
 
 namespace GameObjects
 {
-    public class Mario
+    public class Mario : IAvatar
     {
         private ISprite sprite;
         private IMarioPowerState powerState;
@@ -89,7 +89,7 @@ namespace GameObjects
             actionState.MoveRight();
         }
 
-        public void Jump()
+        public void Up()
         {
             if (this.actionState is CrouchingState)
             {
@@ -103,7 +103,7 @@ namespace GameObjects
             }
         }
 
-        public void Crouch()
+        public void Down()
         {
             actionState.Crouch();
             if (this.actionState is JumpingState || this.actionState is FallingState)

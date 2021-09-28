@@ -8,8 +8,8 @@ namespace Commands
 {
 	class DashOrThrowCommand : MarioCommand
 	{
-		public DashOrThrowCommand(Mario mario)
-			: base(mario)
+		public DashOrThrowCommand(IAvatar avatar)
+			: base(avatar)
 		{
 		}
 

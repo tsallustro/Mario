@@ -9,11 +9,16 @@ namespace Commands
 	 */
 	abstract class MarioCommand : ICommand
 	{
-		protected Mario mario;
+		protected Mario avatar;
 
-		protected MarioCommand(Mario mario)
+		protected MarioCommand(IAvatar avatar)
         {
-			this.mario = mario;
+			/*
+			 *  Cast IAvatar to Mario so we can do Mario things.
+			 *  This is probably not the best approach, but it works
+			 *  for now.
+			 */
+			this.avatar = (Mario) avatar;
         }
 
 		public abstract void Execute(int pressType);

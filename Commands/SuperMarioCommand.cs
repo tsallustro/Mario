@@ -8,8 +8,8 @@ namespace Commands
 {
     class SuperMarioCommand : MarioCommand
     {
-		public SuperMarioCommand(Mario mario)
-			: base(mario)
+		public SuperMarioCommand(IAvatar avatar)
+			: base(avatar)
 		{
 		}
 
@@ -17,7 +17,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				mario.SetPowerState(new SuperMario(mario));
+				avatar.SetPowerState(new SuperMario(avatar));
 			}
 		}
 	}
