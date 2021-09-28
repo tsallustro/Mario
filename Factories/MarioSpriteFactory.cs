@@ -63,19 +63,19 @@ namespace Factories
 				if (actionState is IdleState) return CreateStandardIdleMario(location);
 				else if (actionState is CrouchingState) return CreateStandardCrouchingMario(location);
 				else if (actionState is RunningState) return CreateStandardRunningMario(location);
-				else if (actionState is JumpingState) return CreateStandardJumpingMario(location);
+				else if (actionState is JumpingState || actionState is FallingState) return CreateStandardJumpingMario(location);
 			} else if (powerState is SuperMario)
             {
 				if (actionState is IdleState) return CreateSuperIdleMario(location);
 				else if (actionState is CrouchingState) return CreateSuperCrouchingMario(location);
 				else if (actionState is RunningState) return CreateSuperRunningMario(location);
-				else if (actionState is JumpingState) return CreateSuperJumpingMario(location);
+				else if (actionState is JumpingState || actionState is FallingState) return CreateSuperJumpingMario(location);
 			} else if (powerState is FireMario)
             {
 				if (actionState is IdleState) return CreateFireIdleMario(location);
 				else if (actionState is CrouchingState) return CreateFireCrouchingMario(location);
 				else if (actionState is RunningState) return CreateFireRunningMario(location);
-				else if (actionState is JumpingState) return CreateFireJumpingMario(location);
+				else if (actionState is JumpingState || actionState is FallingState) return CreateFireJumpingMario(location);
 			}
 
 			return CreateDeadMario(location);
