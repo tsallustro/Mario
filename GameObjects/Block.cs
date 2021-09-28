@@ -19,30 +19,30 @@ namespace GameObjects
 
         public Block(Vector2 position, Texture2D blockSprites)
         {
-            this.location = position;
-            this.spriteFactory = new BlockSpriteFactory(blockSprites);
-            sprite = this.spriteFactory.CreateBrickBlock(location);
+            location = position;
+            spriteFactory = new BlockSpriteFactory(blockSprites);
+            sprite = spriteFactory.CreateBrickBlock(location);
             blockState = new BrickBlockState(this);
         }
 
         // Future constructor for adding items to block
         public Block(Vector2 position, Texture2D blockSprites, HashSet<IItem> items)
         {
-            this.location = position;
-            this.spriteFactory = new BlockSpriteFactory(blockSprites);
+            location = position;
+            spriteFactory = new BlockSpriteFactory(blockSprites);
             this.items = items;
-            sprite = this.spriteFactory.CreateBrickBlock(location);
+            sprite = spriteFactory.CreateBrickBlock(location);
             blockState = new BrickBlockState(this);
         }
 
-        //Sets location of the block
         public void SetBlockLocation(Vector2 position)
         {
-            this.sprite.location = position;
+            sprite.location = position;
         }
+
         public IBlockState GetBlockState()
         {
-            return this.blockState;
+            return blockState;
         }
 
         public void SetBlockState(IBlockState blockState)
@@ -50,14 +50,12 @@ namespace GameObjects
             this.blockState = blockState;
         }
 
-        //Update all blocks
         public void Update()
         {
             sprite = spriteFactory.GetCurrentSprite(sprite.location, blockState);
             sprite.Update();
         }
 
-        //Draw Blocks
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch, false);
