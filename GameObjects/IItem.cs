@@ -7,16 +7,14 @@ using States;
 
 namespace GameObjects
 {
-    public interface IBlock
+    public interface IItem
     {
         void Update();
         void Draw(SpriteBatch spriteBatch);
-        void Bump();
         /*
-         * SetBlockState() is probably not needed in this interface,
-         * but is required to work for now. Can probably remove this
-         * if we update the main game class.
+         *  Probably don't need SetItemState() in this interface if
+         *  we can rework the main game class.
          */
-        void SetBlockState(IBlockState blockState);
+        void SetItemState(IItemState itemState);
     }
 }

@@ -7,7 +7,7 @@ using States;
 
 namespace GameObjects
 {
-    public class Item
+    public class Item : IItem
     {
         private ISprite sprite;
         private IItemState itemState;

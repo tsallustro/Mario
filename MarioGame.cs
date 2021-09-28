@@ -67,12 +67,12 @@ namespace Game1
         private IBlock testHiddenBlock;
         private IBlock block;
         //Item objects
-        private Item item;
-        private Item fireFlower;
-        private Item coin;
-        private Item superMushroom;
-        private Item oneUpMushroom;
-        private Item star;
+        private IItem item;
+        private IItem fireFlower;
+        private IItem coin;
+        private IItem superMushroom;
+        private IItem oneUpMushroom;
+        private IItem star;
 
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;

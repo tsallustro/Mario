@@ -7,45 +7,45 @@ namespace States
 {
     public class CoinState : IItemState
     {
-        private Item item;
+        private IItem item;
 
-        public CoinState(Item item)
+        public CoinState(IItem item)
         {
             this.item = item;
         }
     }
     public class SuperMushroomState : IItemState
     {
-        private Item item;
+        private IItem item;
 
-        public SuperMushroomState(Item item)
+        public SuperMushroomState(IItem item)
         {
             this.item = item;
         }
     }
     public class OneUpMushroomState : IItemState
     {
-        private Item item;
+        private IItem item;
 
-        public OneUpMushroomState(Item item)
+        public OneUpMushroomState(IItem item)
         {
             this.item = item;
         }
     }
     public class FireFlowerState : IItemState
     {
-        private Item item;
+        private IItem item;
 
-        public FireFlowerState(Item item)
+        public FireFlowerState(IItem item)
         {
             this.item = item;
         }
     }
     public class StarState : IItemState
     {
-        private Item item;
+        private IItem item;
 
-        public StarState(Item item)
+        public StarState(IItem item)
         {
             this.item = item;
         }
