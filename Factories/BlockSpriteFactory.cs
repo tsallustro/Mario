@@ -11,16 +11,7 @@ namespace Factories
 	public class BlockSpriteFactory
 	{
 		private Texture2D blockSprites;
-
 		private static BlockSpriteFactory factoryInstance = new BlockSpriteFactory();
-
-		// We don't want to continually instantiate more and more sprites.
-		private ISprite questionBlock;
-		private ISprite usedBlock;
-		private ISprite brickBlock;
-		private ISprite floorBlock;
-		private ISprite stairBlock;
-		private ISprite hiddenBlock;
 
 		public static BlockSpriteFactory Instance
 		{
@@ -66,79 +57,45 @@ namespace Factories
 			}
 
 		}
+
 		public ISprite CreateQuestionBlock(Vector2 location)
 		{
-			if (questionBlock == null)
-			{
-				questionBlock = new Sprite(true, location, blockSprites, 1, 11, 7, 8);
-				return questionBlock;
-			}
-			else return questionBlock;
+			return new Sprite(true, location, blockSprites, 1, 11, 7, 8);
 		}
 
 		public ISprite CreateUsedBlock(Vector2 location)
 		{
-			if (usedBlock == null)
-			{
-				usedBlock = new Sprite(true, location, blockSprites, 1, 11, 8, 8);
-				return usedBlock;
-			}
-			else return usedBlock;
+			return new Sprite(true, location, blockSprites, 1, 11, 8, 8);
 		}
+
 		public ISprite CreateBrickBlock(Vector2 location)
 		{
-			if (brickBlock == null)
-			{
-				brickBlock = new Sprite(true, location, blockSprites, 1, 11, 0, 0);
-				return brickBlock;
-			}
-			else return brickBlock;
+			return new Sprite(true, location, blockSprites, 1, 11, 0, 0);
 		}
+
 		public ISprite CreateFloorBlock(Vector2 location)
 		{
-			if (floorBlock == null)
-			{
-				floorBlock = new Sprite(true, location, blockSprites, 1, 11, 5, 5);
-				return floorBlock;
-			}
-			else return floorBlock;
-		}
+			return new Sprite(true, location, blockSprites, 1, 11, 5, 5);
+        }
 
 		public ISprite CreateStairBlock(Vector2 location)
 		{
-			if (stairBlock == null)
-			{
-				stairBlock = new Sprite(true, location, blockSprites, 1, 11, 3, 3);
-				return stairBlock;
-			}
-			else return stairBlock;
-		}
+			return new Sprite(true, location, blockSprites, 1, 11, 3, 3);
+        }
+
 		public ISprite CreateHiddenBlock(Vector2 location)
 		{
-			if (hiddenBlock == null)
-			{
-				hiddenBlock = new Sprite(false, location, blockSprites, 1, 11, 9, 9);
-				return hiddenBlock;
-			}
-			else return hiddenBlock;
+			return new Sprite(false, location, blockSprites, 1, 11, 9, 9);
 		}
+
 		public ISprite CreateBumpedBrickBlock(Vector2 location)
 		{
-			if (brickBlock == null)
-			{
-				brickBlock = new Sprite(true, location, blockSprites, 1, 11, 0, 0);
-				return brickBlock;
-			}
-			else return brickBlock;
-		}
+			return new Sprite(true, location, blockSprites, 1, 11, 0, 0);
+        }
+
 		public ISprite CreateBrokenBrickBlock(Vector2 location)
 		{
-			if (brickBlock == null)
-			{
-				brickBlock = new Sprite(true, location, blockSprites, 1, 11, 1, 1);
-				return brickBlock;
-			}
-			else return brickBlock;
-		}	
+			return new Sprite(true, location, blockSprites, 1, 11, 1, 1);
+        }	
 	}
 }
