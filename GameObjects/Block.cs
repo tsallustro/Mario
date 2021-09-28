@@ -15,6 +15,7 @@ namespace GameObjects
         private IBlockState blockState;
         private BlockSpriteFactory spriteFactory;
         private Vector2 location;
+        private HashSet<IItem> items; // Future use for storing items in block
 
         public Block(Vector2 position, Texture2D blockSprites)
         {
