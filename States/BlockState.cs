@@ -69,14 +69,14 @@ namespace States
 
         public void Bump()
         {
-            block.SetBlockState(new UsedBlock(block));
+            block.SetBlockState(new UsedBlockState(block));
         }
     }
-    public class UsedBlock : IBlockState
+    public class UsedBlockState : IBlockState
     {
         private Block block;
 
-        public UsedBlock(Block block)
+        public UsedBlockState(Block block)
         {
             this.block = block;
         }
@@ -107,16 +107,14 @@ namespace States
     {
         private Block block;
 
-        public FloorBlock(Block block)
+        public FloorBlockState(Block block)
         {
             this.block = block;
         }
 
         public void Bump()
         {
-            block.SetBlockState(new BrickBlockState(block));
-
-            //Do some stuff on bump
+            //Do Nothing
         }
     }
 }

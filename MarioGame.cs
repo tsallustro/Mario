@@ -118,9 +118,9 @@ namespace Game1
             questionBlock.SetBlockState(questoinBlockState);
             hiddenBlock.SetBlockState(hiddenBlockState);
             //Set block locations
-            brickBlock.setBlockLocation(new Vector2(200, 400));
-            questionBlock.setBlockLocation(new Vector2(400, 400));
-            hiddenBlock.setBlockLocation(new Vector2(600, 400));
+            brickBlock.setBlockLocation(new Vector2(250, 200));
+            questionBlock.setBlockLocation(new Vector2(300, 200));
+            hiddenBlock.setBlockLocation(new Vector2(500, 200));
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
@@ -148,9 +148,9 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.X, new MovingGoombaCommand(goomba));
             keyboardController.AddMapping((int)Keys.C, new StompedGoombaCommand(goomba));
 
-            keyboardController.AddMapping((int)Keys.OemBackslash, new BlockBumpCommand(brickBlock));
-            keyboardController.AddMapping((int)Keys.B, new BlockBumpCommand(questionBlock));
-            keyboardController.AddMapping((int)Keys.H, new BlockBumpCommand(hiddenBlock));
+            keyboardController.AddMapping((int)Keys.OemBackslash, new BumpCommand(brickBlock));
+            keyboardController.AddMapping((int)Keys.B, new BumpCommand(questionBlock));
+            keyboardController.AddMapping((int)Keys.H, new BumpCommand(hiddenBlock));
 
             
 
@@ -167,7 +167,7 @@ namespace Game1
             keyboardController.Update();
 
             //Update the Game Objects
-            mario.Update(gameTime);
+            mario.Update(gameTime, graphics);
             goomba.Update(); 
             questionBlock.Update();
             brickBlock.Update();

@@ -24,7 +24,7 @@ namespace GameObjects
         //Sets location of the block
         public void setBlockLocation(Vector2 Location)
         {
-            sprite.location = Location;
+            this.sprite.location = Location;
         }
         public IBlockState GetBlockState()
         {
