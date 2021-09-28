@@ -10,7 +10,7 @@ namespace GameObjects
     public class Item
     {
         private ISprite sprite;
-        private ItemState itemState;
+        private IItemState itemState;
         private ItemSpriteFactory spriteFactory;
         private Vector2 velocity;
         private Vector2 location;
@@ -24,12 +24,12 @@ namespace GameObjects
             velocity = new Vector2(0, 0);
         }
 
-        public ItemState GetItemState()
+        public IItemState GetItemState()
         {
             return this.itemState;
         }
 
-        public void SetItemState(ItemState itemState)
+        public void SetItemState(IItemState itemState)
         {
             this.itemState = itemState;
         }

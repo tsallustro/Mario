@@ -4,15 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 namespace GameObjects
 {
-	public interface Enemy
+	public interface IEnemy
 	{
-
-		//Update enemy
 		public void Update();
-
-		//Draw enemy
 		public void Draw(SpriteBatch SpriteBatch);
-
-		//This interface will need more methods as the project grows and the needs of all enemies change. -Tony
+		public void Stomped();
+		public void Move();
+		public void StayIdle();
 	}
 }

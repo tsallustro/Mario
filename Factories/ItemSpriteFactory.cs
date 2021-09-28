@@ -42,7 +42,7 @@ namespace Factories
 		 *  This method returns the correct sprite.
 		 */
 		
-		public ISprite GetCurrentSprite(Vector2 location, ItemState itemState)
+		public ISprite GetCurrentSprite(Vector2 location, IItemState itemState)
         {
 			if (itemState is CoinState)
             {

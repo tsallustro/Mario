@@ -6,21 +6,10 @@ using States;
 
 namespace Commands
 {
-    abstract class KoopaTroopaCommand : ICommand 
-    {
-		protected KoopaTroopa koopaTroopa;
-		public KoopaTroopaCommand(KoopaTroopa koopaTroopa)
-		{
-			this.koopaTroopa = koopaTroopa;
-		}
-
-		public abstract void Execute(int pressType);
-	}
-
-	class IdleKoopaTroopaCommand : KoopaTroopaCommand
+	class IdleKoopaTroopaCommand : EnemyCommand
 	{
-		public IdleKoopaTroopaCommand(KoopaTroopa koopaTroopa)
-			:base(koopaTroopa)
+		public IdleKoopaTroopaCommand(IEnemy enemy)
+			:base(enemy)
 		{
 		}
 
@@ -28,14 +17,14 @@ namespace Commands
         {
 			if (pressType == 1)
 			{
-				koopaTroopa.StayIdle();
+				enemy.StayIdle();
 			}
 		}
 	}
-	class MovingKoopaTroopaCommand : KoopaTroopaCommand
+	class MovingKoopaTroopaCommand : EnemyCommand
 	{
-		public MovingKoopaTroopaCommand(KoopaTroopa koopaTroopa)
-			: base(koopaTroopa)
+		public MovingKoopaTroopaCommand(IEnemy enemy)
+			: base(enemy)
 		{
 		}
 
@@ -43,24 +32,23 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				koopaTroopa.Move();
+				enemy.Move();
 			}
 		}
 	}
-	class StompedKoopaTroopaCommand : KoopaTroopaCommand
-	{
-		public StompedKoopaTroopaCommand(KoopaTroopa koopaTroopa)
-			: base(koopaTroopa)
-		{
+	class StompedKoopaTroopaCommand : EnemyCommand
+    {
+        public StompedKoopaTroopaCommand(IEnemy enemy) 
+			: base(enemy)
+		{ 
 		}
 
-		public override void Execute(int pressType)
-		{
-			if(pressType == 1)
+        public override void Execute(int pressType)
+        {
+            if (pressType == 1)
             {
-				koopaTroopa.Stomped();
-			}
-			
-		}
+                enemy.Stomped();
+            }
+        }
 	}
 }

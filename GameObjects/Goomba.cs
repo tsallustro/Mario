@@ -9,7 +9,7 @@ using Factories;
 
 namespace GameObjects
 {
-    public class Goomba
+    public class Goomba : IEnemy
     {
         private ISprite sprite;
         private IGoombaState goombaState;

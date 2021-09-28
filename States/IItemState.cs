@@ -5,7 +5,7 @@ using GameObjects;
 
 namespace States
 {
-    public interface ItemState
+    public interface IItemState
     {
 
     }
@@ -13,7 +13,7 @@ namespace States
      * Doesn't include anything since, there's no behavior with the item.
      * But Might add something in the future
      */
-    public class CoinState : ItemState
+    public class CoinState : IItemState
     {
         private Item item;
 
@@ -22,7 +22,7 @@ namespace States
             this.item = item;
         }
     }
-    public class SuperMushroomState : ItemState
+    public class SuperMushroomState : IItemState
     {
         private Item item;
 
@@ -31,7 +31,7 @@ namespace States
             this.item = item;
         }
     }
-    public class OneUpMushroomState : ItemState
+    public class OneUpMushroomState : IItemState
     {
         private Item item;
 
@@ -40,7 +40,7 @@ namespace States
             this.item = item;
         }
     }
-    public class FireFlowerState : ItemState
+    public class FireFlowerState : IItemState
     {
         private Item item;
 
@@ -49,7 +49,7 @@ namespace States
             this.item = item;
         }
     }
-    public class StarState : ItemState
+    public class StarState : IItemState
     {
         private Item item;
 

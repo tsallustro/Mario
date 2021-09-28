@@ -46,15 +46,15 @@ namespace Game1
         private IBlockState stairBlockState;
         private IBlockState hiddenBlockState;
         //Item States
-        private ItemState coinState;
-        private ItemState superMushroomState;
-        private ItemState oneUpMushroomState;
-        private ItemState fireFlowerState;
-        private ItemState starState;
+        private IItemState coinState;
+        private IItemState superMushroomState;
+        private IItemState oneUpMushroomState;
+        private IItemState fireFlowerState;
+        private IItemState starState;
         //Enemy objects
-        private Goomba goomba;
-        private KoopaTroopa koopaTroopa;
-        private RedKoopaTroopa redKoopaTroopa;
+        private IEnemy goomba;
+        private IEnemy koopaTroopa;
+        private IEnemy redKoopaTroopa;
         //Character ojbects
         private Mario mario;
         //Obstacle objects
@@ -213,8 +213,6 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.OemBackslash, new BumpCommand(testBrickBlock));
             keyboardController.AddMapping((int)Keys.B, new BumpCommand(testQuestionBlock));
             keyboardController.AddMapping((int)Keys.H, new BumpCommand(testHiddenBlock));
-
-            
 
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);

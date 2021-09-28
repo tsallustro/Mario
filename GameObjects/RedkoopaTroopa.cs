@@ -9,7 +9,7 @@ using Factories;
 
 namespace GameObjects
 {
-    public class RedKoopaTroopa
+    public class RedKoopaTroopa : IEnemy
     {
         private ISprite sprite;
         private IRedKoopaTroopaState redKoopaTroopaState;
