@@ -15,8 +15,6 @@ namespace GameObjects
         private IBlockState blockState;
         private BlockSpriteFactory spriteFactory;
 
-        
-
         public Block()
         {
             spriteFactory = BlockSpriteFactory.Instance;
@@ -44,6 +42,11 @@ namespace GameObjects
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch, true);
+        }
+
+        public void Bump()
+        {
+            blockState.Bump();
         }
     }
 }

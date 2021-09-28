@@ -103,4 +103,20 @@ namespace States
             //Do some stuff on bump
         }
     }
+    public class FloorBlock : IBlockState
+    {
+        private Block block;
+
+        public FloorBlock(Block block)
+        {
+            this.block = block;
+        }
+
+        public void Bump()
+        {
+            block.SetBlockState(new BrickBlockState(block));
+
+            //Do some stuff on bump
+        }
+    }
 }

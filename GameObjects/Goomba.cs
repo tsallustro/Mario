@@ -42,15 +42,17 @@ namespace GameObjects
         {
             sprite.Draw(spriteBatch, true);
         }
-
+        //Change Goomba state to stomped mode
         public void Stomped()
         {
             goombaState.Stomped();
         }
+        //Change Goomba state to moving mode
         public void Move()
         {
             goombaState.Move();
         }
+        //Change Goomba state to idle mode
         public void StayIdle()
         {
             goombaState.StayIdle();

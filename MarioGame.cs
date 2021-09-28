@@ -8,6 +8,7 @@ using Controllers;
 using Commands;
 using GameObjects;
 using Factories;
+using States;
 
 namespace Game1
 {
@@ -47,10 +48,12 @@ namespace Game1
         private ISprite hiddenBlock;
         private ISprite koopaTroopa;
 
+        private IBlockState brickBlockState;
+
         //Game objects
         private Goomba goomba;
         private Mario mario;
-        private Block block;
+        private Block brickBlocks;
        
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
@@ -84,24 +87,28 @@ namespace Game1
             goombaSpriteFactory.LoadTextures(this);
             blockSpriteFactory.LoadTextures(this);
 
+            brickBlockState = new BrickBlockState(brickBlocks);
+
             //Visuals for Sprint 1
             flower = new Flower(true, Sprint, new Vector2(50, 50));
             coin = new Coin(true, Sprint, new Vector2(100, 50));
             mushroom = new Mushroom(true, Sprint, new Vector2(150, 50));
             oneUpMushroom = new MushroomOneUp(true, Sprint, new Vector2(200, 50));
             star = new Star (true, Sprint, new Vector2(250, 50));
-            stairBlock = new StairBlock(true, Sprint, new Vector2(50, 150));
-            usedBlock = new UsedBlock(true, Sprint, new Vector2(100, 150));
-            questionBlock = new QuestionBlock(true, Sprint, new Vector2(150, 150));
-            brickBlock = new BrickBlock(true, Sprint, new Vector2(200, 150));
-            hiddenBlock = new HiddenBlock(true, Sprint, new Vector2(250, 150));
+            //stairBlock = new StairBlock(true, Sprint, new Vector2(50, 150));
+            //usedBlock = new UsedBlock(true, Sprint, new Vector2(100, 150));
+            //questionBlock = new QuestionBlock(true, Sprint, new Vector2(150, 150));
+            //brickBlock = new BrickBlock(true, Sprint, new Vector2(200, 150));
+            //hiddenBlock = new HiddenBlock(true, Sprint, new Vector2(250, 150));
            
             //goomba = new Goomba(true, sprint, new Vector2(300, 100));
             koopaTroopa = new KoopaTroopa(true, Sprint, new Vector2(350, 100));
 
             mario = new Mario();
             goomba = new Goomba();
-            block = new Block();
+            brickBlocks = new Block();
+            brickBlocks.SetBlockState(brickBlockState);
+
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);

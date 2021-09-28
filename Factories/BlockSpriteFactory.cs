@@ -8,8 +8,8 @@ using States;
 
 namespace Factories
 {
-    public class BlockSpriteFactory
-    {
+	public class BlockSpriteFactory
+	{
 		private Texture2D blockSprites;
 
 		private static BlockSpriteFactory factoryInstance = new BlockSpriteFactory();
@@ -22,6 +22,8 @@ namespace Factories
 		private ISprite stairBlock;
 		private ISprite hiddenBlock;
 
+		//timer
+		public int i = 0;
 		public static BlockSpriteFactory Instance
 		{
 			get
@@ -45,17 +47,39 @@ namespace Factories
 		 *  power-up states of Mario.
 		 */
 		public ISprite GetCurrentSprite(Vector2 location, IBlockState blockState)
-        {
+		{
 
-			if (blockState is StandardMario)
-            {
-				
-			} else if (blockState is SuperMario)
-            {
-			
-			} else if (blockState is FireMario)
-            {
-				
+			if (blockState is BrickBlockState)
+			{
+				return CreateBrickBlock(location);
+			}
+			else if (blockState is BumpedBrickBlockState)
+			{
+				return CreateBumpedBrickBlock(location);
+			}
+			else if (blockState is BrokenBrickBlockState)
+			{
+				return CreateBrokenBrickBlock(location);
+			}
+			else if (blockState is QuestionBlock)
+			{
+				return CreateQuestionBlock(location);
+			}
+			else if (blockState is UsedBlock)
+			{
+				return CreateUsedBlock(location);
+			}
+			else if (blockState is HiddenBlock)
+			{
+				return CreateHiddenBlock(location);
+			}
+			else if (blockState is FloorBlock)
+			{
+				return CreateFloorBlock(location);
+			}
+			else
+			{
+				return CreateBrickBlock(location);
 			}
 
 		}
@@ -71,14 +95,14 @@ namespace Factories
 		}
 
 		public ISprite CreateUsedBlock(Vector2 location)
-        {
+		{
 			if (usedBlock == null)
 			{
 				usedBlock = new Sprite(true, location, blockSprites, 1, 9, 8, 8);
 				return usedBlock;
 			}
 			else return usedBlock;
-        }
+		}
 
 		public ISprite CreateBrickBlock(Vector2 location)
 		{
@@ -89,9 +113,36 @@ namespace Factories
 			}
 			else return brickBlock;
 		}
+		public ISprite CreateBumpedBrickBlock(Vector2 location)
+		{
+			if (brickBlock == null)
+			{
+				
+				if (i < 5)
+                {
+					location.Y += 1;
+					brickBlock = new Sprite(true, location, blockSprites, 1, 9, 0, 0);
+					i++;
+				} else if (i > 5)
+                {
 
+                }
+				brickBlock = new Sprite(true, location, blockSprites, 1, 9, 0, 0);
+				return brickBlock;
+			}
+			else return brickBlock;
+		}
+		public ISprite CreateBrokenBrickBlock(Vector2 location)
+		{
+			if (brickBlock == null)
+			{
+				brickBlock = new Sprite(true, location, blockSprites, 1, 9, 0, 0);
+				return brickBlock;
+			}
+			else return brickBlock;
+		}
 		public ISprite CreateFloorBlock(Vector2 location)
-        {
+		{
 			if (floorBlock == null)
 			{
 				floorBlock = new Sprite(true, location, blockSprites, 1, 9, 4, 4);
@@ -119,5 +170,5 @@ namespace Factories
 			}
 			else return hiddenBlock;
 		}
-
+	}
 }
