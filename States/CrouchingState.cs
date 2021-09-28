@@ -26,6 +26,9 @@ namespace States
             if (!this.left)
             {
                 mario.SetActionState(new CrouchingState(mario, !this.left));
+            } else
+            {
+                mario.SetActionState(new RunningState(mario, this.left));
             }
         }
 
@@ -34,6 +37,9 @@ namespace States
             if (this.left)
             {
                 mario.SetActionState(new CrouchingState(mario, !this.left));
+            } else
+            {
+                mario.SetActionState(new RunningState(mario, this.left));
             }
         }
 
