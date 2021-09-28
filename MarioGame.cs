@@ -66,10 +66,10 @@ namespace Game1
         private IBlock hiddenBlock;
 
         //Block objects
-        private IBlock testBrickBlock;
+        /*private IBlock testBrickBlock;
         private IBlock testQuestionBlock;
         private IBlock testHiddenBlock;
-        private IBlock block;
+        private IBlock block;*/
 
         //Item objects
         private IItem item;
@@ -134,11 +134,11 @@ namespace Game1
             floorBlock = new Block(new Vector2(350, 200));
             stairBlock = new Block(new Vector2(400, 200));
             hiddenBlock = new Block(new Vector2(450, 200));
-            block = new Block(new Vector2(0,0));
 
+            /*block = new Block(new Vector2(25,25));
             testBrickBlock = new Block(new Vector2(100, 400));
             testQuestionBlock = new Block(new Vector2(200, 400));
-            testHiddenBlock = new Block(new Vector2(300, 400));
+            testHiddenBlock = new Block(new Vector2(300, 400));*/
 
             item = new Item(new Vector2(0, 0));
             coin = new Item(new Vector2(100, 50));
@@ -148,37 +148,24 @@ namespace Game1
             star = new Item(new Vector2(250, 50));
 
             // Set obstacle states
-            questionBlockState = new QuestionBlockState(block);
-            usedBlockState = new UsedBlockState(block);
-            brickBlockState = new BrickBlockState(block);
-            floorBlockState = new FloorBlockState(block);
-            stairBlockState = new StairBlockState(block);
-            hiddenBlockState = new HiddenBlockState(block);
-
-            questionBlock.SetBlockState(questionBlockState);
-            usedBlock.SetBlockState(usedBlockState);
-            brickBlock.SetBlockState(brickBlockState);
-            floorBlock.SetBlockState(floorBlockState);
-            stairBlock.SetBlockState(stairBlockState);
-            hiddenBlock.SetBlockState(hiddenBlockState);
+            questionBlock.SetBlockState(new QuestionBlockState(questionBlock));
+            usedBlock.SetBlockState(new UsedBlockState(usedBlock));
+            brickBlock.SetBlockState(new BrickBlockState(brickBlock));
+            floorBlock.SetBlockState(new FloorBlockState(floorBlock));
+            stairBlock.SetBlockState(new StairBlockState(stairBlock));
+            hiddenBlock.SetBlockState(new HiddenBlockState(hiddenBlock));
 
             // Set changing block states 
-            testBrickBlock.SetBlockState(brickBlockState);
+            /*testBrickBlock.SetBlockState(brickBlockState);
             testQuestionBlock.SetBlockState(questionBlockState);
-            testHiddenBlock.SetBlockState(hiddenBlockState);
+            testHiddenBlock.SetBlockState(hiddenBlockState);*/
 
             // Set item states
-            coinState = new CoinState(item);
-            superMushroomState = new SuperMushroomState(item);
-            oneUpMushroomState = new OneUpMushroomState(item);
-            fireFlowerState = new FireFlowerState(item);
-            starState = new StarState(item);
-
-            coin.SetItemState(coinState);
-            superMushroom.SetItemState(superMushroomState);
-            oneUpMushroom.SetItemState(oneUpMushroomState);
-            fireFlower.SetItemState(fireFlowerState);
-            star.SetItemState(starState);
+            coin.SetItemState(new CoinState(item));
+            superMushroom.SetItemState(new SuperMushroomState(item));
+            oneUpMushroom.SetItemState(new OneUpMushroomState(item));
+            fireFlower.SetItemState(new FireFlowerState(item));
+            star.SetItemState(new StarState(item));
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
@@ -216,9 +203,9 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.L, new StompedRedKoopaTroopaCommand(redKoopaTroopa));
 
             // Brick commands
-            keyboardController.AddMapping((int)Keys.OemBackslash, new BumpCommand(testBrickBlock));
-            keyboardController.AddMapping((int)Keys.B, new BumpCommand(testQuestionBlock));
-            keyboardController.AddMapping((int)Keys.H, new BumpCommand(testHiddenBlock));
+            keyboardController.AddMapping((int)Keys.OemBackslash, new BumpCommand(brickBlock));
+            keyboardController.AddMapping((int)Keys.B, new BumpCommand(questionBlock));
+            keyboardController.AddMapping((int)Keys.H, new BumpCommand(hiddenBlock));
 
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);
@@ -245,9 +232,9 @@ namespace Game1
             stairBlock.Update();
             hiddenBlock.Update();
 
-            testBrickBlock.Update();
+            /*testBrickBlock.Update();
             testQuestionBlock.Update();
-            testHiddenBlock.Update();
+            testHiddenBlock.Update();*/
 
             coin.Update();
             superMushroom.Update();
@@ -275,9 +262,9 @@ namespace Game1
             stairBlock.Draw(spriteBatch);
             hiddenBlock.Draw(spriteBatch);
 
-            testBrickBlock.Draw(spriteBatch);
+            /*testBrickBlock.Draw(spriteBatch);
             testQuestionBlock.Draw(spriteBatch);
-            testHiddenBlock.Draw(spriteBatch);
+            testHiddenBlock.Draw(spriteBatch);*/
 
             coin.Draw(spriteBatch);
             superMushroom.Draw(spriteBatch);
