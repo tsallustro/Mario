@@ -50,10 +50,12 @@ namespace Game1
         //Game objects
         private Goomba goomba;
         private Mario mario;
+        private Block block;
        
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
         private GoombaSpriteFactory goombaSpriteFactory;
+        private BlockSpriteFactory blockSpriteFactory;
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -67,6 +69,7 @@ namespace Game1
             gamepadController = new GamepadController();
             marioSpriteFactory = MarioSpriteFactory.Instance;
             goombaSpriteFactory = GoombaSpriteFactory.Instance;
+            blockSpriteFactory = BlockSpriteFactory.Instance;
 
             this.Window.Title = "Cornet Mario Game";
             _sprint = this;
@@ -79,6 +82,7 @@ namespace Game1
 
             marioSpriteFactory.LoadTextures(this);
             goombaSpriteFactory.LoadTextures(this);
+            blockSpriteFactory.LoadTextures(this);
 
             //Visuals for Sprint 1
             flower = new Flower(true, Sprint, new Vector2(50, 50));
@@ -97,6 +101,7 @@ namespace Game1
 
             mario = new Mario();
             goomba = new Goomba();
+            block = new Block();
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);

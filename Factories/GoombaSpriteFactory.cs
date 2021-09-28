@@ -36,6 +36,10 @@ namespace Factories
 			goombaSprites = game.Content.Load<Texture2D>("enemies");
 		}
 
+		/*
+		 *  This method returns the correct sprite given the current action and
+		 *  power-up states of Goomba.
+		 */
 		public ISprite GetCurrentSprite(Vector2 location, IGoombaState goombaState)
 		{
 			if (goombaState is IdleGoombaState)
@@ -83,7 +87,7 @@ namespace Factories
 		{
 			if (deadGoomba == null)
 			{
-				deadGoomba = new Sprite(true, location, goombaSprites, 9, 15, 0, 0);
+				deadGoomba = new Sprite(true, location, goombaSprites, 9, 15, 134, 134);
 				return deadGoomba;
 			}
 			else return deadGoomba;

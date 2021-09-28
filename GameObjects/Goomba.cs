@@ -18,33 +18,16 @@ namespace GameObjects
         public Goomba()
         {
             spriteFactory = GoombaSpriteFactory.Instance;
-            sprite = spriteFactory.CreateIdleGoomba(new Vector2(50, 25));
+            sprite = spriteFactory.CreateIdleGoomba(new Vector2(300, 100));
             goombaState = new IdleGoombaState(this);
         }
-
-        public ISprite GetSprite()
+        public IGoombaState GetGoombaState()
         {
-            return this.sprite;
+            return this.goombaState;
         }
-
-        public void SetSprite(ISprite sprite)
-        {
-            this.sprite = sprite;
-        }
-
         public void SetGoombaState(IGoombaState goombaState)
         {
             this.goombaState = goombaState;
-        }
-
-        public Vector2 GetSpriteLocation()
-        {
-            return sprite.location;
-        }
-
-        public GoombaSpriteFactory GetSpriteFactory()
-        {
-            return spriteFactory;
         }
 
         //Update all of Goomba's members
@@ -63,6 +46,14 @@ namespace GameObjects
         public void Stomped()
         {
             goombaState.Stomped();
+        }
+        public void Move()
+        {
+            goombaState.Move();
+        }
+        public void StayIdle()
+        {
+            goombaState.StayIdle();
         }
 
     }

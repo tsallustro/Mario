@@ -5,38 +5,45 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 using States;
+using Factories;
 
 namespace GameObjects
 {
     public class Block
     {
-        ISprite sprite;
-        IBlockState state;
+        private ISprite sprite;
+        private IBlockState blockState;
+        private BlockSpriteFactory spriteFactory;
 
-        public Block(ISprite sprite, IBlockState state)
+        
+
+        public Block()
         {
-            this.sprite = sprite;
-            this.state = state;
+            spriteFactory = BlockSpriteFactory.Instance;
+            sprite = spriteFactory.CreateBrickBlock(new Vector2(300, 100));
+            blockState = new BrickBlockState(this);
         }
 
-        public void SetSprite(ISprite sprite)
+        public IBlockState GetBlockState()
         {
-            this.sprite = sprite;
+            return this.blockState;
+        }
+        public void SetBlockState(IBlockState blockState)
+        {
+            this.blockState = blockState;
         }
 
-        public void SetBlockState(IBlockState state)
-        {
-            this.state = state;
-        }
-
+        //Update all of Goomba's members
         public void Update()
         {
+            sprite = spriteFactory.GetCurrentSprite(sprite.location, blockState);
             sprite.Update();
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool direction)
+        //Draw Goomba
+        public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, direction);
+            sprite.Draw(spriteBatch, true);
         }
     }
 }
