@@ -35,8 +35,6 @@ namespace Game1
         private IController keyboardController;
         private IController gamepadController;
 
-        // Simple display of sprites for sprint1
-
         //Game Objects
         //Block States
         private IBlockState questionBlockState;
@@ -250,8 +248,6 @@ namespace Game1
             fireFlower.Update();
             star.Update();
             
-            
-
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -282,7 +278,6 @@ namespace Game1
             fireFlower.Draw(spriteBatch);
             star.Draw(spriteBatch);
 
-            // Draw Legend
             spriteBatch.End();
             base.Draw(gameTime);
         }
