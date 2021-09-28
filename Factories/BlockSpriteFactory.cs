@@ -11,23 +11,10 @@ namespace Factories
 	public class BlockSpriteFactory
 	{
 		private Texture2D blockSprites;
-		private static BlockSpriteFactory factoryInstance = new BlockSpriteFactory();
 
-		public static BlockSpriteFactory Instance
+		public BlockSpriteFactory(Texture2D blockSprites)
 		{
-			get
-			{
-				return factoryInstance;
-			}
-		}
-
-		private BlockSpriteFactory()
-		{
-		}
-
-		public void LoadTextures(Game game)
-		{
-			blockSprites = game.Content.Load<Texture2D>("BlocksV2");
+			this.blockSprites = blockSprites;
 		}
 
 		/*

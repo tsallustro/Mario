@@ -16,11 +16,11 @@ namespace GameObjects
         private BlockSpriteFactory spriteFactory;
         private Vector2 location;
 
-        public Block(Vector2 position)
+        public Block(Vector2 position, Texture2D blockSprites)
         {
-            spriteFactory = BlockSpriteFactory.Instance;
             this.location = position;
-            sprite = spriteFactory.CreateBrickBlock(location);
+            this.spriteFactory = new BlockSpriteFactory(blockSprites);
+            sprite = this.spriteFactory.CreateBrickBlock(location);
             blockState = new BrickBlockState(this);
         }
         //Sets location of the block

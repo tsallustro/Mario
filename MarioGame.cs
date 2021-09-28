@@ -80,7 +80,6 @@ namespace Game1
 
             marioSpriteFactory = MarioSpriteFactory.Instance;
             goombaSpriteFactory = GoombaSpriteFactory.Instance;
-            blockSpriteFactory = BlockSpriteFactory.Instance;
             itemSpriteFactory = ItemSpriteFactory.Instance;
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
@@ -96,10 +95,10 @@ namespace Game1
            
             marioSpriteFactory.LoadTextures(this);
             goombaSpriteFactory.LoadTextures(this);
-            blockSpriteFactory.LoadTextures(this);
             itemSpriteFactory.LoadTextures(this);
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
+            Texture2D blockSprites = Content.Load<Texture2D>("BlocksV2");
 
             // Visuals for Sprint 1
             mario = new Mario(new Vector2(50, 225));
@@ -107,12 +106,12 @@ namespace Game1
             koopaTroopa = new KoopaTroopa(new Vector2(350, 100));
             redKoopaTroopa = new RedKoopaTroopa(new Vector2(400, 100));
 
-            questionBlock = new Block(new Vector2(100, 200));
-            usedBlock = new Block(new Vector2(150, 200));
-            brickBlock = new Block(new Vector2(200, 200));
-            floorBlock = new Block(new Vector2(250, 200));
-            stairBlock = new Block(new Vector2(300, 200));
-            hiddenBlock = new Block(new Vector2(350, 200));
+            questionBlock = new Block(new Vector2(100, 200), blockSprites);
+            usedBlock = new Block(new Vector2(150, 200), blockSprites);
+            brickBlock = new Block(new Vector2(200, 200), blockSprites);
+            floorBlock = new Block(new Vector2(250, 200), blockSprites);
+            stairBlock = new Block(new Vector2(300, 200), blockSprites);
+            hiddenBlock = new Block(new Vector2(350, 200), blockSprites);
 
             item = new Item(new Vector2(0, 0));
             coin = new Item(new Vector2(100, 50));
