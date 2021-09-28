@@ -13,6 +13,7 @@ namespace States
     public class BrickBlockState : IBlockState
     {
         private Block block;
+        private Mario mario;
 
         public BrickBlockState(Block block)
         {
@@ -21,15 +22,47 @@ namespace States
 
         public void Bump()
         {
-            block.SetBlockState(new BumpBlock(block));
+            block.SetBlockState(new BumpedBrickBlockState(block));
+        }
+        public void BumpBump()
+        {
+            block.SetBlockState(new BrokenBrickBlockState(block));
         }
     }
-
-    public class BumpBlock : IBlockState
+    public class BumpedBrickBlockState : IBlockState
     {
         private Block block;
 
-        public BumpBlock(Block block)
+        public BumpedBrickBlockState(Block block)
+        {
+            this.block = block;
+        }
+
+        public void Bump()
+        {
+            //Do Nothing
+        }
+    }
+    public class BrokenBrickBlockState : IBlockState
+    {
+        private Block block;
+
+        public BrokenBrickBlockState(Block block)
+        {
+            this.block = block;
+        }
+
+        public void Bump()
+        {
+            //Do Nothing
+        }
+    }
+
+    public class QuestionBlock : IBlockState
+    {
+        private Block block;
+
+        public QuestionBlock(Block block)
         {
             this.block = block;
         }
@@ -37,11 +70,8 @@ namespace States
         public void Bump()
         {
             block.SetBlockState(new UsedBlock(block));
-
-            //Do some stuff on used
         }
     }
-
     public class UsedBlock : IBlockState
     {
         private Block block;
@@ -53,7 +83,7 @@ namespace States
 
         public void Bump()
         {
-            //Do some stuff on bump based on used block
+            //Do nothing
         }
     }
 
@@ -62,6 +92,22 @@ namespace States
         private Block block;
 
         public HiddenBlock(Block block)
+        {
+            this.block = block;
+        }
+
+        public void Bump()
+        {
+            block.SetBlockState(new BrickBlockState(block));
+
+            //Do some stuff on bump
+        }
+    }
+    public class FloorBlock : IBlockState
+    {
+        private Block block;
+
+        public FloorBlock(Block block)
         {
             this.block = block;
         }

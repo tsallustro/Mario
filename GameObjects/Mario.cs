@@ -43,7 +43,6 @@ namespace GameObjects
         public void Update(GameTime GameTime, GraphicsDeviceManager Graphics)
         {
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            sprite = spriteFactory.GetCurrentSprite(sprite.location, actionState, powerState);
 
             // Velocity calculations and state changes depending on velocity
             if (this.actionState is JumpingState || this.actionState is FallingState)

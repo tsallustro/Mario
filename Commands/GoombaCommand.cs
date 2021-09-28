@@ -28,7 +28,7 @@ namespace Commands
         {
 			if (pressType == 1)
 			{
-				goomba.SetGoombaState(new IdleGoombaState(goomba));
+				goomba.StayIdle();
 			}
 		}
 	}
@@ -43,7 +43,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				goomba.SetGoombaState(new MovingGoombaState(goomba));
+				goomba.Move();
 			}
 		}
 	}
@@ -56,7 +56,11 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			goomba.Stomped();
+			if(pressType == 1)
+            {
+				goomba.Stomped();
+			}
+			
 		}
 	}
 }

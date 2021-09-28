@@ -8,6 +8,8 @@ namespace States
     public interface IGoombaState
     {
         public void Stomped();
+        public void Move();
+        public void StayIdle();
     }
 
     public class IdleGoombaState : IGoombaState
@@ -23,6 +25,14 @@ namespace States
         {
             goomba.SetGoombaState(new StompedGoombaState(goomba));
         }
+        public void Move()
+        {
+            goomba.SetGoombaState(new MovingGoombaState(goomba));
+        }
+        public void StayIdle()
+        {
+            //Do Nothing.
+        }
     }
     public class MovingGoombaState : IGoombaState
     {
@@ -36,6 +46,14 @@ namespace States
         public void Stomped()
         {
             goomba.SetGoombaState(new StompedGoombaState(goomba));
+        }
+        public void Move()
+        {
+            //Do Nothing. Goomba is already moving.
+        }
+        public void StayIdle()
+        {
+            goomba.SetGoombaState(new IdleGoombaState(goomba));
         }
     }
 
@@ -51,11 +69,17 @@ namespace States
         public void Stomped()
         {
             goomba.SetGoombaState(new DeadGoombaState(goomba));
-
-            //Do some stuff on used
+        }
+        public void Move()
+        {
+            //Do nothing. It can't move while Stomped.
+        }
+        public void StayIdle()
+        {
+            //Do Nothing.
         }
     }
-
+    //Once dead, Goomba's gone
     public class DeadGoombaState : IGoombaState
     {
         private Goomba goomba;
@@ -67,7 +91,15 @@ namespace States
 
         public void Stomped()
         {
-            //Do nothing. It's already dead
+            //Do nothing.
+        }
+        public void Move()
+        {
+            //Do nothing. It's dead.
+        }
+        public void StayIdle()
+        {
+            //Do Nothing.
         }
     }
   
