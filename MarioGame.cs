@@ -15,7 +15,6 @@ namespace Game1
     public class MarioGame : Game
     {
         
-        
         //Temporary for debugging. Needs to be deleted prior to submit.
         static private MarioGame _sprint;
 
@@ -31,7 +30,7 @@ namespace Game1
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        // controllers that detect input from gamepad and keyboard. These only change ObjectUpdater
+        //Controllers
         private IController keyboardController;
         private IController gamepadController;
 
@@ -56,17 +55,17 @@ namespace Game1
         //Character ojbects
         private IAvatar mario;
         //Obstacle objects
-        private Block questionBlock;
-        private Block usedBlock; 
-        private Block brickBlock;
-        private Block floorBlock;
-        private Block stairBlock;
-        private Block hiddenBlock;
+        private IBlock questionBlock;
+        private IBlock usedBlock; 
+        private IBlock brickBlock;
+        private IBlock floorBlock;
+        private IBlock stairBlock;
+        private IBlock hiddenBlock;
         //Block objects
-        private Block testBrickBlock;
-        private Block testQuestionBlock;
-        private Block testHiddenBlock;
-        private Block block;
+        private IBlock testBrickBlock;
+        private IBlock testQuestionBlock;
+        private IBlock testHiddenBlock;
+        private IBlock block;
         //Item objects
         private Item item;
         private Item fireFlower;
@@ -82,6 +81,7 @@ namespace Game1
         private ItemSpriteFactory itemSpriteFactory;
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
+
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);

@@ -7,7 +7,7 @@ namespace Commands
 {
 	class BumpCommand : BlockCommand
 	{
-		public BumpCommand(Block block)
+		public BumpCommand(IBlock block)
 			: base(block)
 		{
 		}

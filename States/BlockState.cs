@@ -12,9 +12,9 @@ namespace States
 
     public class QuestionBlockState : IBlockState
     {
-        private Block block;
+        private IBlock block;
 
-        public QuestionBlockState(Block block)
+        public QuestionBlockState(IBlock block)
         {
             this.block = block;
         }
@@ -27,9 +27,9 @@ namespace States
 
     public class UsedBlockState : IBlockState
     {
-        private Block block;
+        private IBlock block;
 
-        public UsedBlockState(Block block)
+        public UsedBlockState(IBlock block)
         {
             this.block = block;
         }
@@ -41,9 +41,9 @@ namespace States
     }
     public class BrickBlockState : IBlockState
     {
-        private Block block;
+        private IBlock block;
 
-        public BrickBlockState(Block block)
+        public BrickBlockState(IBlock block)
         {
             this.block = block;
         }
@@ -55,9 +55,9 @@ namespace States
     }
     public class FloorBlockState : IBlockState
     {
-        private Block block;
+        private IBlock block;
 
-        public FloorBlockState(Block block)
+        public FloorBlockState(IBlock block)
         {
             this.block = block;
         }
@@ -69,9 +69,9 @@ namespace States
     }
     public class StairBlockState : IBlockState
     {
-        private Block block;
+        private IBlock block;
 
-        public StairBlockState(Block block)
+        public StairBlockState(IBlock block)
         {
             this.block = block;
         }
@@ -83,9 +83,9 @@ namespace States
     }
     public class HiddenBlockState : IBlockState
     {
-        private Block block;
+        private IBlock block;
 
-        public HiddenBlockState(Block block)
+        public HiddenBlockState(IBlock block)
         {
             this.block = block;
         }
@@ -99,9 +99,9 @@ namespace States
     }
     public class BumpedBrickBlockState : IBlockState
     {
-        private Block block;
+        private IBlock block;
 
-        public BumpedBrickBlockState(Block block)
+        public BumpedBrickBlockState(IBlock block)
         {
             this.block = block;
         }
@@ -113,9 +113,9 @@ namespace States
     }
     public class BrokenBrickBlockState : IBlockState
     {
-        private Block block;
+        private IBlock block;
 
-        public BrokenBrickBlockState(Block block)
+        public BrokenBrickBlockState(IBlock block)
         {
             this.block = block;
         }

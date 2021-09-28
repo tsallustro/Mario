@@ -7,9 +7,9 @@ namespace Commands
 {
     abstract class BlockCommand : ICommand 
     {
-		protected Block block;
+		protected IBlock block;
 
-		protected BlockCommand(Block block)
+		protected BlockCommand(IBlock block)
 		{
 			this.block = block;
 		}

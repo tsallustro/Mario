@@ -9,7 +9,7 @@ using Factories;
 
 namespace GameObjects
 {
-    public class Block
+    public class Block : IBlock
     {
         private ISprite sprite;
         private IBlockState blockState;
