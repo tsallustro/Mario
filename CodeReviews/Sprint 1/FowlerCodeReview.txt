@@ -1,0 +1,27 @@
+﻿Author: Jesse Fowler
+
+Date: September 28, 2021
+
+Sprint Number: 1
+
+Name of file being reviewed: BlockStates.cs
+
+Author of file being reviewed: Michael Lavelle
+
+Comments on Code Quality:
+		This class is straightforward. It is a series of state classes for each possible
+		Block state. Each class extends IBlockState and implements the Bump() method.
+		There is definitely some repeated code. Every class has its own IBlock variable and
+		every class has a constructor that sets this variable. This could be remedied by
+		implementing a base abstract BlockState class. This would allow us to only define the
+		IBlock variable a single time and simply call the base constructor in any concrete
+		block state class.
+
+Minutes Taken to Review: 15 minutes
+
+Hypothetical Change:
+		As the class is now, implementing new block states takes more effort than it would if
+		there was an abstract BlockState class that each concrete class extended. There is
+		definitely a chance that we will need to implement more block states as the game progresses,
+		including transitional states between two block states. If we implement the abstract
+		base class, it will minimize the amount of code we have to write when adding new block states.
