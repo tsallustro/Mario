@@ -23,6 +23,7 @@ namespace GameObjects
         public Block(Vector2 position, Texture2D blockSprites)
         {
             location = position;
+            originalLocation = position;
             spriteFactory = new BlockSpriteFactory(blockSprites);
             sprite = spriteFactory.CreateBrickBlock(location);
             blockState = new BrickBlockState(this);
@@ -65,17 +66,18 @@ namespace GameObjects
 
             if (bumped)
             {
-                if (!falling && location.Y >= originalLocation.Y-25)
+                System.Diagnostics.Debug.WriteLine("IM HERE:" + (originalLocation.Y - 25));
+                if (!falling && location.Y >= originalLocation.Y-25)                                // block is less than desired height
                 {
-                    location.Y = location.Y - 5 * GameTime.ElapsedGameTime.Seconds;
-                } else if (!falling && location.Y < originalLocation.Y - 25)
+                    location.Y = location.Y - 25 * (float)GameTime.ElapsedGameTime.TotalSeconds;
+                } else if (!falling && location.Y < originalLocation.Y - 25)                        // block hits its desired height.
                 {
                     falling = true;
-                } else if (falling && location.Y < originalLocation.Y)
+                } else if (falling && location.Y < originalLocation.Y)                              // block is falling and heigher than original location
                 {
-                    location.Y = location.Y + 5 * GameTime.ElapsedGameTime.Seconds;
-                } else
-                {
+                    location.Y = location.Y + 25 * (float)GameTime.ElapsedGameTime.TotalSeconds;
+                }
+                else {                                                                              // if block is falling and below original location (reset)
                     location.Y = originalLocation.Y;
                     if (blockState is BumpedQuestionBlockState)
                     {
@@ -85,13 +87,12 @@ namespace GameObjects
                         sprite = spriteFactory.CreateBrickBlock(location);
                     }
                     bumped = false;
-                    falling = true;
+                    falling = false;
                 }
 
-            } else
-            {
-                sprite = spriteFactory.GetCurrentSprite(sprite.location, blockState);
             }
+            
+            sprite = spriteFactory.GetCurrentSprite(location, blockState);
             sprite.Update();
         }
 
@@ -102,7 +103,6 @@ namespace GameObjects
 
         public void Bump()
         {
-            Vector2 originalLocation = this.location;
             bumped = true;
             falling = false;
             blockState.Bump();
