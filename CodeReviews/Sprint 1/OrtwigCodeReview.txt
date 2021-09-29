@@ -1,0 +1,24 @@
+﻿Author: Maxwell Ortwig
+
+Date: September 28, 2021
+
+Sprint Number: 1
+
+Name of file being reviewed: KeyboardController.cs
+
+Author of file being reviewed: Jesse Fowler
+
+Comments on Code Quality:
+	The code quality is clean. There are imports that aren't being used, such as System.Linq, System.Text, etc.
+	Everything else in the file is very neat organized and to the point. There is no fluff in the file.
+	The code does lack comments that would help someone unfamiliar to navigate what each step does.
+
+
+Minutes Taken to Review: 15 min
+
+Hypothetical Change:
+	I can see nothing that could be changed here that would have any effect on the rest of the project.
+	Here's an idea though, in the past, i've played with something called sourcemod. In sourcemod, commands
+	carried with them the sender and target objects. This could be something worth implementing, as already
+	the lack of context in some situations has caused the code to spaggetti a little bit. To change this, the
+	commands that KeyboardController adds to its dictionary would have to be changed.
