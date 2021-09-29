@@ -1,0 +1,28 @@
+﻿Author: Tony Sallustro
+
+Date: 28 September 2021
+
+Sprint: 1
+
+File: MarioPowerStates.cs
+
+File Author: Michael Lavelle
+
+Comments: 
+	MarioPowerStates.cs is well designed- it clearly defines the different power states for Mario and provides an easy way to define/change the state at any time. 
+	Readability-wise, it is a little daunting at first, but it makes sense as you see the different implementations of IMarioPowerState. Most of all, it doesn't define any
+	behavior that would be better defined elsewhere or at a higher level, but rather simply represents the transitions between states, making for very high reusability and
+	maintainability. However, defining the power states using concrete classes could be overthinking the concept of states- it is possible to accomplish the same thing without
+	having explicit classes that do essentially the same thing (i.e. the FireFlower() method does the same thing regardless of what the current state is), which creates
+	a sense of redundancy, but not in a way that actively hurts/detracts from the Power State system. Moving forward, this class won't need much added to it (aside from Star Mario)
+	due to its simplistic design, which makes for one less thing to worry about changing in the future.
+
+Minutes spent on code review: 25 minutes
+
+Hypothetical change: 
+	A possible change would be to create a single implementation of the IMarioPowerState interface, MarioPowerState, rather than several different ones. MarioPowerState has a single 
+	member, currentPower, that is of type Power (an enum with possible values being the different possible power states). When the different methods are called, currentPower changes
+	to reflect the change in Mario's state. This solution would require a number of changes not just in MarioPowerStates.cs, but across the project in places where the power state 
+	is used for logic (such as checking the state when Mario hits a brick block). As of Sprint 1, however, there are not a lot of places where this is done, so implementing it now 
+	rather than down the road would be fairly easy. This change would help with the overall readability of the MarioPowerStates.cs file, and avoid possible bugs that go along with 
+	checking class types (instead of checking enum values).
