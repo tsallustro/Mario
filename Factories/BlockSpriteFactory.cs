@@ -27,37 +27,38 @@ namespace Factories
 			if (blockState is QuestionBlockState)
 			{
 				return CreateQuestionBlock(location);
+			}
+			else if (blockState is BumpedQuestionBlockState)
+			{
+				return CreateBumpedQuestionBlock(location);
 			}else if (blockState is UsedBlockState)
 			{
 				return CreateUsedBlock(location);
+			}else if (blockState is BumpedBrickBlockState)
+			{
+				return CreateBumpedBrickBlock(location);
 			}else if (blockState is BrickBlockState)
 			{
 				return CreateBrickBlock(location);
-			}else if (blockState is BrokenBrickBlockState)
-            {
+			}
+			else if (blockState is BrokenBrickBlockState)
+			{
 				return CreateBrokenBrickBlock(location);
-            }
+			}
 			else if (blockState is FloorBlockState)
 			{
 				return CreateFloorBlock(location);
-			}else if (blockState is StairBlockState)
+			}
+			else if (blockState is StairBlockState)
 			{
 				return CreateStairBlock(location);
-			}else
+			}
+			else
 			{
 				return CreateHiddenBlock(location);
 			}
 
 		}
-
-
-
-
-
-
-
-
-
 
 		public ISprite CreateHiddenBlock(Vector2 location)
 		{

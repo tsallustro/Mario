@@ -1,0 +1,23 @@
+﻿Author: Michael Lavelle
+
+Date: September 28th, 2021
+
+Sprint #: 1
+
+File being Reviewed: Mario.cs
+
+Authorof the file: Jesse Fowler
+
+Code Quality: 
+		Mario Class is clean and well-organize. It has all the classes necessary to implement mario as an object and
+		well-defined methods that calls for classes needed to update the mario states. Getting and setting of Mario states
+		is simple and well-defined; however, it is limited when describing the object's action. There are no methods to
+		describe Mario's action (not actionstate) and it is difficult to make even a simple movement of an object if it has
+		be temporal. 
+
+Number of minutes taken to complete the review: 20
+
+Hypothetical change: 
+		We could try adding more methods that could help us define object's movement better. IT is possible to work with 
+		the current methods such as MoveLeft() and Up() to define the objects movement (changing of sprite's locations
+		thoroughout gametime or interaction with other objects in the game) instead of simply defining the state of Mario.

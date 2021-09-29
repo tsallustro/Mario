@@ -67,11 +67,16 @@ namespace GameObjects
             {
                 if (!falling && location.Y >= originalLocation.Y-25)
                 {
-                    location.Y = location.Y - 10 * GameTime.ElapsedGameTime.Seconds;
-                }
-
-                if (falling && location.Y >= originalLocation.Y)
+                    location.Y = location.Y - 5 * GameTime.ElapsedGameTime.Seconds;
+                } else if (!falling && location.Y < originalLocation.Y - 25)
                 {
+                    falling = true;
+                } else if (falling && location.Y < originalLocation.Y)
+                {
+                    location.Y = location.Y + 5 * GameTime.ElapsedGameTime.Seconds;
+                } else
+                {
+                    location.Y = originalLocation.Y;
                     if (blockState is BumpedQuestionBlockState)
                     {
                         sprite = spriteFactory.CreateUsedBlock(location);
@@ -79,11 +84,14 @@ namespace GameObjects
                     {
                         sprite = spriteFactory.CreateBrickBlock(location);
                     }
-                    location.Y = originalLocation.Y;
+                    bumped = false;
+                    falling = true;
                 }
-            }
 
-            sprite = spriteFactory.GetCurrentSprite(sprite.location, blockState);
+            } else
+            {
+                sprite = spriteFactory.GetCurrentSprite(sprite.location, blockState);
+            }
             sprite.Update();
         }
 
