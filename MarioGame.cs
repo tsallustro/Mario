@@ -163,9 +163,9 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.L, new StompedRedKoopaTroopaCommand(redKoopaTroopa));
 
             // Brick commands
-            keyboardController.AddMapping((int)Keys.OemQuestion, new BumpCommand(questionBlock));
-            keyboardController.AddMapping((int)Keys.B, new BumpCommand(brickBlock));
-            keyboardController.AddMapping((int)Keys.H, new BumpCommand(hiddenBlock));
+            keyboardController.AddMapping((int)Keys.OemQuestion, new BumpCommand(questionBlock, (Mario) mario));
+            keyboardController.AddMapping((int)Keys.B, new BumpCommand(brickBlock, (Mario) mario));
+            keyboardController.AddMapping((int)Keys.H, new BumpCommand(hiddenBlock, (Mario) mario));
 
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);

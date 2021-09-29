@@ -7,6 +7,14 @@ namespace Commands
 {
 	class BumpCommand : BlockCommand
 	{
+		protected Mario mario;
+		public BumpCommand(IBlock block, Mario Mario)
+			: base(block)
+		{
+			mario = Mario;
+		}
+
+
 		public BumpCommand(IBlock block)
 			: base(block)
 		{
@@ -16,7 +24,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				block.Bump();
+				block.Bump(mario);
 			}
 		}
 	}

@@ -13,6 +13,7 @@ namespace GameObjects
     {
         private ISprite sprite;
         private IBlockState blockState;
+        private Mario mario;
         private BlockSpriteFactory spriteFactory;
         private Vector2 location;
         private Vector2 originalLocation;
@@ -64,9 +65,8 @@ namespace GameObjects
         {
             //System.Diagnostics.Debug.WriteLine("IM HERE:" + blockState);
 
-            if (bumped)
+            if (bumped && !(blockState is UsedBlockState))
             {
-                System.Diagnostics.Debug.WriteLine("IM HERE:" + (originalLocation.Y - 25));
                 if (!falling && location.Y >= originalLocation.Y-25)                                // block is less than desired height
                 {
                     location.Y = location.Y - 25 * (float)GameTime.ElapsedGameTime.TotalSeconds;
@@ -81,17 +81,26 @@ namespace GameObjects
                     location.Y = originalLocation.Y;
                     if (blockState is BumpedQuestionBlockState)
                     {
-                        sprite = spriteFactory.CreateUsedBlock(location);
-                    } else
+                        blockState = new UsedBlockState(this);
+                    }
+                    else if (!(mario.GetPowerState() is StandardMario))
                     {
-                        sprite = spriteFactory.CreateBrickBlock(location);
+                        blockState = new BrokenBrickBlockState(this);
                     }
                     bumped = false;
                     falling = false;
+                    System.Diagnostics.Debug.WriteLine("IM HERE:" + (blockState));
+
                 }
 
             }
-            
+
+            if (blockState is BrokenBrickBlockState)
+            {
+                location.Y = location.Y + 100 * (float)GameTime.ElapsedGameTime.TotalSeconds;
+
+            }
+
             sprite = spriteFactory.GetCurrentSprite(location, blockState);
             sprite.Update();
         }
@@ -101,13 +110,20 @@ namespace GameObjects
             sprite.Draw(spriteBatch, false);
         }
 
-        public void Bump()
+        public void Bump(Mario Mario)
         {
+            mario = Mario;
             bumped = true;
             falling = false;
             blockState.Bump();
             //sprite = spriteFactory.CreateBumpedBrickBlock(location);
 
+        }
+        public void Bump()
+        {
+            bumped = true;
+            falling = false;
+            blockState.Bump();
         }
 
     }

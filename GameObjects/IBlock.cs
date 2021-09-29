@@ -12,6 +12,7 @@ namespace GameObjects
         void Update(GameTime GameTime);
         void Draw(SpriteBatch spriteBatch);
         void Bump();
+        void Bump(Mario Mario);
         Vector2 GetLocation();
         void SetLocation(Vector2 location);
         /*
