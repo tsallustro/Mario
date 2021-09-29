@@ -15,6 +15,9 @@ namespace GameObjects
         private IBlockState blockState;
         private BlockSpriteFactory spriteFactory;
         private Vector2 location;
+        private Vector2 originalLocation;
+        private Boolean falling = false;
+        private Boolean bumped = false;
         private HashSet<IItem> items; // Future use for storing items in block
 
         public Block(Vector2 position, Texture2D blockSprites)
@@ -29,29 +32,57 @@ namespace GameObjects
         public Block(Vector2 position, Texture2D blockSprites, HashSet<IItem> items)
         {
             location = position;
+            originalLocation = position;
             spriteFactory = new BlockSpriteFactory(blockSprites);
             this.items = items;
             sprite = spriteFactory.CreateBrickBlock(location);
             blockState = new BrickBlockState(this);
         }
 
-        public void SetBlockLocation(Vector2 position)
+        public void SetLocation(Vector2 position)
         {
             sprite.location = position;
+        }
+        public Vector2 GetLocation()
+        {
+            return location;
         }
 
         public IBlockState GetBlockState()
         {
             return blockState;
         }
+   
 
         public void SetBlockState(IBlockState blockState)
         {
             this.blockState = blockState;
         }
 
-        public void Update()
+        public void Update(GameTime GameTime)
         {
+            //System.Diagnostics.Debug.WriteLine("IM HERE:" + blockState);
+
+            if (bumped)
+            {
+                if (!falling && location.Y >= originalLocation.Y-25)
+                {
+                    location.Y = location.Y - 10 * GameTime.ElapsedGameTime.Seconds;
+                }
+
+                if (falling && location.Y >= originalLocation.Y)
+                {
+                    if (blockState is BumpedQuestionBlockState)
+                    {
+                        sprite = spriteFactory.CreateUsedBlock(location);
+                    } else
+                    {
+                        sprite = spriteFactory.CreateBrickBlock(location);
+                    }
+                    location.Y = originalLocation.Y;
+                }
+            }
+
             sprite = spriteFactory.GetCurrentSprite(sprite.location, blockState);
             sprite.Update();
         }
@@ -63,7 +94,13 @@ namespace GameObjects
 
         public void Bump()
         {
+            Vector2 originalLocation = this.location;
+            bumped = true;
+            falling = false;
             blockState.Bump();
+            //sprite = spriteFactory.CreateBumpedBrickBlock(location);
+
         }
+
     }
 }

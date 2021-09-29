@@ -185,13 +185,12 @@ namespace Game1
             koopaTroopa.Update();
             redKoopaTroopa.Update();
 
-            questionBlock.Update();
-            usedBlock.Update();
-            brickBlock.Update();
-            floorBlock.Update();
-            stairBlock.Update();
-            hiddenBlock.Update();
-
+            questionBlock.Update(gameTime);
+            usedBlock.Update(gameTime);
+            brickBlock.Update(gameTime);
+            floorBlock.Update(gameTime);
+            stairBlock.Update(gameTime);
+            hiddenBlock.Update(gameTime);
             coin.Update();
             superMushroom.Update();
             oneUpMushroom.Update();

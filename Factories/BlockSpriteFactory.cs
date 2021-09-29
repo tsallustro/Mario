@@ -50,51 +50,64 @@ namespace Factories
 
 		}
 
-		public ISprite CreateQuestionBlock(Vector2 location)
-		{
-			if (questionSprite == null)
-            {
-				questionSprite = new Sprite(true, location, blockSprites, 1, 9, 4, 5);
-				return questionSprite;
-			} else
-            {
-				return questionSprite;
-            }
-		}
 
-		public ISprite CreateUsedBlock(Vector2 location)
-		{
-			return new Sprite(true, location, blockSprites, 1, 9, 6, 6);
-		}
 
-		public ISprite CreateBrickBlock(Vector2 location)
-		{
-			return new Sprite(true, location, blockSprites, 1, 9, 0, 0);
-		}
 
-		public ISprite CreateFloorBlock(Vector2 location)
-		{
-			return new Sprite(true, location, blockSprites, 1, 9, 7, 7);
-        }
 
-		public ISprite CreateStairBlock(Vector2 location)
-		{
-			return new Sprite(true, location, blockSprites, 1, 9, 3, 3);
-        }
+
+
+
+
 
 		public ISprite CreateHiddenBlock(Vector2 location)
 		{
 			return new Sprite(false, location, blockSprites, 1, 9, 8, 8);
 		}
-
-		public ISprite CreateBumpedBrickBlock(Vector2 location)
+		public ISprite CreateUsedBlock(Vector2 location)
 		{
-			return new Sprite(true, location, blockSprites, 1, 9, 0, 0);
-        }
+			return new Sprite(true, location, blockSprites, 1, 9, 7, 7);
+		}
+		public ISprite CreateBumpedQuestionBlock(Vector2 location)
+		{
+			return new Sprite(true, location, blockSprites, 1, 9, 5, 6);
+		}
+
+		public ISprite CreateQuestionBlock(Vector2 location)
+		{
+			if (questionSprite == null)
+			{
+				questionSprite = new Sprite(true, location, blockSprites, 1, 9, 5, 6);
+				return questionSprite;
+			}
+			else
+			{
+				return questionSprite;
+			}
+		}
+		public ISprite CreateStairBlock(Vector2 location)
+		{
+			return new Sprite(true, location, blockSprites, 1, 9, 4, 4);
+		}
+		public ISprite CreateFloorBlock(Vector2 location)
+		{
+			return new Sprite(true, location, blockSprites, 1, 9, 3, 3);
+		}
 
 		public ISprite CreateBrokenBrickBlock(Vector2 location)
 		{
+			return new Sprite(true, location, blockSprites, 1, 9, 2, 2);
+		}
+		public ISprite CreateCrackedBrickBlock(Vector2 location)
+		{
 			return new Sprite(true, location, blockSprites, 1, 9, 1, 1);
-        }	
+		}
+		public ISprite CreateBumpedBrickBlock(Vector2 location)
+		{
+			return new Sprite(true, location, blockSprites, 1, 9, 0, 0);
+		}
+		public ISprite CreateBrickBlock(Vector2 location)
+		{
+			return new Sprite(true, location, blockSprites, 1, 9, 0, 0);
+		}
 	}
 }

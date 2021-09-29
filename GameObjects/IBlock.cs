@@ -9,9 +9,11 @@ namespace GameObjects
 {
     public interface IBlock
     {
-        void Update();
+        void Update(GameTime GameTime);
         void Draw(SpriteBatch spriteBatch);
         void Bump();
+        Vector2 GetLocation();
+        void SetLocation(Vector2 location);
         /*
          * SetBlockState() is probably not needed in this interface,
          * but is required to work for now. Can probably remove this

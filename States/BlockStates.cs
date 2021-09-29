@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 using GameObjects;
 
 namespace States
@@ -16,7 +17,20 @@ namespace States
 
         public void Bump()
         {
-            block.SetBlockState(new UsedBlockState(block));
+            block.SetBlockState(new BumpedQuestionBlockState(block));
+        }
+    }
+    public class BumpedQuestionBlockState : IBlockState
+    {
+        private IBlock block;
+
+        public BumpedQuestionBlockState(IBlock block)
+        {
+            this.block = block;
+        }
+
+        public void Bump()
+        {
         }
     }
 
@@ -43,9 +57,11 @@ namespace States
             this.block = block;
         }
 
-        public void Bump()
+        public void Bump() // DO CHECK FOR MARIO STATE
         {
-            block.SetBlockState(new BrokenBrickBlockState(block));
+            // if mario state != normal, then make broken brick
+            // else make brick
+            block.SetBlockState(new BumpedBrickBlockState(block));
         }
     }
     public class FloorBlockState : IBlockState
