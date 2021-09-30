@@ -15,14 +15,11 @@ namespace Commands
 		{ 
 			if(pressType == 1)
             {
-				avatar.MoveRight();
+				avatar.MoveRight(pressType);
 			} else if (pressType == 2)
 			{
-				avatar.MoveRight();
-			} else if (pressType == 3)
-            {
-				avatar.MoveLeft();
-            }
+				avatar.MoveRight(pressType);
+			} 
 		}
 	}
 }

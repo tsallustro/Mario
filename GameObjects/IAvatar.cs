@@ -10,9 +10,9 @@ namespace GameObjects
     {
         void Update(GameTime GameTime, GraphicsDeviceManager Graphics);
         void Draw(SpriteBatch spriteBatch);
-        void MoveLeft();
-        void MoveRight();
-        void Up();
-        void Down();
+        void MoveLeft(int pressType);
+        void MoveRight(int pressType);
+        void Up(int pressType);
+        void Down(int pressType);
     }
 }

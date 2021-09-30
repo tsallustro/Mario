@@ -17,7 +17,10 @@ namespace Commands
 		{
 			if(pressType == 1)
             {
-				avatar.Up();
+				avatar.Up(pressType);
+			}else if (pressType == 2)
+			{
+				avatar.Up(pressType);
 			}
 		}
 	}

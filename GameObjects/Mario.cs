@@ -67,6 +67,22 @@ namespace GameObjects
             }
             location = location - velocity * timeElapsed;
             */
+            //This prevents Mario from going outside the screen
+            if (this.location.X > Graphics.PreferredBackBufferWidth) // Need to change this value to screen size - character size.
+            {
+                this.location.X = Graphics.PreferredBackBufferWidth;
+            } else if (this.location.X < 0)
+            {
+                this.location.X = 0;
+            }
+            if (this.location.Y > Graphics.PreferredBackBufferHeight)
+            {
+                this.location.Y = Graphics.PreferredBackBufferHeight;
+            }
+            else if (this.location.Y < 0)
+            {
+                this.location.Y = 0;
+            }
             sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
             sprite.Update();
         }
@@ -78,24 +94,36 @@ namespace GameObjects
             sprite.Draw(spriteBatch, actionState.GetDirection());
         }
         
-        public void MoveLeft()
+        public void MoveLeft(int pressType)
         {
             actionState.MoveLeft();
-            this.location.X -= 1;
+            if (this.actionState is RunningState && pressType == 2)
+            {
+                this.location.X -= 1;
+            }
         }
         
-        public void MoveRight()
+        public void MoveRight(int pressType)
         {
             //Mario only moves when holding the key
             actionState.MoveRight();
             //sprite.Move();
-            this.location.X += 1;
+            if (this.actionState is RunningState && pressType == 2)
+            {
+                this.location.X += 1;
+            }
         }
 
-        public void Up()
+        public void Up(int pressType)
         {
             actionState.Jump();
-            /* UNCOMMENT FOR SPRINT2
+            if (this.actionState is JumpingState && pressType == 2)
+            {
+                this.location.Y -= 1;
+            }
+            /*
+             * actionState.Jump() already changes the state to idle if crouching or to jumping if idle
+             * Is there need to do it again, besides changing velocity?
             if (this.actionState is CrouchingState)
             {
                 this.SetActionState(new IdleState(this, actionState.GetDirection()));
@@ -109,9 +137,13 @@ namespace GameObjects
             */
         }
 
-        public void Down()
+        public void Down(int pressType)
         {
             actionState.Crouch();
+            if (this.actionState is CrouchingState && pressType == 2)
+            {
+                this.location.Y += 1;
+            }
             /* UNCOMMENT FOR SPRINT2
             if (this.actionState is JumpingState || this.actionState is FallingState)
             {
