@@ -11,6 +11,7 @@ namespace States
         public void MoveRight();
         public void Crouch();
         public void Jump();
+        public void Idle();
 
         //void DashOrThrowFireball(); FUTURE USE
     }

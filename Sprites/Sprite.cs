@@ -61,6 +61,11 @@ namespace Sprites
         //Move Method
         public void Move()
         {
+            location += (new Vector2(1, 0));
+            Animation();
+        }
+        public void MoveLeft()
+        {
             location += (new Vector2(movementDirection * 1, 0));
             Animation();
         }

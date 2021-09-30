@@ -16,7 +16,10 @@ namespace Commands
 			if(pressType == 1)
             {
 				avatar.MoveLeft();
-			}
+			} else if (pressType == 2)
+            {
+				avatar.MoveLeft();
+            }
 			
 		}
 	}

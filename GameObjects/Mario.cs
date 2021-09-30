@@ -77,15 +77,19 @@ namespace GameObjects
             sprite.location = location;
             sprite.Draw(spriteBatch, actionState.GetDirection());
         }
-
+        
         public void MoveLeft()
         {
             actionState.MoveLeft();
+            this.location.X -= 1;
         }
-
+        
         public void MoveRight()
         {
+            //Mario only moves when holding the key
             actionState.MoveRight();
+            //sprite.Move();
+            this.location.X += 1;
         }
 
         public void Up()

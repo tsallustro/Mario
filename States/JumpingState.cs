@@ -20,18 +20,17 @@ namespace States
         {
             return this.left;
         }
-
-        public void MoveLeft()
+        public void MoveRight()
         {
-            if (!this.left)
+            if (this.left)
             {
                 mario.SetActionState(new JumpingState(mario, !this.left));
             }
         }
 
-        public void MoveRight()
+        public void MoveLeft()
         {
-            if (this.left)
+            if (!this.left)
             {
                 mario.SetActionState(new JumpingState(mario, !this.left));
             }
@@ -45,6 +44,10 @@ namespace States
         public void Jump()
         {
             //Do nothing, already in Jumping State
+        }
+        public void Idle()
+        {
+            mario.SetActionState(new IdleState(mario, this.left));
         }
     }
 }

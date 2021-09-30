@@ -20,7 +20,7 @@ namespace States
         {
             return this.left;
         }
-
+        
         public void MoveLeft()
         {
             if (this.left)
@@ -32,12 +32,13 @@ namespace States
                 this.left = !this.left;
             }
         }
-
+        
         public void MoveRight()
         {
             if (!this.left)
             {
                 mario.SetActionState(new RunningState(mario, this.left));
+                                
             }
             else
             {
@@ -53,6 +54,10 @@ namespace States
         public void Jump()
         {
             mario.SetActionState(new JumpingState(mario, this.left));
+        }
+        public void Idle()
+        {
+            mario.SetActionState(new IdleState(mario, this.left));
         }
     }
 }

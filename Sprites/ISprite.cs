@@ -16,6 +16,7 @@ namespace Sprites
         public void Update();
         public void ToggleVisibility();
         public void Draw(SpriteBatch SpriteBatch, bool left);
+        public void Move();
 
 
     }
