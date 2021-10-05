@@ -33,7 +33,7 @@ namespace GameObjects
         }
 
         //Update all of Goomba's members
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             sprite = spriteFactory.GetCurrentSprite(sprite.location, goombaState);
             sprite.Update();

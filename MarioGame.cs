@@ -93,7 +93,7 @@ namespace Game1
             Texture2D blockSprites = Content.Load<Texture2D>("BlocksV3");
 
             // Visuals for Sprint 1
-            mario = new Mario(new Vector2(10, graphics.PreferredBackBufferHeight - 30));
+            mario = new Mario(new Vector2(10, graphics.PreferredBackBufferHeight - 30), graphics);
             goomba = new Goomba(new Vector2(300, 100));
             koopaTroopa = new KoopaTroopa(new Vector2(350, 100));
             redKoopaTroopa = new RedKoopaTroopa(new Vector2(400, 100));
@@ -180,10 +180,10 @@ namespace Game1
             keyboardController.Update();
 
             //Update the Game Objects
-            mario.Update(gameTime, graphics);
-            goomba.Update(); 
-            koopaTroopa.Update();
-            redKoopaTroopa.Update();
+            mario.Update(gameTime);
+            goomba.Update(gameTime); 
+            koopaTroopa.Update(gameTime);
+            redKoopaTroopa.Update(gameTime);
 
             questionBlock.Update(gameTime);
             usedBlock.Update(gameTime);
@@ -191,11 +191,11 @@ namespace Game1
             floorBlock.Update(gameTime);
             stairBlock.Update(gameTime);
             hiddenBlock.Update(gameTime);
-            coin.Update();
-            superMushroom.Update();
-            oneUpMushroom.Update();
-            fireFlower.Update();
-            star.Update();
+            coin.Update(gameTime);
+            superMushroom.Update(gameTime);
+            oneUpMushroom.Update(gameTime);
+            fireFlower.Update(gameTime);
+            star.Update(gameTime);
             
             base.Update(gameTime);
         }

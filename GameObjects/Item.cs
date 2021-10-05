@@ -40,7 +40,7 @@ namespace GameObjects
         }
 
         //Update all items
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             sprite = spriteFactory.GetCurrentSprite(sprite.location, itemState);
             sprite.Update();

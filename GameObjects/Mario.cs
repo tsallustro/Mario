@@ -16,8 +16,9 @@ namespace GameObjects
         private Vector2 velocity;
         private Vector2 location;
         private enum actionStates {Idle, Crouching, Jumping, Falling, Running };
+        GraphicsDeviceManager Graphics { get; set; }
 
-        public Mario(Vector2 position)
+        public Mario(Vector2 position, GraphicsDeviceManager graphics)
         {
             spriteFactory = MarioSpriteFactory.Instance;
             this.location = position;
@@ -25,6 +26,7 @@ namespace GameObjects
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
             velocity = new Vector2(0, 0);
+            Graphics = graphics;
         }
 
         public IMarioPowerState GetPowerState()
@@ -43,7 +45,7 @@ namespace GameObjects
         }
 
         //Update all of Mario's members
-        public void Update(GameTime GameTime, GraphicsDeviceManager Graphics)
+        public void Update(GameTime GameTime)
         {
             /* UNCOMMENT FOR SPRINT2
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;

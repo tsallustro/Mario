@@ -6,10 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameObjects
 {
-    interface IAvatar
+    interface IAvatar : IGameObject
     {
-        void Update(GameTime GameTime, GraphicsDeviceManager Graphics);
-        void Draw(SpriteBatch spriteBatch);
         void MoveLeft(int pressType);
         void MoveRight(int pressType);
         void Up(int pressType);

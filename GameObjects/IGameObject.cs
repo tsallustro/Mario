@@ -6,7 +6,7 @@ namespace GameObjects
 {
     public interface IGameObject
     {
-        void Update();
+        void Update(GameTime GameTime);
         void Draw(SpriteBatch spriteBatch);
     }
 }
