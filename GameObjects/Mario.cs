@@ -15,6 +15,7 @@ namespace GameObjects
         private MarioSpriteFactory spriteFactory;
         private Vector2 velocity;
         private Vector2 location;
+        private enum actionStates {Idle, Crouching, Jumping, Falling, Running };
 
         public Mario(Vector2 position)
         {

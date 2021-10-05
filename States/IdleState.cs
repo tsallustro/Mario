@@ -9,12 +9,76 @@ namespace States
     {
         private Mario mario;
         private bool left;
+        IMarioActionState previousState { get; set; }
 
         public IdleState(Mario mario, bool left)
         {
             this.mario = mario;
             this.left = left;
         }
+        /*
+        public void Enter(IMarioActionState previousActionState)
+        {
+            this.previousState = previousActionState;
+        }
+        public void Exit()
+        {
+            //Do Nothing
+        }
+        public void StandingTransition()
+        {
+            //Do Nothing. Already in Idle State
+        }
+        public void CrouchingTransition()
+        {
+            mario.SetActionState(new CrouchingState(mario, this.left));
+        }
+        public void WalkingTransition()
+        {
+
+        }
+        public void RunningTransition()
+        {
+
+        }
+        public void JumpingTransition()
+        {
+
+        }
+        public void FallingTransition()
+        {
+
+        }
+        public void FaceLeftTransition()
+        {
+
+        }
+        public void FaceRightTransition()
+        {
+
+        }
+        public void CrouchingDiscontinueTransition()
+        {
+
+        }
+        public void FaceLeftDiscontinueTransition()
+        {
+
+        }
+        public void WalkingDiscontinueTransition()
+        {
+
+        }
+        public void RunningDiscontinueTransition()
+        {
+
+        }
+        public void JumpingDiscontinueTransition()
+        {
+
+        }
+        */
+        
 
         public bool GetDirection()
         {
@@ -59,5 +123,6 @@ namespace States
         {
             mario.SetActionState(new IdleState(mario, this.left));
         }
+        
     }
 }

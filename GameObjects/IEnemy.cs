@@ -4,10 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 namespace GameObjects
 {
-	public interface IEnemy
+	public interface IEnemy : IGameObject
 	{
-		public void Update();
-		public void Draw(SpriteBatch SpriteBatch);
 		public void Stomped();
 		public void Move();
 		public void StayIdle();
