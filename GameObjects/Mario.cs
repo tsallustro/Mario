@@ -57,27 +57,7 @@ namespace GameObjects
         //Update all of Mario's members
         public void Update(GameTime GameTime)
         {
-            /* UNCOMMENT FOR SPRINT2
-            float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            // Velocity calculations and state changes depending on velocity
-            if (this.actionState is JumpingState || this.actionState is FallingState)
-            {
-                velocity.Y -= 1;
-                if (velocity.Y < 0 && this.actionState is JumpingState)
-                {
-                    this.SetActionState(new FallingState(this, actionState.GetDirection()));
-                }
-                if (sprite.location.Y > Graphics.PreferredBackBufferHeight-16)
-                {
-                    this.SetActionState(new IdleState(this, actionState.GetDirection()));
-                    velocity.Y = 0;
-                    location.Y = Graphics.PreferredBackBufferHeight - 20;
-                }
-            }
-            else
-            {
-                velocity.Y = 0;
-            } */
+            System.Diagnostics.Debug.WriteLine("ActionState: " + this.actionState);
 
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
             location = location - velocity * timeElapsed;
