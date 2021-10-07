@@ -7,8 +7,10 @@ using States;
 
 namespace GameObjects
 {
-    public interface IBlock : IGameObject
+    public interface IBlock
     {
+        void Update(GameTime GameTime);
+        void Draw(SpriteBatch spriteBatch);
         void Bump();
         void Bump(Mario Mario);
         Vector2 GetLocation();
