@@ -28,5 +28,7 @@ namespace GameObjects
         bool IsTouchingTop(ISprite sprite);
         bool IsTouchingBottom(ISprite sprite);
 
+
+        void TakeDamage();
     }
 }
