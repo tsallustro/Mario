@@ -6,9 +6,9 @@ using States;
 
 namespace Commands
 {
-    class DamageObjectCommand : GameObjectCommand
+    class HaltCollidingObjectCommand : GameObjectCommand
     {
-		public DamageObjectCommand(IGameObject avatar)
+		public HaltCollidingObjectCommand(GameObject avatar)
 			: base(avatar)
 		{
 		}
@@ -17,7 +17,8 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				avatar.velocity;
+				avatar.SetYVelocity(0);
+				avatar.SetXVelocity(0);
 			}
 		}
 	}
