@@ -29,6 +29,16 @@ namespace GameObjects
             Graphics = graphics;
         }
 
+        public void SetXVelocity(float x)
+        {
+            this.velocity.X = x;
+        }
+
+        public void SetYVelocity(float y)
+        {
+            this.velocity.Y = y;
+        }
+
         public IMarioPowerState GetPowerState()
         {
             return this.powerState;

@@ -14,6 +14,15 @@ namespace States
         {
             this.mario = mario;
             this.left = left;
+
+            if (this.left)
+            {
+                this.mario.SetXVelocity(-5);
+            }
+            else
+            {
+                this.mario.SetXVelocity(5);
+            }
         }
 
         public bool GetDirection()
