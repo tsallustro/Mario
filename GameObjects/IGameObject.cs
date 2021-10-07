@@ -11,6 +11,7 @@ namespace GameObjects
         Vector2 position { get; set; }
         Vector2 velocity { get; set; }
         Vector2 accelaration { get; set; }
+        float speed { get; set; }
         ISprite sprite { get; set; }
         List <IGameObject> objects { get; set; }
 
@@ -18,6 +19,9 @@ namespace GameObjects
        
         void Update(GameTime GameTime);
         void Draw(SpriteBatch spriteBatch);
+
+        //Methods
+        
         // Collision methods?
         bool IsTouchingRight(ISprite sprite);
         bool IsTouchingLeft(ISprite sprite);
