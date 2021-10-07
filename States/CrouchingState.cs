@@ -14,6 +14,8 @@ namespace States
         {
             this.mario = mario;
             this.left = left;
+
+            mario.SetYVelocity(-100);
         }
 
         public bool GetDirection()
@@ -26,9 +28,6 @@ namespace States
             if (!this.left)
             {
                 mario.SetActionState(new CrouchingState(mario, !this.left));
-            } else
-            {
-                mario.SetActionState(new RunningState(mario, this.left));
             }
         }
 
@@ -37,9 +36,6 @@ namespace States
             if (this.left)
             {
                 mario.SetActionState(new CrouchingState(mario, !this.left));
-            } else
-            {
-                mario.SetActionState(new RunningState(mario, this.left));
             }
         }
 

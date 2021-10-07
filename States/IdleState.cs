@@ -15,6 +15,9 @@ namespace States
         {
             this.mario = mario;
             this.left = left;
+
+            this.mario.SetXVelocity(0);
+            this.mario.SetYVelocity(0);
         }
         /*
         public void Enter(IMarioActionState previousActionState)
