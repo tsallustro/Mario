@@ -63,7 +63,7 @@ namespace GameObjects
             location = location - velocity * timeElapsed;
             
             //This prevents Mario from going outside the screen
-            if (this.location.X > Graphics.PreferredBackBufferWidth) // Need to change this value to screen size - character size.
+            if (this.location.X > Graphics.PreferredBackBufferWidth) // TODO: Need to change this value to screen size - character size.
             {
                 this.location.X = Graphics.PreferredBackBufferWidth;
             } else if (this.location.X < 0)
@@ -78,7 +78,6 @@ namespace GameObjects
             {
                 this.location.Y = 0;
             }
-            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
             sprite.Update();
         }
 
@@ -98,17 +97,20 @@ namespace GameObjects
             }*/
 
             actionState.MoveLeft();
+            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
         }
-        
+
         public void MoveRight(int pressType)
         {
             //Mario only moves when holding the key
             actionState.MoveRight();
+
             //sprite.Move();
             /*if (this.actionState is RunningState && pressType == 2)
             {
                 this.location.X += 1;
             }*/
+            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
         }
 
         public void Up(int pressType)
@@ -132,6 +134,7 @@ namespace GameObjects
                 actionState.Jump();
             }
             */
+            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
         }
 
         public void Down(int pressType)
@@ -148,6 +151,7 @@ namespace GameObjects
                 velocity.Y = 0;
             }
             */
+            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
         }
 
 
