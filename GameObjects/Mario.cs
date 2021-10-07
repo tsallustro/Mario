@@ -77,9 +77,11 @@ namespace GameObjects
             else
             {
                 velocity.Y = 0;
-            }
+            } */
+
+            float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
             location = location - velocity * timeElapsed;
-            */
+            
             //This prevents Mario from going outside the screen
             if (this.location.X > Graphics.PreferredBackBufferWidth) // Need to change this value to screen size - character size.
             {
@@ -109,11 +111,13 @@ namespace GameObjects
         
         public void MoveLeft(int pressType)
         {
-            actionState.MoveLeft();
+            /*actionState.MoveLeft();
             if (this.actionState is RunningState && pressType == 2)
             {
                 this.location.X -= 1;
-            }
+            }*/
+
+            actionState.MoveLeft();
         }
         
         public void MoveRight(int pressType)
@@ -121,19 +125,19 @@ namespace GameObjects
             //Mario only moves when holding the key
             actionState.MoveRight();
             //sprite.Move();
-            if (this.actionState is RunningState && pressType == 2)
+            /*if (this.actionState is RunningState && pressType == 2)
             {
                 this.location.X += 1;
-            }
+            }*/
         }
 
         public void Up(int pressType)
         {
             actionState.Jump();
-            if (this.actionState is JumpingState && pressType == 2)
+            /*if (this.actionState is JumpingState && pressType == 2)
             {
                 this.location.Y -= 1;
-            }
+            }/*
             /*
              * actionState.Jump() already changes the state to idle if crouching or to jumping if idle
              * Is there need to do it again, besides changing velocity?
@@ -153,10 +157,10 @@ namespace GameObjects
         public void Down(int pressType)
         {
             actionState.Crouch();
-            if (this.actionState is CrouchingState && pressType == 2)
+            /*if (this.actionState is CrouchingState && pressType == 2)
             {
                 this.location.Y += 1;
-            }
+            }*/
             /* UNCOMMENT FOR SPRINT2
             if (this.actionState is JumpingState || this.actionState is FallingState)
             {
