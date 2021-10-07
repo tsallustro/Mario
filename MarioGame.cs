@@ -8,11 +8,13 @@ using Commands;
 using GameObjects;
 using Factories;
 using States;
+using System.Collections.Generic;
 
 namespace Game1
 {
     public class MarioGame : Game
     {
+        List<IGameObject> objects;
         
         //Monogame Objects
         private GraphicsDeviceManager graphics;
