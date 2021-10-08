@@ -24,7 +24,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				block.Bump(mario);
+				block.Bump();
 			}
 		}
 	}

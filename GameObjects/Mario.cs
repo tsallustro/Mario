@@ -47,6 +47,7 @@ namespace GameObjects
         public void SetPowerState(IMarioPowerState powerState)
         {
             this.powerState = powerState;
+            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
         }
 
         public void SetActionState(IMarioActionState actionState)
@@ -57,7 +58,6 @@ namespace GameObjects
         //Update all of Mario's members
         public void Update(GameTime GameTime)
         {
-            System.Diagnostics.Debug.WriteLine("ActionState: " + this.actionState);
 
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
             location = location - velocity * timeElapsed;

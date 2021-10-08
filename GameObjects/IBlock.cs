@@ -12,9 +12,10 @@ namespace GameObjects
         void Update(GameTime GameTime);
         void Draw(SpriteBatch spriteBatch);
         void Bump();
-        void Bump(Mario Mario);
         Vector2 GetLocation();
         void SetLocation(Vector2 location);
+        void SetFalling(Boolean Falling);
+        void SetBumped(Boolean Bumped);
         /*
          * SetBlockState() is probably not needed in this interface,
          * but is required to work for now. Can probably remove this

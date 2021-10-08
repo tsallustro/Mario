@@ -11,8 +11,6 @@ namespace GameObjects
 
         // Need Rectangle to recognize the boundary?
 
-
-
         void Update(GameTime GameTime);
         void Draw(SpriteBatch spriteBatch);
 

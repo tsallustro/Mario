@@ -100,12 +100,12 @@ namespace Game1
             koopaTroopa = new KoopaTroopa(new Vector2(350, 100));
             redKoopaTroopa = new RedKoopaTroopa(new Vector2(400, 100));
 
-            questionBlock = new Block(new Vector2(100, 200), blockSprites);
-            usedBlock = new Block(new Vector2(150, 200), blockSprites);
-            brickBlock = new Block(new Vector2(200, 200), blockSprites);
-            floorBlock = new Block(new Vector2(250, 200), blockSprites);
-            stairBlock = new Block(new Vector2(300, 200), blockSprites);
-            hiddenBlock = new Block(new Vector2(350, 200), blockSprites);
+            questionBlock = new Block(new Vector2(100, 200), blockSprites, (Mario)mario, new HashSet<IItem>{});
+            usedBlock = new Block(new Vector2(150, 200), blockSprites, (Mario)mario);
+            brickBlock = new Block(new Vector2(200, 200), blockSprites, (Mario)mario, new HashSet<IItem>{});
+            floorBlock = new Block(new Vector2(250, 200), blockSprites, (Mario)mario);
+            stairBlock = new Block(new Vector2(300, 200), blockSprites, (Mario)mario);
+            hiddenBlock = new Block(new Vector2(350, 200), blockSprites, (Mario)mario, new HashSet<IItem>{});
 
             item = new Item(new Vector2(0, 0));
             coin = new Item(new Vector2(100, 50));

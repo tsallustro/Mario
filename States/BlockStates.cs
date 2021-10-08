@@ -13,9 +13,11 @@ namespace States
         public QuestionBlockState(IBlock block)
         {
             this.block = block;
+            this.block.SetFalling(false);
+            this.block.SetBumped(false);
         }
 
-        public void Bump()
+        public void Bump(Mario Mario)
         {
             block.SetBlockState(new BumpedQuestionBlockState(block));
         }
@@ -27,10 +29,14 @@ namespace States
         public BumpedQuestionBlockState(IBlock block)
         {
             this.block = block;
+            this.block.SetFalling(false);
+            this.block.SetBumped(true);
         }
 
-        public void Bump()
+        public void Bump(Mario Mario)
         {
+            // Used to reset to BrickBlockState
+            block.SetBlockState(new UsedBlockState(block));
         }
     }
 
@@ -41,9 +47,11 @@ namespace States
         public UsedBlockState(IBlock block)
         {
             this.block = block;
+            this.block.SetFalling(false);
+            this.block.SetBumped(false);
         }
 
-        public void Bump()
+        public void Bump(Mario Mario)
         {
             //Do nothing
         }
@@ -55,13 +63,21 @@ namespace States
         public BrickBlockState(IBlock block)
         {
             this.block = block;
+            this.block.SetFalling(false);
+            this.block.SetBumped(false);
         }
 
-        public void Bump() // DO CHECK FOR MARIO STATE
+        public void Bump(Mario Mario) // DO CHECK FOR MARIO STATE
         {
             // if mario state != normal, then make broken brick
             // else make brick
-            block.SetBlockState(new BumpedBrickBlockState(block));
+            if (!(Mario.GetPowerState() is StandardMario))
+            {
+                block.SetBlockState(new BrokenBrickBlockState(block));
+            } else
+            {
+                block.SetBlockState(new BumpedBrickBlockState(block));
+            }
         }
     }
     public class FloorBlockState : IBlockState
@@ -71,9 +87,11 @@ namespace States
         public FloorBlockState(IBlock block)
         {
             this.block = block;
+            this.block.SetFalling(false);
+            this.block.SetBumped(false);
         }
 
-        public void Bump()
+        public void Bump(Mario Mario)
         {
             //Do Nothing
         }
@@ -85,9 +103,11 @@ namespace States
         public StairBlockState(IBlock block)
         {
             this.block = block;
+            this.block.SetFalling(false);
+            this.block.SetBumped(false);
         }
 
-        public void Bump()
+        public void Bump(Mario Mario)
         {
             //Do Nothing
         }
@@ -99,13 +119,13 @@ namespace States
         public HiddenBlockState(IBlock block)
         {
             this.block = block;
+            this.block.SetFalling(false);
+            this.block.SetBumped(false);
         }
 
-        public void Bump()
+        public void Bump(Mario Mario)
         {
-            block.SetBlockState(new BrickBlockState(block));
-
-            //Do some stuff on bump
+            block.SetBlockState(new BumpedBrickBlockState(block));
         }
     }
     public class BumpedBrickBlockState : IBlockState
@@ -115,11 +135,14 @@ namespace States
         public BumpedBrickBlockState(IBlock block)
         {
             this.block = block;
+            this.block.SetFalling(false);
+            this.block.SetBumped(true);
         }
 
-        public void Bump()
+        public void Bump(Mario Mario)
         {
-            //Do Nothing
+            // Used to reset to BrickBlockState
+            block.SetBlockState(new BrickBlockState(block));
         }
     }
     public class BrokenBrickBlockState : IBlockState
@@ -129,11 +152,13 @@ namespace States
         public BrokenBrickBlockState(IBlock block)
         {
             this.block = block;
+            this.block.SetFalling(true);
+            this.block.SetBumped(true);
         }
 
-        public void Bump()
+        public void Bump(Mario Mario)
         {
-            //Do Nothing
+            //Delete the GameObject & Sprite
         }
     }
 
