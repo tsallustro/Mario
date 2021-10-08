@@ -11,7 +11,7 @@ namespace GameObjects
     {
         Texture2D _texture { get; set; }
         Vector2 position { get; set; }
-        Vector2 velocity { get; set; }
+        Vector2 velocity;
         Vector2 accelaration { get; set; }
         float speed { get; set; }
         ISprite sprite { get; set; }
@@ -45,6 +45,18 @@ namespace GameObjects
             objs.Add(this);
         }
         public abstract void Animate();
+
+        public abstract void TakeDamage();
+
+        public void SetXVelocity(float x)
+        {
+            this.velocity.X = x;
+        }
+
+        public void SetYVelocity(float y)
+        {
+            this.velocity.Y = y;
+        }
 
 
         // Collision methods?

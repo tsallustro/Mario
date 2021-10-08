@@ -17,6 +17,7 @@ namespace GameObjects
         //Methods
         void Add(List<IGameObject> objs);
         void Animate();
+        void TakeDamage();
 
 
         // Collision methods?
