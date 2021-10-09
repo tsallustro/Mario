@@ -95,7 +95,8 @@ namespace Game1
             Texture2D blockSprites = Content.Load<Texture2D>("BlocksV3");
 
             // Visuals for Sprint 1
-            mario = new Mario(new Vector2(10, graphics.PreferredBackBufferHeight - 30), graphics);
+            mario = new Mario(new Vector2(10, graphics.PreferredBackBufferHeight - 30), new Vector2(0, 0),
+                new Vector2(0,0), graphics);
             goomba = new Goomba(new Vector2(300, 100));
             koopaTroopa = new KoopaTroopa(new Vector2(350, 100));
             redKoopaTroopa = new RedKoopaTroopa(new Vector2(400, 100));

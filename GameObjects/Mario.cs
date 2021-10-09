@@ -7,37 +7,21 @@ using States;
 
 namespace GameObjects
 {
-    public class Mario : IAvatar
+    public class Mario : GameObject, IAvatar
     {
-        private ISprite sprite;
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
-        private Vector2 velocity;
-        private Vector2 location;
-        private enum actionStates {Idle, Crouching, Jumping, Falling, Running };
-        private enum powerStates {Standard, Super, Fire, Dead};
         GraphicsDeviceManager Graphics { get; set; }
 
-        public Mario(Vector2 position, GraphicsDeviceManager graphics)
+        public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics)
+            : base(position, velocity, acceleration)
         {
             spriteFactory = MarioSpriteFactory.Instance;
-            this.location = position;
-            sprite = spriteFactory.CreateStandardIdleMario(location);
+            Sprite = spriteFactory.CreateStandardIdleMario(position);
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
-            velocity = new Vector2(0, 0);
             Graphics = graphics;
-        }
-
-        public void SetXVelocity(float x)
-        {
-            this.velocity.X = x;
-        }
-
-        public void SetYVelocity(float y)
-        {
-            this.velocity.Y = y;
         }
 
         public IMarioPowerState GetPowerState()
@@ -48,7 +32,7 @@ namespace GameObjects
         public void SetPowerState(IMarioPowerState powerState)
         {
             this.powerState = powerState;
-            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
+            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void SetActionState(IMarioActionState actionState)
@@ -56,37 +40,40 @@ namespace GameObjects
             this.actionState = actionState;
         }
 
+        public override void Animate() { }
+        public override void TakeDamage() { }
+
         //Update all of Mario's members
-        public void Update(GameTime GameTime)
+        public override void Update(GameTime GameTime)
         {
 
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            location = location - velocity * timeElapsed;
+            Position = Position - Velocity * timeElapsed;
             
             //This prevents Mario from going outside the screen
-            if (this.location.X > Graphics.PreferredBackBufferWidth) // TODO: Need to change this value to screen size - character size.
+            if (this.Position.X > Graphics.PreferredBackBufferWidth) // TODO: Need to change this value to screen size - character size.
             {
-                this.location.X = Graphics.PreferredBackBufferWidth;
-            } else if (this.location.X < 0)
+                Position = new Vector2(Graphics.PreferredBackBufferWidth, Position.Y);
+            } else if (this.Position.X < 0)
             {
-                this.location.X = 0;
+                Position = new Vector2(0, Position.Y);
             }
-            if (this.location.Y > Graphics.PreferredBackBufferHeight)
+            if (this.Position.Y > Graphics.PreferredBackBufferHeight)
             {
-                this.location.Y = Graphics.PreferredBackBufferHeight;
+                Position = new Vector2(Position.X, Graphics.PreferredBackBufferHeight);
             }
-            else if (this.location.Y < 0)
+            else if (this.Position.Y < 0)
             {
-                this.location.Y = 0;
+                Position = new Vector2(Position.X, 0);
             }
-            sprite.Update();
+            Sprite.Update();
         }
 
         //Draw Mario
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            sprite.location = location;
-            sprite.Draw(spriteBatch, actionState.GetDirection());
+            Sprite.location = Position;
+            Sprite.Draw(spriteBatch, actionState.GetDirection());
         }
         
         public void MoveLeft(int pressType)
@@ -98,7 +85,7 @@ namespace GameObjects
             }*/
 
             actionState.MoveLeft();
-            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
+            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void MoveRight(int pressType)
@@ -111,7 +98,7 @@ namespace GameObjects
             {
                 this.location.X += 1;
             }*/
-            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
+            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void Up(int pressType)
@@ -135,7 +122,7 @@ namespace GameObjects
                 actionState.Jump();
             }
             */
-            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
+            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void Down(int pressType)
@@ -152,7 +139,7 @@ namespace GameObjects
                 velocity.Y = 0;
             }
             */
-            sprite = spriteFactory.GetCurrentSprite(location, actionState, powerState);
+            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
 

@@ -9,7 +9,7 @@ using Game1;
 
 namespace GameObjects
 {
-    public class Mario2 : GameObject, IAvatar
+    /*public class Mario2 : GameObject, IAvatar
     {
         private ISprite sprite;
         private IMarioPowerState powerState;
@@ -18,14 +18,13 @@ namespace GameObjects
         private MarioSpriteFactory spriteFactory;
         public Vector2 Velocity { get; set; }
         public Vector2 Location { get; set; }
-        private Texture2D Texture { get; set; }
         private enum actionStates { Idle, Crouching, Jumping, Falling, Running };
         private enum powerStates { Standard, Super, Fire, Dead };
         GraphicsDeviceManager Graphics { get; set; }
         List<IGameObject> objects;
 
-        public Mario2(Texture2D _texture, List<IGameObject> objs) :
-            base(_texture)
+        public Mario2(List<IGameObject> objs, ISprite sprite) :
+            base(sprite)
         {
             spriteFactory = MarioSpriteFactory.Instance;
             sprite = spriteFactory.CreateStandardIdleMario(Location);
@@ -33,7 +32,6 @@ namespace GameObjects
             //actionState = new IdleState(this, false);
             Velocity = new Vector2(0, 0);
             Location = new Vector2(0, 0);
-            Texture = _texture;
             objects = objs;
             this.Add(objects);
         } 
@@ -175,5 +173,5 @@ namespace GameObjects
         {
             //TO DO
         }
-    }
+    }*/
 }

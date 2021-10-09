@@ -7,33 +7,28 @@ using Sprites;
 
 namespace GameObjects
 {
-    public abstract class GameObject: IGameObject
+    public abstract class GameObject : IGameObject
     {
-        Texture2D _texture { get; set; }
-        Vector2 position { get; set; }
-        Vector2 velocity;
-        Vector2 accelaration { get; set; }
-        float speed { get; set; }
-        ISprite sprite { get; set; }
+        protected Vector2 Position { get; set; }
+        protected Vector2 Velocity { get; set; }
+        protected Vector2 Acceleration { get; set; }
+        protected ISprite Sprite { get; set; }
+        protected Rectangle AABB { get; set; }
 
-        // Need Rectangle to recognize the boundary?
         private int Width
         {
-            get { return _texture.Width; }
+            get { return Sprite.texture.Width; }
         }
         private int Height
         {
-            get { return _texture.Height; }
+            get { return Sprite.texture.Height; }
         }
 
-        public Rectangle Box
+        public GameObject(Vector2 position, Vector2 velocity, Vector2 acceleration)
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, Width, Height); }
-            
-        }
-        public GameObject(Texture2D texture)
-        {
-            _texture = texture;
+            Position = position;
+            Velocity = velocity;
+            Acceleration = acceleration;
         }
 
         public abstract void Update(GameTime GameTime);
@@ -50,32 +45,36 @@ namespace GameObjects
 
         public void SetXVelocity(float x)
         {
-            this.velocity.X = x;
+            this.Velocity = new Vector2(x, this.Velocity.Y);
         }
 
         public void SetYVelocity(float y)
         {
-            this.velocity.Y = y;
+            this.Velocity = new Vector2(this.Velocity.X, y);
         }
 
+        public Rectangle GetAABB()
+        {
+            return this.AABB;
+        }
 
         // Collision methods?
         public bool RightCollision(IGameObject obj)
         {
-            if (this.Box.Right + velocity.X > obj.Box.Left &&
-                this.Box.Top > obj.Box.Bottom &&
-                this.Box.Bottom < obj.Box.Top &&
-                this.Box.Left < obj.Box.Right)
+            if (this.AABB.Right + Velocity.X > obj.GetAABB().Left &&
+                this.AABB.Top > obj.GetAABB().Bottom &&
+                this.AABB.Bottom < obj.GetAABB().Top &&
+                this.AABB.Left < obj.GetAABB().Right)
             {
                 return true;
             } else { return false; }
         }
         public bool LeftCollision(IGameObject obj)
         {
-            if (this.Box.Left - velocity.X < obj.Box.Right &&
-                this.Box.Top > obj.Box.Bottom &&
-                this.Box.Bottom < obj.Box.Top &&
-                this.Box.Right > obj.Box.Left)
+            if (this.AABB.Left - Velocity.X < obj.GetAABB().Right &&
+                this.AABB.Top > obj.GetAABB().Bottom &&
+                this.AABB.Bottom < obj.GetAABB().Top &&
+                this.AABB.Right > obj.GetAABB().Left)
             {
                 return true;
             }
@@ -83,10 +82,10 @@ namespace GameObjects
         }
         public bool TopCollision(IGameObject obj)
         {
-            if (this.Box.Top + velocity.Y > obj.Box.Bottom &&
-                this.Box.Right > obj.Box.Left &&
-                this.Box.Left < obj.Box.Right &&
-                this.Box.Bottom > obj.Box.Top)
+            if (this.AABB.Top + Velocity.Y > obj.GetAABB().Bottom &&
+                this.AABB.Right > obj.GetAABB().Left &&
+                this.AABB.Left < obj.GetAABB().Right &&
+                this.AABB.Bottom > obj.GetAABB().Top)
             {
                 return true;
             }
@@ -94,10 +93,10 @@ namespace GameObjects
         }
         public bool BottomCollision(IGameObject obj)
         {
-            if (this.Box.Bottom + velocity.Y > obj.Box.Top &&
-                this.Box.Right > obj.Box.Left &&
-                this.Box.Left < obj.Box.Right &&
-                this.Box.Top < obj.Box.Bottom)
+            if (this.AABB.Bottom + Velocity.Y > obj.GetAABB().Top &&
+                this.AABB.Right > obj.GetAABB().Left &&
+                this.AABB.Left < obj.GetAABB().Right &&
+                this.AABB.Top < obj.GetAABB().Bottom)
             {
                 return true;
             }

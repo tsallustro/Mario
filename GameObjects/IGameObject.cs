@@ -8,9 +8,6 @@ namespace GameObjects
 {
     public interface IGameObject
     {
-
-        // Need Rectangle to recognize the boundary?
-
         void Update(GameTime GameTime);
         void Draw(SpriteBatch spriteBatch);
 
@@ -18,7 +15,7 @@ namespace GameObjects
         void Add(List<IGameObject> objs);
         void Animate();
         void TakeDamage();
-        Rectangle Box { get; }
+        Rectangle GetAABB();
 
 
         // Collision methods?
