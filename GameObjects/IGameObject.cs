@@ -17,6 +17,8 @@ namespace GameObjects
         void TakeDamage();
         Rectangle GetAABB();
 
+        void SetXVelocity(float x);
+        void SetYVelocity(float y);
 
         // Collision methods?
         bool RightCollision(IGameObject obj);

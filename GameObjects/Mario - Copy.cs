@@ -9,7 +9,7 @@ using Game1;
 
 namespace GameObjects
 {
-    /*public class Mario2 : GameObject, IAvatar
+    public class Mario2 : GameObject, IAvatar
     {
         private ISprite sprite;
         private IMarioPowerState powerState;
@@ -23,7 +23,7 @@ namespace GameObjects
         GraphicsDeviceManager Graphics { get; set; }
         List<IGameObject> objects;
 
-        public Mario2(List<IGameObject> objs, ISprite sprite) :
+        /*public Mario2(List<IGameObject> objs, ISprite sprite) :
             base(sprite)
         {
             spriteFactory = MarioSpriteFactory.Instance;
@@ -34,7 +34,13 @@ namespace GameObjects
             Location = new Vector2(0, 0);
             objects = objs;
             this.Add(objects);
-        } 
+        }*/
+        
+        public Mario2(Vector2 pos, Vector2 vel, Vector2 acc)
+            : base(pos, vel, acc)
+        {
+
+        }
 
         public IMarioPowerState GetPowerState()
         {
@@ -173,5 +179,5 @@ namespace GameObjects
         {
             //TO DO
         }
-    }*/
+    }
 }
