@@ -90,6 +90,7 @@ namespace Factories
 				return standardIdle;
 			}
 			else return standardIdle;
+			
 		}
 
 		public ISprite CreateStandardCrouchingMario(Vector2 location)

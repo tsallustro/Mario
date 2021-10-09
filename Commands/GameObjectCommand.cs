@@ -9,16 +9,16 @@ namespace Commands
 	 */
 	abstract class GameObjectCommand : ICommand
 	{
-		protected GameObject avatar;
+		protected IGameObject avatar;
 
-		protected GameObjectCommand(GameObject avatar)
+		protected GameObjectCommand(IGameObject avatar)
         {
 			/*
 			 *  Cast IAvatar to Mario so we can do Mario things.
 			 *  This is probably not the best approach, but it works
 			 *  for now.
 			 */
-			this.avatar = (GameObject) avatar;
+			this.avatar = (IGameObject) avatar;
         }
 
 		public abstract void Execute(int pressType);

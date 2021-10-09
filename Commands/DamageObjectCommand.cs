@@ -17,7 +17,8 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				avatar.velocity;
+				//Not sure what this is
+				//avatar.velocity;
 			}
 		}
 	}

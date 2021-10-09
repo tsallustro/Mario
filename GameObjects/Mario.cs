@@ -16,6 +16,7 @@ namespace GameObjects
         private Vector2 velocity;
         private Vector2 location;
         private enum actionStates {Idle, Crouching, Jumping, Falling, Running };
+        private enum powerStates {Standard, Super, Fire, Dead};
         GraphicsDeviceManager Graphics { get; set; }
 
         public Mario(Vector2 position, GraphicsDeviceManager graphics)

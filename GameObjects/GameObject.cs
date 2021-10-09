@@ -26,7 +26,7 @@ namespace GameObjects
             get { return _texture.Height; }
         }
 
-        private Rectangle Box
+        public Rectangle Box
         {
             get { return new Rectangle((int)position.X, (int)position.Y, Width, Height); }
             
@@ -39,7 +39,7 @@ namespace GameObjects
         public abstract void Update(GameTime GameTime);
         public abstract void Draw(SpriteBatch spriteBatch);
 
-        //Methods
+        //Add object to the list
         public void Add(List<IGameObject> objs)
         {
             objs.Add(this);
@@ -60,44 +60,62 @@ namespace GameObjects
 
 
         // Collision methods?
-        public bool RightCollision(GameObject obj)
+        public bool RightCollision(IGameObject obj)
         {
             if (this.Box.Right + velocity.X > obj.Box.Left &&
                 this.Box.Top > obj.Box.Bottom &&
-                this.Box.Bottom < obj.Box.Top)
+                this.Box.Bottom < obj.Box.Top &&
+                this.Box.Left < obj.Box.Right)
             {
                 return true;
             } else { return false; }
         }
-        public bool LeftCollision(GameObject obj)
+        public bool LeftCollision(IGameObject obj)
         {
             if (this.Box.Left - velocity.X < obj.Box.Right &&
                 this.Box.Top > obj.Box.Bottom &&
-                this.Box.Bottom < obj.Box.Top)
+                this.Box.Bottom < obj.Box.Top &&
+                this.Box.Right > obj.Box.Left)
             {
                 return true;
             }
             else { return false; }
         }
-        public bool TopCollision(GameObject obj)
+        public bool TopCollision(IGameObject obj)
         {
             if (this.Box.Top + velocity.Y > obj.Box.Bottom &&
                 this.Box.Right > obj.Box.Left &&
-                this.Box.Left < obj.Box.Right)
+                this.Box.Left < obj.Box.Right &&
+                this.Box.Bottom > obj.Box.Top)
             {
                 return true;
             }
             else { return false; }
         }
-        public bool BottomCollision(GameObject obj)
+        public bool BottomCollision(IGameObject obj)
         {
             if (this.Box.Bottom + velocity.Y > obj.Box.Top &&
                 this.Box.Right > obj.Box.Left &&
-                this.Box.Left < obj.Box.Right)
+                this.Box.Left < obj.Box.Right &&
+                this.Box.Top < obj.Box.Bottom)
             {
                 return true;
             }
             else { return false; }
+        }
+
+        //React to collision. If Mario hits object, Mario stops.
+        public void CheckCollsion(IGameObject obj)
+        {
+            if (RightCollision(obj) || LeftCollision(obj))
+            {
+                this.SetXVelocity((float)0);
+            }
+            if (TopCollision(obj) || BottomCollision(obj))
+            {
+                this.SetYVelocity((float)0);
+            }
+
         }
 
     }

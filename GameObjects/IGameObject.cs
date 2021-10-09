@@ -18,13 +18,14 @@ namespace GameObjects
         void Add(List<IGameObject> objs);
         void Animate();
         void TakeDamage();
+        Rectangle Box { get; }
 
 
         // Collision methods?
-        bool RightCollision(GameObject obj);
-        bool LeftCollision(GameObject obj);
-        bool TopCollision(GameObject obj);
-        bool BottomCollision(GameObject obj);
+        bool RightCollision(IGameObject obj);
+        bool LeftCollision(IGameObject obj);
+        bool TopCollision(IGameObject obj);
+        bool BottomCollision(IGameObject obj);
     }
 }  
 
