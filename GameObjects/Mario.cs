@@ -17,8 +17,17 @@ namespace GameObjects
         public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics)
             : base(position, velocity, acceleration)
         {
+            // TODO - Since this is main character, probably have to set closer to 0
+            int boundaryAdjustment = 4;
+
             spriteFactory = MarioSpriteFactory.Instance;
             Sprite = spriteFactory.CreateStandardIdleMario(position);
+            /* 
+             * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
+             * on that sheet!
+             */
+            AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2), 
+                (Sprite.texture.Width / 15) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
             Graphics = graphics;
@@ -74,6 +83,20 @@ namespace GameObjects
         {
             Sprite.location = Position;
             Sprite.Draw(spriteBatch, actionState.GetDirection());
+
+            // Prepare AABB visualization
+            int lineWeight = 2;
+            Color lineColor = Color.Yellow;
+            Texture2D boundary = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+            boundary.SetData(new[] { Color.White });
+
+            /* Draw rectangle for the AABB visualization */
+            /* TODO - The line weight screws up the display of the dimensions of the AABB, need to fix it */
+            /* TODO - Only draw AABB visualization if the proper key has been pressed [Cc] */
+            spriteBatch.Draw(boundary, new Rectangle((int)Position.X, (int)Position.Y, lineWeight, AABB.Height), lineColor);
+            spriteBatch.Draw(boundary, new Rectangle((int)Position.X, (int)Position.Y, AABB.Width, lineWeight), lineColor);
+            spriteBatch.Draw(boundary, new Rectangle((int)Position.X + AABB.Width, (int)Position.Y, lineWeight, AABB.Height), lineColor);
+            spriteBatch.Draw(boundary, new Rectangle((int)Position.X, (int)Position.Y + AABB.Height, AABB.Width, lineWeight), lineColor);
         }
         
         public void MoveLeft(int pressType)
