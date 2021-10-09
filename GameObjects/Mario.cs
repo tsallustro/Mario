@@ -9,6 +9,13 @@ namespace GameObjects
 {
     public class Mario : GameObject, IAvatar
     {
+        // TODO - Since this is main character, probably have to set closer to 0
+        private readonly int boundaryAdjustment = 4;
+        /* 
+           * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
+           * on that sheet!
+           */
+        private readonly int numberOfSpritesOnSheet = 15;
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
@@ -17,17 +24,10 @@ namespace GameObjects
         public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics)
             : base(position, velocity, acceleration)
         {
-            // TODO - Since this is main character, probably have to set closer to 0
-            int boundaryAdjustment = 4;
-
             spriteFactory = MarioSpriteFactory.Instance;
             Sprite = spriteFactory.CreateStandardIdleMario(position);
-            /* 
-             * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
-             * on that sheet!
-             */
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2), 
-                (Sprite.texture.Width / 15) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
             Graphics = graphics;
@@ -35,7 +35,7 @@ namespace GameObjects
 
         public IMarioPowerState GetPowerState()
         {
-            return this.powerState;
+            return powerState;
         }
 
         public void SetPowerState(IMarioPowerState powerState)
@@ -52,12 +52,11 @@ namespace GameObjects
         public override void Animate() { }
         public override void TakeDamage() { }
 
-        //Update all of Mario's members
         public override void Update(GameTime GameTime)
         {
 
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            Position = Position - Velocity * timeElapsed;
+            Position -= Velocity * timeElapsed;
             
             //This prevents Mario from going outside the screen
             if (this.Position.X > Graphics.PreferredBackBufferWidth) // TODO: Need to change this value to screen size - character size.
@@ -75,10 +74,12 @@ namespace GameObjects
             {
                 Position = new Vector2(Position.X, 0);
             }
+
+            AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             Sprite.Update();
         }
 
-        //Draw Mario
         public override void Draw(SpriteBatch spriteBatch)
         {
             Sprite.location = Position;
@@ -91,12 +92,11 @@ namespace GameObjects
             boundary.SetData(new[] { Color.White });
 
             /* Draw rectangle for the AABB visualization */
-            /* TODO - The line weight screws up the display of the dimensions of the AABB, need to fix it */
             /* TODO - Only draw AABB visualization if the proper key has been pressed [Cc] */
-            spriteBatch.Draw(boundary, new Rectangle((int)Position.X, (int)Position.Y, lineWeight, AABB.Height), lineColor);
-            spriteBatch.Draw(boundary, new Rectangle((int)Position.X, (int)Position.Y, AABB.Width, lineWeight), lineColor);
-            spriteBatch.Draw(boundary, new Rectangle((int)Position.X + AABB.Width, (int)Position.Y, lineWeight, AABB.Height), lineColor);
-            spriteBatch.Draw(boundary, new Rectangle((int)Position.X, (int)Position.Y + AABB.Height, AABB.Width, lineWeight), lineColor);
+            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + lineWeight, lineWeight, AABB.Height - 2*lineWeight), lineColor);               // left
+            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y, AABB.Width - lineWeight, lineWeight), lineColor);                               // top
+            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X + AABB.Width - lineWeight, (int)AABB.Location.Y, lineWeight, AABB.Height - lineWeight), lineColor);  // right
+            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + AABB.Height - lineWeight, AABB.Width, lineWeight), lineColor);  // bottom
         }
         
         public void MoveLeft(int pressType)
