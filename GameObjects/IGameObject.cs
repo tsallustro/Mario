@@ -13,8 +13,6 @@ namespace GameObjects
 
         //Methods
         void Add(List<IGameObject> objs);
-        void Animate();
-        void TakeDamage();
         Rectangle GetAABB();
 
         void SetXVelocity(float x);

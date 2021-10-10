@@ -39,9 +39,6 @@ namespace GameObjects
         {
             objs.Add(this);
         }
-        public abstract void Animate();
-
-        public abstract void TakeDamage();
 
         public void SetXVelocity(float x)
         {

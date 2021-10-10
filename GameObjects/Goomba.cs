@@ -40,15 +40,6 @@ namespace GameObjects
             this.goombaState = goombaState;
         }
 
-        public override void Animate()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void TakeDamage()
-        {
-            throw new NotImplementedException();
-        }
 
         //Update all of Goomba's members
         public override void Update(GameTime gameTime)

@@ -48,9 +48,6 @@ namespace GameObjects
             this.actionState = actionState;
         }
 
-        public override void Animate() { }
-        public override void TakeDamage() { }
-
         public override void Update(GameTime GameTime)
         {
 

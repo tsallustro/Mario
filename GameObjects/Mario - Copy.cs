@@ -170,14 +170,5 @@ namespace GameObjects
                 actionState2.CrouchingDiscontinueTransition();
             }
         }
-        public override void Animate()
-        {
-            //TO DO
-        }
-
-        public override void TakeDamage()
-        {
-            //TO DO
-        }
     }
 }
