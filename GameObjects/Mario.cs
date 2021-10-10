@@ -18,9 +18,10 @@ namespace GameObjects
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
+        private Point maxCoords;
         GraphicsDeviceManager Graphics { get; set; }
 
-        public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics)
+        public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords)
             : base(position, velocity, acceleration)
         {
             spriteFactory = MarioSpriteFactory.Instance;
@@ -29,6 +30,8 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
+            // Adjust given maxCoords to account for sprite's height
+            this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
             Graphics = graphics;
         }
 
@@ -41,6 +44,8 @@ namespace GameObjects
         {
             this.powerState = powerState;
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
+            // Update maxCoords to match change in height from power state
+            //this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
         }
 
         public void SetActionState(IMarioActionState actionState)
@@ -52,24 +57,27 @@ namespace GameObjects
         {
 
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            Position -= Velocity * timeElapsed;
+            Vector2 newPosition = Position - Velocity * timeElapsed;
+            //Position -= Velocity * timeElapsed;
             
             //This prevents Mario from going outside the screen
-            if (this.Position.X > Graphics.PreferredBackBufferWidth) // TODO: Need to change this value to screen size - character size.
+            if (newPosition.X > maxCoords.X) // TODO: Need to change this value to screen size - character size.
             {
-                Position = new Vector2(Graphics.PreferredBackBufferWidth, Position.Y);
-            } else if (this.Position.X < 0)
+                newPosition = new Vector2(maxCoords.X, Position.Y);
+            } else if (newPosition.X < 0)
             {
-                Position = new Vector2(0, Position.Y);
+                newPosition = new Vector2(0, Position.Y);
             }
-            if (this.Position.Y > Graphics.PreferredBackBufferHeight)
+            if (newPosition.Y > maxCoords.Y)
             {
-                Position = new Vector2(Position.X, Graphics.PreferredBackBufferHeight);
+                newPosition = new Vector2(Position.X, maxCoords.Y);
             }
-            else if (this.Position.Y < 0)
+            else if (newPosition.Y < 0)
             {
-                Position = new Vector2(Position.X, 0);
+                newPosition = new Vector2(Position.X, 0);
             }
+
+            Position = newPosition;
 
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
