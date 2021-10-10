@@ -120,6 +120,7 @@ namespace Game1
             /* Add all objects in level to object list! */
             objects.Add(mario);
             objects.Add(goomba);
+            objects.Add(koopaTroopa);
             objects.Add(questionBlock);
             objects.Add(usedBlock);
             objects.Add(brickBlock);

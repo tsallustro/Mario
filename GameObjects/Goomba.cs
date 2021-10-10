@@ -11,12 +11,12 @@ namespace GameObjects
 {
     public class Goomba : GameObject, IEnemy
     {
-        private readonly int boundaryAdjustment = 6;
+        private readonly int boundaryAdjustment = 4;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
          */
-        private readonly int numberOfSpritesOnSheet = 15;
+        private readonly int numberOfSpritesOnSheet = 3;
         private IEnemyState goombaState;
         private GoombaSpriteFactory spriteFactory;
 

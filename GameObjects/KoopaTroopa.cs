@@ -11,6 +11,12 @@ namespace GameObjects
 {
     public class KoopaTroopa : GameObject, IEnemy
     {
+        private readonly int boundaryAdjustment = 4;
+        /* 
+         * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
+         * on that sheet!
+         */
+        private readonly int numberOfSpritesOnSheet = 3;
         private IEnemyState koopaTroopaState;
         private KoopaTroopaSpriteFactory spriteFactory;
 
@@ -19,6 +25,8 @@ namespace GameObjects
         {
             spriteFactory = KoopaTroopaSpriteFactory.Instance;
             Sprite = spriteFactory.CreateIdleKoopaTroopa(position);
+            AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             koopaTroopaState = new IdleKoopaTroopaState(this);
         }
 
@@ -42,6 +50,21 @@ namespace GameObjects
         public override void Draw(SpriteBatch spriteBatch)
         {
             Sprite.Draw(spriteBatch, true);
+
+            // Prepare AABB visualization
+            if (BorderIsVisible)
+            {
+                int lineWeight = 2;
+                Color lineColor = Color.Red;
+                Texture2D boundary = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+                boundary.SetData(new[] { Color.White });
+
+                /* Draw rectangle for the AABB visualization */
+                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + lineWeight, lineWeight, AABB.Height - 2 * lineWeight), lineColor);               // left
+                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y, AABB.Width - lineWeight, lineWeight), lineColor);                               // top
+                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X + AABB.Width - lineWeight, (int)AABB.Location.Y, lineWeight, AABB.Height - lineWeight), lineColor);  // right
+                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + AABB.Height - lineWeight, AABB.Width, lineWeight), lineColor);  // bottom
+            }
         }
 
         //Change Goomba state to stomped mode
@@ -49,6 +72,7 @@ namespace GameObjects
         {
             koopaTroopaState.Stomped();
         }
+
         //Change Goomba state to moving mode
         public void Move()
         {
