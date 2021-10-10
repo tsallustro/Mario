@@ -33,7 +33,7 @@ namespace Factories
 
 		public void LoadTextures(Game game)
 		{
-			goombaSprites = game.Content.Load<Texture2D>("enemies");
+			goombaSprites = game.Content.Load<Texture2D>("Goomba");
 		}
 
 		/*
@@ -60,7 +60,7 @@ namespace Factories
 		{
 			if(idleGoomba == null)
             {
-				idleGoomba = new Sprite(true, location, goombaSprites, 9, 15, 0, 0);
+				idleGoomba = new Sprite(true, location, goombaSprites, 1, 3, 0, 0);
 			    return idleGoomba;
 			}
 			else return idleGoomba;
@@ -69,7 +69,7 @@ namespace Factories
 		{
 			if (movingGoomba == null)
 			{
-				movingGoomba = new Sprite(true, location, goombaSprites, 9, 15, 0, 1);
+				movingGoomba = new Sprite(true, location, goombaSprites, 1, 3, 0, 1);
 				return movingGoomba;
 			}
 			else return movingGoomba;
@@ -78,7 +78,7 @@ namespace Factories
 		{
 			if (stompedGoomba == null)
 			{
-				stompedGoomba = new Sprite(true, location, goombaSprites, 9, 15, 2, 2);
+				stompedGoomba = new Sprite(true, location, goombaSprites, 1, 3, 2, 2);
 				return stompedGoomba;
 			}
 			else return stompedGoomba;
@@ -87,7 +87,7 @@ namespace Factories
 		{
 			if (deadGoomba == null)
 			{
-				deadGoomba = new Sprite(true, location, goombaSprites, 9, 15, 134, 134);
+				deadGoomba = new Sprite(true, location, goombaSprites, 1, 3, 2, 2);
 				return deadGoomba;
 			}
 			else return deadGoomba;

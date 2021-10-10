@@ -66,7 +66,7 @@ namespace GameObjects
             //Position -= Velocity * timeElapsed;
             
             //This prevents Mario from going outside the screen
-            if (newPosition.X > maxCoords.X) // TODO: Need to change this value to screen size - character size.
+            if (newPosition.X > maxCoords.X)
             {
                 newPosition = new Vector2(maxCoords.X, Position.Y);
             } else if (newPosition.X < 0)
