@@ -31,23 +31,23 @@ namespace LevelParser
                 return list;
             }
             //Parse Mario
-            Mario mario = parseMario(g, list, level, maxCoords);
+            Mario mario = ParseMario(g, list, level, maxCoords);
 
             //Parse brick blocks
-            parseBrickBlocks(blockSprites, list, level, mario);
+            ParseBrickBlocks(blockSprites, list, level, mario);
 
             //Parse question blocks
-            parseQuestionBlocks(blockSprites, list, level, mario);
+            ParseQuestionBlocks(blockSprites, list, level, mario);
 
             //Parse hidden blocks
-            parseHiddenBlocks(blockSprites, list, level, mario);
+            ParseHiddenBlocks(blockSprites, list, level, mario);
 
             //Parse Enemies
-            parseEnemies(list, level);
+            ParseEnemies(list, level);
             return list;
         }
 
-        private static void parseEnemies(List<IGameObject> list, XElement level)
+        private static void ParseEnemies(List<IGameObject> list, XElement level)
         {
             IEnumerable<XElement> enemies = level.Element("enemies").Elements();
             foreach (XElement enemy in enemies)
@@ -83,7 +83,7 @@ namespace LevelParser
             }
         }
 
-        private static void parseHiddenBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
+        private static void ParseHiddenBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
             IEnumerable<XElement> hiddenBlocks = level.Element("hiddenBlocks").Elements();
             foreach (XElement hidden in hiddenBlocks)
@@ -98,14 +98,15 @@ namespace LevelParser
             }
         }
 
-        private static void parseQuestionBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
+        private static void ParseQuestionBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
             IEnumerable<XElement> questionBlocks = level.Element("questionBlocks").Elements();
 
             foreach (XElement question in questionBlocks)
             {
 
-                //Still need to add item to block
+                HashSet<Item> items = new HashSet<Item>();
+                items.Add(DetermineQuestionItem(question.Attribute("item").Value));
                 Vector2 questionBlockPos = new Vector2();
                 questionBlockPos.Y = 16 * Int32.Parse(question.Element("row").Value);
                 questionBlockPos.X = 16 * Int32.Parse(question.Element("column").Value);
@@ -116,7 +117,13 @@ namespace LevelParser
             }
         }
 
-        private static void parseBrickBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
+        private static Item DetermineQuestionItem(string itemType)
+        {
+            //NOT IMPLEMENTED YET
+            return null;
+        }
+
+        private static void ParseBrickBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
             IEnumerable<XElement> brickRows = level.Element("brickBlocks").Element("rows").Elements();
             int rowNumber = 0;
@@ -143,7 +150,7 @@ namespace LevelParser
             }
         }
 
-        private static Mario parseMario(GraphicsDeviceManager g, List<IGameObject> list, XElement level, Point maxCoords)
+        private static Mario ParseMario(GraphicsDeviceManager g, List<IGameObject> list, XElement level, Point maxCoords)
         {
 
             Vector2 marioPos = new Vector2();
