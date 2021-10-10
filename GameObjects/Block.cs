@@ -9,47 +9,45 @@ using Factories;
 
 namespace GameObjects
 {
-    public class Block : IBlock
+    public class Block : GameObject, IBlock
     {
-        private ISprite sprite;
         private IBlockState blockState;
         private Mario mario;
         private BlockSpriteFactory spriteFactory;
-        private Vector2 location;
         private Vector2 originalLocation;
         private Boolean falling = false;
         private Boolean bumped = false;
         private HashSet<IItem> items; // Future use for storing items in block
 
         public Block(Vector2 position, Texture2D blockSprites, Mario Mario)
+            : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
-            location = position;
             originalLocation = position;
             mario = Mario;
             spriteFactory = new BlockSpriteFactory(blockSprites);
             blockState = new BrickBlockState(this);
-            sprite = spriteFactory.CreateBrickBlock(location);
+            Sprite = spriteFactory.CreateBrickBlock(position);
         }
 
         // Future constructor for adding items to block
         public Block(Vector2 position, Texture2D blockSprites, Mario Mario, HashSet<IItem> items)
+            : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
-            location = position;
             originalLocation = position;
             mario = Mario;
             spriteFactory = new BlockSpriteFactory(blockSprites);
             this.items = items;
             blockState = new BrickBlockState(this);
-            sprite = spriteFactory.CreateBrickBlock(location);
+            Sprite = spriteFactory.CreateBrickBlock(position);
         }
 
         public void SetLocation(Vector2 position)
         {
-            sprite.location = position;
+            Sprite.location = position;
         }
         public Vector2 GetLocation()
         {
-            return location;
+            return Position;
         }
         public void SetFalling(Boolean Falling)
         {
@@ -69,7 +67,7 @@ namespace GameObjects
             this.blockState = blockState;
         }
 
-        public void Update(GameTime GameTime)
+        public override void Update(GameTime GameTime)
         {
             //System.Diagnostics.Debug.WriteLine("IM HERE:" + blockState);
 
@@ -112,37 +110,37 @@ namespace GameObjects
             {
                 if (falling)                                             // logic for falling blocks
                 {
-                    location.Y = location.Y + 100 * (float)GameTime.ElapsedGameTime.TotalSeconds;
-                    if (!(blockState is BrokenBrickBlockState) && location.Y >= originalLocation.Y)     // If block goes below its original height
+                    Position = new Vector2(Position.X, Position.Y + 100 * (float)GameTime.ElapsedGameTime.TotalSeconds);
+                    if (!(blockState is BrokenBrickBlockState) && Position.Y >= originalLocation.Y)     // If block goes below its original height
                     {
-                        location.Y = originalLocation.Y;
+                        Position = new Vector2(Position.X, originalLocation.Y);
                         falling = false;
                         bumped = false;
                         blockState.Bump(mario);
-                        sprite = spriteFactory.GetCurrentSprite(location, blockState);
+                        Sprite = spriteFactory.GetCurrentSprite(Position, blockState);
                     }
                 } else {                                                // Logic for rising blocks
-                    location.Y = location.Y - 100 * (float)GameTime.ElapsedGameTime.TotalSeconds;
-                    if (location.Y < originalLocation.Y - 10)           // if block goes above its bump height
+                    Position = new Vector2(Position.X, Position.Y - 100 * (float)GameTime.ElapsedGameTime.TotalSeconds);
+                    if (Position.Y < originalLocation.Y - 10)           // if block goes above its bump height
                     {
                         // TODO: Make it so item pops out here
                         falling = true;
                     }
                 }
             }
-            sprite = spriteFactory.GetCurrentSprite(location, blockState);
-            sprite.Update();
+            Sprite = spriteFactory.GetCurrentSprite(Position, blockState);
+            Sprite.Update();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, false);
+            Sprite.Draw(spriteBatch, false);
         }
 
         public void Bump()
         {
             blockState.Bump(mario);
-            //sprite = spriteFactory.CreateBumpedBrickBlock(location);
+            //Sprite = spriteFactory.CreateBumpedBrickBlock(location);
         }
     }
 }
