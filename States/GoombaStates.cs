@@ -17,14 +17,24 @@ namespace States
         public void Stomped()
         {
             goomba.SetGoombaState(new StompedGoombaState(goomba));
+            goomba.SetXVelocity((float)0);
         }
         public void Move()
         {
             goomba.SetGoombaState(new MovingGoombaState(goomba));
+            goomba.SetXVelocity((float)100);
         }
         public void StayIdle()
         {
             //Do Nothing.
+        }
+        public void Enter()
+        {
+
+        }
+        public void Exit()
+        {
+
         }
     }
     public class MovingGoombaState : IEnemyState
@@ -34,11 +44,13 @@ namespace States
         public MovingGoombaState(Goomba goomba)
         {
             this.goomba = goomba;
+            goomba.SetXVelocity((float)100);
         }
 
         public void Stomped()
         {
             goomba.SetGoombaState(new StompedGoombaState(goomba));
+            goomba.SetXVelocity((float)0);
         }
         public void Move()
         {
@@ -47,6 +59,16 @@ namespace States
         public void StayIdle()
         {
             goomba.SetGoombaState(new IdleGoombaState(goomba));
+            goomba.SetXVelocity((float)0);
+        }
+
+        public void Enter()
+        {
+
+        }
+        public void Exit()
+        {
+
         }
     }
 
@@ -71,6 +93,15 @@ namespace States
         {
             //Do Nothing.
         }
+
+        public void Enter()
+        {
+
+        }
+        public void Exit()
+        {
+
+        }
     }
     //Once dead, Goomba's gone
     public class DeadGoombaState : IEnemyState
@@ -93,6 +124,15 @@ namespace States
         public void StayIdle()
         {
             //Do Nothing.
+        }
+
+        public void Enter()
+        {
+
+        }
+        public void Exit()
+        {
+
         }
     }
   

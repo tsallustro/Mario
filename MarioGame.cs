@@ -99,7 +99,7 @@ namespace Game1
             // Visuals for Sprint 1
             mario = new Mario(new Vector2(10, graphics.PreferredBackBufferHeight - 30), new Vector2(0, 0),
                 new Vector2(0,0), graphics, new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-            goomba = new Goomba(new Vector2(300, 100), new Vector2(0,0), new Vector2(0,0));
+            goomba = new Goomba(new Vector2(50, graphics.PreferredBackBufferHeight - 80), new Vector2(0,0), new Vector2(0,0), objects);
             koopaTroopa = new KoopaTroopa(new Vector2(350, 100));
             redKoopaTroopa = new RedKoopaTroopa(new Vector2(400, 100));
 
@@ -202,23 +202,10 @@ namespace Game1
             gamepadController.Update();
             keyboardController.Update();
 
-            //Update the Game Objects
-            mario.Update(gameTime);
-            goomba.Update(gameTime); 
-            koopaTroopa.Update(gameTime);
-            redKoopaTroopa.Update(gameTime);
-
-            questionBlock.Update(gameTime);
-            usedBlock.Update(gameTime);
-            brickBlock.Update(gameTime);
-            floorBlock.Update(gameTime);
-            stairBlock.Update(gameTime);
-            hiddenBlock.Update(gameTime);
-            coin.Update(gameTime);
-            superMushroom.Update(gameTime);
-            oneUpMushroom.Update(gameTime);
-            fireFlower.Update(gameTime);
-            star.Update(gameTime);
+            foreach (var obj in objects)
+            {
+                obj.Update(gameTime);
+            }
             
             base.Update(gameTime);
         }
@@ -228,24 +215,10 @@ namespace Game1
             spriteBatch.Begin();
 
             // call draw methods from each sprite and pass in sprite batch
-            mario.Draw(spriteBatch);
-            goomba.Draw(spriteBatch);
-            koopaTroopa.Draw(spriteBatch);
-            redKoopaTroopa.Draw(spriteBatch);
-
-            questionBlock.Draw(spriteBatch);
-            usedBlock.Draw(spriteBatch);
-            brickBlock.Draw(spriteBatch);
-            floorBlock.Draw(spriteBatch);
-            stairBlock.Draw(spriteBatch);
-            hiddenBlock.Draw(spriteBatch);
-
-            coin.Draw(spriteBatch);
-            superMushroom.Draw(spriteBatch);
-            oneUpMushroom.Draw(spriteBatch);
-            fireFlower.Draw(spriteBatch);
-            star.Draw(spriteBatch);
-
+            foreach (var obj in objects)
+            {
+                obj.Draw(spriteBatch);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }

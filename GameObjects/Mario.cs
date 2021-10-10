@@ -19,6 +19,7 @@ namespace GameObjects
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
         private Point maxCoords;
+        private Vector2 newPosition;
         GraphicsDeviceManager Graphics { get; set; }
 
         public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords)
@@ -61,7 +62,7 @@ namespace GameObjects
         {
 
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            Vector2 newPosition = Position - Velocity * timeElapsed;
+            newPosition = Position - Velocity * timeElapsed;
             //Position -= Velocity * timeElapsed;
             
             //This prevents Mario from going outside the screen

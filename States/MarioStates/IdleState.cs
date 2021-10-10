@@ -19,69 +19,6 @@ namespace States
             this.mario.SetXVelocity(0);
             this.mario.SetYVelocity(0);
         }
-        /*
-        public void Enter(IMarioActionState previousActionState)
-        {
-            this.previousState = previousActionState;
-        }
-        public void Exit()
-        {
-            //Do Nothing
-        }
-        public void StandingTransition()
-        {
-            //Do Nothing. Already in Idle State
-        }
-        public void CrouchingTransition()
-        {
-            mario.SetActionState(new CrouchingState(mario, this.left));
-        }
-        public void WalkingTransition()
-        {
-
-        }
-        public void RunningTransition()
-        {
-
-        }
-        public void JumpingTransition()
-        {
-
-        }
-        public void FallingTransition()
-        {
-
-        }
-        public void FaceLeftTransition()
-        {
-
-        }
-        public void FaceRightTransition()
-        {
-
-        }
-        public void CrouchingDiscontinueTransition()
-        {
-
-        }
-        public void FaceLeftDiscontinueTransition()
-        {
-
-        }
-        public void WalkingDiscontinueTransition()
-        {
-
-        }
-        public void RunningDiscontinueTransition()
-        {
-
-        }
-        public void JumpingDiscontinueTransition()
-        {
-
-        }
-        */
-        
 
         public bool GetDirection()
         {

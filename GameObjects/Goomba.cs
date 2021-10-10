@@ -19,15 +19,20 @@ namespace GameObjects
         private readonly int numberOfSpritesOnSheet = 15;
         private IEnemyState goombaState;
         private GoombaSpriteFactory spriteFactory;
+        Vector2 newPosition;
+        List<IGameObject> objects;
 
-        public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration)
+
+        public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs)
             : base(position, velocity, acceleration)
         {
             spriteFactory = GoombaSpriteFactory.Instance;
-            Sprite = spriteFactory.CreateIdleGoomba(position);
+            Sprite = spriteFactory.CreateMovingGoomba(position);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
-                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
-            goombaState = new IdleGoombaState(this);
+                (Sprite.texture.Width / 15) - boundaryAdjustment, (Sprite.texture.Height /9) - boundaryAdjustment));
+            goombaState = new MovingGoombaState(this);
+            objects = objs;
+            this.SetXVelocity((float)50);
         }
 
         public IEnemyState GetGoombaState()
@@ -42,15 +47,46 @@ namespace GameObjects
 
 
         //Update all of Goomba's members
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime GameTime)
         {
-            Sprite = spriteFactory.GetCurrentSprite(Sprite.location, goombaState);
+            
+            foreach (var obj in objects)
+            {
+                if (obj != this)
+                {
+                    //If Goomba is stomped
+                    if (this.TopCollision(obj))
+                    {
+                        if (obj is Mario)
+                        {
+                            this.Stomped();
+                        }
+                    }
+                    else if (this.LeftCollision(obj) || this.RightCollision(obj))
+                    {
+                        //If goomba hits the wall
+                        this.ChangeDirection();
+                    }
+                }
+                    
+                    
+            }
+
+            ChangeDirection();
+            float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+            newPosition = Position + (Velocity * timeElapsed);
+            Position = newPosition;
+
+            Sprite = spriteFactory.GetCurrentSprite(Position, goombaState);
+            AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
+    (Sprite.texture.Width / 15) - boundaryAdjustment, (Sprite.texture.Height / 9) - boundaryAdjustment));
             Sprite.Update();
         }
 
         //Draw Goomba
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Sprite.location = Position;
             Sprite.Draw(spriteBatch, true);
 
             // Prepare AABB visualization
@@ -79,6 +115,17 @@ namespace GameObjects
         public void Move()
         {
             goombaState.Move();
+        }
+        public void ChangeDirection()
+        {
+            //Change direction when it reaches certain point
+            if (this.Position.X > 700)
+            {
+                this.SetXVelocity((float)-50);
+            } else if (this.Position.X <= 0)
+            {
+                this.SetXVelocity((float)50);
+            }
         }
 
         //Change Goomba state to idle mode
