@@ -7,15 +7,8 @@ using States;
 
 namespace GameObjects
 {
-    public interface IItem
+    public interface IItem : IGameObject
     {
-        void Update(GameTime GameTime);
-        void Draw(SpriteBatch spriteBatch);
-
-        /*
-         *  Probably don't need SetItemState() in this interface if
-         *  we can rework the main game class.
-         */
         void SetItemState(IItemState itemState);
     }
 }

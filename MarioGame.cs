@@ -74,6 +74,8 @@ namespace Game1
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
 
+            objects = new List<IGameObject>();
+
             this.Window.Title = "Cornet Mario Game";
             base.Initialize();
         }
@@ -114,6 +116,21 @@ namespace Game1
             oneUpMushroom = new Item(new Vector2(200, 50));
             fireFlower = new Item(new Vector2(50, 50));
             star = new Item(new Vector2(250, 50));
+
+            /* Add all objects in level to object list! */
+            objects.Add(mario);
+            objects.Add(goomba);
+            objects.Add(questionBlock);
+            objects.Add(usedBlock);
+            objects.Add(brickBlock);
+            objects.Add(floorBlock);
+            objects.Add(stairBlock);
+            objects.Add(hiddenBlock);
+            objects.Add(coin);
+            objects.Add(superMushroom);
+            objects.Add(oneUpMushroom);
+            objects.Add(fireFlower);
+            objects.Add(star);
 
             // Set obstacle states
             questionBlock.SetBlockState(new QuestionBlockState(questionBlock));
@@ -157,7 +174,7 @@ namespace Game1
             // Enemy commands
             keyboardController.AddMapping((int)Keys.Z, new IdleGoombaCommand(goomba));
             keyboardController.AddMapping((int)Keys.X, new MovingGoombaCommand(goomba));
-            keyboardController.AddMapping((int)Keys.C, new StompedGoombaCommand(goomba));
+            keyboardController.AddMapping((int)Keys.F, new StompedGoombaCommand(goomba));
             keyboardController.AddMapping((int)Keys.V, new IdleKoopaTroopaCommand(koopaTroopa));
             keyboardController.AddMapping((int)Keys.N, new MovingKoopaTroopaCommand(koopaTroopa));
             keyboardController.AddMapping((int)Keys.M, new StompedKoopaTroopaCommand(koopaTroopa));
@@ -169,6 +186,9 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.OemQuestion, new BumpCommand(questionBlock, (Mario) mario));
             keyboardController.AddMapping((int)Keys.B, new BumpCommand(brickBlock, (Mario) mario));
             keyboardController.AddMapping((int)Keys.H, new BumpCommand(hiddenBlock, (Mario) mario));
+
+            // AABB Visualization
+            keyboardController.AddMapping((int)Keys.C, new BorderVisibleCommand(objects));
 
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);

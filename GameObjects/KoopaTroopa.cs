@@ -9,21 +9,19 @@ using Factories;
 
 namespace GameObjects
 {
-    public class KoopaTroopa : IEnemy
+    public class KoopaTroopa : GameObject, IEnemy
     {
-        private ISprite sprite;
         private IEnemyState koopaTroopaState;
         private KoopaTroopaSpriteFactory spriteFactory;
-        private Vector2 velocity;
-        private Vector2 location;
 
         public KoopaTroopa(Vector2 position)
+            : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
             spriteFactory = KoopaTroopaSpriteFactory.Instance;
-            this.location = position;
-            sprite = spriteFactory.CreateIdleKoopaTroopa(position);
+            Sprite = spriteFactory.CreateIdleKoopaTroopa(position);
             koopaTroopaState = new IdleKoopaTroopaState(this);
         }
+
         public IEnemyState GetKoopaTroopaState()
         {
             return this.koopaTroopaState;
@@ -34,17 +32,18 @@ namespace GameObjects
         }
 
         //Update all of Goomba's members
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            sprite = spriteFactory.GetCurrentSprite(sprite.location, koopaTroopaState);
-            sprite.Update();
+            Sprite = spriteFactory.GetCurrentSprite(Sprite.location, koopaTroopaState);
+            Sprite.Update();
         }
 
         //Draw Goomba
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, true);
+            Sprite.Draw(spriteBatch, true);
         }
+
         //Change Goomba state to stomped mode
         public void Stomped()
         {

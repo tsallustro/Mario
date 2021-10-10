@@ -14,6 +14,7 @@ namespace GameObjects
         protected Vector2 Acceleration { get; set; }
         protected ISprite Sprite { get; set; }
         protected Rectangle AABB { get; set; }
+        public bool BorderIsVisible { get; set; } = false;
 
         private int Width
         {
