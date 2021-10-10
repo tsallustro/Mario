@@ -40,23 +40,7 @@ namespace Game1
         private IEnemy redKoopaTroopa;
 
         //Character ojbects
-        private IAvatar mario;
-
-        //Obstacle objects
-        private IBlock questionBlock;
-        private IBlock usedBlock; 
-        private IBlock brickBlock;
-        private IBlock floorBlock;
-        private IBlock stairBlock;
-        private IBlock hiddenBlock;
-
-        //Item objects
-        private IItem item;
-        private IItem fireFlower;
-        private IItem coin;
-        private IItem superMushroom;
-        private IItem oneUpMushroom;
-        private IItem star;
+        private IAvatar mario;   
 
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
@@ -106,58 +90,7 @@ namespace Game1
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             Texture2D blockSprites = Content.Load<Texture2D>("BlocksV3");
 
-            // Visuals for Sprint 1
-            mario = new Mario(new Vector2(10, graphics.PreferredBackBufferHeight - 30), new Vector2(0, 0),
-                new Vector2(0,0), graphics, maxCoords);
-            goomba = new Goomba(new Vector2(50, graphics.PreferredBackBufferHeight - 80), new Vector2(0,0), new Vector2(0,0), objects);
-            koopaTroopa = new KoopaTroopa(new Vector2(350, 100));
-            redKoopaTroopa = new RedKoopaTroopa(new Vector2(400, 100));
-
-            questionBlock = new Block(new Vector2(100, 200), blockSprites, (Mario)mario, new HashSet<IItem>{});
-            usedBlock = new Block(new Vector2(150, 200), blockSprites, (Mario)mario);
-            brickBlock = new Block(new Vector2(200, 200), blockSprites, (Mario)mario, new HashSet<IItem>{});
-            floorBlock = new Block(new Vector2(250, 200), blockSprites, (Mario)mario);
-            stairBlock = new Block(new Vector2(300, 200), blockSprites, (Mario)mario);
-            hiddenBlock = new Block(new Vector2(350, 200), blockSprites, (Mario)mario, new HashSet<IItem>{});
-
-            item = new Item(new Vector2(0, 0));
-            coin = new Item(new Vector2(100, 50));
-            superMushroom = new Item(new Vector2(150, 50));
-            oneUpMushroom = new Item(new Vector2(200, 50));
-            fireFlower = new Item(new Vector2(50, 50));
-            star = new Item(new Vector2(250, 50));
-
-            /* Add all objects in level to object list! 
-            objects.Add(mario);
-            objects.Add(goomba);
-            objects.Add(koopaTroopa);
-            objects.Add(redKoopaTroopa);
-            objects.Add(questionBlock);
-            objects.Add(usedBlock);
-            objects.Add(brickBlock);
-            objects.Add(floorBlock);
-            objects.Add(stairBlock);
-            objects.Add(hiddenBlock);
-            objects.Add(coin);
-            objects.Add(superMushroom);
-            objects.Add(oneUpMushroom);
-            objects.Add(fireFlower);
-            objects.Add(star);
-
-            // Set obstacle states
-            questionBlock.SetBlockState(new QuestionBlockState(questionBlock));
-            usedBlock.SetBlockState(new UsedBlockState(usedBlock));
-            brickBlock.SetBlockState(new BrickBlockState(brickBlock));
-            floorBlock.SetBlockState(new FloorBlockState(floorBlock));
-            stairBlock.SetBlockState(new StairBlockState(stairBlock));
-            hiddenBlock.SetBlockState(new HiddenBlockState(hiddenBlock));
-
-            // Set item states
-            coin.SetItemState(new CoinState(item));
-            superMushroom.SetItemState(new SuperMushroomState(item));
-            oneUpMushroom.SetItemState(new OneUpMushroomState(item));
-            fireFlower.SetItemState(new FireFlowerState(item));
-            star.SetItemState(new StarState(item));*/
+                    
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
@@ -193,11 +126,6 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.J, new IdleRedKoopaTroopaCommand(redKoopaTroopa));
             keyboardController.AddMapping((int)Keys.K, new MovingRedKoopaTroopaCommand(redKoopaTroopa));
             keyboardController.AddMapping((int)Keys.L, new StompedRedKoopaTroopaCommand(redKoopaTroopa));
-
-            // Brick commands
-            keyboardController.AddMapping((int)Keys.OemQuestion, new BumpCommand(questionBlock, (Mario) mario));
-            keyboardController.AddMapping((int)Keys.B, new BumpCommand(brickBlock, (Mario) mario));
-            keyboardController.AddMapping((int)Keys.H, new BumpCommand(hiddenBlock, (Mario) mario));
 
             // AABB Visualization
             keyboardController.AddMapping((int)Keys.C, new BorderVisibleCommand(objects));

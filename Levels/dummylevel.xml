@@ -1,4 +1,6 @@
 ﻿<?xml version="1.0"?>
+<!--ALLOWED ITEMS: "mushroom", "fire", "star", "oneUp", "coin"-->
+<!--ALLOWED ENEMIES: "goomba", "koopa", "redKoopa"-->
 <level number="1-1">
     <mario>
         <row>5</row>
@@ -6,6 +8,7 @@
     </mario>
     <brickBlocks>
         <rows>
+          <!--Prints each row at a time. i.e. row 0 will have blocks in columns 1,2,3,4,5-->
             <row>1,2,3,4,5</row>
             <row>2,3,4,5,6</row>
             <row>3,4,5,6,7</row>
