@@ -8,7 +8,9 @@ using Commands;
 using GameObjects;
 using Factories;
 using States;
+using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Game1
 {
@@ -226,5 +228,99 @@ namespace Game1
         }
     }
 
+    private static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites)
+    {
+        List<IGameObject> list = new List<IGameObject>();
+        XElement level = XElement.Load(levelPath);
 
+        //Parse Mario
+        Vector2 marioPos = new Vector2();
+        marioPos.X = 16 * Int32.Parse(level.Element("mario").Element("row").Value);
+        marioPos.Y = 16 * Int32.Parse(level.Element("mario").Element("column").Value);
+        list.Add(new Mario(marioPos, g));
+
+        //Parse brick blocks
+        IEnumerable<XElement> brickRows = level.Element("brickBlocks").Element("rows").Descendants();
+        int rowNumber = 0;
+
+        //Handle each individual row
+        foreach (XElement brick in brickRows)
+        {
+
+            string[] columnNumbers = brick.Value.Split(',');
+            //Handle each column in the row
+            foreach (string column in columnNumbers)
+            {
+                Vector2 brickBlockPos = new Vector2();
+                brickBlockPos.X = 16 * Int32.Parse(column);
+                brickBlockPos.Y = 16 * rowNumber;
+                Block tempBrick = new Block(brickBlockPos, blockSprites));
+                tempBrick.SetBlockState(new BrickBlockState(tempBrick));
+                list.Add(tempBrick);
+            }
+
+            rowNumber++;
+        }
+
+        //Parse question blocks
+        IEnumerable<XElement> questionBlocks = level.Element("questionBlocks").Descendants();
+        foreach (XElement question in questionBlocks)
+        {
+            //Still need to add item to block
+            Vector2 questionBlockPos = new Vector2();
+            questionBlockPos.Y = 16 * Int32.Parse(question.Element("row").Value);
+            questionBlockPos.X = 16 * Int32.Parse(question.Element("column").Value);
+            Block tempQuestion = new Block(questionBlockPos, blockSprites);
+            tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
+            list.Add(tempQuestion);
+        }
+
+        //Parse hidden blocks
+        IEnumerable<XElement> hiddenBlocks = level.Element("hiddenBlocks").Descendants();
+        foreach (XElement hidden in hiddenBlocks)
+        {
+            //Still need to add item to block
+            Vector2 hiddenBlockPos = new Vector2();
+            hiddenBlockPos.Y = 16 * Int32.Parse(hidden.Element("row").Value);
+            hiddenBlockPos.X = 16 * Int32.Parse(hidden.Element("column").Value);
+            Block tempHidden = new Block(hiddenBlockPos, blockSprites);
+            tempHidden.SetBlockState(new HiddenBlockState(tempHidden));
+            list.Add(tempHidden);
+        }
+
+        //Parse Enemies
+        IEnumerable<XElement> enemies = level.Element("enemies").Descendants();
+        foreach (XElement enemy in enemies)
+        {
+            string enemyType = enemy.Attribute("type").Value;
+            Vector2 enemyPos = new Vector2();
+            enemyPos.X = 16 * Int32.Parse(enemy.Element("column").Value);
+            enemyPos.Y = 16 * Int32.Parse(enemy.Element("row").Value);
+            IEnemy tempEnemy;
+            switch (enemyType) {
+                case "goomba":
+            
+                    tempEnemy = new Goomba(enemyPos);
+                    break;
+                case "koopa":
+            
+                    tempEnemy = new KoopaTroopa(enemyPos);
+                    break;
+                case "redKoopa":
+            
+                    tempEnemy = new RedKoopaTroopa(enemyPos);
+                    break;
+
+                default:
+                    //default to goomba on invalid type
+                    tempEnemy = new Goomba(enemyPos);
+                    break;
+
+        }
+           
+            list.Add(tempEnemy);
+        }
+        return list;
+    }
+}
 }
