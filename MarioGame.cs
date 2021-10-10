@@ -18,6 +18,7 @@ namespace Game1
     {
 
         private readonly string levelPath = "";
+        private Point maxCoords; 
         List<IGameObject> objects;
         
         //Monogame Objects
@@ -77,9 +78,10 @@ namespace Game1
             itemSpriteFactory = ItemSpriteFactory.Instance;
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
-            
-            
 
+
+
+            maxCoords = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             this.Window.Title = "Cornet Mario Game";
             base.Initialize();
         }
@@ -102,7 +104,7 @@ namespace Game1
 
             // Visuals for Sprint 1
             mario = new Mario(new Vector2(10, graphics.PreferredBackBufferHeight - 30), new Vector2(0, 0),
-                new Vector2(0,0), graphics, new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+                new Vector2(0,0), graphics, maxCoords);
             goomba = new Goomba(new Vector2(50, graphics.PreferredBackBufferHeight - 80), new Vector2(0,0), new Vector2(0,0), objects);
             koopaTroopa = new KoopaTroopa(new Vector2(350, 100));
             redKoopaTroopa = new RedKoopaTroopa(new Vector2(400, 100));
@@ -240,7 +242,8 @@ namespace Game1
             Vector2 marioPos = new Vector2();
             marioPos.X = 16 * Int32.Parse(level.Element("mario").Element("row").Value);
             marioPos.Y = 16 * Int32.Parse(level.Element("mario").Element("column").Value);
-            list.Add(new Mario(marioPos, g));
+            Mario mario = new Mario(marioPos, new Vector2(0,0), new Vector2(0,0), g, maxCoords);
+            list.Add(mario);
 
             //Parse brick blocks
             IEnumerable<XElement> brickRows = level.Element("brickBlocks").Element("rows").Descendants();
@@ -257,7 +260,7 @@ namespace Game1
                     Vector2 brickBlockPos = new Vector2();
                     brickBlockPos.X = 16 * Int32.Parse(column);
                     brickBlockPos.Y = 16 * rowNumber;
-                    Block tempBrick = new Block(brickBlockPos, blockSprites));
+                    Block tempBrick = new Block(brickBlockPos, blockSprites,mario);
                     tempBrick.SetBlockState(new BrickBlockState(tempBrick));
                     list.Add(tempBrick);
                 }
@@ -273,7 +276,7 @@ namespace Game1
                 Vector2 questionBlockPos = new Vector2();
                 questionBlockPos.Y = 16 * Int32.Parse(question.Element("row").Value);
                 questionBlockPos.X = 16 * Int32.Parse(question.Element("column").Value);
-                Block tempQuestion = new Block(questionBlockPos, blockSprites);
+                Block tempQuestion = new Block(questionBlockPos, blockSprites,mario);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
             }
@@ -286,7 +289,7 @@ namespace Game1
                 Vector2 hiddenBlockPos = new Vector2();
                 hiddenBlockPos.Y = 16 * Int32.Parse(hidden.Element("row").Value);
                 hiddenBlockPos.X = 16 * Int32.Parse(hidden.Element("column").Value);
-                Block tempHidden = new Block(hiddenBlockPos, blockSprites);
+                Block tempHidden = new Block(hiddenBlockPos, blockSprites,mario);
                 tempHidden.SetBlockState(new HiddenBlockState(tempHidden));
                 list.Add(tempHidden);
             }
@@ -303,8 +306,8 @@ namespace Game1
                 switch (enemyType)
                 {
                     case "goomba":
-
-                        tempEnemy = new Goomba(enemyPos);
+                        
+                        tempEnemy = new Goomba(enemyPos, new Vector2(0,0), new Vector2(0,0), list);
                         break;
                     case "koopa":
 
@@ -317,7 +320,7 @@ namespace Game1
 
                     default:
                         //default to goomba on invalid type
-                        tempEnemy = new Goomba(enemyPos);
+                        tempEnemy = new Goomba(enemyPos, new Vector2(0, 0), new Vector2(0, 0), list);
                         break;
 
                 }
