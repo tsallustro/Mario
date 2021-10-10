@@ -14,7 +14,7 @@ namespace GameObjects
      */
     public class Item : GameObject, IItem
     {
-        private readonly int boundaryAdjustment = -3;
+        private readonly int boundaryAdjustment = -10;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!

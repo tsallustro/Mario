@@ -28,11 +28,13 @@ namespace GameObjects
             Sprite = spriteFactory.CreateStandardIdleMario(position);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2), 
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
+            Graphics = graphics;
+
             // Adjust given maxCoords to account for sprite's height
             this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
-            Graphics = graphics;
         }
 
         public IMarioPowerState GetPowerState()
@@ -42,10 +44,12 @@ namespace GameObjects
 
         public void SetPowerState(IMarioPowerState powerState)
         {
+            int previousSpriteHeight = Sprite.texture.Height;
             this.powerState = powerState;
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
+
             // Update maxCoords to match change in height from power state
-            //this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
+            maxCoords.Y -= (Sprite.texture.Height - previousSpriteHeight);
         }
 
         public void SetActionState(IMarioActionState actionState)
