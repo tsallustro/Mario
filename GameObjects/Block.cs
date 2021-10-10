@@ -11,6 +11,12 @@ namespace GameObjects
 {
     public class Block : GameObject, IBlock
     {
+        private readonly int boundaryAdjustment = 0;
+        /* 
+         * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
+         * on that sheet!
+         */
+        private readonly int numberOfSpritesOnSheet = 9;
         private IBlockState blockState;
         private Mario mario;
         private BlockSpriteFactory spriteFactory;
@@ -27,6 +33,8 @@ namespace GameObjects
             spriteFactory = new BlockSpriteFactory(blockSprites);
             blockState = new BrickBlockState(this);
             Sprite = spriteFactory.CreateBrickBlock(position);
+            AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
 
         // Future constructor for adding items to block
@@ -39,6 +47,8 @@ namespace GameObjects
             this.items = items;
             blockState = new BrickBlockState(this);
             Sprite = spriteFactory.CreateBrickBlock(position);
+            AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
 
         public void SetLocation(Vector2 position)
@@ -128,6 +138,10 @@ namespace GameObjects
                     }
                 }
             }
+
+            AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+
             Sprite = spriteFactory.GetCurrentSprite(Position, blockState);
             Sprite.Update();
         }
@@ -135,6 +149,18 @@ namespace GameObjects
         public override void Draw(SpriteBatch spriteBatch)
         {
             Sprite.Draw(spriteBatch, false);
+
+            // Prepare AABB visualization
+            int lineWeight = 2;
+            Color lineColor = Color.Blue;
+            Texture2D boundary = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+            boundary.SetData(new[] { Color.White });
+
+            /* Draw rectangle for the AABB visualization */
+            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + lineWeight, lineWeight, AABB.Height - 2 * lineWeight), lineColor);               // left
+            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y, AABB.Width - lineWeight, lineWeight), lineColor);                               // top
+            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X + AABB.Width - lineWeight, (int)AABB.Location.Y, lineWeight, AABB.Height - lineWeight), lineColor);  // right
+            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + AABB.Height - lineWeight, AABB.Width, lineWeight), lineColor);  // bottom
         }
 
         public void Bump()
