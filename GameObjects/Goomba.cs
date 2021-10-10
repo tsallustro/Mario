@@ -23,7 +23,7 @@ namespace GameObjects
         List<IGameObject> objects;
 
 
-        public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration, ref List<IGameObject> objs)
+        public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs)
             : base(position, velocity, acceleration)
         {
             spriteFactory = GoombaSpriteFactory.Instance;
