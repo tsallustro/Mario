@@ -18,7 +18,7 @@ namespace Commands
         {
             if (pressType == 1)
             {
-                foreach (GameObject entity in objects)
+                foreach (IGameObject entity in objects)
                 {
                     GameObject current = (GameObject)entity;
                     current.BorderIsVisible = true;
