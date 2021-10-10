@@ -35,12 +35,6 @@ namespace GameObjects
         public abstract void Update(GameTime GameTime);
         public abstract void Draw(SpriteBatch spriteBatch);
 
-        //Add object to the list
-        public void Add(List<IGameObject> objs)
-        {
-            objs.Add(this);
-        }
-
         public void SetXVelocity(float x)
         {
             this.Velocity = new Vector2(x, this.Velocity.Y);

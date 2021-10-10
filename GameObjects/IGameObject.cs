@@ -12,7 +12,6 @@ namespace GameObjects
         void Draw(SpriteBatch spriteBatch);
 
         //Methods
-        void Add(List<IGameObject> objs);
         Rectangle GetAABB();
 
         void SetXVelocity(float x);
