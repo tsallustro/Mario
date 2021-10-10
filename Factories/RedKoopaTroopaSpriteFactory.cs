@@ -33,7 +33,7 @@ namespace Factories
 
 		public void LoadTextures(Game game)
 		{
-			redKoopaTroopaSprites = game.Content.Load<Texture2D>("enemies");
+			redKoopaTroopaSprites = game.Content.Load<Texture2D>("RedKoopaTroopa");
 		}
 
 		/*
@@ -60,7 +60,7 @@ namespace Factories
 		{
 			if(idleRedKoopaTroopa == null)
             {
-				idleRedKoopaTroopa = new Sprite(true, location, redKoopaTroopaSprites, 9, 15, 22, 22);
+				idleRedKoopaTroopa = new Sprite(true, location, redKoopaTroopaSprites, 1, 3, 0, 0);
 			    return idleRedKoopaTroopa;
 			}
 			else return idleRedKoopaTroopa;
@@ -69,7 +69,7 @@ namespace Factories
 		{
 			if (movingRedKoopaTroopa == null)
 			{
-				movingRedKoopaTroopa = new Sprite(true, location, redKoopaTroopaSprites, 9, 15, 22, 23);
+				movingRedKoopaTroopa = new Sprite(true, location, redKoopaTroopaSprites, 1, 3, 0, 1);
 				return movingRedKoopaTroopa;
 			}
 			else return movingRedKoopaTroopa;
@@ -78,7 +78,7 @@ namespace Factories
 		{
 			if (stompedRedKoopaTroopa == null)
 			{
-				stompedRedKoopaTroopa = new Sprite(true, location, redKoopaTroopaSprites, 9, 15, 27, 27);
+				stompedRedKoopaTroopa = new Sprite(true, location, redKoopaTroopaSprites, 1, 3, 2, 2);
 				return stompedRedKoopaTroopa;
 			}
 			else return stompedRedKoopaTroopa;
@@ -87,7 +87,7 @@ namespace Factories
 		{
 			if (deadRedKoopaTroopa == null)
 			{
-				deadRedKoopaTroopa = new Sprite(true, location, redKoopaTroopaSprites, 9, 15, 134, 134);
+				deadRedKoopaTroopa = new Sprite(true, location, redKoopaTroopaSprites, 1, 3, 2, 2);
 				return deadRedKoopaTroopa;
 			}
 			else return deadRedKoopaTroopa;

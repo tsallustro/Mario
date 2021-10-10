@@ -20,8 +20,8 @@ namespace GameObjects
         private IEnemyState goombaState;
         private GoombaSpriteFactory spriteFactory;
 
-        public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration)
-            : base(position, velocity, acceleration)
+        public Goomba(Vector2 position)
+            : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
             spriteFactory = GoombaSpriteFactory.Instance;
             Sprite = spriteFactory.CreateIdleGoomba(position);

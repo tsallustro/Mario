@@ -99,7 +99,7 @@ namespace Game1
             // Visuals for Sprint 1
             mario = new Mario(new Vector2(10, graphics.PreferredBackBufferHeight - 30), new Vector2(0, 0),
                 new Vector2(0,0), graphics, new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-            goomba = new Goomba(new Vector2(300, 100), new Vector2(0,0), new Vector2(0,0));
+            goomba = new Goomba(new Vector2(300, 100));
             koopaTroopa = new KoopaTroopa(new Vector2(350, 100));
             redKoopaTroopa = new RedKoopaTroopa(new Vector2(400, 100));
 
@@ -121,6 +121,7 @@ namespace Game1
             objects.Add(mario);
             objects.Add(goomba);
             objects.Add(koopaTroopa);
+            objects.Add(redKoopaTroopa);
             objects.Add(questionBlock);
             objects.Add(usedBlock);
             objects.Add(brickBlock);
