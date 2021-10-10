@@ -9,12 +9,11 @@ namespace GameObjects
 {
     public class Mario : GameObject, IAvatar
     {
-        // TODO - Since this is main character, probably have to set closer to 0
-        private readonly int boundaryAdjustment = 4;
+        private readonly int boundaryAdjustment = 3;
         /* 
-           * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
-           * on that sheet!
-           */
+         * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
+         * on that sheet!
+         */
         private readonly int numberOfSpritesOnSheet = 15;
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
@@ -95,8 +94,8 @@ namespace GameObjects
             /* TODO - Only draw AABB visualization if the proper key has been pressed [Cc] */
             spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + lineWeight, lineWeight, AABB.Height - 2*lineWeight), lineColor);               // left
             spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y, AABB.Width - lineWeight, lineWeight), lineColor);                               // top
-            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X + AABB.Width - lineWeight, (int)AABB.Location.Y, lineWeight, AABB.Height - lineWeight), lineColor);  // right
-            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + AABB.Height - lineWeight, AABB.Width, lineWeight), lineColor);  // bottom
+            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X + AABB.Width - lineWeight, (int)AABB.Location.Y, lineWeight, AABB.Height - lineWeight), lineColor);    // right
+            spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + AABB.Height - lineWeight, AABB.Width, lineWeight), lineColor);                 // bottom
         }
         
         public void MoveLeft(int pressType)
