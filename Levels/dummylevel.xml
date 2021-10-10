@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <!--ALLOWED ITEMS: "mushroom", "fire", "star", "oneUp", "coin"-->
 <!--ALLOWED ENEMIES: "goomba", "koopa", "redKoopa"-->
-<level number="1-1">
+<level number="dummy">
     <mario>
         <row>5</row>
         <column>5</column>

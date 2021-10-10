@@ -30,7 +30,7 @@ namespace LevelParser
                 Debug.WriteLine(e.Message);
                 return list;
             }
-            //Parse Mario
+            //Mario MUST be parsed first, so that he is the first object in the list.
             Mario mario = ParseMario(g, list, level, maxCoords);
 
             //Parse brick blocks
@@ -106,7 +106,7 @@ namespace LevelParser
             {
 
                 HashSet<Item> items = new HashSet<Item>();
-                items.Add(DetermineQuestionItem(question.Attribute("item").Value));
+                //items.Add(DetermineQuestionItem(question.Attribute("item").Value));
                 Vector2 questionBlockPos = new Vector2();
                 questionBlockPos.Y = 16 * Int32.Parse(question.Element("row").Value);
                 questionBlockPos.X = 16 * Int32.Parse(question.Element("column").Value);
@@ -134,16 +134,20 @@ namespace LevelParser
 
                 string[] columnNumbers = brick.Value.Split(',');
                 //Handle each column in the row
-                foreach (string column in columnNumbers)
+                if (columnNumbers.Length > 1)
                 {
-                    //Still need to add coins to block
-                    Vector2 brickBlockPos = new Vector2();
-                    brickBlockPos.X = 16 * Int32.Parse(column);
-                    brickBlockPos.Y = 16 * rowNumber;
-                    Block tempBrick = new Block(brickBlockPos, blockSprites, mario);
-                    tempBrick.SetBlockState(new BrickBlockState(tempBrick));
-                    list.Add(tempBrick);
+                    foreach (string column in columnNumbers)
+                    {
 
+                        //Still need to add coins to block
+                        Vector2 brickBlockPos = new Vector2();
+                        brickBlockPos.X = 16 * Int32.Parse(column);
+                        brickBlockPos.Y = 16 * rowNumber;
+                        Block tempBrick = new Block(brickBlockPos, blockSprites, mario);
+                        tempBrick.SetBlockState(new BrickBlockState(tempBrick));
+                        list.Add(tempBrick);
+
+                    }
                 }
 
                 rowNumber++;
@@ -154,8 +158,8 @@ namespace LevelParser
         {
 
             Vector2 marioPos = new Vector2();
-            marioPos.X = 16 * Int32.Parse(level.Element("mario").Element("row").Value);
-            marioPos.Y = 16 * Int32.Parse(level.Element("mario").Element("column").Value);
+            marioPos.X = 16 * Int32.Parse(level.Element("mario").Element("column").Value);
+            marioPos.Y = 16 * Int32.Parse(level.Element("mario").Element("row").Value);
             Mario mario = new Mario(marioPos, new Vector2(0, 0), new Vector2(0, 0), g, maxCoords);
             list.Add(mario);
             return mario;

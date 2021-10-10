@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<level number="1-1">
+    <mario>
+        <row>5</row>
+        <column>1</column>
+    </mario>
+    <brickBlocks>
+        <rows>
+            <row></row>
+            <row></row>
+            <row></row>
+            <row>8,9,10</row>
+            <row></row>
+            <row></row>
+            <row>0,1,2,3,4,5,6,7,8,9,10,11,12,13</row>
+        </rows>
+    </brickBlocks>
+    <questionBlocks>
+        <questionBlock item="mushroom">
+            <row>3</row>
+            <column>5</column>
+        </questionBlock>
+    </questionBlocks>
+    <hiddenBlocks>
+        <hiddenBlock>
+            <row>3</row>
+            <column>7</column>
+        </hiddenBlock>
+    </hiddenBlocks>
+    <enemies>
+        <enemy type="goomba">
+            <row>5</row>
+            <column>8</column>
+        </enemy>
+        <enemy type="koopa">
+            <row>5</row>
+            <column>10</column>
+        </enemy>
+        <enemy type="redKoopa">
+            <row>5</row>
+            <column>12</column>
+        </enemy>
+    </enemies>
+</level>

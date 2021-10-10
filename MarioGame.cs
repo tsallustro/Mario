@@ -21,7 +21,7 @@ namespace Game1
     {
 
 
-        private readonly string levelToLoad = "dummylevel";
+        private readonly string levelToLoad = "test";
         private Point maxCoords; 
         List<IGameObject> objects;
         
@@ -33,14 +33,7 @@ namespace Game1
         private IController keyboardController;
         private IController gamepadController;
 
-        //Game Objects
-        //Enemy objects
-        private IEnemy goomba;
-        private IEnemy koopaTroopa;
-        private IEnemy redKoopaTroopa;
-
-        //Character ojbects
-        private IAvatar mario;   
+         
 
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
@@ -90,7 +83,10 @@ namespace Game1
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             Texture2D blockSprites = Content.Load<Texture2D>("BlocksV3");
 
-                    
+            //Load from Level file
+            string levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
+            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords);
+            Mario mario = (Mario) objects[0];
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
@@ -116,17 +112,6 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.I, new FireMarioCommand(mario));
             keyboardController.AddMapping((int)Keys.O, new DeadMarioCommand(mario));
 
-            // Enemy commands
-            keyboardController.AddMapping((int)Keys.Z, new IdleGoombaCommand(goomba));
-            keyboardController.AddMapping((int)Keys.X, new MovingGoombaCommand(goomba));
-            keyboardController.AddMapping((int)Keys.F, new StompedGoombaCommand(goomba));
-            keyboardController.AddMapping((int)Keys.V, new IdleKoopaTroopaCommand(koopaTroopa));
-            keyboardController.AddMapping((int)Keys.N, new MovingKoopaTroopaCommand(koopaTroopa));
-            keyboardController.AddMapping((int)Keys.M, new StompedKoopaTroopaCommand(koopaTroopa));
-            keyboardController.AddMapping((int)Keys.J, new IdleRedKoopaTroopaCommand(redKoopaTroopa));
-            keyboardController.AddMapping((int)Keys.K, new MovingRedKoopaTroopaCommand(redKoopaTroopa));
-            keyboardController.AddMapping((int)Keys.L, new StompedRedKoopaTroopaCommand(redKoopaTroopa));
-
             // AABB Visualization
             keyboardController.AddMapping((int)Keys.C, new BorderVisibleCommand(objects));
 
@@ -136,9 +121,7 @@ namespace Game1
             gamepadController.AddMapping((int)Buttons.A, jump);
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
 
-            //Load from Level file
-            string levelPath = Path.GetFullPath(@"..\..\..\Levels\"+levelToLoad+".xml");
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords);
+           
         }
         protected override void Update(GameTime gameTime)
         {
