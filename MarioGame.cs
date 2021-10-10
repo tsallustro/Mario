@@ -11,13 +11,17 @@ using States;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using System.IO;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Game1
 {
     public class MarioGame : Game
     {
 
-        private readonly string levelPath = "";
+
+        private readonly string levelToLoad = "dummylevel";
         private Point maxCoords; 
         List<IGameObject> objects;
         
@@ -79,7 +83,7 @@ namespace Game1
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
 
-
+            
 
             maxCoords = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             this.Window.Title = "Cornet Mario Game";
@@ -123,7 +127,7 @@ namespace Game1
             fireFlower = new Item(new Vector2(50, 50));
             star = new Item(new Vector2(250, 50));
 
-            /* Add all objects in level to object list! */
+            /* Add all objects in level to object list! 
             objects.Add(mario);
             objects.Add(goomba);
             objects.Add(koopaTroopa);
@@ -153,7 +157,7 @@ namespace Game1
             superMushroom.SetItemState(new SuperMushroomState(item));
             oneUpMushroom.SetItemState(new OneUpMushroomState(item));
             fireFlower.SetItemState(new FireFlowerState(item));
-            star.SetItemState(new StarState(item));
+            star.SetItemState(new StarState(item));*/
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
@@ -205,6 +209,7 @@ namespace Game1
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
 
             //Load from Level file
+            string levelPath = Path.GetFullPath(@"..\..\..\Levels\"+levelToLoad+".xml");
             objects = ParseLevel(levelPath, graphics, blockSprites);
         }
         protected override void Update(GameTime gameTime)
@@ -236,8 +241,16 @@ namespace Game1
         private List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites)
         {
             List<IGameObject> list = new List<IGameObject>();
-            XElement level = XElement.Load(levelPath);
-
+            XElement level;
+            try
+            {
+                level = XElement.Load(levelPath);
+            }catch(IOException e)
+            {
+                Debug.WriteLine("IO ERROR: Failed to load from file " + levelPath);
+                Debug.WriteLine(e.Message);
+                return list;
+            }
             //Parse Mario
             Vector2 marioPos = new Vector2();
             marioPos.X = 16 * Int32.Parse(level.Element("mario").Element("row").Value);
@@ -246,7 +259,7 @@ namespace Game1
             list.Add(mario);
 
             //Parse brick blocks
-            IEnumerable<XElement> brickRows = level.Element("brickBlocks").Element("rows").Descendants();
+            IEnumerable<XElement> brickRows = level.Element("brickBlocks").Element("rows").Elements();
             int rowNumber = 0;
 
             //Handle each individual row
@@ -263,15 +276,18 @@ namespace Game1
                     Block tempBrick = new Block(brickBlockPos, blockSprites,mario);
                     tempBrick.SetBlockState(new BrickBlockState(tempBrick));
                     list.Add(tempBrick);
+                    
                 }
 
                 rowNumber++;
             }
 
             //Parse question blocks
-            IEnumerable<XElement> questionBlocks = level.Element("questionBlocks").Descendants();
+            IEnumerable<XElement> questionBlocks = level.Element("questionBlocks").Elements();
+           
             foreach (XElement question in questionBlocks)
             {
+                
                 //Still need to add item to block
                 Vector2 questionBlockPos = new Vector2();
                 questionBlockPos.Y = 16 * Int32.Parse(question.Element("row").Value);
@@ -279,10 +295,11 @@ namespace Game1
                 Block tempQuestion = new Block(questionBlockPos, blockSprites,mario);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
+               
             }
 
             //Parse hidden blocks
-            IEnumerable<XElement> hiddenBlocks = level.Element("hiddenBlocks").Descendants();
+            IEnumerable<XElement> hiddenBlocks = level.Element("hiddenBlocks").Elements();
             foreach (XElement hidden in hiddenBlocks)
             {
                 //Still need to add item to block
@@ -295,7 +312,7 @@ namespace Game1
             }
 
             //Parse Enemies
-            IEnumerable<XElement> enemies = level.Element("enemies").Descendants();
+            IEnumerable<XElement> enemies = level.Element("enemies").Elements();
             foreach (XElement enemy in enemies)
             {
                 string enemyType = enemy.Attribute("type").Value;
