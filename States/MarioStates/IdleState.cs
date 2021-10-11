@@ -59,6 +59,11 @@ namespace States
         {
             mario.SetActionState(new JumpingState(mario, this.left));
         }
+
+        public void Fall()
+        {
+            //Do Nothing
+        }
         public void Idle()
         {
             mario.SetActionState(new IdleState(mario, this.left));
