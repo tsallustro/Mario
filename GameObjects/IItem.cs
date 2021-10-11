@@ -10,5 +10,6 @@ namespace GameObjects
     public interface IItem : IGameObject
     {
         void SetItemState(IItemState itemState);
+        IItemState GetItemState();
     }
 }

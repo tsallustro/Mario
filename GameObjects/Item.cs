@@ -45,12 +45,12 @@ namespace GameObjects
 
         public override void Halt()
         {
-            
+            return;
         }
 
         public override void Damage()
         {
-            
+            return;
         }
 
         //Update all items
