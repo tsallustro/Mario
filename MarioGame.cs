@@ -33,8 +33,6 @@ namespace Game1
         private IController keyboardController;
         private IController gamepadController;
 
-         
-
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
         private GoombaSpriteFactory goombaSpriteFactory;
@@ -60,8 +58,6 @@ namespace Game1
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
 
-            
-
             maxCoords = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             this.Window.Title = "Cornet Mario Game";
             base.Initialize();
@@ -72,18 +68,13 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
            
             marioSpriteFactory.LoadTextures(this);
-
-            /*
-             * Since we will have multiple enemies and items, we should make
-             * these factories not be singletons.
-             */
             goombaSpriteFactory.LoadTextures(this);
             itemSpriteFactory.LoadTextures(this);
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             Texture2D blockSprites = Content.Load<Texture2D>("BlocksV3");
 
-            //Load from Level file
+            // Load from Level file
             string levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords);
             Mario mario = (Mario) objects[0];
@@ -120,9 +111,8 @@ namespace Game1
             gamepadController.AddMapping((int)Buttons.DPadRight, moveRight);
             gamepadController.AddMapping((int)Buttons.A, jump);
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
-
-           
         }
+
         protected override void Update(GameTime gameTime)
         {
             // Update the controllers
@@ -136,6 +126,7 @@ namespace Game1
             
             base.Update(gameTime);
         }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -146,12 +137,10 @@ namespace Game1
             {
                 obj.Draw(spriteBatch);
             }
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
-        
     }
-
-   
 }
 

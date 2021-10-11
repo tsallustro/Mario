@@ -93,22 +93,7 @@ namespace GameObjects
         {
             Sprite.location = Position;
             Sprite.Draw(spriteBatch, actionState.GetDirection());
-
-            // Prepare AABB visualization
-            if (BorderIsVisible)
-            {
-                int lineWeight = 2;
-                Color lineColor = Color.Yellow;
-                Texture2D boundary = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-                boundary.SetData(new[] { Color.White });
-
-                /* Draw rectangle for the AABB visualization */
-                /* TODO - Only draw AABB visualization if the proper key has been pressed [Cc] */
-                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + lineWeight, lineWeight, AABB.Height - 2 * lineWeight), lineColor);               // left
-                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y, AABB.Width - lineWeight, lineWeight), lineColor);                               // top
-                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X + AABB.Width - lineWeight, (int)AABB.Location.Y, lineWeight, AABB.Height - lineWeight), lineColor);    // right
-                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + AABB.Height - lineWeight, AABB.Width, lineWeight), lineColor);                 // bottom
-            }
+            DrawAABBIfVisible(Color.Yellow, spriteBatch);
         }
         
         public void MoveLeft(int pressType)

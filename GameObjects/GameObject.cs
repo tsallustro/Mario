@@ -32,6 +32,22 @@ namespace GameObjects
             Acceleration = acceleration;
         }
 
+        public void DrawAABBIfVisible(Color color, SpriteBatch spriteBatch)
+        {
+            if (BorderIsVisible)
+            {
+                int lineWeight = 2;
+                Texture2D boundary = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+                boundary.SetData(new[] { Color.White });
+
+                /* Draw rectangle for the AABB visualization */
+                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + lineWeight, lineWeight, AABB.Height - 2 * lineWeight), color);               // left
+                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y, AABB.Width - lineWeight, lineWeight), color);                                 // top
+                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X + AABB.Width - lineWeight, (int)AABB.Location.Y, lineWeight, AABB.Height - lineWeight), color);      // right
+                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + AABB.Height - lineWeight, AABB.Width, lineWeight), color);                   // bottom
+            }
+        }
+
         public abstract void Update(GameTime GameTime);
         public abstract void Draw(SpriteBatch spriteBatch);
 

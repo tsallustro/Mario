@@ -51,20 +51,7 @@ namespace GameObjects
         public override void Draw(SpriteBatch spriteBatch)
         {
             Sprite.Draw(spriteBatch, true);
-            // Prepare AABB visualization
-            if (BorderIsVisible)
-            {
-                int lineWeight = 2;
-                Color lineColor = Color.Red;
-                Texture2D boundary = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-                boundary.SetData(new[] { Color.White });
-
-                /* Draw rectangle for the AABB visualization */
-                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + lineWeight, lineWeight, AABB.Height - 2 * lineWeight), lineColor);               // left
-                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y, AABB.Width - lineWeight, lineWeight), lineColor);                               // top
-                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X + AABB.Width - lineWeight, (int)AABB.Location.Y, lineWeight, AABB.Height - lineWeight), lineColor);  // right
-                spriteBatch.Draw(boundary, new Rectangle((int)AABB.Location.X, (int)AABB.Location.Y + AABB.Height - lineWeight, AABB.Width, lineWeight), lineColor);  // bottom
-            }
+            DrawAABBIfVisible(Color.Red, spriteBatch);
         }
 
         //Change Goomba state to stomped mode
