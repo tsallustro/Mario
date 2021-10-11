@@ -10,7 +10,7 @@ namespace GameObjects
     public abstract class GameObject : IGameObject
     {
         protected Vector2 Position { get; set; }
-        public Vector2 Velocity { get; set; }
+        protected Vector2 Velocity { get; set; }
         protected Vector2 Acceleration { get; set; }
         protected ISprite Sprite { get; set; }
         protected Rectangle AABB { get; set; }
@@ -60,11 +60,20 @@ namespace GameObjects
         {
             this.Velocity = new Vector2(this.Velocity.X, y);
         }
-
+        public Vector2 GetPosition()
+        {
+            return this.Position;
+        }  
+        public Vector2 GetVelocity()
+        {
+            return this.Velocity;
+        }
         public Rectangle GetAABB()
         {
             return this.AABB;
         }
+
+  
 
         // Collision methods?
         public bool RightCollision(IGameObject obj)

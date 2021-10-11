@@ -3,15 +3,16 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using System.IO;
 using Controllers;
 using Commands;
 using GameObjects;
 using Factories;
 using States;
 using System;
-using System.Collections.Generic;
-using System.Xml.Linq;
-using System.IO;
+using Collisions;
 using LevelParser;
 
 
@@ -19,12 +20,11 @@ namespace Game1
 {
     public class MarioGame : Game
     {
-
-
         private readonly string levelToLoad = "test";
         private Point maxCoords; 
         List<IGameObject> objects;
-        
+
+
         //Monogame Objects
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -32,6 +32,9 @@ namespace Game1
         //Controllers
         private IController keyboardController;
         private IController gamepadController;
+
+        //CollisionHandler
+        private CollisionHandler collisionHandler;
 
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
@@ -51,6 +54,7 @@ namespace Game1
         {
             keyboardController = new KeyboardController();
             gamepadController = new GamepadController();
+            collisionHandler = new CollisionHandler();
 
             marioSpriteFactory = MarioSpriteFactory.Instance;
             goombaSpriteFactory = GoombaSpriteFactory.Instance;
@@ -66,7 +70,7 @@ namespace Game1
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-           
+
             marioSpriteFactory.LoadTextures(this);
             goombaSpriteFactory.LoadTextures(this);
             itemSpriteFactory.LoadTextures(this);
@@ -123,7 +127,7 @@ namespace Game1
             {
                 obj.Update(gameTime);
             }
-            
+            collisionHandler.Update(gameTime, objects);
             base.Update(gameTime);
         }
 
