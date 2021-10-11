@@ -8,8 +8,8 @@ namespace Commands
 {
     class DamageObjectCommand : GameObjectCommand
     {
-		public DamageObjectCommand(IGameObject avatar)
-			: base(avatar)
+		public DamageObjectCommand(GameObject entity)
+			: base(entity)
 		{
 		}
 
@@ -17,6 +17,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
+				entity.Damage();
 				//Not sure what this is
 				//avatar.velocity;
 			}

@@ -8,7 +8,7 @@ namespace Commands
 {
     class HaltCollidingObjectCommand : GameObjectCommand
     {
-		public HaltCollidingObjectCommand(IGameObject entity)
+		public HaltCollidingObjectCommand(GameObject entity)
 			: base(entity)
 		{
 		}
@@ -17,8 +17,7 @@ namespace Commands
 		{
 			if (pressType == 1)
 			{
-				entity.SetYVelocity(0);
-				entity.SetXVelocity(0);
+				entity.Halt();
 			}
 		}
 	}

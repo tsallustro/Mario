@@ -125,5 +125,8 @@ namespace GameObjects
 
         }
 
+        public abstract void Damage();
+
+        public abstract void Halt();
     }
 }

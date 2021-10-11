@@ -87,6 +87,11 @@ namespace GameObjects
             DrawAABBIfVisible(Color.Red, spriteBatch);
         }
 
+        public override void Damage()
+        {
+            goombaState.Stomped();
+        }
+
         //Change Goomba state to stomped mode
         public void Stomped()
         {

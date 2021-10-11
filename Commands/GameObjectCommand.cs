@@ -11,7 +11,7 @@ namespace Commands
 	{
 		protected GameObject entity;
 
-		protected GameObjectCommand(IGameObject entity)
+		protected GameObjectCommand(GameObject entity)
         {
 			this.entity = (GameObject) entity;
         }
