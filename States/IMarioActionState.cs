@@ -12,6 +12,8 @@ namespace States
         public void MoveRight();
         public void Crouch();
         public void Jump();
+
+        public void Fall();
         public void Idle();
         /*
         public void Enter(IMarioActionState previousActionState);
