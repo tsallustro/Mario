@@ -50,12 +50,13 @@ namespace GameObjects
         public override void Update(GameTime GameTime)
         {
             
-            foreach (var obj in objects)
+            foreach (GameObject obj in objects)
             {
                 if (obj != this)
                 {
                     //If Goomba is stomped
-                    if (obj is Mario && this.TopCollision(obj))
+                    // Need to check that Mario is travelling downwards
+                    if (obj is Mario && this.TopCollision(obj) && obj.Velocity.Y < 0)
                     {
                             this.Stomped();
                     }

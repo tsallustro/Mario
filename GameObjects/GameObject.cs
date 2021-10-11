@@ -10,7 +10,7 @@ namespace GameObjects
     public abstract class GameObject : IGameObject
     {
         protected Vector2 Position { get; set; }
-        protected Vector2 Velocity { get; set; }
+        public Vector2 Velocity { get; set; }
         protected Vector2 Acceleration { get; set; }
         protected ISprite Sprite { get; set; }
         protected Rectangle AABB { get; set; }
@@ -90,7 +90,7 @@ namespace GameObjects
         }
         public bool TopCollision(IGameObject obj)
         {
-            if (this.AABB.Top - Velocity.Y <= obj.GetAABB().Bottom &&
+            if (this.AABB.Top - Velocity.Y == obj.GetAABB().Bottom &&
                 this.AABB.Right > obj.GetAABB().Left &&
                 this.AABB.Left < obj.GetAABB().Right &&
                 this.AABB.Bottom > obj.GetAABB().Top)
