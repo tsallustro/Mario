@@ -29,7 +29,7 @@ namespace GameObjects
             spriteFactory = GoombaSpriteFactory.Instance;
             Sprite = spriteFactory.CreateMovingGoomba(position);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
-                (Sprite.texture.Width / 15) - boundaryAdjustment, (Sprite.texture.Height /9) - boundaryAdjustment));
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, (Sprite.texture.Height) - boundaryAdjustment));
             goombaState = new MovingGoombaState(this);
             objects = objs;
             this.SetXVelocity((float)50);
@@ -79,7 +79,7 @@ namespace GameObjects
 
             Sprite = spriteFactory.GetCurrentSprite(Position, goombaState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
-    (Sprite.texture.Width / 15) - boundaryAdjustment, (Sprite.texture.Height / 9) - boundaryAdjustment));
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, (Sprite.texture.Height) - boundaryAdjustment));
             Sprite.Update();
         }
 
