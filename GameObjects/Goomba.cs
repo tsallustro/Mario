@@ -55,21 +55,16 @@ namespace GameObjects
                 if (obj != this)
                 {
                     //If Goomba is stomped
-                    if (this.TopCollision(obj))
+                    if (obj is Mario && this.TopCollision(obj))
                     {
-                        if (obj is Mario)
-                        {
                             this.Stomped();
-                        }
                     }
                     else if (this.LeftCollision(obj) || this.RightCollision(obj))
                     {
                         //If goomba hits the wall
                         this.ChangeDirection();
                     }
-                }
-                    
-                    
+                }    
             }
 
             ChangeDirection();
