@@ -39,6 +39,9 @@ namespace Collisions
                             float obj2PosX = obj2AABB.Center.X;
                             float obj2PosY = obj2AABB.Center.Y;
                             // Determine if a check needs to be made based on location of GameObjects
+
+                            // For some reason, left/right collisions do not work if this is uncommented. -Jesse
+
                             //if (Math.Abs(obj2PosX - obj1PosX) < 8 + Math.Abs(obj1VelX * GameTime.ElapsedGameTime.TotalSeconds))       // Check to see if obj2 is close to obj1 X
                             //{
                                 //System.Diagnostics.Debug.WriteLine("XPos Close:" + obj1.GetType());
