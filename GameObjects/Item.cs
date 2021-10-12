@@ -22,6 +22,7 @@ namespace GameObjects
         private readonly int numberOfSpritesOnSheet = 9;
         private IItemState itemState;
         private ItemSpriteFactory spriteFactory;
+        bool appear = false;
 
         public Item(Vector2 position)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
@@ -68,6 +69,10 @@ namespace GameObjects
             DrawAABBIfVisible(Color.Green, spriteBatch);
         }
         
+        public void Appear()
+        {
+
+        }
 
     }
 }

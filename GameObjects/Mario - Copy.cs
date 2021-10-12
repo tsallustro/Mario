@@ -76,17 +76,8 @@ namespace GameObjects
         //Update all of Mario's members
         public override void Update(GameTime GameTime)
         {
-            //Check Mario collision every objects
-            foreach (var obj in objects)
-            {
-                if (obj != this)
-                {
-                    this.CheckCollsion(obj);
-                }
-            }
             //Update Mario location
             this.Location += Velocity;
-
             sprite.Update();
         }
 
@@ -95,6 +86,7 @@ namespace GameObjects
         {
             sprite.Draw(spriteBatch, actionState.GetDirection());
         }
+
         public void MoveLeft(int pressType)
         {
             //When holding, Mario speed increase

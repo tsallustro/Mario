@@ -82,45 +82,14 @@ namespace GameObjects
         {
             // Overide this method
         }
-
-        public bool RightCollision(IGameObject obj)
-        {
-
-            if (this.AABB.Right >= obj.GetAABB().Left &&
-            this.AABB.Top < obj.GetAABB().Bottom &&
-            this.AABB.Bottom > obj.GetAABB().Top &&
-            this.AABB.Left < obj.GetAABB().Left)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            
-        }
-        public bool LeftCollision(IGameObject obj)
-        {
-
-            if (this.AABB.Left <= obj.GetAABB().Right &&
-            this.AABB.Top < obj.GetAABB().Bottom &&
-            this.AABB.Bottom > obj.GetAABB().Top &&
-            this.AABB.Right > obj.GetAABB().Right)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        // Check for AABB collision
+        //this.Top collide with obj.Bottom
         public bool TopCollision(IGameObject obj)
         {
-
             if (this.AABB.Top <= obj.GetAABB().Bottom &&
-            this.AABB.Left < obj.GetAABB().Right &&
-            this.AABB.Right > obj.GetAABB().Left &&
-            this.AABB.Bottom > obj.GetAABB().Bottom)
+                this.AABB.Bottom > obj.GetAABB().Bottom &&
+                this.AABB.Left < obj.GetAABB().Right &&
+                this.AABB.Right > obj.GetAABB().Left)
             {
                 return true;
             }
@@ -129,37 +98,55 @@ namespace GameObjects
                 return false;
             }
         }
+        //this.Bottom collide with obj.Top
         public bool BottomCollision(IGameObject obj)
         {
 
-            if (this.AABB.Bottom >= obj.GetAABB().Top &&
-            this.AABB.Left < obj.GetAABB().Right &&
-            this.AABB.Right > obj.GetAABB().Left &&
-            this.AABB.Top < obj.GetAABB().Top)
+            if (this.AABB.Top < obj.GetAABB().Top &&
+                this.AABB.Bottom >= obj.GetAABB().Top &&
+                this.AABB.Left < obj.GetAABB().Right &&
+                this.AABB.Right > obj.GetAABB().Left)
             {
                 return true;
             }
             else
             {
                 return false;
-            }               
+            }
+        }
+        //this.Left collide with obj.Right
+        public bool LeftCollision(IGameObject obj)
+        {
+
+            if (this.AABB.Top < obj.GetAABB().Bottom &&
+                this.AABB.Bottom > obj.GetAABB().Top &&
+                this.AABB.Left <= obj.GetAABB().Right &&
+                this.AABB.Right > obj.GetAABB().Right)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //this.Right collide with obj.Left
+        public bool RightCollision(IGameObject obj)
+        {
+
+            if (this.AABB.Top < obj.GetAABB().Bottom && 
+                this.AABB.Bottom > obj.GetAABB().Top &&
+                this.AABB.Left < obj.GetAABB().Left &&
+                this.AABB.Right >= obj.GetAABB().Left )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
             
         }
-
-        //React to collision. If Mario hits object, Mario stops.
-        public void CheckCollsion(IGameObject obj)
-        {
-            if (RightCollision(obj) || LeftCollision(obj))
-            {
-                this.SetXVelocity((float)0);
-            }
-            if (TopCollision(obj) || BottomCollision(obj))
-            {
-                this.SetYVelocity((float)0);
-            }
-
-        }
-
         public abstract void Damage();
 
         public abstract void Halt();

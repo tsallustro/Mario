@@ -147,7 +147,7 @@ namespace GameObjects
       
         public override void Collision(int side, GameObject Collidee)
         {
-            if (side == CollisionHandler.BOTTOM && Collidee is Mario)
+            if (side == CollisionHandler.BOTTOM && Collidee is Mario && Collidee.GetVelocity().Y >0)
             {
                 System.Diagnostics.Debug.WriteLine("Collided! Bumping...");
                 this.Bump();

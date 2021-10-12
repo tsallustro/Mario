@@ -67,9 +67,7 @@ namespace GameObjects
         {
 
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            //Halt();
             newPosition = Position + Velocity * timeElapsed;
-            //Position -= Velocity * timeElapsed;
 
             StopMarioBoundary();
             Position = newPosition;
@@ -108,7 +106,7 @@ namespace GameObjects
                 switch (side)
                 {
                     case TOP:
-                        if (Velocity.Y < 0) this.actionState.Idle();
+                        if (Velocity.Y < 0) this.actionState.Fall();
                         break;
                     case BOTTOM:
                         if (Velocity.Y > 0) this.actionState.Land();
