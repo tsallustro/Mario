@@ -54,6 +54,38 @@ namespace GameObjects
         {
             goombaState.Stomped();
         }
+        // Overide
+        public void Collision(int side, GameObject Collidee)
+        {
+
+            if (side == 1)          //Top
+            {
+                if (Collidee is Mario)
+                {
+                    goombaState.Stomped();
+                } else
+                {
+                    //do nothing
+                }
+            }
+            else if (side == 2)     //Bottom
+            {
+                if (Collidee is Block )//&& block is bumped
+                {
+                    goombaState.Stomped();
+                }
+            }
+            else if (side == 3)     //Left
+            {
+
+            }
+            else if (side == 4)     //Right
+            {
+
+            }
+
+        }
+
 
         //Update all of Goomba's members
         public override void Update(GameTime GameTime)

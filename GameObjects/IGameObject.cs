@@ -18,6 +18,7 @@ namespace GameObjects
         void SetYVelocity(float y);
 
         // Collision methods?
+        void Collision(int side, GameObject Collidee);
         bool RightCollision(IGameObject obj);
         bool LeftCollision(IGameObject obj);
         bool TopCollision(IGameObject obj);

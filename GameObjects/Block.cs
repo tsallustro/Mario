@@ -63,9 +63,17 @@ namespace GameObjects
         {
             this.falling = Falling;
         }
+        public Boolean GetFalling()
+        {
+            return this.falling;
+        }
         public void SetBumped(Boolean bumped)
         {
             this.bumped = bumped;
+        }
+        public Boolean GetBumped()
+        {
+            return this.bumped;
         }
 
         public IBlockState GetBlockState()
@@ -89,43 +97,6 @@ namespace GameObjects
 
         public override void Update(GameTime GameTime)
         {
-            //System.Diagnostics.Debug.WriteLine("IM HERE:" + blockState);
-
-            /*
-            if (bumped && !(blockState is UsedBlockState))
-            {
-                if (!falling && location.Y >= originalLocation.Y - 10)                                // block is less than desired height
-                {
-                    location.Y = location.Y - 100 * (float)GameTime.ElapsedGameTime.TotalSeconds;
-                } else if (!falling && location.Y < originalLocation.Y - 10)                        // block hits its desired height.
-                {
-                    falling = true;
-                } else if (falling && location.Y < originalLocation.Y)                              // block is falling and heigher than original location
-                {
-                    location.Y = location.Y + 100 * (float)GameTime.ElapsedGameTime.TotalSeconds;
-                }
-                else {                                                                         // if block is falling and below original location (reset)
-                    location.Y = originalLocation.Y;
-                    if (blockState is BumpedQuestionBlockState)
-                    {
-                        blockState = new UsedBlockState(this);
-                    }
-                    else if (!(mario.GetPowerState() is StandardMario))
-                    {
-                        blockState = new BrokenBrickBlockState(this);
-                    }
-                    bumped = false;
-                    falling = false;
-                }
-            }
-
-            if (blockState is BrokenBrickBlockState)
-            {
-                location.Y = location.Y + 300 * (float)GameTime.ElapsedGameTime.TotalSeconds;
-
-            }
-            */
-
             if(bumped)                                                  // if bumped, do physics!
             {
                 if (falling)                                             // logic for falling blocks

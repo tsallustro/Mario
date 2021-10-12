@@ -73,9 +73,14 @@ namespace GameObjects
             return this.AABB;
         }
 
-  
+
 
         // Collision methods?
+        public void Collision(int side, GameObject Collidee)
+        {
+            // Overide this method
+        }
+
         public bool RightCollision(IGameObject obj)
         {
             if (this.AABB.Right + Velocity.X > obj.GetAABB().Left &&

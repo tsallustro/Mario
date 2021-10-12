@@ -41,7 +41,7 @@ namespace Collisions
                             {
                                 //System.Diagnostics.Debug.WriteLine("XPos Close:" + obj1.GetType());
 
-                                if (Math.Abs(obj2PosY - obj1PosY) < 8 + Math.Abs(obj1VelY * GameTime.ElapsedGameTime.TotalSeconds))   // Check to see if obj2 is close to obj1 Y
+                                if (Math.Abs(obj2PosY - obj1PosY) < 16 + Math.Abs(obj1VelY * GameTime.ElapsedGameTime.TotalSeconds))   // Check to see if obj2 is close to obj1 Y
                                 {
                                     System.Diagnostics.Debug.WriteLine("YPos Close:" + obj1.GetType());
                                     // Check Bottom Collision
@@ -51,6 +51,8 @@ namespace Collisions
                                         obj1AABB.Right > obj2AABB.Left &&
                                         obj1AABB.Left < obj2AABB.Right)
                                     {
+                                        obj1.Collision(2, obj2);
+                                        obj2.Collision(1, obj1);
                                     }
 
                                     // Check Top Collision
@@ -59,7 +61,8 @@ namespace Collisions
                                         obj1AABB.Right > obj2AABB.Left &&
                                         obj1AABB.Left < obj2AABB.Right)
                                     {
-
+                                        obj1.Collision(1, obj2);
+                                        obj2.Collision(2, obj1);
                                     }
                                     // Check Left Collision
                                     if (obj1AABB.Top > obj2AABB.Bottom &&
@@ -67,6 +70,8 @@ namespace Collisions
                                         obj1AABB.Right > obj2AABB.Left &&
                                         obj1AABB.Left - obj1VelX < obj2AABB.Right)
                                     {
+                                        obj1.Collision(3, obj2);
+                                        obj2.Collision(4, obj1);
                                     }
 
                                     // Check Right Collision
@@ -75,6 +80,8 @@ namespace Collisions
                                         obj1AABB.Right + obj1VelX > obj2AABB.Left &&
                                         obj1AABB.Left < obj2AABB.Right)
                                     {
+                                        obj1.Collision(4, obj2);
+                                        obj2.Collision(3, obj1);
                                     }
                                 }
                             }
