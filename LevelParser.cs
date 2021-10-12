@@ -153,14 +153,15 @@ namespace LevelParser
                     X = 16 * Int32.Parse(question.Element("column").Value)
                 };
                 HashSet<IItem> items = new HashSet<IItem>();
-                items.Add(DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos));
+                //items.Add(DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos)); //TEMP COMMENT
                 Block tempQuestion = new Block(questionBlockPos, blockSprites, mario,items);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
             }
         }
 
-        private static IItem DetermineQuestionItem(string itemType, Vector2 blockPos)
+        /* TEMP. COMMENTED OUT WHILE CREATING NEW ITEM CLASSES */
+        /*private static IItem DetermineQuestionItem(string itemType, Vector2 blockPos)
         {
             IItem item = new Item(new Vector2(blockPos.X, blockPos.Y));
             IItemState state;
@@ -187,7 +188,7 @@ namespace LevelParser
             }
             item.SetItemState(state);
             return item;
-        }
+        }*/
 
         private static void ParseBrickBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
@@ -222,7 +223,7 @@ namespace LevelParser
                             for (int i = 0; i < numCoins; i++)
                             {
                                 Vector2 coinPos = new Vector2(brickBlockPos.X, brickBlockPos.Y);
-                                IItem coin = new Item(coinPos);
+                                IItem coin = new Coin(coinPos);
                                 coins.Add(coin);
                             }
                             
