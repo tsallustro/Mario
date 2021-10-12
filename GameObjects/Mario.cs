@@ -180,14 +180,14 @@ namespace GameObjects
                 this.location.X -= 1;
             }*/
 
-            actionState.MoveLeft();
+            if (!(powerState is DeadMario)) actionState.MoveLeft();
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void MoveRight(int pressType)
         {
             //Mario only moves when holding the key
-            actionState.MoveRight();
+            if (!(powerState is DeadMario)) actionState.MoveRight();
 
             //sprite.Move();
             /*if (this.actionState is RunningState && pressType == 2)
@@ -199,7 +199,7 @@ namespace GameObjects
 
         public void Up(int pressType)
         {
-            actionState.Jump();
+            if (!(powerState is DeadMario)) actionState.Jump();
             /*if (this.actionState is JumpingState && pressType == 2)
             {
                 this.location.Y -= 1;
@@ -223,7 +223,7 @@ namespace GameObjects
 
         public void Down(int pressType)
         {
-            actionState.Crouch();
+            if (!(powerState is DeadMario)) actionState.Crouch();
             /*if (this.actionState is CrouchingState && pressType == 2)
             {
                 this.location.Y += 1;
