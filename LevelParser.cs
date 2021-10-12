@@ -105,22 +105,44 @@ namespace LevelParser
             foreach (XElement question in questionBlocks)
             {
 
-                HashSet<Item> items = new HashSet<Item>();
-                //items.Add(DetermineQuestionItem(question.Attribute("item").Value));
+                HashSet<IItem> items = new HashSet<IItem>();
+                items.Add(DetermineQuestionItem(question.Attribute("item").Value));
                 Vector2 questionBlockPos = new Vector2();
                 questionBlockPos.Y = 16 * Int32.Parse(question.Element("row").Value);
                 questionBlockPos.X = 16 * Int32.Parse(question.Element("column").Value);
                 Block tempQuestion = new Block(questionBlockPos, blockSprites, mario);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
-
             }
         }
 
-        private static Item DetermineQuestionItem(string itemType)
+        private static IItem DetermineQuestionItem(string itemType)
         {
-            //NOT IMPLEMENTED YET
-            return null;
+            IItem item = new Item(new Vector2(0, 0));
+            IItemState state;
+            switch (itemType)
+            {
+                case "mushroom":
+                    state = new SuperMushroomState(item);
+                    break;
+                case "fire":
+                    state = new FireFlowerState(item);
+                    break;
+                case "star":
+                    state = new StarState(item);
+                    break;
+                case "oneUp":
+                    state = new OneUpMushroomState(item);
+                    break;
+                case "coin":
+                    state = new CoinState(item);
+                    break;
+                default: 
+                    state = null; 
+                    break;
+            }
+            item.SetItemState(state);
+            return item;
         }
 
         private static void ParseBrickBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)

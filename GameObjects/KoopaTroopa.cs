@@ -39,6 +39,17 @@ namespace GameObjects
             this.koopaTroopaState = koopaTroopaState;
         }
 
+        public override void Halt()
+        {
+            this.SetXVelocity(0);
+            this.SetYVelocity(0);
+        }
+
+        public override void Damage()
+        {
+            koopaTroopaState.Stomped();
+        }
+
         //Update all of Goomba's members
         public override void Update(GameTime gameTime)
         {

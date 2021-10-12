@@ -63,6 +63,16 @@ namespace GameObjects
             this.actionState2 = actionState2;
         }
 
+        public override void Halt()
+        {
+            actionState.Idle();
+        }
+
+        public override void Damage()
+        {
+            powerState.TakeDamage();
+        }
+
         //Update all of Mario's members
         public override void Update(GameTime GameTime)
         {

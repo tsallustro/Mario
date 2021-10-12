@@ -43,6 +43,16 @@ namespace GameObjects
             this.itemState = itemState;
         }
 
+        public override void Halt()
+        {
+            return;
+        }
+
+        public override void Damage()
+        {
+            return;
+        }
+
         //Update all items
         public override void Update(GameTime gameTime)
         {

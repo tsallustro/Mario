@@ -77,6 +77,16 @@ namespace GameObjects
             this.blockState = blockState;
         }
 
+        public override void Halt()
+        {
+            
+        }
+
+        public override void Damage()
+        {
+            
+        }
+
         public override void Update(GameTime GameTime)
         {
             //System.Diagnostics.Debug.WriteLine("IM HERE:" + blockState);

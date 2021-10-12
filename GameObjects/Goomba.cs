@@ -45,6 +45,15 @@ namespace GameObjects
             this.goombaState = goombaState;
         }
 
+        public override void Halt()
+        {
+            
+        }
+
+        public override void Damage()
+        {
+            goombaState.Stomped();
+        }
 
         //Update all of Goomba's members
         public override void Update(GameTime GameTime)
@@ -85,11 +94,6 @@ namespace GameObjects
             Sprite.location = Position;
             Sprite.Draw(spriteBatch, true);
             DrawAABBIfVisible(Color.Red, spriteBatch);
-        }
-
-        public override void Damage()
-        {
-            goombaState.Stomped();
         }
 
         //Change Goomba state to stomped mode
