@@ -71,6 +71,9 @@ namespace GameObjects
             StopMarioBoundary();
             Position = newPosition;
 
+            System.Diagnostics.Debug.Print("Mario action state: " + actionState);
+
+            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             Sprite.Update();
@@ -80,19 +83,17 @@ namespace GameObjects
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
-            if (obj is Item)
+            if (obj is Item item)
             {
-                Item itemObj = (Item)obj;
-                IItemState iState = itemObj.GetItemState();
-                if(iState is SuperMushroomState)
+                if(item is SuperMushroom)
                 {
                     this.powerState.Mushroom();
                 }
-                else if (iState is FireFlowerState)
+                else if (item is FireFlower)
                 {
                     this.powerState.FireFlower();
                 }
-                else if (iState is StarState)
+                else if (item is Star)
                 {
                     //Implement invicibility
                 }
@@ -105,7 +106,7 @@ namespace GameObjects
                         if (Velocity.Y < 0) this.actionState.Fall();
                         break;
                     case BOTTOM:
-                        if (Velocity.Y > 0 && !(this.actionState is RunningState)) this.actionState.Land();
+                        if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState)) this.actionState.Land();
                         break;
                     case LEFT:
                         if (Velocity.X < 0) this.actionState.Idle();
