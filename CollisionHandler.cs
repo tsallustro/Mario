@@ -10,7 +10,7 @@ namespace Collisions
     class CollisionHandler
     {
         //ints used for GameObject.Collision()
-        private static readonly int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+        public static readonly int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
         // Contructor
         public CollisionHandler()

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 using States;
 using Factories;
+using Collisions;
 
 namespace GameObjects
 {
@@ -144,5 +145,15 @@ namespace GameObjects
         public void Up() { }
         public void Down() { }
       
+        public override void Collision(int side, GameObject Collidee)
+        {
+            if (side == CollisionHandler.BOTTOM && Collidee is Mario)
+            {
+                System.Diagnostics.Debug.WriteLine("Collided! Bumping...");
+                this.Bump();
+                Mario mario = (Mario) Collidee;
+                mario.SetActionState(new FallingState(mario, mario.isFacingLeft()));
+            }
+        }
     }
 }
