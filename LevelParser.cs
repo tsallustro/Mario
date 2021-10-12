@@ -160,7 +160,7 @@ namespace LevelParser
             Vector2 marioPos = new Vector2();
             marioPos.X = 16 * Int32.Parse(level.Element("mario").Element("column").Value);
             marioPos.Y = 16 * Int32.Parse(level.Element("mario").Element("row").Value);
-            Mario mario = new Mario(marioPos, new Vector2(0, 0), new Vector2(0, 0), g, maxCoords);
+            Mario mario = new Mario(marioPos, new Vector2(0, 0), new Vector2(0, 0), g, maxCoords, list);
             list.Add(mario);
             return mario;
         }

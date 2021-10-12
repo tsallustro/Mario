@@ -71,6 +71,8 @@ namespace GameObjects
         {
             redKoopaTroopaState.StayIdle();
         }
+        public override void Damage() { }
+        public override void Halt() { }
 
     }
 }

@@ -170,5 +170,8 @@ namespace GameObjects
                 actionState2.CrouchingDiscontinueTransition();
             }
         }
+
+        public override void Damage() { }
+        public override void Halt() { }
     }
 }

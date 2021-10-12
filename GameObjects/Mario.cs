@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 using States;
-
+using System.Collections.Generic;
 
 namespace GameObjects
 {
@@ -20,9 +20,10 @@ namespace GameObjects
         private MarioSpriteFactory spriteFactory;
         private Point maxCoords;
         private Vector2 newPosition;
+        List<IGameObject> objects;
         GraphicsDeviceManager Graphics { get; set; }
 
-        public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords)
+        public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords, List<IGameObject> objs)
             : base(position, velocity, acceleration)
         {
             spriteFactory = MarioSpriteFactory.Instance;
@@ -33,6 +34,7 @@ namespace GameObjects
             powerState = new StandardMario(this);
             actionState = new IdleState(this, false);
             Graphics = graphics;
+            objects = objs;
 
             // Adjust given maxCoords to account for sprite's height
             this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
@@ -62,14 +64,26 @@ namespace GameObjects
         {
 
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            newPosition = Position - Velocity * timeElapsed;
+            Halt();
+            newPosition = Position + Velocity * timeElapsed;
             //Position -= Velocity * timeElapsed;
-            
+
+            StopMarioBoundary();
+            Position = newPosition;
+
+            AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            Sprite.Update();
+        }
+
+        private void StopMarioBoundary()
+        {
             //This prevents Mario from going outside the screen
             if (newPosition.X > maxCoords.X)
             {
                 newPosition = new Vector2(maxCoords.X, Position.Y);
-            } else if (newPosition.X < 0)
+            }
+            else if (newPosition.X < 0)
             {
                 newPosition = new Vector2(0, Position.Y);
             }
@@ -81,12 +95,6 @@ namespace GameObjects
             {
                 newPosition = new Vector2(Position.X, 0);
             }
-
-            Position = newPosition;
-
-            AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
-                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
-            Sprite.Update();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -160,6 +168,29 @@ namespace GameObjects
             }
             */
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
+        }
+
+        public override void Damage() { }
+        public override void Halt()
+        {
+            foreach (GameObject obj in objects)
+            {
+                if (obj != this)
+                {
+                    if (obj is Block)
+                    {
+
+                        if ((this.RightCollision(obj) && this.Velocity.X > 0) || (this.LeftCollision(obj) && this.Velocity.X < 0))
+                        {
+                            this.SetXVelocity((float)0);
+                        } 
+                        if ((this.TopCollision(obj) && this.Velocity.Y < 0) || (this.BottomCollision(obj) && this.Velocity.Y > 0))
+                        {
+                            this.SetYVelocity((float)0);
+                        }
+                    } 
+                }
+            }
         }
 
 

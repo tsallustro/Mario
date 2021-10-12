@@ -162,5 +162,7 @@ namespace GameObjects
         public void MoveRight() { }
         public void Up() { }
         public void Down() { }
+        public override void Damage() { }
+        public override void Halt() { }
     }
 }

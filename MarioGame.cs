@@ -78,6 +78,7 @@ namespace Game1
             string levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords);
             Mario mario = (Mario) objects[0];
+            
 
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
@@ -85,7 +86,7 @@ namespace Game1
             ICommand jump = new JumpCommand(mario);
             ICommand crouch = new CrouchCommand(mario);
 
-            // Initialize keyboard controller mappings
+            // Initialize keyboard controller mappinqgs
             // Action commands
             keyboardController.AddMapping((int)Keys.Q, new QuitCommand(this));
             keyboardController.AddMapping((int)Keys.Left, moveLeft);
