@@ -61,8 +61,6 @@ namespace GameObjects
             this.actionState = actionState;
         }
 
-        
-
         public override void Update(GameTime GameTime)
         {
 
