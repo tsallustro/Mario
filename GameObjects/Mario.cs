@@ -108,16 +108,16 @@ namespace GameObjects
                 switch (side)
                 {
                     case TOP:
-                        if (Velocity.Y < 0) this.actionState.Fall();
+                        if (Velocity.Y < 0) this.actionState.Idle();
                         break;
                     case BOTTOM:
-                        if (Velocity.Y > 0) this.actionState.Jump();
+                        if (Velocity.Y > 0) this.actionState.Land();
                         System.Diagnostics.Debug.WriteLine("Landed!");
                         break;
                     case LEFT:
                         if (Velocity.X < 0)
                         {
-                            this.actionState.Fall();
+                            this.actionState.Idle();
                             this.SetXVelocity((float)0);
                         }
                         
@@ -125,7 +125,7 @@ namespace GameObjects
                     case RIGHT:
                         if (Velocity.X > 0)
                         {
-                            this.actionState.Fall();
+                            this.actionState.Idle();
                             this.SetXVelocity((float)0);
                         }
                         
