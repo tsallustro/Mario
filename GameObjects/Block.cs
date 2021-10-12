@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 using States;
 using Factories;
+using Collisions;
 
 namespace GameObjects
 {
@@ -144,5 +145,9 @@ namespace GameObjects
         public void Up() { }
         public void Down() { }
       
+        public override void Collision(int side, GameObject Collidee)
+        {
+            
+        }
     }
 }

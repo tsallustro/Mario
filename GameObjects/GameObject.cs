@@ -78,7 +78,7 @@ namespace GameObjects
 
 
         // Collision methods?
-        public void Collision(int side, GameObject Collidee)
+        public virtual void Collision(int side, GameObject Collidee)
         {
             // Overide this method
         }
