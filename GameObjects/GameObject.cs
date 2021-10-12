@@ -102,7 +102,7 @@ namespace GameObjects
         public bool LeftCollision(IGameObject obj)
         {
 
-            if (this.AABB.Left + 1 <= obj.GetAABB().Right &&
+            if (this.AABB.Left - 1 <= obj.GetAABB().Right &&
             this.AABB.Top < obj.GetAABB().Bottom &&
             this.AABB.Bottom > obj.GetAABB().Top &&
             this.AABB.Right > obj.GetAABB().Right)
@@ -117,7 +117,7 @@ namespace GameObjects
         public bool TopCollision(IGameObject obj)
         {
 
-            if (this.AABB.Top + 1 <= obj.GetAABB().Bottom &&
+            if (this.AABB.Top - 1 <= obj.GetAABB().Bottom &&
             this.AABB.Left < obj.GetAABB().Right &&
             this.AABB.Right > obj.GetAABB().Left &&
             this.AABB.Bottom > obj.GetAABB().Bottom)
