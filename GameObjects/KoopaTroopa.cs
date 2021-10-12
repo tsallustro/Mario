@@ -80,8 +80,7 @@ namespace GameObjects
         {
             koopaTroopaState.StayIdle();
         }
-        public override void Damage() { }
-        public override void Halt() { }
+        
 
     }
 }

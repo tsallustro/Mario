@@ -181,7 +181,6 @@ namespace GameObjects
             }
         }
 
-        public override void Damage() { }
-        public override void Halt() { }
+        
     }
 }

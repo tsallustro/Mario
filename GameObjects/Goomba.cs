@@ -125,7 +125,7 @@ namespace GameObjects
             goombaState.StayIdle();
         }
 
-        public override void Halt() { }
+        
 
     }
 }
