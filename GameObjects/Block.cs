@@ -147,7 +147,13 @@ namespace GameObjects
       
         public override void Collision(int side, GameObject Collidee)
         {
-            
+            if (side == CollisionHandler.BOTTOM && Collidee is Mario)
+            {
+                System.Diagnostics.Debug.WriteLine("Collided! Bumping...");
+                this.Bump();
+                Mario mario = (Mario) Collidee;
+                mario.SetActionState(new FallingState(mario, mario.isFacingLeft()));
+            }
         }
     }
 }

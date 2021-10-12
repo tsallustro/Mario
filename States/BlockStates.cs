@@ -67,11 +67,11 @@ namespace States
             this.block.SetBumped(false);
         }
 
-        public void Bump(Mario Mario) // DO CHECK FOR MARIO STATE
+        public void Bump(Mario mario) // DO CHECK FOR MARIO STATE
         {
             // if mario state != normal, then make broken brick
             // else make brick
-            if (!(Mario.GetPowerState() is StandardMario))
+            if (mario.CanBreakBricks())
             {
                 block.SetBlockState(new BrokenBrickBlockState(block));
             } else

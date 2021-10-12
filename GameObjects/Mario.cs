@@ -196,6 +196,13 @@ namespace GameObjects
             }
         }
 
-
+        public bool CanBreakBricks()
+        {
+            return !(powerState is StandardMario || powerState is DeadMario);
+        }
+        public bool isFacingLeft()
+        {
+            return actionState.GetDirection();
+        }
     }
 }
