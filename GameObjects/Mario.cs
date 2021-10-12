@@ -55,20 +55,13 @@ namespace GameObjects
             maxCoords.Y -= (Sprite.texture.Height - previousSpriteHeight);
         }
 
+       
         public void SetActionState(IMarioActionState actionState)
         {
             this.actionState = actionState;
         }
 
-        public override void Halt()
-        {
-            actionState.Idle();
-        }
-
-        public override void Damage()
-        {
-            powerState.TakeDamage();
-        }
+        
 
         public override void Update(GameTime GameTime)
         {

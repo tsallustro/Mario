@@ -26,6 +26,7 @@ namespace LevelParser
             }
             catch (IOException e)
             {
+                //Failed to load the level, return an empty list.
                 Debug.WriteLine("IO ERROR: Failed to load from file " + levelPath);
                 Debug.WriteLine(e.Message);
                 return list;
@@ -53,9 +54,11 @@ namespace LevelParser
             foreach (XElement enemy in enemies)
             {
                 string enemyType = enemy.Attribute("type").Value;
-                Vector2 enemyPos = new Vector2();
-                enemyPos.X = 16 * Int32.Parse(enemy.Element("column").Value);
-                enemyPos.Y = 16 * Int32.Parse(enemy.Element("row").Value);
+                Vector2 enemyPos = new Vector2
+                {
+                    X = 16 * Int32.Parse(enemy.Element("column").Value),
+                    Y = 16 * Int32.Parse(enemy.Element("row").Value)
+                };
                 IEnemy tempEnemy;
                 switch (enemyType)
                 {
@@ -64,12 +67,14 @@ namespace LevelParser
                         tempEnemy = new Goomba(enemyPos, new Vector2(0, 0), new Vector2(0, 0), list);
                         break;
                     case "koopa":
-
+                        enemyPos.Y -= 8;
                         tempEnemy = new KoopaTroopa(enemyPos);
+                       
                         break;
                     case "redKoopa":
-
+                        enemyPos.Y -= 8;
                         tempEnemy = new RedKoopaTroopa(enemyPos);
+                       
                         break;
 
                     default:
@@ -89,9 +94,11 @@ namespace LevelParser
             foreach (XElement hidden in hiddenBlocks)
             {
                 //Still need to add coins to block
-                Vector2 hiddenBlockPos = new Vector2();
-                hiddenBlockPos.Y = 16 * Int32.Parse(hidden.Element("row").Value);
-                hiddenBlockPos.X = 16 * Int32.Parse(hidden.Element("column").Value);
+                Vector2 hiddenBlockPos = new Vector2
+                {
+                    Y = 16 * Int32.Parse(hidden.Element("row").Value),
+                    X = 16 * Int32.Parse(hidden.Element("column").Value)
+                };
                 Block tempHidden = new Block(hiddenBlockPos, blockSprites, mario);
                 tempHidden.SetBlockState(new HiddenBlockState(tempHidden));
                 list.Add(tempHidden);
@@ -105,20 +112,23 @@ namespace LevelParser
             foreach (XElement question in questionBlocks)
             {
 
+
+                Vector2 questionBlockPos = new Vector2
+                {
+                    Y = 16 * Int32.Parse(question.Element("row").Value),
+                    X = 16 * Int32.Parse(question.Element("column").Value)
+                };
                 HashSet<IItem> items = new HashSet<IItem>();
-                items.Add(DetermineQuestionItem(question.Attribute("item").Value));
-                Vector2 questionBlockPos = new Vector2();
-                questionBlockPos.Y = 16 * Int32.Parse(question.Element("row").Value);
-                questionBlockPos.X = 16 * Int32.Parse(question.Element("column").Value);
-                Block tempQuestion = new Block(questionBlockPos, blockSprites, mario);
+                items.Add(DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos));
+                Block tempQuestion = new Block(questionBlockPos, blockSprites, mario,items);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
             }
         }
 
-        private static IItem DetermineQuestionItem(string itemType)
+        private static IItem DetermineQuestionItem(string itemType, Vector2 blockPos)
         {
-            IItem item = new Item(new Vector2(0, 0));
+            IItem item = new Item(new Vector2(blockPos.X, blockPos.Y));
             IItemState state;
             switch (itemType)
             {
@@ -161,11 +171,33 @@ namespace LevelParser
                     foreach (string column in columnNumbers)
                     {
 
-                        //Still need to add coins to block
-                        Vector2 brickBlockPos = new Vector2();
-                        brickBlockPos.X = 16 * Int32.Parse(column);
-                        brickBlockPos.Y = 16 * rowNumber;
-                        Block tempBrick = new Block(brickBlockPos, blockSprites, mario);
+
+                       
+
+                        //Separate the row number from the coin count
+                        string[] splitRow = column.Split("@");
+
+                        Vector2 brickBlockPos = new Vector2
+                        {
+                            X = 16 * Int32.Parse(splitRow[0]),
+                            Y = 16 * rowNumber
+                        };
+
+                        //Handle coins
+                        HashSet<IItem> coins = new HashSet<IItem>();
+                        if (splitRow.Length > 1)
+                        {   
+                            int numCoins = Int32.Parse(splitRow[1]);
+                            for (int i = 0; i < numCoins; i++)
+                            {
+                                Vector2 coinPos = new Vector2(brickBlockPos.X, brickBlockPos.Y);
+                                IItem coin = new Item(coinPos);
+                                coins.Add(coin);
+                            }
+                            Debug.WriteLine("THIS BLOCK CONTAINS "+numCoins+"COINS: (" + brickBlockPos.X + ", " + brickBlockPos.Y + ")");
+                        }
+                       
+                        Block tempBrick = new Block(brickBlockPos, blockSprites, mario,coins);
                         tempBrick.SetBlockState(new BrickBlockState(tempBrick));
                         list.Add(tempBrick);
 
@@ -179,9 +211,11 @@ namespace LevelParser
         private static Mario ParseMario(GraphicsDeviceManager g, List<IGameObject> list, XElement level, Point maxCoords)
         {
 
-            Vector2 marioPos = new Vector2();
-            marioPos.X = 16 * Int32.Parse(level.Element("mario").Element("column").Value);
-            marioPos.Y = 16 * Int32.Parse(level.Element("mario").Element("row").Value);
+            Vector2 marioPos = new Vector2
+            {
+                X = 16 * Int32.Parse(level.Element("mario").Element("column").Value),
+                Y = 16 * Int32.Parse(level.Element("mario").Element("row").Value)
+            };
             Mario mario = new Mario(marioPos, new Vector2(0, 0), new Vector2(0, 0), g, maxCoords, list);
             list.Add(mario);
             return mario;
