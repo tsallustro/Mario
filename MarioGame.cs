@@ -131,7 +131,6 @@ namespace Game1
                 obj.Update(gameTime);
             }
 
-            
 
             base.Update(gameTime);
         }

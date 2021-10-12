@@ -27,12 +27,12 @@ namespace GameObjects
             : base(position, velocity, acceleration)
         {
             spriteFactory = GoombaSpriteFactory.Instance;
-            Sprite = spriteFactory.CreateMovingGoomba(position);
+            Sprite = spriteFactory.CreateIdleGoomba(position);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
-            goombaState = new MovingGoombaState(this);
+            goombaState = new IdleGoombaState(this);
             objects = objs;
-            this.SetXVelocity((float)50);
+            //this.SetXVelocity((float)50);
         }
 
         public IEnemyState GetGoombaState()

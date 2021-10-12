@@ -120,7 +120,7 @@ namespace GameObjects
 
             if (this.AABB.Top < obj.GetAABB().Bottom &&
                 this.AABB.Bottom > obj.GetAABB().Top &&
-                this.AABB.Left + 1 <= obj.GetAABB().Right &&
+                this.AABB.Left - 1 <= obj.GetAABB().Right &&
                 this.AABB.Right > obj.GetAABB().Right)
             {
                 return true;

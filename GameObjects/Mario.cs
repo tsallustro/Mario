@@ -70,6 +70,9 @@ namespace GameObjects
             StopMarioBoundary();
             Position = newPosition;
 
+            System.Diagnostics.Debug.Print("Mario action state: " + actionState);
+
+            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             Sprite.Update();
@@ -79,27 +82,22 @@ namespace GameObjects
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
-            System.Diagnostics.Debug.WriteLine("Mario collision side:" + side);
-            System.Diagnostics.Debug.WriteLine("Mario action state:" + this.actionState);
-
-            if (obj is Item)
+            if (obj is Item item)
             {
-                Item itemObj = (Item)obj;
-                IItemState iState = itemObj.GetItemState();
-                if(iState is SuperMushroomState)
+                if (item is SuperMushroom)
                 {
                     this.powerState.Mushroom();
                 }
-                else if (iState is FireFlowerState)
+                else if (item is FireFlower)
                 {
                     this.powerState.FireFlower();
                 }
-                else if (iState is StarState)
+                else if (item is Star)
                 {
                     //Implement invicibility
                 }
             }
-            else if(obj is Block)
+            else if (obj is Block)
             {
                 switch (side)
                 {
@@ -107,52 +105,45 @@ namespace GameObjects
                         if (Velocity.Y < 0) this.actionState.Fall();
                         break;
                     case BOTTOM:
-                        if (Velocity.Y > 0) this.actionState.Land();
-                        System.Diagnostics.Debug.WriteLine("Landed!");
+                        if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState)) this.actionState.Land();
                         break;
                     case LEFT:
-                        if (Velocity.X < 0)
-                        {
-                            this.actionState.Idle();
-                            this.SetXVelocity((float)0);
-                        }
-                        
+                        if (Velocity.X < 0) this.actionState.Idle();
                         break;
                     case RIGHT:
-                        if (Velocity.X > 0)
-                        {
-                            this.actionState.Idle();
-                            this.SetXVelocity((float)0);
-                        }
-                        
+                        if (Velocity.X > 0) this.actionState.Idle();
                         break;
                 }
             }
-            else if(obj is Goomba)
-            {
-                Goomba goomba = (Goomba)obj;
-                if (!(goomba.GetGoombaState() is StompedGoombaState) && !(goomba.GetGoombaState() is DeadGoombaState))
-                switch (side)
-                {
 
-                    case TOP:
-                        this.powerState.TakeDamage();
-                        this.actionState.Idle();
-                        break;
-                    case BOTTOM:
-                        //Skip off of enemy
-                        break;
-                    case LEFT:
-                        this.powerState.TakeDamage();
-                        this.actionState.Idle();
-                        break;
-                    case RIGHT:
-                        this.powerState.TakeDamage();
-                        this.actionState.Idle();
-                        break;
-                }
+            else if (obj is Goomba goomba)
+            {
+                if (!(goomba.GetGoombaState() is StompedGoombaState) && !(goomba.GetGoombaState() is DeadGoombaState))
+
+                    switch (side)
+                    {
+                        case TOP:
+                            this.powerState.TakeDamage();
+                            this.actionState.Idle();
+                            Position = new Vector2(Position.X, Position.Y - 2);
+                            break;
+                        case BOTTOM:
+                            //Skip off of enemy
+                            break;
+                        case LEFT:
+                            this.powerState.TakeDamage();
+                            this.actionState.Idle();
+                            Position = new Vector2(Position.X + 2, Position.Y);
+                            break;
+                        case RIGHT:
+                            this.powerState.TakeDamage();
+                            this.actionState.Idle();
+                            Position = new Vector2(Position.X - 2, Position.Y);
+                            break;
+                    }
             }
         }
+    
 
         private void StopMarioBoundary()
         {
@@ -190,14 +181,14 @@ namespace GameObjects
                 this.location.X -= 1;
             }*/
 
-            actionState.MoveLeft();
+            if (!(powerState is DeadMario)) actionState.MoveLeft();
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void MoveRight(int pressType)
         {
             //Mario only moves when holding the key
-            actionState.MoveRight();
+            if (!(powerState is DeadMario)) actionState.MoveRight();
 
             //sprite.Move();
             /*if (this.actionState is RunningState && pressType == 2)
@@ -209,7 +200,7 @@ namespace GameObjects
 
         public void Up(int pressType)
         {
-            actionState.Jump();
+            if (!(powerState is DeadMario)) actionState.Jump();
             /*if (this.actionState is JumpingState && pressType == 2)
             {
                 this.location.Y -= 1;
@@ -233,7 +224,7 @@ namespace GameObjects
 
         public void Down(int pressType)
         {
-            actionState.Crouch();
+            if (!(powerState is DeadMario)) actionState.Crouch();
             /*if (this.actionState is CrouchingState && pressType == 2)
             {
                 this.location.Y += 1;
@@ -252,7 +243,7 @@ namespace GameObjects
 
         public override void Halt()
         {
-            foreach (GameObject obj in objects)
+            /*foreach (GameObject obj in objects)
             {
                 if (obj != this)
                 {
@@ -271,9 +262,8 @@ namespace GameObjects
                         }
                     } 
                 }
-            }
+            }*/
         }
-
         public bool CanBreakBricks()
         {
             return !(powerState is StandardMario || powerState is DeadMario);

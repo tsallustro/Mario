@@ -21,7 +21,7 @@ namespace Commands
                 foreach (IGameObject entity in objects)
                 {
                     GameObject current = (GameObject)entity;
-                    current.BorderIsVisible = true;
+                    current.BorderIsVisible = !current.BorderIsVisible;
                 }   
             }
         }
