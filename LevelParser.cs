@@ -27,12 +27,15 @@ namespace LevelParser
             catch (IOException e)
             {
                 //Failed to load the level, return an empty list.
-                Debug.WriteLine("IO ERROR: Failed to load from file " + levelPath);
-                Debug.WriteLine(e.Message);
+                Console.Error.WriteLine("IO ERROR: Failed to load from file " + levelPath);
+                Console.Error.WriteLine(e.Message);
                 return list;
             }
             //Mario MUST be parsed first, so that he is the first object in the list.
             Mario mario = ParseMario(g, list, level, maxCoords);
+
+            //Parse floor blocks
+            ParseFloorBlocks(blockSprites, list, level, mario);
 
             //Parse brick blocks
             ParseBrickBlocks(blockSprites, list, level, mario);
@@ -47,7 +50,38 @@ namespace LevelParser
             ParseEnemies(list, level);
             return list;
         }
+        private static void ParseFloorBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
+        {
+            IEnumerable<XElement> floorRows = level.Element("floorBlocks").Element("rows").Elements();
+            int rowNumber = 0;
 
+            //Handle each individual row
+            foreach (XElement floor in floorRows)
+            {
+
+                string[] columnNumbers = floor.Value.Split(',');
+                //Handle each column in the row
+                if (columnNumbers.Length > 1)
+                {
+                    foreach (string column in columnNumbers)
+                    {
+                       
+                        Vector2 brickBlockPos = new Vector2
+                        {
+                            X = 16 * Int32.Parse(column),
+                            Y = 16 * rowNumber
+                        };
+
+                        Block tempFloor = new Block(brickBlockPos, blockSprites, mario);
+                        tempFloor.SetBlockState(new FloorBlockState(tempFloor));
+                        list.Add(tempFloor);
+
+                    }
+                }
+
+                rowNumber++;
+            }
+        }
         private static void ParseEnemies(List<IGameObject> list, XElement level)
         {
             IEnumerable<XElement> enemies = level.Element("enemies").Elements();
@@ -171,9 +205,6 @@ namespace LevelParser
                     foreach (string column in columnNumbers)
                     {
 
-
-                       
-
                         //Separate the row number from the coin count
                         string[] splitRow = column.Split("@");
 
@@ -194,7 +225,7 @@ namespace LevelParser
                                 IItem coin = new Item(coinPos);
                                 coins.Add(coin);
                             }
-                            Debug.WriteLine("THIS BLOCK CONTAINS "+numCoins+"COINS: (" + brickBlockPos.X + ", " + brickBlockPos.Y + ")");
+                            
                         }
                        
                         Block tempBrick = new Block(brickBlockPos, blockSprites, mario,coins);

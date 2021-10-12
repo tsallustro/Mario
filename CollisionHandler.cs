@@ -45,7 +45,7 @@ namespace Collisions
 
                                 if (Math.Abs(obj2PosY - obj1PosY) < 16 + Math.Abs(obj1VelY * GameTime.ElapsedGameTime.TotalSeconds))   // Check to see if obj2 is close to obj1 Y
                                 {
-                                    System.Diagnostics.Debug.WriteLine("YPos Close:" + obj1.GetType());
+                                    //System.Diagnostics.Debug.WriteLine("YPos Close:" + obj1.GetType());
                                     // Check Bottom Collision
                                     if (
                                         obj1AABB.Top < obj2AABB.Bottom &&
