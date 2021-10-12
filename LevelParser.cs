@@ -152,8 +152,10 @@ namespace LevelParser
                     Y = 16 * Int32.Parse(question.Element("row").Value),
                     X = 16 * Int32.Parse(question.Element("column").Value)
                 };
-                HashSet<IItem> items = new HashSet<IItem>();
-                items.Add(DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos));
+                HashSet<IItem> items = new HashSet<IItem>
+                {
+                    DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos)
+                };
                 Block tempQuestion = new Block(questionBlockPos, blockSprites, mario,items);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
@@ -162,30 +164,29 @@ namespace LevelParser
 
         private static IItem DetermineQuestionItem(string itemType, Vector2 blockPos)
         {
-            IItem item = new Item(new Vector2(blockPos.X, blockPos.Y));
-            IItemState state;
+            IItem item;
             switch (itemType)
             {
                 case "mushroom":
-                    state = new SuperMushroomState(item);
+                    item = new SuperMushroom(new Vector2(blockPos.X, blockPos.Y));
                     break;
                 case "fire":
-                    state = new FireFlowerState(item);
+                    item = new FireFlower(new Vector2(blockPos.X, blockPos.Y));
                     break;
                 case "star":
-                    state = new StarState(item);
+                    item = new Star(new Vector2(blockPos.X, blockPos.Y));
                     break;
                 case "oneUp":
-                    state = new OneUpMushroomState(item);
+                    item = new OneUpMushroom(new Vector2(blockPos.X, blockPos.Y));
                     break;
                 case "coin":
-                    state = new CoinState(item);
+                    item = new Coin(new Vector2(blockPos.X, blockPos.Y));
                     break;
                 default: 
-                    state = null; 
+                    item = null; 
                     break;
             }
-            item.SetItemState(state);
+            
             return item;
         }
 
@@ -222,7 +223,7 @@ namespace LevelParser
                             for (int i = 0; i < numCoins; i++)
                             {
                                 Vector2 coinPos = new Vector2(brickBlockPos.X, brickBlockPos.Y);
-                                IItem coin = new Item(coinPos);
+                                IItem coin = new Coin(coinPos);
                                 coins.Add(coin);
                             }
                             

@@ -6,11 +6,12 @@
 
 <level number="1-1">
   <mario>
-    <row>5</row>
+    <row>6</row>
     <column>1</column>
   </mario>
   <floorBlocks>
     <rows>
+      <row></row>
       <row></row>
       <row></row>
       <row></row>
@@ -45,15 +46,15 @@
   </hiddenBlocks>
   <enemies>
     <enemy type="goomba">
-      <row>5</row>
+      <row>6</row>
       <column>8</column>
     </enemy>
     <enemy type="koopa">
-      <row>5</row>
+      <row>6</row>
       <column>10</column>
     </enemy>
     <enemy type="redKoopa">
-      <row>5</row>
+      <row>6</row>
       <column>12</column>
     </enemy>
   </enemies>
