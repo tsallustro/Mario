@@ -65,7 +65,6 @@ namespace GameObjects
 
         public override void Update(GameTime GameTime)
         {
-
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
             //Halt();
             newPosition = Position + Velocity * timeElapsed;
@@ -111,8 +110,7 @@ namespace GameObjects
                         if (Velocity.Y < 0) this.actionState.Idle();
                         break;
                     case BOTTOM:
-                        if (Velocity.Y > 0) this.actionState.Land();
-                        System.Diagnostics.Debug.WriteLine("Landed!");
+                        if (Velocity.Y > 0 && !(this.actionState is RunningState)) this.actionState.Land();
                         break;
                     case LEFT:
                         if (Velocity.X < 0)
@@ -256,7 +254,7 @@ namespace GameObjects
 
         public override void Halt()
         {
-            foreach (GameObject obj in objects)
+            /*foreach (GameObject obj in objects)
             {
                 if (obj != this)
                 {
@@ -275,7 +273,7 @@ namespace GameObjects
                         }
                     } 
                 }
-            }
+            }*/
         }
 
         public bool CanBreakBricks()
