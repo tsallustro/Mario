@@ -81,20 +81,64 @@ namespace GameObjects
 
         public override void Collision(int side, GameObject obj)
         {
+            const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
             if(obj is Item)
             {
-                /*if(obj is SuperMushroom)
+                Item itemObj = (Item)obj;
+                IItemState iState = itemObj.GetItemState();
+                if(iState is SuperMushroomState)
                 {
                     this.powerState.Mushroom();
                 }
-                else if (obj is FireFlower)
+                else if (iState is FireFlowerState)
                 {
                     this.powerState.FireFlower();
                 }
-                else if (obj is Star)
+                else if (iState is StarState)
                 {
                     //Implement invicibility
-                }*/
+                }
+            }
+            else if(obj is Block)
+            {
+                switch (side)
+                {
+                    case TOP:
+                        this.actionState.Fall();
+                        break;
+                    case BOTTOM:
+                        this.actionState.Land();
+                        break;
+                    case LEFT:
+                        this.actionState.Idle();
+                        break;
+                    case RIGHT:
+                        this.actionState.Idle();
+                        break;
+                }
+            }
+            else if(obj is Goomba)
+            {
+                switch (side)
+                {
+
+                    case TOP:
+                        this.powerState.TakeDamage();
+                        this.actionState.Idle();
+                        break;
+                    case BOTTOM:
+                        //Skip off of enemy
+                        break;
+                    case LEFT:
+                        this.powerState.TakeDamage();
+                        this.actionState.Idle();
+                        break;
+                    case RIGHT:
+                        this.powerState.TakeDamage();
+                        this.actionState.Idle();
+                        break;
+                }
             }
         }
 

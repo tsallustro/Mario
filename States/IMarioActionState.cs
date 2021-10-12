@@ -14,6 +14,9 @@ namespace States
         public void Jump();
 
         public void Fall();
+
+        public void Land();
+
         public void Idle();
         /*
         public void Enter(IMarioActionState previousActionState);

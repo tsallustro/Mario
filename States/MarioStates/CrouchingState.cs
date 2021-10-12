@@ -54,6 +54,11 @@ namespace States
             mario.SetActionState(new FallingState(mario, this.left));
         }
 
+        public void Land()
+        {
+            //Do Nothing
+        }
+
         public void Idle()
         {
             mario.SetActionState(new IdleState(mario, this.left));
