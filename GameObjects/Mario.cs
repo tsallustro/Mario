@@ -125,6 +125,7 @@ namespace GameObjects
                     case TOP:
                         this.powerState.TakeDamage();
                         this.actionState.Idle();
+                        Position = new Vector2(Position.X, Position.Y - 2);
                         break;
                     case BOTTOM:
                         //Skip off of enemy
@@ -132,10 +133,12 @@ namespace GameObjects
                     case LEFT:
                         this.powerState.TakeDamage();
                         this.actionState.Idle();
+                        Position = new Vector2(Position.X + 2, Position.Y);
                         break;
                     case RIGHT:
                         this.powerState.TakeDamage();
                         this.actionState.Idle();
+                        Position = new Vector2(Position.X - 2, Position.Y);
                         break;
                 }
             }
