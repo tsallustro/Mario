@@ -80,6 +80,7 @@ namespace GameObjects
         {
             koopaTroopaState.StayIdle();
         }
+        
 
     }
 }

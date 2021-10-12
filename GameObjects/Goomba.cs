@@ -97,11 +97,11 @@ namespace GameObjects
                 {
                     //If Goomba is stomped
                     // Need to check that Mario is travelling downwards
-                    if (obj is Mario && this.TopCollision(obj) && obj.GetVelocity().Y < 0)
+                    if (obj is Mario && this.TopCollision(obj) && obj.Velocity.Y > 0)
                     {
                             this.Stomped();
                     }
-                    else if (this.LeftCollision(obj) || this.RightCollision(obj))
+                    else if (obj is Block && this.LeftCollision(obj) || this.RightCollision(obj))
                     {
                         //If goomba hits the wall
                         this.ChangeDirection();
@@ -156,6 +156,8 @@ namespace GameObjects
         {
             goombaState.StayIdle();
         }
+
+        
 
     }
 }

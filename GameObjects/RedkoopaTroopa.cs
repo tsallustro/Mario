@@ -82,6 +82,7 @@ namespace GameObjects
         {
             redKoopaTroopaState.StayIdle();
         }
+       
 
     }
 }
