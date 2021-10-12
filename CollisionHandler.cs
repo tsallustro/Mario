@@ -39,54 +39,31 @@ namespace Collisions
                             float obj2PosX = obj2AABB.Center.X;
                             float obj2PosY = obj2AABB.Center.Y;
                             // Determine if a check needs to be made based on location of GameObjects
-                            if (Math.Abs(obj2PosX - obj1PosX) < 8 + Math.Abs(obj1VelX * GameTime.ElapsedGameTime.TotalSeconds))       // Check to see if obj2 is close to obj1 X
-                            {
+                            //if (Math.Abs(obj2PosX - obj1PosX) < 8 + Math.Abs(obj1VelX * GameTime.ElapsedGameTime.TotalSeconds))       // Check to see if obj2 is close to obj1 X
+                            //{
                                 //System.Diagnostics.Debug.WriteLine("XPos Close:" + obj1.GetType());
 
-                                if (Math.Abs(obj2PosY - obj1PosY) < 16 + Math.Abs(obj1VelY * GameTime.ElapsedGameTime.TotalSeconds))   // Check to see if obj2 is close to obj1 Y
-                                {
-                                    //System.Diagnostics.Debug.WriteLine("YPos Close:" + obj1.GetType());
-                                    // Check Bottom Collision
-                                    if (
-                                        obj1AABB.Top < obj2AABB.Bottom &&
-                                        obj1AABB.Bottom + obj1VelY > obj2AABB.Top &&
-                                        obj1AABB.Right > obj2AABB.Left &&
-                                        obj1AABB.Left < obj2AABB.Right)
-                                    {
-                                        obj1.Collision(BOTTOM, obj2);
-                                        obj2.Collision(TOP, obj1);
-                                    }
-
-                                    // Check Top Collision
-                                    if (obj1AABB.Top - obj1VelY == obj2AABB.Bottom &&
-                                        obj1AABB.Bottom > obj2AABB.Top &&
-                                        obj1AABB.Right > obj2AABB.Left &&
-                                        obj1AABB.Left < obj2AABB.Right)
+                                //if (Math.Abs(obj2PosY - obj1PosY) < 16 + Math.Abs(obj1VelY * GameTime.ElapsedGameTime.TotalSeconds))   // Check to see if obj2 is close to obj1 Y
+                                //{
+                                    if (obj1.TopCollision(obj2))
                                     {
                                         obj1.Collision(TOP, obj2);
                                         obj2.Collision(BOTTOM, obj1);
-                                    }
-                                    // Check Left Collision
-                                    if (obj1AABB.Top > obj2AABB.Bottom &&
-                                        obj1AABB.Bottom < obj2AABB.Top &&
-                                        obj1AABB.Right > obj2AABB.Left &&
-                                        obj1AABB.Left - obj1VelX < obj2AABB.Right)
+                                    } else if (obj1.BottomCollision(obj2))
+                                    {
+                                        obj1.Collision(BOTTOM, obj2);
+                                        obj2.Collision(TOP, obj1);
+                                    } else if (obj1.LeftCollision(obj2))
                                     {
                                         obj1.Collision(LEFT, obj2);
                                         obj2.Collision(RIGHT, obj1);
-                                    }
-
-                                    // Check Right Collision
-                                    if (obj1AABB.Top > obj2AABB.Bottom &&
-                                        obj1AABB.Bottom < obj2AABB.Top &&
-                                        obj1AABB.Right + obj1VelX > obj2AABB.Left &&
-                                        obj1AABB.Left < obj2AABB.Right)
+                                    } else if (obj1.RightCollision(obj2))
                                     {
                                         obj1.Collision(RIGHT, obj2);
                                         obj2.Collision(LEFT, obj1);
                                     }
-                                }
-                            }
+                                //}
+                            //}
                         }
                     }
                 }

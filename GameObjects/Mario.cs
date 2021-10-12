@@ -67,7 +67,7 @@ namespace GameObjects
         {
 
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            Halt();
+            //Halt();
             newPosition = Position + Velocity * timeElapsed;
             //Position -= Velocity * timeElapsed;
 
@@ -83,7 +83,10 @@ namespace GameObjects
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
-            if(obj is Item)
+            System.Diagnostics.Debug.WriteLine("Mario collision side:" + side);
+            System.Diagnostics.Debug.WriteLine("Mario action state:" + this.actionState);
+
+            if (obj is Item)
             {
                 Item itemObj = (Item)obj;
                 IItemState iState = itemObj.GetItemState();
@@ -105,21 +108,34 @@ namespace GameObjects
                 switch (side)
                 {
                     case TOP:
-                        this.actionState.Fall();
+                        if (Velocity.Y < 0) this.actionState.Fall();
                         break;
                     case BOTTOM:
-                        this.actionState.Land();
+                        if (Velocity.Y > 0) this.actionState.Jump();
+                        System.Diagnostics.Debug.WriteLine("Landed!");
                         break;
                     case LEFT:
-                        this.actionState.Idle();
+                        if (Velocity.X < 0)
+                        {
+                            this.actionState.Fall();
+                            this.SetXVelocity((float)0);
+                        }
+                        
                         break;
                     case RIGHT:
-                        this.actionState.Idle();
+                        if (Velocity.X > 0)
+                        {
+                            this.actionState.Fall();
+                            this.SetXVelocity((float)0);
+                        }
+                        
                         break;
                 }
             }
             else if(obj is Goomba)
             {
+                Goomba goomba = (Goomba)obj;
+                if (!(goomba.GetGoombaState() is StompedGoombaState) && !(goomba.GetGoombaState() is DeadGoombaState))
                 switch (side)
                 {
 
@@ -237,6 +253,7 @@ namespace GameObjects
         }
 
         public override void Damage() { }
+
         public override void Halt()
         {
             foreach (GameObject obj in objects)
@@ -248,11 +265,13 @@ namespace GameObjects
 
                         if ((this.RightCollision(obj) && this.Velocity.X > 0) || (this.LeftCollision(obj) && this.Velocity.X < 0))
                         {
-                            this.SetXVelocity((float)0);
-                        } 
-                        if ((this.TopCollision(obj) && this.Velocity.Y < 0) || (this.BottomCollision(obj) && this.Velocity.Y > 0))
+                            this.actionState.Idle();
+                        } else if (this.TopCollision(obj) && this.Velocity.Y < 0)
                         {
-                            this.SetYVelocity((float)0);
+                            this.actionState.Fall();
+                        } else if (this.BottomCollision(obj) && this.Velocity.Y > 0)
+                        {
+                            this.actionState.Land();
                         }
                     } 
                 }

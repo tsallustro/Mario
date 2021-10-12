@@ -152,7 +152,7 @@ namespace GameObjects
                 System.Diagnostics.Debug.WriteLine("Collided! Bumping...");
                 this.Bump();
                 Mario mario = (Mario) Collidee;
-                mario.SetActionState(new FallingState(mario, mario.isFacingLeft()));
+                //mario.SetActionState(new FallingState(mario, mario.isFacingLeft()));
             }
         }
     }

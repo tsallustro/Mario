@@ -55,7 +55,7 @@ namespace GameObjects
             goombaState.Stomped();
         }
         // Overide
-        public void Collision(int side, GameObject Collidee)
+        public override void Collision(int side, GameObject Collidee)
         {
 
             if (side == 1)          //Top
@@ -99,7 +99,7 @@ namespace GameObjects
                     // Need to check that Mario is travelling downwards
                     if (obj is Mario && this.TopCollision(obj) && obj.GetVelocity().Y > 0)
                     {
-                            this.Stomped();
+                            //this.Stomped();
                     }
                     else if (obj is Block && this.LeftCollision(obj) || this.RightCollision(obj))
                     {
