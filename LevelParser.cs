@@ -153,13 +153,66 @@ namespace LevelParser
                     X = 16 * Int32.Parse(question.Element("column").Value)
                 };
                 HashSet<IItem> items = new HashSet<IItem>();
-                items.Add(DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos));
+                //You'll have to look at this.
+                //items.Add(DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos));
                 Block tempQuestion = new Block(questionBlockPos, blockSprites, mario,items);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
             }
         }
 
+        //Not sure this is how you do it. I imitated ParseEnemies
+        private static void ParseItems(List<IGameObject> list, XElement level)
+        {
+            IEnumerable<XElement> items = level.Element("items").Elements();
+            foreach (XElement item in items)
+            {
+                string itemType = item.Attribute("type").Value;
+                Vector2 itemPos = new Vector2
+                {
+                    X = 16 * Int32.Parse(item.Element("column").Value),
+                    Y = 16 * Int32.Parse(item.Element("row").Value)
+                };
+                IItem tempItem;
+                switch (itemType)
+                {
+                    case "Coin":
+
+                        tempItem = new Coin(itemPos);
+                        break;
+                    case "FireFlower":
+                        itemPos.Y -= 8;
+                        tempItem = new FireFlower(itemPos);
+
+                        break;
+                    case "SuperMushroom":
+                        itemPos.Y -= 8;
+                        tempItem = new SuperMushroom(itemPos);
+
+                        break;
+
+                    case "OneUpMushroom":
+                        itemPos.Y -= 8;
+                        tempItem = new OneUpMushroom(itemPos);
+
+                        break;
+
+                    case "Star":
+                        itemPos.Y -= 8;
+                        tempItem = new Star(itemPos);
+
+                        break;
+                    default:
+                        //default to goomba on invalid type
+                        tempItem = new Coin(itemPos);
+                        break;
+
+                }
+
+                list.Add(tempItem);
+            }
+        }
+        /*
         private static IItem DetermineQuestionItem(string itemType, Vector2 blockPos)
         {
             IItem item = new Item(new Vector2(blockPos.X, blockPos.Y));
@@ -188,7 +241,7 @@ namespace LevelParser
             item.SetItemState(state);
             return item;
         }
-
+        */
         private static void ParseBrickBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
             IEnumerable<XElement> brickRows = level.Element("brickBlocks").Element("rows").Elements();
@@ -222,7 +275,8 @@ namespace LevelParser
                             for (int i = 0; i < numCoins; i++)
                             {
                                 Vector2 coinPos = new Vector2(brickBlockPos.X, brickBlockPos.Y);
-                                IItem coin = new Item(coinPos);
+                                //Temporally changed to Coin
+                                IItem coin = new Coin(coinPos);
                                 coins.Add(coin);
                             }
                             
