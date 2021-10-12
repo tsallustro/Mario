@@ -66,9 +66,7 @@ namespace GameObjects
         public override void Update(GameTime GameTime)
         {
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            //Halt();
             newPosition = Position + Velocity * timeElapsed;
-            //Position -= Velocity * timeElapsed;
 
             StopMarioBoundary();
             Position = newPosition;
@@ -81,9 +79,6 @@ namespace GameObjects
         public override void Collision(int side, GameObject obj)
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
-
-            System.Diagnostics.Debug.WriteLine("Mario collision side:" + side);
-            System.Diagnostics.Debug.WriteLine("Mario action state:" + this.actionState);
 
             if (obj is Item)
             {
@@ -113,30 +108,19 @@ namespace GameObjects
                         if (Velocity.Y > 0 && !(this.actionState is RunningState)) this.actionState.Land();
                         break;
                     case LEFT:
-                        if (Velocity.X < 0)
-                        {
-                            this.actionState.Idle();
-                            this.SetXVelocity((float)0);
-                        }
-                        
+                        if (Velocity.X < 0) this.actionState.Idle();
                         break;
                     case RIGHT:
-                        if (Velocity.X > 0)
-                        {
-                            this.actionState.Idle();
-                            this.SetXVelocity((float)0);
-                        }
-                        
+                        if (Velocity.X > 0) this.actionState.Idle();
                         break;
                 }
             }
-            else if(obj is Goomba)
+            else if(obj is Goomba goomba)
             {
-                Goomba goomba = (Goomba)obj;
                 if (!(goomba.GetGoombaState() is StompedGoombaState) && !(goomba.GetGoombaState() is DeadGoombaState))
+
                 switch (side)
                 {
-
                     case TOP:
                         this.powerState.TakeDamage();
                         this.actionState.Idle();
