@@ -123,12 +123,13 @@ namespace Game1
             // Update the controllers
             gamepadController.Update();
             keyboardController.Update();
+            collisionHandler.Update(gameTime, objects);
 
             foreach (var obj in objects)
             {
                 obj.Update(gameTime);
             }
-            collisionHandler.Update(gameTime, objects);
+
             base.Update(gameTime);
         }
 
