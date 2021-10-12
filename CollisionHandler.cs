@@ -9,6 +9,8 @@ namespace Collisions
 {
     class CollisionHandler
     {
+        //ints used for GameObject.Collision()
+        private static readonly int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
         // Contructor
         public CollisionHandler()
@@ -51,8 +53,8 @@ namespace Collisions
                                         obj1AABB.Right > obj2AABB.Left &&
                                         obj1AABB.Left < obj2AABB.Right)
                                     {
-                                        obj1.Collision(2, obj2);
-                                        obj2.Collision(1, obj1);
+                                        obj1.Collision(BOTTOM, obj2);
+                                        obj2.Collision(TOP, obj1);
                                     }
 
                                     // Check Top Collision
@@ -61,8 +63,8 @@ namespace Collisions
                                         obj1AABB.Right > obj2AABB.Left &&
                                         obj1AABB.Left < obj2AABB.Right)
                                     {
-                                        obj1.Collision(1, obj2);
-                                        obj2.Collision(2, obj1);
+                                        obj1.Collision(TOP, obj2);
+                                        obj2.Collision(BOTTOM, obj1);
                                     }
                                     // Check Left Collision
                                     if (obj1AABB.Top > obj2AABB.Bottom &&
@@ -70,8 +72,8 @@ namespace Collisions
                                         obj1AABB.Right > obj2AABB.Left &&
                                         obj1AABB.Left - obj1VelX < obj2AABB.Right)
                                     {
-                                        obj1.Collision(3, obj2);
-                                        obj2.Collision(4, obj1);
+                                        obj1.Collision(LEFT, obj2);
+                                        obj2.Collision(RIGHT, obj1);
                                     }
 
                                     // Check Right Collision
@@ -80,8 +82,8 @@ namespace Collisions
                                         obj1AABB.Right + obj1VelX > obj2AABB.Left &&
                                         obj1AABB.Left < obj2AABB.Right)
                                     {
-                                        obj1.Collision(4, obj2);
-                                        obj2.Collision(3, obj1);
+                                        obj1.Collision(RIGHT, obj2);
+                                        obj2.Collision(LEFT, obj1);
                                     }
                                 }
                             }
