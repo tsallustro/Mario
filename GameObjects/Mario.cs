@@ -79,6 +79,25 @@ namespace GameObjects
             Sprite.Update();
         }
 
+        public override void Collision(int side, GameObject obj)
+        {
+            if(obj is Item)
+            {
+                /*if(obj is SuperMushroom)
+                {
+                    this.powerState.Mushroom();
+                }
+                else if (obj is FireFlower)
+                {
+                    this.powerState.FireFlower();
+                }
+                else if (obj is Star)
+                {
+                    //Implement invicibility
+                }*/
+            }
+        }
+
         private void StopMarioBoundary()
         {
             //This prevents Mario from going outside the screen
