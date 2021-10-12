@@ -104,4 +104,30 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
     }
+
+    public class OneUpMushroom : Item
+    {
+        public OneUpMushroom(Vector2 position)
+            : base(position)
+        {
+            spriteFactory = ItemSpriteFactory.Instance;
+            Sprite = spriteFactory.CreateOneUpMushroom(position);
+            itemState = new OneUpMushroomState(this);
+            AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+        }
+    }
+
+    public class Star : Item
+    {
+        public Star(Vector2 position)
+            : base(position)
+        {
+            spriteFactory = ItemSpriteFactory.Instance;
+            Sprite = spriteFactory.CreateStar(position);
+            itemState = new StarState(this);
+            AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+        }
+    }
 }
