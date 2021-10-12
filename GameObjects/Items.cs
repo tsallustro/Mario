@@ -7,11 +7,6 @@ using States;
 
 namespace GameObjects
 {
-    /*
-     * Since Items have different effects, we will likely need separate
-     * concrete classes that extend this class, and we can make this into
-     * an abstract class.
-     */
     public abstract class Item : GameObject, IItem
     {
         protected readonly int boundaryAdjustment = -10;
