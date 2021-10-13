@@ -184,5 +184,11 @@ namespace States
         {
             //Do nothing, dead
         }
+        public void Update()
+        {
+            
+            mario.SetYVelocity((float)100);
+
+        }
     }
 }

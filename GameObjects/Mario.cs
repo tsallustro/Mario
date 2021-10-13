@@ -20,6 +20,7 @@ namespace GameObjects
         private MarioSpriteFactory spriteFactory;
         private Point maxCoords;
         private Vector2 newPosition;
+        private Vector2 oldPosition;
         List<IGameObject> objects;
         GraphicsDeviceManager Graphics { get; set; }
 
@@ -271,6 +272,21 @@ namespace GameObjects
         public bool isFacingLeft()
         {
             return actionState.GetDirection();
+        }
+
+        public void Die()
+        {
+            oldPosition = position;
+            this.powerState.TakeDamage();
+            this.SetXVelocity((float)0);
+            this.SetYVelocity((float)-20);
+            if (Position.Y < oldPosition.Y - (float)5 && Velocity.Y < 0)
+            {
+                this.SetYVelocity((float)20);
+            } else if (Position.Y > oldPosition.Y + (float)5)
+            {
+                Sprite.ToggleVisibility();
+            }
         }
     }
 }
