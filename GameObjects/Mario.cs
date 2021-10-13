@@ -52,6 +52,9 @@ namespace GameObjects
             if(this.powerState is StandardMario)
             {
                 Position = Position - new Vector2(0, this.Sprite.texture.Height);
+            } else if (!(this.powerState is StandardMario) && powerState is StandardMario)
+            {
+                Position = Position + new Vector2(0, this.Sprite.texture.Height/2);
 
             }
             this.powerState = powerState;
