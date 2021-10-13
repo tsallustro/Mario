@@ -49,11 +49,13 @@ namespace GameObjects
         public void SetPowerState(IMarioPowerState powerState)
         {
             int previousSpriteHeight = Sprite.texture.Height;
-            if(this.powerState is StandardMario)
+            if(this.powerState is StandardMario && !(powerState is StandardMario))
             {
                 Position = Position - new Vector2(0, this.Sprite.texture.Height);
-
-            } 
+            } else if (!(this.powerState is StandardMario) && powerState is StandardMario)
+            {
+                Position = Position + new Vector2(0, this.Sprite.texture.Height/2);
+            }
             this.powerState = powerState;
 
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);

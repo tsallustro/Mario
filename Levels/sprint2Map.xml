@@ -41,6 +41,12 @@
       <column>10</column>
     </questionBlock>
   </questionBlocks>
+  <stairBlocks>
+    <stairBlock>
+      <row>8</row>
+      <column>15</column>
+    </stairBlock>
+  </stairBlocks>
   <hiddenBlocks>
     <hiddenBlock>
       <row>8</row>
