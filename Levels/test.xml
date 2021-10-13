@@ -60,7 +60,7 @@
   <questionBlocks>
     <questionBlock item="mushroom">
       <row>3</row>
-      <column>5</column>
+      <column>3</column>
     </questionBlock>
   </questionBlocks>
   <hiddenBlocks>

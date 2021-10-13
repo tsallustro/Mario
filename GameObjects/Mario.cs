@@ -71,8 +71,6 @@ namespace GameObjects
             StopMarioBoundary();
             Position = newPosition;
 
-            System.Diagnostics.Debug.Print("Mario action state: " + actionState);
-
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
@@ -98,22 +96,26 @@ namespace GameObjects
                     //Implement invicibility
                 }
             }
-            else if (obj is Block)
+            else if (obj is Block block)
             {
-                switch (side)
+                if (block.GetBlockState() is HiddenBlockState) System.Diagnostics.Debug.Print("Mario Y velocity: " + Velocity.Y);
+                if (!(block.GetBlockState() is HiddenBlockState) || (block.GetBlockState() is HiddenBlockState && side == TOP && Velocity.Y < 0))
                 {
-                    case TOP:
-                        if (Velocity.Y < 0) this.actionState.Fall();
-                        break;
-                    case BOTTOM:
-                        if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState)) this.actionState.Land();
-                        break;
-                    case LEFT:
-                        if (Velocity.X < 0) this.actionState.Idle();
-                        break;
-                    case RIGHT:
-                        if (Velocity.X > 0) this.actionState.Idle();
-                        break;
+                    switch (side)
+                    {
+                        case TOP:
+                            if (Velocity.Y < 0) this.actionState.Fall();
+                            break;
+                        case BOTTOM:
+                            if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState)) this.actionState.Land();
+                            break;
+                        case LEFT:
+                            if (Velocity.X < 0) this.actionState.Idle();
+                            break;
+                        case RIGHT:
+                            if (Velocity.X > 0) this.actionState.Idle();
+                            break;
+                    }
                 }
             }
 
