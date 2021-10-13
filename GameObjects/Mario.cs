@@ -49,7 +49,14 @@ namespace GameObjects
         public void SetPowerState(IMarioPowerState powerState)
         {
             int previousSpriteHeight = Sprite.texture.Height;
+            if(this.powerState is StandardMario)
+            {
+                Position = Position - new Vector2(0, this.Sprite.texture.Height);
+
+            }
             this.powerState = powerState;
+            
+            
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
 
             // Update maxCoords to match change in height from power state

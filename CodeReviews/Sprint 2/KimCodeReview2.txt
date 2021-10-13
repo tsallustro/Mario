@@ -1,14 +1,14 @@
-﻿Author: 
+﻿Author: Tae Kim
 
-Date: 
+Date: 10/12
 
-Sprint #: 
+Sprint #: 2
 
-File being Reviewed: 
+File being Reviewed: CollisionHandler.cs
 
 Authorof the file: 
 
-Code Quality:  
+Code Quality: Overall, CollisionHandler.cs helps to ease the clutter in the Object classes 
 
 Number of minutes taken to complete the review: 
 

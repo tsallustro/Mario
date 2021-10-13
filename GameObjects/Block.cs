@@ -147,12 +147,7 @@ namespace GameObjects
       
         public override void Collision(int side, GameObject Collidee)
         {
-            /*if (this.blockState is HiddenBlockState)
-            {
-                if (side != CollisionHandler.BOTTOM) {
-
-                }   
-            }*/
+            
             if (side == CollisionHandler.BOTTOM && Collidee is Mario && Collidee.GetVelocity().Y >0)
             {
                 System.Diagnostics.Debug.WriteLine("Collided! Bumping...");
