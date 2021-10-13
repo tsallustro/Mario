@@ -100,6 +100,7 @@ namespace GameObjects
             }
             else if (obj is Block)
             {
+                //if ((Block)obj.)
                 switch (side)
                 {
                     case TOP:
