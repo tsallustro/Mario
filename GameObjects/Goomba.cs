@@ -90,25 +90,6 @@ namespace GameObjects
         //Update all of Goomba's members
         public override void Update(GameTime GameTime)
         {
-            
-            foreach (GameObject obj in objects)
-            {
-                if (obj != this)
-                {
-                    //If Goomba is stomped
-                    // Need to check that Mario is travelling downwards
-                    if (obj is Mario && this.TopCollision(obj) && obj.GetVelocity().Y > 0)
-                    {
-                            //this.Stomped();
-                    }
-                    else if (obj is Block && this.LeftCollision(obj) || this.RightCollision(obj))
-                    {
-                        //If goomba hits the wall
-                        this.ChangeDirection();
-                    }
-                }    
-            }
-
             ChangeDirection();
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
             newPosition = Position + (Velocity * timeElapsed);
