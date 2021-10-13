@@ -34,6 +34,8 @@ namespace LevelParser
             //Mario MUST be parsed first, so that he is the first object in the list.
             Mario mario = ParseMario(g, list, level, maxCoords);
 
+            ParseItems(list, level);
+
             //Parse floor blocks
             ParseFloorBlocks(blockSprites, list, level, mario);
 
@@ -237,6 +239,49 @@ namespace LevelParser
                 }
 
                 rowNumber++;
+            }
+        }
+
+        //Not sure this is how you do it. I imitated ParseEnemies
+        private static void ParseItems(List<IGameObject> list, XElement level)
+        {
+            IEnumerable<XElement> items = level.Element("items").Elements();
+            foreach (XElement item in items)
+            {
+                string itemType = item.Attribute("type").Value;
+                Vector2 itemPos = new Vector2
+                {
+                    X = 16 * Int32.Parse(item.Element("column").Value),
+                    Y = 16 * Int32.Parse(item.Element("row").Value)
+                };
+                IItem tempItem;
+                switch (itemType)
+                {
+                    case "Coin":
+                        tempItem = new Coin(itemPos);
+                        break;
+                    case "FireFlower":
+                        itemPos.Y -= 8;
+                        tempItem = new FireFlower(itemPos);
+                        break;
+                    case "SuperMushroom":
+                        itemPos.Y -= 8;
+                        tempItem = new SuperMushroom(itemPos);
+                        break;
+                    case "OneUpMushroom":
+                        itemPos.Y -= 8;
+                        tempItem = new OneUpMushroom(itemPos);
+                        break;
+                    case "Star":
+                        itemPos.Y -= 8;
+                        tempItem = new Star(itemPos);
+                        break;
+                    default:
+                        //default to goomba on invalid type
+                        tempItem = new Coin(itemPos);
+                        break;
+                }
+                list.Add(tempItem);
             }
         }
 
