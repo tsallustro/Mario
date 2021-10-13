@@ -50,6 +50,9 @@ namespace LevelParser
             //Parse items
             ParseItems(list, level);
 
+            //Parse Stairs
+            ParseStairBlocks(blockSprites, list, level, mario);
+
             //Parse Warp Pipes
             ParseWarpPipes(list, level,pipeSprite);
             //Parse Enemies
@@ -72,7 +75,7 @@ namespace LevelParser
                 WarpPipe pipeToAdd = new WarpPipe(pipePos, new Vector2(0,0), new Vector2(0,0));
                 pipeToAdd.Sprite = new Sprite(false, true, pipePos, pipeSprite,1,1,0,0);
                 list.Add(pipeToAdd);
-                Debug.WriteLine("ITEM");
+                
             }
         }
         private static void ParseFloorBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
@@ -100,7 +103,7 @@ namespace LevelParser
                         Block tempFloor = new Block(brickBlockPos, blockSprites, mario);
                         tempFloor.SetBlockState(new FloorBlockState(tempFloor));
                         list.Add(tempFloor);
-                        Debug.WriteLine("FLOOR");
+                        
                     }
                 }
 
@@ -160,7 +163,24 @@ namespace LevelParser
                 IItem generatedItem = DetermineQuestionItem(item.Attribute("type").Value, itemPos);
 
                 list.Add(generatedItem);
-                Debug.WriteLine("ITEM");
+               
+            }
+        }
+        private static void ParseStairBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
+        {
+            IEnumerable<XElement> stairBlocks = level.Element("stairBlocks").Elements();
+            foreach (XElement stair in stairBlocks)
+            {
+                //Still need to add coins to block
+                Vector2 stairBlockPos = new Vector2
+                {
+                    Y = 16 * Int32.Parse(stair.Element("row").Value),
+                    X = 16 * Int32.Parse(stair.Element("column").Value)
+                };
+                Block tempStair = new Block(stairBlockPos, blockSprites, mario);
+                tempStair.SetBlockState(new StairBlockState(tempStair));
+                list.Add(tempStair);
+                
             }
         }
         private static void ParseHiddenBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
@@ -177,7 +197,7 @@ namespace LevelParser
                 Block tempHidden = new Block(hiddenBlockPos, blockSprites, mario);
                 tempHidden.SetBlockState(new HiddenBlockState(tempHidden));
                 list.Add(tempHidden);
-                Debug.WriteLine("HIDDEN");
+                
             }
         }
 
@@ -201,7 +221,7 @@ namespace LevelParser
                 Block tempQuestion = new Block(questionBlockPos, blockSprites, mario, items);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
-                Debug.WriteLine("Question");
+               
             }
         }
 
@@ -276,7 +296,7 @@ namespace LevelParser
                         Block tempBrick = new Block(brickBlockPos, blockSprites, mario, coins);
                         tempBrick.SetBlockState(new BrickBlockState(tempBrick));
                         list.Add(tempBrick);
-                        Debug.WriteLine("BRICK");
+                        
                     }
                 }
 
