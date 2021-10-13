@@ -168,7 +168,7 @@ namespace LevelParser
         }
         private static void ParseStairBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
-            IEnumerable<XElement> stairBlocks = level.Element("hiddenBlocks").Elements();
+            IEnumerable<XElement> stairBlocks = level.Element("stairBlocks").Elements();
             foreach (XElement stair in stairBlocks)
             {
                 //Still need to add coins to block
