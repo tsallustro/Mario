@@ -70,7 +70,7 @@ namespace LevelParser
                     X = 16 * Int32.Parse(pipe.Element("column").Value)
                 };
                 WarpPipe pipeToAdd = new WarpPipe(pipePos, new Vector2(0,0), new Vector2(0,0));
-                pipeToAdd.Sprite = new Sprite(true, pipePos, pipeSprite,1,1,0,0);
+                pipeToAdd.Sprite = new Sprite(false, true, pipePos, pipeSprite,1,1,0,0);
                 list.Add(pipeToAdd);
                 Debug.WriteLine("ITEM");
             }

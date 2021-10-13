@@ -33,7 +33,7 @@ namespace GameObjects
             mario = Mario;
             spriteFactory = new BlockSpriteFactory(blockSprites);
             blockState = new BrickBlockState(this);
-            Sprite = spriteFactory.CreateBrickBlock(position);
+            Sprite = spriteFactory.CreateBrickBlock(position, false);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -47,7 +47,7 @@ namespace GameObjects
             spriteFactory = new BlockSpriteFactory(blockSprites);
             this.items = items;
             blockState = new BrickBlockState(this);
-            Sprite = spriteFactory.CreateBrickBlock(position);
+            Sprite = spriteFactory.CreateBrickBlock(position, false);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -109,7 +109,7 @@ namespace GameObjects
                         falling = false;
                         bumped = false;
                         blockState.Bump(mario);
-                        Sprite = spriteFactory.GetCurrentSprite(Position, blockState);
+                        Sprite = spriteFactory.GetCurrentSprite(Position, blockState, Sprite.isCollided);
                     }
                 } else {                                                // Logic for rising blocks
                     Position = new Vector2(Position.X, Position.Y - 100 * (float)GameTime.ElapsedGameTime.TotalSeconds);
@@ -124,7 +124,7 @@ namespace GameObjects
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
 
-            Sprite = spriteFactory.GetCurrentSprite(Position, blockState);
+            Sprite = spriteFactory.GetCurrentSprite(Position, blockState, Sprite.isCollided);
             Sprite.Update();
         }
 

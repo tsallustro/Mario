@@ -71,7 +71,7 @@ namespace Factories
         {
 			if (coin == null)
 			{
-				coin = new Sprite(true, location, itemSprites, 1, 9, 7, 8);
+				coin = new Sprite(false, true, location, itemSprites, 1, 9, 7, 8);
 				return coin;
 			}
 			else return coin;
@@ -80,7 +80,7 @@ namespace Factories
 		{
 			if (superMushroom == null)
 			{
-				superMushroom = new Sprite(true, location, itemSprites, 1, 9, 0, 0);
+				superMushroom = new Sprite(false, true, location, itemSprites, 1, 9, 0, 0);
 				return superMushroom;
 			}
 			else return superMushroom;
@@ -89,7 +89,7 @@ namespace Factories
 		{
 			if (oneUpMushroom == null)
 			{
-				oneUpMushroom = new Sprite(true, location, itemSprites, 1, 9, 1, 1);
+				oneUpMushroom = new Sprite(false, true, location, itemSprites, 1, 9, 1, 1);
 				return oneUpMushroom;
 			}
 			else return oneUpMushroom;
@@ -98,7 +98,7 @@ namespace Factories
 		{
 			if (fireFlower == null)
 			{
-				fireFlower = new Sprite(true, location, itemSprites, 1, 9, 2, 2);
+				fireFlower = new Sprite(false, true, location, itemSprites, 1, 9, 2, 2);
 				return fireFlower;
 			}
 			else return fireFlower;
@@ -107,7 +107,7 @@ namespace Factories
 		{
 			if (star == null)
 			{
-				star = new Sprite(true, location, itemSprites, 1, 9, 3, 6);
+				star = new Sprite(false, true, location, itemSprites, 1, 9, 3, 6);
 				return star;
 			}
 			else return star;

@@ -21,63 +21,63 @@ namespace Factories
 		/*
 		 *  This method returns the correct sprite
 		 */
-		public ISprite GetCurrentSprite(Vector2 location, IBlockState blockState)
+		public ISprite GetCurrentSprite(Vector2 location, IBlockState blockState, Boolean collided)
 		{
 
 			if (blockState is QuestionBlockState)
 			{
-				return CreateQuestionBlock(location);
+				return CreateQuestionBlock(location, collided);
 			}
 			else if (blockState is BumpedQuestionBlockState)
 			{
-				return CreateBumpedQuestionBlock(location);
+				return CreateBumpedQuestionBlock(location, collided);
 			}else if (blockState is UsedBlockState)
 			{
-				return CreateUsedBlock(location);
+				return CreateUsedBlock(location, collided);
 			}else if (blockState is BumpedBrickBlockState)
 			{
-				return CreateBumpedBrickBlock(location);
+				return CreateBumpedBrickBlock(location, collided);
 			}else if (blockState is BrickBlockState)
 			{
-				return CreateBrickBlock(location);
+				return CreateBrickBlock(location, collided);
 			}
 			else if (blockState is BrokenBrickBlockState)
 			{
-				return CreateBrokenBrickBlock(location);
+				return CreateBrokenBrickBlock(location, collided);
 			}
 			else if (blockState is FloorBlockState)
 			{
-				return CreateFloorBlock(location);
+				return CreateFloorBlock(location, collided);
 			}
 			else if (blockState is StairBlockState)
 			{
-				return CreateStairBlock(location);
+				return CreateStairBlock(location, collided);
 			}
 			else
 			{
-				return CreateHiddenBlock(location);
+				return CreateHiddenBlock(location, collided);
 			}
 
 		}
 
-		public ISprite CreateHiddenBlock(Vector2 location)
+		public ISprite CreateHiddenBlock(Vector2 location, Boolean collided)
 		{
-			return new Sprite(false, location, blockSprites, 1, 9, 8, 8);
+			return new Sprite(collided, false, location, blockSprites, 1, 9, 8, 8);
 		}
-		public ISprite CreateUsedBlock(Vector2 location)
+		public ISprite CreateUsedBlock(Vector2 location, Boolean collided)
 		{
-			return new Sprite(true, location, blockSprites, 1, 9, 7, 7);
+			return new Sprite(collided, true, location, blockSprites, 1, 9, 7, 7);
 		}
-		public ISprite CreateBumpedQuestionBlock(Vector2 location)
+		public ISprite CreateBumpedQuestionBlock(Vector2 location, Boolean collided)
 		{
-			return new Sprite(true, location, blockSprites, 1, 9, 5, 6);
+			return new Sprite(collided, true, location, blockSprites, 1, 9, 5, 6);
 		}
 
-		public ISprite CreateQuestionBlock(Vector2 location)
+		public ISprite CreateQuestionBlock(Vector2 location, Boolean collided)
 		{
 			if (questionSprite == null)
 			{
-				questionSprite = new Sprite(true, location, blockSprites, 1, 9, 5, 6);
+				questionSprite = new Sprite(collided, true, location, blockSprites, 1, 9, 5, 6);
 				return questionSprite;
 			}
 			else
@@ -85,30 +85,30 @@ namespace Factories
 				return questionSprite;
 			}
 		}
-		public ISprite CreateStairBlock(Vector2 location)
+		public ISprite CreateStairBlock(Vector2 location, Boolean collided)
 		{
-			return new Sprite(true, location, blockSprites, 1, 9, 4, 4);
+			return new Sprite(collided, true, location, blockSprites, 1, 9, 4, 4);
 		}
-		public ISprite CreateFloorBlock(Vector2 location)
+		public ISprite CreateFloorBlock(Vector2 location, Boolean collided)
 		{
-			return new Sprite(true, location, blockSprites, 1, 9, 3, 3);
+			return new Sprite(collided, true, location, blockSprites, 1, 9, 3, 3);
 		}
 
-		public ISprite CreateBrokenBrickBlock(Vector2 location)
+		public ISprite CreateBrokenBrickBlock(Vector2 location, Boolean collided)
 		{
-			return new Sprite(true, location, blockSprites, 1, 9, 2, 2);
+			return new Sprite(collided, true, location, blockSprites, 1, 9, 2, 2);
 		}
-		public ISprite CreateCrackedBrickBlock(Vector2 location)
+		public ISprite CreateCrackedBrickBlock(Vector2 location, Boolean collided)
 		{
-			return new Sprite(true, location, blockSprites, 1, 9, 1, 1);
+			return new Sprite(collided, true, location, blockSprites, 1, 9, 1, 1);
 		}
-		public ISprite CreateBumpedBrickBlock(Vector2 location)
+		public ISprite CreateBumpedBrickBlock(Vector2 location, Boolean collided)
 		{
-			return new Sprite(true, location, blockSprites, 1, 9, 0, 0);
+			return new Sprite(collided, true, location, blockSprites, 1, 9, 0, 0);
 		}
-		public ISprite CreateBrickBlock(Vector2 location)
+		public ISprite CreateBrickBlock(Vector2 location, Boolean collided)
 		{
-			return new Sprite(true, location, blockSprites, 1, 9, 0, 0);
+			return new Sprite(collided, true, location, blockSprites, 1, 9, 0, 0);
 		}
 	}
 }

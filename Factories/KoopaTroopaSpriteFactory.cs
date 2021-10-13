@@ -60,7 +60,7 @@ namespace Factories
 		{
 			if(idleKoopaTroopa == null)
             {
-				idleKoopaTroopa = new Sprite(true, location, koopaTroopaSprites, 1, 3, 0, 0);
+				idleKoopaTroopa = new Sprite(false, true, location, koopaTroopaSprites, 1, 3, 0, 0);
 			    return idleKoopaTroopa;
 			}
 			else return idleKoopaTroopa;
@@ -69,7 +69,7 @@ namespace Factories
 		{
 			if (movingKoopaTroopa == null)
 			{
-				movingKoopaTroopa = new Sprite(true, location, koopaTroopaSprites, 1, 3, 0, 1);
+				movingKoopaTroopa = new Sprite(false, true, location, koopaTroopaSprites, 1, 3, 0, 1);
 				return movingKoopaTroopa;
 			}
 			else return movingKoopaTroopa;
@@ -78,7 +78,7 @@ namespace Factories
 		{
 			if (stompedKoopaTroopa == null)
 			{
-				stompedKoopaTroopa = new Sprite(true, location, koopaTroopaSprites, 1, 3, 2, 2);
+				stompedKoopaTroopa = new Sprite(false, true, location, koopaTroopaSprites, 1, 3, 2, 2);
 				return stompedKoopaTroopa;
 			}
 			else return stompedKoopaTroopa;
@@ -87,7 +87,7 @@ namespace Factories
 		{
 			if (deadKoopaTroopa == null)
 			{
-				deadKoopaTroopa = new Sprite(true, location, koopaTroopaSprites, 1, 3, 2, 2);
+				deadKoopaTroopa = new Sprite(false, true, location, koopaTroopaSprites, 1, 3, 2, 2);
 				return deadKoopaTroopa;
 			}
 			else return deadKoopaTroopa;
