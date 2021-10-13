@@ -11,7 +11,7 @@ namespace GameObjects
     {
         public WarpPipe(Vector2 position, Vector2 velocity, Vector2 acceleration) : base(position, velocity, acceleration)
         {
-            
+            AABB = new Rectangle((int) position.X,(int) position.Y, 32, 32);
         }
 
         public override void Damage()
@@ -38,7 +38,12 @@ namespace GameObjects
         }
         public override void Collision(int side, GameObject Collidee)
         {
-          
+            if (side == CollisionHandler.TOP || side == CollisionHandler.BOTTOM)
+            {
+                Collidee.SetYVelocity(0);
+            }
+            else
+                Collidee.SetXVelocity(0);
         }
     }
 }
