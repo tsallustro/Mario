@@ -57,27 +57,27 @@ namespace Collisions
                                         obj2.Collision(BOTTOM, obj1);
                                     } else if (obj1.BottomCollision(obj2))
                                     {
-                                obj1.Sprite.isCollided = true;
-                                obj2.Sprite.isCollided = true;
-                                obj1.Collision(BOTTOM, obj2);
+                                        obj1.Sprite.isCollided = true;
+                                        obj2.Sprite.isCollided = true;
+                                        obj1.Collision(BOTTOM, obj2);
                                         obj2.Collision(TOP, obj1);
                                     } else if (obj1.LeftCollision(obj2))
                                     {
-                                obj1.Sprite.isCollided = true;
-                                obj2.Sprite.isCollided = true;
-                                obj1.Collision(LEFT, obj2);
+                                        obj1.Sprite.isCollided = true;
+                                        obj2.Sprite.isCollided = true;
+                                        obj1.Collision(LEFT, obj2);
                                         obj2.Collision(RIGHT, obj1);
                                     } else if (obj1.RightCollision(obj2))
                                     {
-                                obj1.Sprite.isCollided = true;
-                                obj2.Sprite.isCollided = true;
-                                obj1.Collision(RIGHT, obj2);
+                                        obj1.Sprite.isCollided = true;
+                                        obj2.Sprite.isCollided = true;
+                                        obj1.Collision(RIGHT, obj2);
                                         obj2.Collision(LEFT, obj1);
                                     } else
                                     {
-                                obj1.Sprite.isCollided = false;
-                                obj2.Sprite.isCollided = false;
-                            }
+                                        obj1.Sprite.isCollided = false;
+                                        obj2.Sprite.isCollided = false;
+                                    }
                                 //}
                             //}
                         }
