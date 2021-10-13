@@ -70,6 +70,12 @@
       <column>15</column>
     </item>
   </items>
+  <warpPipes>
+    <pipe>
+      <row> 8</row>
+      <column>20</column>
+    </pipe>
+  </warpPipes>
   <enemies>
     <enemy type="goomba">
       <row>4</row>
