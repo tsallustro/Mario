@@ -11,12 +11,13 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.IO;
 using System.Diagnostics;
+using Sprites;
 
 namespace LevelParser
 {
     class LevelParser
     {
-        public static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites, Point maxCoords)
+        public static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites, Point maxCoords, Texture2D pipeSprite)
         {
             List<IGameObject> list = new List<IGameObject>();
             XElement level;
@@ -49,10 +50,30 @@ namespace LevelParser
             //Parse items
             ParseItems(list, level);
 
+            //Parse Warp Pipes
+            ParseWarpPipes(list, level,pipeSprite);
             //Parse Enemies
             ParseEnemies(list, level);
 
             return list;
+        }
+        private static void ParseWarpPipes(List<IGameObject> list, XElement level, Texture2D pipeSprite)
+        {
+
+            IEnumerable<XElement> pipes = level.Element("warpPipes").Elements();
+            foreach (XElement pipe in pipes)
+            {
+                //Still need to add coins to block
+                Vector2 pipePos = new Vector2
+                {
+                    Y = 16 * Int32.Parse(pipe.Element("row").Value),
+                    X = 16 * Int32.Parse(pipe.Element("column").Value)
+                };
+                WarpPipe pipeToAdd = new WarpPipe(pipePos, new Vector2(0,0), new Vector2(0,0));
+                pipeToAdd.Sprite = new Sprite(true, pipePos, pipeSprite,1,1,0,0);
+                list.Add(pipeToAdd);
+                Debug.WriteLine("ITEM");
+            }
         }
         private static void ParseFloorBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {

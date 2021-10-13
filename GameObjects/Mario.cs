@@ -82,6 +82,7 @@ namespace GameObjects
         public override void Collision(int side, GameObject obj)
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+            IBlockState blockState;
 
             if (obj is Item item)
             {
@@ -100,24 +101,35 @@ namespace GameObjects
             }
             else if (obj is Block)
             {
-                //if ((Block)obj.)
-                switch (side)
+                Block block = (Block)obj;
+                if (!(block.GetBlockState() is HiddenBlockState))
                 {
-                    case TOP:
-                        if (Velocity.Y < 0) this.actionState.Fall();
-                        break;
-                    case BOTTOM:
-                        if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState))
-                        {
-                            this.SetYVelocity(0);
-                        }
-                        break;
-                    case LEFT:
-                        if (Velocity.X < 0) this.actionState.Idle();
-                        break;
-                    case RIGHT:
-                        if (Velocity.X > 0) this.actionState.Idle();
-                        break;
+                    switch (side)
+                    {
+                        case TOP:
+                            if (Velocity.Y < 0) this.actionState.Fall();
+                            break;
+                        case BOTTOM:
+                            if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState))
+                            {
+                                this.SetYVelocity(0);
+                            }
+                            break;
+                        case LEFT:
+                            if (Velocity.X < 0) this.actionState.Idle();
+                            break;
+                        case RIGHT:
+                            if (Velocity.X > 0) this.actionState.Idle();
+                            break;
+                    }
+                } else
+                {
+                    switch(side)
+                    {
+                        case TOP:
+                            if (Velocity.Y < 0) this.actionState.Fall();
+                            break;
+                    }
                 }
             }
 

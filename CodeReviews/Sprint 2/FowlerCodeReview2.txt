@@ -2,7 +2,7 @@
 
 Date: October 12, 2021
 
-Sprint Number: 12
+Sprint Number: 2
 
 Name of file being reviewed: CollisionHandler.cs
 
@@ -10,8 +10,18 @@ Author of file being reviewed: Maxwell Ortwig
 
 Comments on Code Quality:
 	This class handles the detection of any of the game objects that exist on the current level. Although the code is
-	deeply nested, the various checks and loops are necessary in this implementation.
+	deeply nested, the various checks and loops are necessary in this implementation. The main flaw of this file is the
+	block of commented-out conditionals. These were intended to improve the performance of collision detection by only
+	checking objects that were near each other, but it ended up breaking left/right collisions. The commenting-out of this
+	also leaves some assigned variables that are not used. However, the code performs good enough for the current sprint
+	and is pretty easy to understand and modify.
 
-Minutes Taken to Review: 15 minutes
+Minutes Taken to Review: 20 minutes
 
 Hypothetical Change:
+	A hypothetical change to the game that would impact this file is the addition of many more objects in a single level.
+	This file currently checks every moving object with every object on the level. That is, if we have n moving objects,
+	it does n^2 checks. So, the addition of more objects will dramatically decrease performance. Although we have a basic
+	idea of how to decrease the number of checks, the current implementation does not work and we don't know for sure if
+	it will effectively improve performance if it did. We will have to spend more time figuring out how to only check for
+	collisions for objects that are nearby.
