@@ -71,8 +71,6 @@ namespace GameObjects
             StopMarioBoundary();
             Position = newPosition;
 
-            System.Diagnostics.Debug.Print("Mario action state: " + actionState);
-
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
