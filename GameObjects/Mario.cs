@@ -106,7 +106,10 @@ namespace GameObjects
                         if (Velocity.Y < 0) this.actionState.Fall();
                         break;
                     case BOTTOM:
-                        if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState)) this.SetYVelocity(0);
+                        if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState))
+                        {
+                            this.SetYVelocity(0);
+                        }
                         break;
                     case LEFT:
                         if (Velocity.X < 0) this.actionState.Idle();
@@ -184,7 +187,6 @@ namespace GameObjects
             }
             */
             if (!(powerState is DeadMario)) actionState.MoveLeft();
-            this.SetXVelocity(-100);
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
