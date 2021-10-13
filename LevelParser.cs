@@ -34,8 +34,6 @@ namespace LevelParser
             //Mario MUST be parsed first, so that he is the first object in the list.
             Mario mario = ParseMario(g, list, level, maxCoords);
 
-            ParseItems(list, level);
-
             //Parse floor blocks
             ParseFloorBlocks(blockSprites, list, level, mario);
 
@@ -48,8 +46,12 @@ namespace LevelParser
             //Parse hidden blocks
             ParseHiddenBlocks(blockSprites, list, level, mario);
 
+            //Parse items
+            ParseItems(list, level);
+
             //Parse Enemies
             ParseEnemies(list, level);
+
             return list;
         }
         private static void ParseFloorBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
@@ -65,9 +67,9 @@ namespace LevelParser
                 //Handle each column in the row
                 if (columnNumbers.Length > 1)
                 {
-                    foreach (string column in columnNumbers)
+                    for (int i = 1; i < columnNumbers.Length; i++)
                     {
-                       
+                        string column = columnNumbers[i];
                         Vector2 brickBlockPos = new Vector2
                         {
                             X = 16 * Int32.Parse(column),
@@ -77,7 +79,7 @@ namespace LevelParser
                         Block tempFloor = new Block(brickBlockPos, blockSprites, mario);
                         tempFloor.SetBlockState(new FloorBlockState(tempFloor));
                         list.Add(tempFloor);
-
+                        Debug.WriteLine("FLOOR");
                     }
                 }
 
@@ -105,12 +107,12 @@ namespace LevelParser
                     case "koopa":
                         enemyPos.Y -= 8;
                         tempEnemy = new KoopaTroopa(enemyPos);
-                       
+
                         break;
                     case "redKoopa":
                         enemyPos.Y -= 8;
                         tempEnemy = new RedKoopaTroopa(enemyPos);
-                       
+
                         break;
 
                     default:
@@ -123,7 +125,23 @@ namespace LevelParser
                 list.Add(tempEnemy);
             }
         }
+        private static void ParseItems(List<IGameObject> list, XElement level)
+        {
+            IEnumerable<XElement> items = level.Element("items").Elements();
+            foreach (XElement item in items)
+            {
+                //Still need to add coins to block
+                Vector2 itemPos = new Vector2
+                {
+                    Y = 16 * Int32.Parse(item.Element("row").Value),
+                    X = 16 * Int32.Parse(item.Element("column").Value)
+                };
+                IItem generatedItem = DetermineQuestionItem(item.Attribute("type").Value, itemPos);
 
+                list.Add(generatedItem);
+                Debug.WriteLine("ITEM");
+            }
+        }
         private static void ParseHiddenBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
             IEnumerable<XElement> hiddenBlocks = level.Element("hiddenBlocks").Elements();
@@ -138,6 +156,7 @@ namespace LevelParser
                 Block tempHidden = new Block(hiddenBlockPos, blockSprites, mario);
                 tempHidden.SetBlockState(new HiddenBlockState(tempHidden));
                 list.Add(tempHidden);
+                Debug.WriteLine("HIDDEN");
             }
         }
 
@@ -158,9 +177,10 @@ namespace LevelParser
                 {
                     DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos)
                 };
-                Block tempQuestion = new Block(questionBlockPos, blockSprites, mario,items);
+                Block tempQuestion = new Block(questionBlockPos, blockSprites, mario, items);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
+                Debug.WriteLine("Question");
             }
         }
 
@@ -184,11 +204,11 @@ namespace LevelParser
                 case "coin":
                     item = new Coin(new Vector2(blockPos.X, blockPos.Y));
                     break;
-                default: 
-                    item = null; 
+                default:
+                    item = null;
                     break;
             }
-            
+
             return item;
         }
 
@@ -205,8 +225,9 @@ namespace LevelParser
                 //Handle each column in the row
                 if (columnNumbers.Length > 1)
                 {
-                    foreach (string column in columnNumbers)
+                    for (int i = 1; i < columnNumbers.Length; i++)
                     {
+                        string column = columnNumbers[i];
 
                         //Separate the row number from the coin count
                         string[] splitRow = column.Split("@");
@@ -220,68 +241,25 @@ namespace LevelParser
                         //Handle coins
                         HashSet<IItem> coins = new HashSet<IItem>();
                         if (splitRow.Length > 1)
-                        {   
+                        {
                             int numCoins = Int32.Parse(splitRow[1]);
-                            for (int i = 0; i < numCoins; i++)
+                            for (int j = 0; j < numCoins; j++)
                             {
                                 Vector2 coinPos = new Vector2(brickBlockPos.X, brickBlockPos.Y);
                                 IItem coin = new Coin(coinPos);
                                 coins.Add(coin);
                             }
-                            
+
                         }
-                       
-                        Block tempBrick = new Block(brickBlockPos, blockSprites, mario,coins);
+
+                        Block tempBrick = new Block(brickBlockPos, blockSprites, mario, coins);
                         tempBrick.SetBlockState(new BrickBlockState(tempBrick));
                         list.Add(tempBrick);
-
+                        Debug.WriteLine("BRICK");
                     }
                 }
 
                 rowNumber++;
-            }
-        }
-
-        //Not sure this is how you do it. I imitated ParseEnemies
-        private static void ParseItems(List<IGameObject> list, XElement level)
-        {
-            IEnumerable<XElement> items = level.Element("items").Elements();
-            foreach (XElement item in items)
-            {
-                string itemType = item.Attribute("type").Value;
-                Vector2 itemPos = new Vector2
-                {
-                    X = 16 * Int32.Parse(item.Element("column").Value),
-                    Y = 16 * Int32.Parse(item.Element("row").Value)
-                };
-                IItem tempItem;
-                switch (itemType)
-                {
-                    case "Coin":
-                        tempItem = new Coin(itemPos);
-                        break;
-                    case "FireFlower":
-                        itemPos.Y -= 8;
-                        tempItem = new FireFlower(itemPos);
-                        break;
-                    case "SuperMushroom":
-                        itemPos.Y -= 8;
-                        tempItem = new SuperMushroom(itemPos);
-                        break;
-                    case "OneUpMushroom":
-                        itemPos.Y -= 8;
-                        tempItem = new OneUpMushroom(itemPos);
-                        break;
-                    case "Star":
-                        itemPos.Y -= 8;
-                        tempItem = new Star(itemPos);
-                        break;
-                    default:
-                        //default to goomba on invalid type
-                        tempItem = new Coin(itemPos);
-                        break;
-                }
-                list.Add(tempItem);
             }
         }
 
