@@ -1,0 +1,22 @@
+﻿Author: Tony Sallustro
+
+Date: October 12, 2021
+
+Sprint Number: 2
+
+Name of file being reviewed: Block.cs
+
+Author of file being reviewed: Michael Lavelle
+
+Comments on Code Quality:
+	This method has seen a lot of changes since the previous sprint. What it lacks in cyclomatic complexity (28 is fairly high), it makes up for in readability, maintainability, and scalability. The Blocks are reliant on their state, which 
+	handles most of the behavior, allowing for Block to be abstract and generalized (handling collisions with blocks is very easy, it all relies on the bump mechanic that was already implemented). While there are a few redundancies, 
+	most of the code is clean and efficient, allowing for Block to do what it was designed to do: act as an abstraction of a block object in the game and let behavior be handled elsewhere. Coupling is relatively low, but could be
+	better, and the small amount of executable code bodes well for maintaining this class going forward.
+
+Minutes Taken to Review: 20 minutes
+
+Hypothetical Change:
+	The biggest change I would make is to change the way the sprites are handled. The fact that each individual Block object has its own sprite factory doesn't really make sense; it introduces extra overhead that doesn't need to be there
+	and it makes creating blocks (in LevelParser) more difficult and creates a lot of unnecessary passing of parameters and coupling between different parts of the code that doesn't need to be there. This didn't seem to be an issue
+	in the last sprint, but as the demands of the project change, so too must its structure, and I think that prior to starting Sprint 3, this potential issue needs to be addressed as part of a larger "housekeeping".
