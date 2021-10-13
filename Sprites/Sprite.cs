@@ -104,8 +104,9 @@ namespace Sprites
             
             if (isVisible) {
                 if (!left) spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-                else if (isCollided) spriteBatch.Draw(texture, destinationRectangle, sourceRectangle,
+                else if (isCollided && left) spriteBatch.Draw(texture, destinationRectangle, sourceRectangle,
                    Color.Red, 0f, new Vector2(0f, 0f), SpriteEffects.FlipHorizontally, 0f);
+                else if (isCollided && !left) spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.Red);
                 else
                     spriteBatch.Draw(texture, destinationRectangle, sourceRectangle,
                     Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.FlipHorizontally, 0f);
