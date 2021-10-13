@@ -9,7 +9,8 @@ Name of file being reviewed: CollisionHandler.cs
 Author of file being reviewed: Maxwell Ortwig
 
 Comments on Code Quality:
-	
+	This class handles the detection of any of the game objects that exist on the current level. Although the code is
+	deeply nested, the various checks and loops are necessary in this implementation.
 
 Minutes Taken to Review: 15 minutes
 
