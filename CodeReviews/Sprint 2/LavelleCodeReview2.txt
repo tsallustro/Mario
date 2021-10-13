@@ -1,0 +1,25 @@
+Author: Michael Lavelle
+
+Date: October 12th, 2021
+
+Sprint #: 2
+
+File Reviewed: LevelParser.cs
+
+Author of File Reviewed: Tony Sallustro
+
+Code Quality:
+	This code may have high cyclomatic complexity, but it was written well and is easy
+	to understand. The parsing of each individual type of object being added to an
+	objects list is a smart way to transfer into collision handling of the objects.
+	The methods are pretty complex, so it's possible that they could be generalized and
+	abstracted, but I don't personally believe it necessary. The file handles IO well,
+	preventing possible bugs by throwing exception, and has a good balance between
+	"backend" of reading the file with the file structure.
+
+Time Length of Review: 30 minutes
+
+Hypothetical Change: 
+	I would hypothetically get the separate parsing functions to return a List<GameObject>
+	that would be appended to the total list instead of passing the list into the void
+	function.
