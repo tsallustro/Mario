@@ -20,7 +20,7 @@ namespace Game1
 {
     public class MarioGame : Game
     {
-        private readonly string levelToLoad = "test";
+        private readonly string levelToLoad = "sprint2Map";
         private Point maxCoords; 
         List<IGameObject> objects;
 
