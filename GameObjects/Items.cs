@@ -42,6 +42,16 @@ namespace GameObjects
         {
             return;
         }
+        public override void Collision(int side, GameObject Collidee)
+        {
+
+            if (Collidee is Mario mario)
+            {
+                Sprite.ToggleVisibility();
+                //this.
+            }
+
+        }
 
         //Update all items
         public override void Update(GameTime gameTime)

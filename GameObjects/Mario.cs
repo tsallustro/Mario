@@ -106,7 +106,7 @@ namespace GameObjects
                         if (Velocity.Y < 0) this.actionState.Fall();
                         break;
                     case BOTTOM:
-                        if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState)) this.actionState.Land();
+                        if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState)) this.SetYVelocity(0);
                         break;
                     case LEFT:
                         if (Velocity.X < 0) this.actionState.Idle();
@@ -176,21 +176,23 @@ namespace GameObjects
         
         public void MoveLeft(int pressType)
         {
-            /*actionState.MoveLeft();
+            
+            /*
             if (this.actionState is RunningState && pressType == 2)
             {
                 this.location.X -= 1;
-            }*/
-
+            }
+            */
             if (!(powerState is DeadMario)) actionState.MoveLeft();
+            this.SetXVelocity(-100);
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void MoveRight(int pressType)
         {
+            
             //Mario only moves when holding the key
             if (!(powerState is DeadMario)) actionState.MoveRight();
-
             //sprite.Move();
             /*if (this.actionState is RunningState && pressType == 2)
             {

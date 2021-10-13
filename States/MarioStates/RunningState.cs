@@ -23,6 +23,7 @@ namespace States
             {
                 this.mario.SetXVelocity(100);
             }
+            
         }
 
         public bool GetDirection()
@@ -48,6 +49,7 @@ namespace States
 
         public void Crouch()
         {
+            mario.SetXVelocity(0);
             mario.SetActionState(new CrouchingState(mario, this.left));
         }
 

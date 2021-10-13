@@ -11,7 +11,7 @@ namespace Sprites
         public Texture2D texture { get; set; }
         public Vector2 location { get; set; }
 
-        public bool isVisible = true;
+        public bool isVisible { get; set; }
 
         // We'll need to change direction to a 2D vector at some point
         public int movementDirection { get; set; } = 1;
