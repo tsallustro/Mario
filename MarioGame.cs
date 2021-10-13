@@ -77,10 +77,10 @@ namespace Game1
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             Texture2D blockSprites = Content.Load<Texture2D>("BlocksV3");
-
+            Texture2D pipeSprite = Content.Load<Texture2D>("pipe");
             // Load from Level file
             string levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords);
+            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
             Mario mario = (Mario) objects[0];
             
 
