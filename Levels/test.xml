@@ -9,6 +9,28 @@
     <row>9</row>
     <column>1</column>
   </mario>
+	<items>
+		<item type="Coin">
+			<row>2</row>
+			<column>4</column>
+		</item>
+		<item type="FireFlower">
+			<row>2</row>
+			<column>6</column>
+		</item>
+		<item type="SuperMushroom">
+			<row>2</row>
+			<column>8</column>
+		</item>
+		<item type="OneUpMushroom">
+			<row>2</row>
+			<column>10</column>
+		</item>
+		<item type="Star">
+			<row>2</row>
+			<column>12</column>
+		</item>
+	</items>
   <floorBlocks>
     <rows>
       <row></row>

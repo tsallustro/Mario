@@ -276,7 +276,7 @@ namespace GameObjects
 
         public void Die()
         {
-            oldPosition = position;
+            oldPosition = Position;
             this.powerState.TakeDamage();
             this.SetXVelocity((float)0);
             this.SetYVelocity((float)-20);
