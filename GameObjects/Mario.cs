@@ -53,10 +53,9 @@ namespace GameObjects
             {
                 Position = Position - new Vector2(0, this.Sprite.texture.Height);
 
-            }
+            } 
             this.powerState = powerState;
-            
-            
+
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
 
             // Update maxCoords to match change in height from power state
