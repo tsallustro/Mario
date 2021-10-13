@@ -11,6 +11,7 @@ namespace Sprites
         public Vector2 location { get; set; }
         public Texture2D texture { get; set; }
         public int movementDirection { get; set; }
+        public bool isCollided { get; set; }
 
         // Passing a vector into this method may become needed in the future, should two sprites need to interact.
         public void Update();

@@ -9,9 +9,11 @@ namespace Sprites
         public int rows { get; set; }
         public int columns { get; set; }
         public Texture2D texture { get; set; }
+
         public Vector2 location { get; set; }
 
         public bool isVisible { get; set; }
+        public bool isCollided { get; set; }
 
         // We'll need to change direction to a 2D vector at some point
         public int movementDirection { get; set; } = 1;
@@ -33,6 +35,7 @@ namespace Sprites
             currentFrame = initialFrame;
             InitialFrame = initialFrame;
             FinalFrame = finalFrame;
+            isCollided = false;
         }
 
         public void Update()
@@ -99,9 +102,12 @@ namespace Sprites
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
             
-            if (isVisible) { 
+            if (isVisible) {
                 if (!left) spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-                else spriteBatch.Draw(texture, destinationRectangle, sourceRectangle,
+                else if (isCollided) spriteBatch.Draw(texture, destinationRectangle, sourceRectangle,
+                   Color.Red, 0f, new Vector2(0f, 0f), SpriteEffects.FlipHorizontally, 0f);
+                else
+                    spriteBatch.Draw(texture, destinationRectangle, sourceRectangle,
                     Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.FlipHorizontally, 0f);
             }
         }
