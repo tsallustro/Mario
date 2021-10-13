@@ -6,11 +6,17 @@ Sprint #: 2
 
 File being Reviewed: CollisionHandler.cs
 
-Authorof the file: 
+Author of the file: Maxwell Ortwig
 
-Code Quality: Overall, CollisionHandler.cs helps to ease the clutter in the Object classes 
+Code Quality: Overall, CollisionHandler.cs helps to clean up the clutters in Game Object classes. It's taking objects that are moving and observe
+	their collision with the objects that are within certain range of the original object instead of checking it with every object in the game.
+	But when there are more than one objects moving, it does check the collision between two objects twice. This could slightly slow down the game
+	in the future when there are a lot more moving objects within the game. Also, the methods that actually checks the collision are within GameObject
+	class, when this class is specifically created to handle any collision related problems.
 
-Number of minutes taken to complete the review: 
 
-Hypothetical change: 
+Number of minutes taken to complete the review: 30
+
+Hypothetical change: There could be more constraints that allow the object to check collision only once every update. Also, other collision method that
+	supports the CollisionHandler could also be brought within this class, clearing up more room within GameObject class. 
 		
