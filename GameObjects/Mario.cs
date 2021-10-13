@@ -71,6 +71,8 @@ namespace GameObjects
             StopMarioBoundary();
             Position = newPosition;
 
+            System.Diagnostics.Debug.Print("Mario action state: " + actionState);
+
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
@@ -96,26 +98,22 @@ namespace GameObjects
                     //Implement invicibility
                 }
             }
-            else if (obj is Block block)
+            else if (obj is Block)
             {
-                if (block.GetBlockState() is HiddenBlockState) System.Diagnostics.Debug.Print("Mario Y velocity: " + Velocity.Y);
-                if (!(block.GetBlockState() is HiddenBlockState) || (block.GetBlockState() is HiddenBlockState && side == TOP && Velocity.Y < 0))
+                switch (side)
                 {
-                    switch (side)
-                    {
-                        case TOP:
-                            if (Velocity.Y < 0) this.actionState.Fall();
-                            break;
-                        case BOTTOM:
-                            if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState)) this.actionState.Land();
-                            break;
-                        case LEFT:
-                            if (Velocity.X < 0) this.actionState.Idle();
-                            break;
-                        case RIGHT:
-                            if (Velocity.X > 0) this.actionState.Idle();
-                            break;
-                    }
+                    case TOP:
+                        if (Velocity.Y < 0) this.actionState.Fall();
+                        break;
+                    case BOTTOM:
+                        if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState)) this.SetYVelocity(0);
+                        break;
+                    case LEFT:
+                        if (Velocity.X < 0) this.actionState.Idle();
+                        break;
+                    case RIGHT:
+                        if (Velocity.X > 0) this.actionState.Idle();
+                        break;
                 }
             }
 
@@ -178,21 +176,23 @@ namespace GameObjects
         
         public void MoveLeft(int pressType)
         {
-            /*actionState.MoveLeft();
+            
+            /*
             if (this.actionState is RunningState && pressType == 2)
             {
                 this.location.X -= 1;
-            }*/
-
+            }
+            */
             if (!(powerState is DeadMario)) actionState.MoveLeft();
+            this.SetXVelocity(-100);
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void MoveRight(int pressType)
         {
+            
             //Mario only moves when holding the key
             if (!(powerState is DeadMario)) actionState.MoveRight();
-
             //sprite.Move();
             /*if (this.actionState is RunningState && pressType == 2)
             {
