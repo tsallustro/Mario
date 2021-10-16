@@ -21,13 +21,11 @@ namespace GameObjects
         private Point maxCoords;
         private Vector2 newPosition;
         private Vector2 oldPosition;
-        List<IGameObject> objects;
         private bool collided = false;
-        private int livesRemaining = 3;
 
         GraphicsDeviceManager Graphics { get; set; }
 
-        public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords, List<IGameObject> objs)
+        public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords)
             : base(position, velocity, acceleration)
         {
             spriteFactory = MarioSpriteFactory.Instance;
@@ -38,7 +36,6 @@ namespace GameObjects
             powerState = new StandardMario(this);
             actionState = new FallingState(this, false, new IdleState(this, false));
             Graphics = graphics;
-            objects = objs;
 
             // Adjust given maxCoords to account for sprite's height
             this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
@@ -226,68 +223,25 @@ namespace GameObjects
         
         public void MoveLeft(int pressType)
         {
-            
-            /*
-            if (this.actionState is RunningState && pressType == 2)
-            {
-                this.location.X -= 1;
-            }
-            */
             if (!(powerState is DeadMario)) actionState.MoveLeft();
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void MoveRight(int pressType)
         {
-            
-            //Mario only moves when holding the key
             if (!(powerState is DeadMario)) actionState.MoveRight();
-            //sprite.Move();
-            /*if (this.actionState is RunningState && pressType == 2)
-            {
-                this.location.X += 1;
-            }*/
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void Up(int pressType)
         {
             if (!(powerState is DeadMario)) actionState.Jump();
-            /*if (this.actionState is JumpingState && pressType == 2)
-            {
-                this.location.Y -= 1;
-            }/*
-            /*
-             * actionState.Jump() already changes the state to idle if crouching or to jumping if idle
-             * Is there need to do it again, besides changing velocity?
-            if (this.actionState is CrouchingState)
-            {
-                this.SetActionState(new IdleState(this, actionState.GetDirection()));
-                velocity.Y = 0;
-            } else
-            {
-                velocity.Y = 100;
-                this.SetActionState(new IdleState(this, actionState.GetDirection()));
-                actionState.Jump();
-            }
-            */
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void Down(int pressType)
         {
             if (!(powerState is DeadMario)) actionState.Crouch();
-            /*if (this.actionState is CrouchingState && pressType == 2)
-            {
-                this.location.Y += 1;
-            }*/
-            /* UNCOMMENT FOR SPRINT2
-            if (this.actionState is JumpingState || this.actionState is FallingState)
-            {
-                this.SetActionState(new IdleState(this, actionState.GetDirection()));
-                velocity.Y = 0;
-            }
-            */
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
