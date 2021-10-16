@@ -48,7 +48,12 @@ namespace GameObjects
             }
         }
 
-        public abstract void Update(GameTime GameTime);
+        public virtual void Update(GameTime gameTime)
+        {
+            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //newPosition = Position + Velocity * timeElapsed;
+        }
+
         public abstract void Draw(SpriteBatch spriteBatch);
 
         //positive x velocity makes object go right
@@ -62,6 +67,17 @@ namespace GameObjects
         {
             this.Velocity = new Vector2(this.Velocity.X, y);
         }
+
+        public void SetXAcceleration(float x)
+        {
+            this.Acceleration = new Vector2(x, this.Acceleration.Y);
+        }
+
+        public void SetYAcceleration(float y)
+        {
+            this.Acceleration = new Vector2(this.Acceleration.X, y);
+        }
+
         public Vector2 GetPosition()
         {
             return this.Position;

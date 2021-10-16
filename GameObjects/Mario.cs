@@ -22,6 +22,7 @@ namespace GameObjects
         private Vector2 newPosition;
         private Vector2 oldPosition;
         List<IGameObject> objects;
+
         GraphicsDeviceManager Graphics { get; set; }
 
         public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords, List<IGameObject> objs)
@@ -49,15 +50,19 @@ namespace GameObjects
         public void SetPowerState(IMarioPowerState powerState)
         {
             int previousSpriteHeight = Sprite.texture.Height;
-            if(this.powerState is StandardMario && !(powerState is StandardMario))
-            {
-                Position = Position - new Vector2(0, this.Sprite.texture.Height);
-            } else if (!(this.powerState is StandardMario) && powerState is StandardMario)
-            {
-                Position = Position + new Vector2(0, this.Sprite.texture.Height/2);
-            }
-            this.powerState = powerState;
 
+            // Update the position of the sprite to account for varying heights of Mario
+            if ((this.powerState is StandardMario || this.powerState is DeadMario) && 
+                !(powerState is StandardMario) && !(powerState is DeadMario))
+            {
+                Position -= new Vector2(0, this.Sprite.texture.Height);
+            } else if ((!(this.powerState is StandardMario) && !(this.powerState is DeadMario))
+                && powerState is StandardMario)
+            {
+                Position += new Vector2(0, this.Sprite.texture.Height / 2);
+            }
+
+            this.powerState = powerState;
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
 
             // Update maxCoords to match change in height from power state
@@ -70,10 +75,10 @@ namespace GameObjects
             this.actionState = actionState;
         }
 
-        public override void Update(GameTime GameTime)
+        public override void Update(GameTime gameTime)
         {
-
-            float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+            //base.Update(gameTime);
+            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             newPosition = Position + Velocity * timeElapsed;
 
             StopMarioBoundary();
@@ -105,9 +110,8 @@ namespace GameObjects
                     //Implement invicibility
                 }
             }
-            else if (obj is Block)
+            else if (obj is Block block)
             {
-                Block block = (Block)obj;
                 if (!(block.GetBlockState() is HiddenBlockState))
                 {
                     switch (side)
