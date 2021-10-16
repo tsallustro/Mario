@@ -21,7 +21,7 @@ namespace GameObjects
         private Point maxCoords;
         private Vector2 newPosition;
         private Vector2 oldPosition;
-        private bool collided = false;
+        private bool isOnSurface = false;
 
         GraphicsDeviceManager Graphics { get; set; }
 
@@ -84,8 +84,8 @@ namespace GameObjects
             Position = newPosition;
 
             // Fall if we are at peak of jump and not currently on a block
-            if (this.Velocity.Y >= 0 && !collided) this.actionState.Fall();
-            collided = false;
+            if (this.Velocity.Y >= 0 && !isOnSurface) this.actionState.Fall();
+            isOnSurface = false;
 
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
@@ -128,7 +128,7 @@ namespace GameObjects
                                 this.actionState.Land();
                             }
 
-                            collided = true;
+                            isOnSurface = true;
 
                             break;
                         case LEFT:
