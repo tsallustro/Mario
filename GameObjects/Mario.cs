@@ -182,6 +182,7 @@ namespace GameObjects
             if (newPosition.Y > maxCoords.Y)
             {
                 newPosition = new Vector2(Position.X, maxCoords.Y);
+                powerState = new DeadMario(this);
             }
             else if (newPosition.Y < 0)
             {
