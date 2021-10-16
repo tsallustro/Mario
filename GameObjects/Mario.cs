@@ -22,6 +22,7 @@ namespace GameObjects
         private Vector2 newPosition;
         private Vector2 oldPosition;
         List<IGameObject> objects;
+        private bool collided = false;
 
         GraphicsDeviceManager Graphics { get; set; }
 
@@ -34,7 +35,7 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             
             powerState = new StandardMario(this);
-            actionState = new IdleState(this, false);
+            actionState = new FallingState(this, false);
             Graphics = graphics;
             objects = objs;
 
@@ -79,10 +80,14 @@ namespace GameObjects
         {
             //base.Update(gameTime);
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Velocity += Acceleration * timeElapsed;
             newPosition = Position + Velocity * timeElapsed;
-
-            StopMarioBoundary();
+            CheckAndStopIfAtScreenBoundary();
             Position = newPosition;
+
+            // Fall if we are at peak of jump and not currently on a block
+            if (this.Velocity.Y >= 0 && !collided) this.actionState.Fall();
+            collided = false;
 
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
@@ -123,13 +128,17 @@ namespace GameObjects
                             if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState))
                             {
                                 this.SetYVelocity(0);
+                                this.actionState.Land();
                             }
+
+                            collided = true;
+
                             break;
                         case LEFT:
-                            if (Velocity.X < 0) this.actionState.Idle();
+                            if (Velocity.X < 0) this.actionState.Fall();
                             break;
                         case RIGHT:
-                            if (Velocity.X > 0) this.actionState.Idle();
+                            if (Velocity.X > 0) this.actionState.Fall();
                             break;
                     }
                 } else
@@ -172,7 +181,7 @@ namespace GameObjects
         }
     
 
-        private void StopMarioBoundary()
+        private void CheckAndStopIfAtScreenBoundary()
         {
             //This prevents Mario from going outside the screen
             if (newPosition.X > maxCoords.X)

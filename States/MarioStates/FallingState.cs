@@ -15,7 +15,13 @@ namespace States
             this.mario = mario;
             this.left = left;
 
-            mario.SetYVelocity(100);
+            if (mario.GetVelocity().Y < 0)
+            {
+                mario.SetYVelocity(-mario.GetVelocity().Y / 2);
+            } else
+            {
+                mario.SetYAcceleration(155);
+            }
         }
 
         public bool GetDirection()
@@ -41,12 +47,12 @@ namespace States
 
         public void Crouch()
         {
-            mario.SetActionState(new CrouchingState(mario, this.left));
+            // Do nothing
         }
 
         public void Jump()
         {
-            mario.SetActionState(new IdleState(mario, this.left));
+            // Do nothing
         }
 
         public void Fall()

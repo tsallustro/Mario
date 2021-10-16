@@ -15,7 +15,15 @@ namespace States
             this.mario = mario;
             this.left = left;
 
-            this.mario.SetYVelocity(-100);
+            if (this.mario.Acceleration.Y <= 0)
+            {
+                /*
+                 * Adjust these values to adjust jump height. Acceleration should be GREATER THAN
+                 * velocity in order for gravity to feel correct.
+                 */
+                this.mario.SetYVelocity(-150);
+                this.mario.SetYAcceleration(155);
+            }
         }
 
         public bool GetDirection()
@@ -40,7 +48,7 @@ namespace States
 
         public void Crouch()
         {
-            mario.SetActionState(new IdleState(mario, this.left));
+            // Do nothing
         }
 
         public void Jump()

@@ -11,7 +11,7 @@ namespace GameObjects
     {
         protected Vector2 Position { get; set; }
         protected Vector2 Velocity { get; set; }
-        protected Vector2 Acceleration { get; set; }
+        public Vector2 Acceleration { get; set; }
         public ISprite Sprite { get; set; }
         protected Rectangle AABB { get; set; }
         public bool BorderIsVisible { get; set; } = false;
