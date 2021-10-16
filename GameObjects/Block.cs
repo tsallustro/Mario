@@ -24,7 +24,7 @@ namespace GameObjects
         private Vector2 originalLocation;
         private Boolean falling = false;
         private Boolean bumped = false;
-        private HashSet<IItem> items; // Future use for storing items in block
+        private HashSet<IItem> items;
 
         public Block(Vector2 position, Texture2D blockSprites, Mario Mario)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
