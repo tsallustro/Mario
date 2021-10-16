@@ -6,7 +6,7 @@
 
 <level number="1-1">
   <mario>
-    <row>12</row>
+    <row>10</row>
     <column>10</column>
   </mario>
   <floorBlocks>
@@ -20,6 +20,10 @@
       <row>x</row>
       <row>x</row>
       <row>x,4</row>
+	  <row>x</row>
+      <row>x</row>
+	  <row>x</row>
+	  <row>x,6,7,8,9,10,11,12,13,14,15</row>
     </rows>
   </floorBlocks>
   <brickBlocks>
