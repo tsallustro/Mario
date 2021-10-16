@@ -14,12 +14,6 @@ namespace Factories
 
 		private static ItemSpriteFactory factoryInstance = new ItemSpriteFactory();
 		
-		private ISprite coin;
-		private ISprite superMushroom;
-		private ISprite oneUpMushroom;
-		private ISprite fireFlower;
-		private ISprite star;
-
 		public static ItemSpriteFactory Instance
 		{
 			get
@@ -67,48 +61,27 @@ namespace Factories
 		
 		public ISprite CreateCoin(Vector2 location)
         {
-			if (coin == null)
-			{
-				coin = new Sprite(false, true, location, itemSprites, 1, 9, 7, 8);
-				return coin;
-			}
-			else return coin;
-        }
+			return new Sprite(false, true, location, itemSprites, 1, 9, 7, 8);
+		}
+
 		public ISprite CreateSuperMushroom(Vector2 location)
 		{
-			if (superMushroom == null)
-			{
-				superMushroom = new Sprite(false, true, location, itemSprites, 1, 9, 0, 0);
-				return superMushroom;
-			}
-			else return superMushroom;
+			return new Sprite(false, true, location, itemSprites, 1, 9, 0, 0);
 		}
+
 		public ISprite CreateOneUpMushroom(Vector2 location)
 		{
-			if (oneUpMushroom == null)
-			{
-				oneUpMushroom = new Sprite(false, true, location, itemSprites, 1, 9, 1, 1);
-				return oneUpMushroom;
-			}
-			else return oneUpMushroom;
+			return new Sprite(false, true, location, itemSprites, 1, 9, 1, 1);
 		}
+
 		public ISprite CreateFireFlower(Vector2 location)
 		{
-			if (fireFlower == null)
-			{
-				fireFlower = new Sprite(false, true, location, itemSprites, 1, 9, 2, 2);
-				return fireFlower;
-			}
-			else return fireFlower;
+			return new Sprite(false, true, location, itemSprites, 1, 9, 2, 2);
 		}
+
 		public ISprite CreateStar(Vector2 location)
 		{
-			if (star == null)
-			{
-				star = new Sprite(false, true, location, itemSprites, 1, 9, 3, 6);
-				return star;
-			}
-			else return star;
+			return new Sprite(false, true, location, itemSprites, 1, 9, 3, 6);
 		}
 	}
 }

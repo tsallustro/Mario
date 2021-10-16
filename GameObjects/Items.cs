@@ -45,10 +45,9 @@ namespace GameObjects
         public override void Collision(int side, GameObject Collidee)
         {
 
-            if (Collidee is Mario mario)
+            if (Collidee is Mario)
             {
-                //Sprite.ToggleVisibility();
-                //this.
+                Sprite.ToggleVisibility();
             }
 
         }
@@ -56,19 +55,17 @@ namespace GameObjects
         //Update all items
         public override void Update(GameTime gameTime)
         {
-            Sprite = spriteFactory.GetCurrentSprite(Sprite.location, itemState);
             Sprite.Update();
         }
 
         //Draw Item
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Sprite = spriteFactory.GetCurrentSprite(Sprite.location, itemState);
             Sprite.location = Position;
             Sprite.Draw(spriteBatch, false);
             DrawAABBIfVisible(Color.Green, spriteBatch);
         }
-        
-
     }
 
     public class Coin : Item
