@@ -185,11 +185,13 @@ namespace GameObjects
             //This prevents Mario from going outside the screen
             if (newPosition.X > maxCoords.X)
             {
-                newPosition = new Vector2(maxCoords.X, Position.Y);
+                this.SetXVelocity(0);
+                this.Acceleration = new Vector2(0, 155);
             }
             else if (newPosition.X < 0)
             {
-                newPosition = new Vector2(0, Position.Y);
+                this.SetXVelocity(0);
+                this.Acceleration = new Vector2(0, 155);
             }
             if (newPosition.Y > maxCoords.Y)
             {
