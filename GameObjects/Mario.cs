@@ -136,6 +136,7 @@ namespace GameObjects
                         case LEFT:
                             if (Velocity.X < 0)
                             {
+                                this.SetYVelocity(0);
                                 this.SetXAcceleration(0);
                                 this.SetXVelocity(0);
                                 this.actionState.Fall();
@@ -144,6 +145,7 @@ namespace GameObjects
                         case RIGHT:
                             if (Velocity.X > 0)
                             {
+                                this.SetYVelocity(0);
                                 this.SetXAcceleration(0);
                                 this.SetXVelocity(0);
                                 this.actionState.Fall();
