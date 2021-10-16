@@ -17,6 +17,8 @@ namespace States
             this.left = left;
             this.previousState = previousState;
 
+            this.mario.SetXAcceleration(0);
+
             if (this.mario.Acceleration.Y <= 0)
             {
                 /*

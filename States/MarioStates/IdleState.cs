@@ -44,7 +44,6 @@ namespace States
             if (!this.left)
             {
                 mario.SetActionState(new RunningState(mario, this.left));
-                                
             }
             else
             {

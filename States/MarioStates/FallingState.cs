@@ -17,6 +17,8 @@ namespace States
             this.left = left;
             this.previousState = previousState;
 
+            mario.SetXAcceleration(0);
+
             if (mario.GetVelocity().Y < 0)
             {
                 mario.SetYVelocity(-mario.GetVelocity().Y / 2);
@@ -64,8 +66,20 @@ namespace States
 
         public void Land()
         {
-            if (previousState is IdleState) mario.SetActionState(new IdleState(mario, this.left));
-            else if (previousState is RunningState) mario.SetActionState(new RunningState(mario, this.left));
+            float priorVel = mario.GetVelocity().X;
+            mario.SetYVelocity(0);
+
+            System.Diagnostics.Debug.WriteLine("Previous state: " + previousState);
+
+            if (mario.Acceleration.X < 150 && mario.Acceleration.X > -150) 
+                mario.SetActionState(new IdleState(mario, this.left));
+            else if (previousState is RunningState)
+            {
+                mario.SetActionState(previousState);
+                mario.SetXVelocity(priorVel);
+            }
+
+            
         }
 
         public void Idle()

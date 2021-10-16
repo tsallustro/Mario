@@ -15,13 +15,16 @@ namespace GameObjects
          * on that sheet!
          */
         private readonly int numberOfSpritesOnSheet = 15;
+        private readonly int maxHorizontalSpeed = 150;
+
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
         private Point maxCoords;
         private Vector2 newPosition;
         private Vector2 oldPosition;
-        private bool isOnSurface = false;
+
+        public Block BlockMarioIsOn { get; set; }
 
         GraphicsDeviceManager Graphics { get; set; }
 
@@ -78,14 +81,22 @@ namespace GameObjects
         {
             //base.Update(gameTime);
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Velocity += Acceleration * timeElapsed;
+
+            // If at max speed, only change Y velocity
+            if (Velocity.X < maxHorizontalSpeed && Velocity.X > -maxHorizontalSpeed)
+                Velocity += Acceleration * timeElapsed;
+            else
+                SetYVelocity(Velocity.Y + Acceleration.Y * timeElapsed);
+
             newPosition = Position + Velocity * timeElapsed;
             CheckAndHandleIfAtScreenBoundary();
             Position = newPosition;
 
             // Fall if we are at peak of jump and not currently on a block
-            if (this.Velocity.Y >= 0 && !isOnSurface) this.actionState.Fall();
-            isOnSurface = false;
+            if (BlockMarioIsOn != null && !BottomCollision(BlockMarioIsOn) && this.Velocity.Y >= 0)
+            {
+                this.actionState.Fall();
+            }
 
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
@@ -124,11 +135,10 @@ namespace GameObjects
                         case BOTTOM:
                             if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState))
                             {
-                                this.SetYVelocity(0);
                                 this.actionState.Land();
                             }
 
-                            isOnSurface = true;
+                            BlockMarioIsOn = block;
 
                             break;
                         case LEFT:
@@ -223,13 +233,30 @@ namespace GameObjects
         
         public void MoveLeft(int pressType)
         {
-            if (!(powerState is DeadMario)) actionState.MoveLeft();
+            if (!(powerState is DeadMario) && !(actionState is FallingState) && !(actionState is JumpingState) && !(actionState is CrouchingState))
+            {
+                if (pressType == 1 || pressType == 2) actionState.MoveLeft();
+                else actionState.MoveRight();
+            } else if (actionState is FallingState || actionState is JumpingState || actionState is CrouchingState)
+            {
+                actionState.MoveLeft();
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void MoveRight(int pressType)
         {
-            if (!(powerState is DeadMario)) actionState.MoveRight();
+            if (!(powerState is DeadMario) && !(actionState is FallingState) && !(actionState is JumpingState) && !(actionState is CrouchingState))
+            {
+                if (pressType == 1 || pressType == 2) actionState.MoveRight();
+                else actionState.MoveLeft();
+            }
+            else if (actionState is FallingState || actionState is JumpingState || actionState is CrouchingState)
+            {
+                actionState.MoveRight();
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
