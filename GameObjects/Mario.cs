@@ -82,7 +82,7 @@ namespace GameObjects
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Velocity += Acceleration * timeElapsed;
             newPosition = Position + Velocity * timeElapsed;
-            CheckAndStopIfAtScreenBoundary();
+            CheckAndHandleIfAtScreenBoundary();
             Position = newPosition;
 
             // Fall if we are at peak of jump and not currently on a block
@@ -180,7 +180,7 @@ namespace GameObjects
         }
     
 
-        private void CheckAndStopIfAtScreenBoundary()
+        private void CheckAndHandleIfAtScreenBoundary()
         {
             //This prevents Mario from going outside the screen
             if (newPosition.X > maxCoords.X)
