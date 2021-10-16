@@ -10,12 +10,11 @@ namespace Commands
 {
     class LevelResetCommand : ICommand
     {
-        private List<IGameObject> initialObjects;
+        // We need a MarioGame here so we can call ResetObjects()
         private MarioGame game;
 
-        public LevelResetCommand(List<IGameObject> initialObjects, MarioGame game)
+        public LevelResetCommand(MarioGame game)
         {
-            this.initialObjects = initialObjects;
             this.game = game;
         }
 
@@ -25,7 +24,7 @@ namespace Commands
             if (pressType == 1)
             {
                 //objects.Clear();
-                game.SetObjects(initialObjects);
+                game.ResetObjects();
             }
 
         }

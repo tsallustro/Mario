@@ -58,9 +58,9 @@ namespace Game1
         }
 
         // Resets objects back to their initial state
-        public void SetObjects(List<IGameObject> objects)
+        public void ResetObjects()
         {
-            this.objects = objects;
+            objects = initialObjects;
             initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
             mario = (Mario)objects[0];
             InitializeCommands();
@@ -116,7 +116,7 @@ namespace Game1
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
 
             // Level Reset
-            keyboardController.AddMapping((int)Keys.R, new LevelResetCommand(initialObjects, this));
+            keyboardController.AddMapping((int)Keys.R, new LevelResetCommand(this));
 
             // AABB Visualization
             keyboardController.AddMapping((int)Keys.C, new BorderVisibleCommand(objects));
