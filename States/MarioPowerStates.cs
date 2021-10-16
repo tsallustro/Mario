@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GameObjects;
+using Game1;
 
 namespace States
 {
@@ -151,8 +152,7 @@ namespace States
         public DeadMario(Mario mario)
         {
             this.mario = mario;
-
-            //Construct sprite
+            Game1.MarioGame.DecrementLivesRemaining();
         }
 
         public void FireFlower()
