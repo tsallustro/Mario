@@ -35,7 +35,7 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             
             powerState = new StandardMario(this);
-            actionState = new FallingState(this, false);
+            actionState = new FallingState(this, false, new IdleState(this, false));
             Graphics = graphics;
             objects = objs;
 
@@ -98,7 +98,6 @@ namespace GameObjects
         public override void Collision(int side, GameObject obj)
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
-            IBlockState blockState;
 
             if (obj is Item item)
             {

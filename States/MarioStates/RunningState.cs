@@ -15,6 +15,8 @@ namespace States
             this.mario = mario;
             this.left = left;
 
+            this.mario.SetYAcceleration(0);
+
             if (this.left)
             {
                 this.mario.SetXVelocity(-100);
@@ -55,12 +57,12 @@ namespace States
 
         public void Jump()
         {
-            mario.SetActionState(new JumpingState(mario, this.left));
+            mario.SetActionState(new JumpingState(mario, this.left, this));
         }
 
         public void Fall()
         {
-            mario.SetActionState(new FallingState(mario, this.left));
+            mario.SetActionState(new FallingState(mario, this.left, this));
         }
 
         public void Land()

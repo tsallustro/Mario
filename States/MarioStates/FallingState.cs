@@ -9,11 +9,13 @@ namespace States
     {
         private Mario mario;
         private bool left;
+        private IMarioActionState previousState;
 
-        public FallingState(Mario mario, bool left)
+        public FallingState(Mario mario, bool left, IMarioActionState previousState)
         {
             this.mario = mario;
             this.left = left;
+            this.previousState = previousState;
 
             if (mario.GetVelocity().Y < 0)
             {
@@ -33,7 +35,7 @@ namespace States
         {
             if (this.left)
             {
-                mario.SetActionState(new FallingState(mario, !this.left));
+                mario.SetActionState(new FallingState(mario, !this.left, this.previousState));
             }
         }
 
@@ -41,7 +43,7 @@ namespace States
         {
             if (!this.left)
             {
-                mario.SetActionState(new FallingState(mario, !this.left));
+                mario.SetActionState(new FallingState(mario, !this.left, this.previousState));
             }
         }
 
@@ -57,12 +59,13 @@ namespace States
 
         public void Fall()
         {
-            //Do nothing
+            // Do nothing
         }
 
         public void Land()
         {
-            mario.SetActionState(new IdleState(mario, this.left));
+            if (previousState is IdleState) mario.SetActionState(new IdleState(mario, this.left));
+            else if (previousState is RunningState) mario.SetActionState(new RunningState(mario, this.left));
         }
 
         public void Idle()

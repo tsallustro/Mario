@@ -59,7 +59,7 @@ namespace States
 
         public void Jump()
         {
-            mario.SetActionState(new JumpingState(mario, this.left));
+            mario.SetActionState(new JumpingState(mario, this.left, this));
         }
 
         public void Fall()
@@ -69,7 +69,7 @@ namespace States
 
         public void Land()
         {
-            mario.SetActionState(new CrouchingState(mario, this.left));
+            //mario.SetActionState(new CrouchingState(mario, this.left));
         }
 
         public void Idle()

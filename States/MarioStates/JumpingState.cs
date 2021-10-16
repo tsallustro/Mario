@@ -9,11 +9,13 @@ namespace States
     {
         private Mario mario;
         private bool left;
+        private IMarioActionState previousState;
 
-        public JumpingState(Mario mario, bool left)
+        public JumpingState(Mario mario, bool left, IMarioActionState previousState)
         {
             this.mario = mario;
             this.left = left;
+            this.previousState = previousState;
 
             if (this.mario.Acceleration.Y <= 0)
             {
@@ -30,11 +32,12 @@ namespace States
         {
             return this.left;
         }
+
         public void MoveRight()
         {
             if (this.left)
             {
-                mario.SetActionState(new JumpingState(mario, !this.left));
+                mario.SetActionState(new JumpingState(mario, !this.left, this.previousState));
             }
         }
 
@@ -42,7 +45,7 @@ namespace States
         {
             if (!this.left)
             {
-                mario.SetActionState(new JumpingState(mario, !this.left));
+                mario.SetActionState(new JumpingState(mario, !this.left, this.previousState));
             }
         }
 
@@ -53,17 +56,18 @@ namespace States
 
         public void Jump()
         {
-            //Do nothing, already in Jumping State
+            // Do nothing, already in Jumping State
         }
 
         public void Fall()
         {
-            mario.SetActionState(new FallingState(mario, this.left));
+            mario.SetActionState(new FallingState(mario, this.left, this.previousState));
         }
 
         public void Land()
         {
-            mario.SetActionState(new IdleState(mario, this.left));
+            if (previousState is IdleState) mario.SetActionState(new IdleState(mario, this.left));
+            else if (previousState is RunningState) mario.SetActionState(new RunningState(mario, this.left));
         }
 
         public void Idle()
