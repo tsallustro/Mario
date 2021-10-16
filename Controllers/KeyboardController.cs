@@ -58,13 +58,14 @@ namespace Controllers
                 if (currentState.IsKeyDown(key) && previousState.IsKeyUp(key) && keyMapping.ContainsKey((int)key))
                 {
                     HandleKeyPress(key);
-                }
-                // Key Press hold down
-                if (currentState.IsKeyDown(key) && previousState.IsKeyDown(key) && keyMapping.ContainsKey((int)key))
+                } else if (currentState.IsKeyDown(key) && previousState.IsKeyDown(key) && keyMapping.ContainsKey((int)key))
                 {
                     HandleKeyHold(key);
                 }
-                // Key Press release
+            }
+
+            foreach (Keys key in previousState.GetPressedKeys())
+            {
                 if (currentState.IsKeyUp(key) && previousState.IsKeyDown(key) && keyMapping.ContainsKey((int)key))
                 {
                     HandleKeyRelease(key);

@@ -19,11 +19,11 @@ namespace States
 
             if (this.left)
             {
-                this.mario.SetXVelocity(-100);
+                this.mario.SetXAcceleration(-150);
             }
             else
             {
-                this.mario.SetXVelocity(100);
+                this.mario.SetXAcceleration(150);
             }
             
         }

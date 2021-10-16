@@ -13,14 +13,7 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			if(pressType == 1)
-            {
-				avatar.MoveLeft(pressType);
-			}/* else if (pressType == 2)
-            {
-				avatar.MoveLeft(pressType);
-            }
-			*/
+			avatar.MoveLeft(pressType);
 		}
 	}
 }
