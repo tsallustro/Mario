@@ -134,20 +134,18 @@ namespace GameObjects
 
                             break;
                         case LEFT:
-                            this.SetXAcceleration(0);
-                            this.SetXVelocity(0);
-
                             if (Velocity.X < 0)
                             {
+                                this.SetXAcceleration(0);
+                                this.SetXVelocity(0);
                                 this.actionState.Fall();
                             }
                             break;
                         case RIGHT:
-                            this.SetXAcceleration(0);
-                            this.SetXVelocity(0);
-
                             if (Velocity.X > 0)
                             {
+                                this.SetXAcceleration(0);
+                                this.SetXVelocity(0);
                                 this.actionState.Fall();
                             }
                             break;
