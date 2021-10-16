@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Sprites;
+using GameObjects;
+using Microsoft.Xna.Framework.Graphics;
+using Game1;
+
 namespace Commands
 {
-    class QuitCommand : ICommand
+    class LevelResetCommand : ICommand
     {
-        private Game game;
+        // We need a MarioGame here so we can call ResetObjects()
+        private MarioGame game;
 
-        public QuitCommand(Game game)
+        public LevelResetCommand(MarioGame game)
         {
             this.game = game;
         }
@@ -21,9 +23,10 @@ namespace Commands
             // 1:ExecuteOnPress
             if (pressType == 1)
             {
-                game.Exit();
+                //objects.Clear();
+                game.ResetObjects();
             }
-            
+
         }
     }
 }

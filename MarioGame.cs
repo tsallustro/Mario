@@ -22,8 +22,8 @@ namespace Game1
     {
         private readonly string levelToLoad = "sprint2Map";
         private Point maxCoords; 
-        List<IGameObject> objects;
-
+        private List<IGameObject> objects;
+        private List<IGameObject> initialObjects;
 
         //Monogame Objects
         private GraphicsDeviceManager graphics;
@@ -43,11 +43,27 @@ namespace Game1
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
 
+        //For level parser
+        private Texture2D blockSprites;
+        private Texture2D pipeSprite;
+        private string levelPath;
+
+        private Mario mario;
+
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+        }
+
+        // Resets objects back to their initial state
+        public void ResetObjects()
+        {
+            objects = initialObjects;
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
+            mario = (Mario)objects[0];
+            InitializeCommands();
         }
 
         protected override void Initialize()
@@ -67,23 +83,8 @@ namespace Game1
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        private void InitializeCommands()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            marioSpriteFactory.LoadTextures(this);
-            goombaSpriteFactory.LoadTextures(this);
-            itemSpriteFactory.LoadTextures(this);
-            koopaTroopaSpriteFactory.LoadTextures(this);
-            redKoopaTroopaSpriteFactory.LoadTextures(this);
-            Texture2D blockSprites = Content.Load<Texture2D>("BlocksV3");
-            Texture2D pipeSprite = Content.Load<Texture2D>("pipe");
-            // Load from Level file
-            string levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
-            Mario mario = (Mario) objects[0];
-            
-
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
             ICommand moveRight = new MoveRightCommand(mario);
@@ -108,14 +109,38 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.I, new FireMarioCommand(mario));
             keyboardController.AddMapping((int)Keys.O, new DeadMarioCommand(mario));
 
-            // AABB Visualization
-            keyboardController.AddMapping((int)Keys.C, new BorderVisibleCommand(objects));
-
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);
             gamepadController.AddMapping((int)Buttons.DPadRight, moveRight);
             gamepadController.AddMapping((int)Buttons.A, jump);
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
+
+            // Level Reset
+            keyboardController.AddMapping((int)Keys.R, new LevelResetCommand(this));
+
+            // AABB Visualization
+            keyboardController.AddMapping((int)Keys.C, new BorderVisibleCommand(objects));
+        }
+
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            marioSpriteFactory.LoadTextures(this);
+            goombaSpriteFactory.LoadTextures(this);
+            itemSpriteFactory.LoadTextures(this);
+            koopaTroopaSpriteFactory.LoadTextures(this);
+            redKoopaTroopaSpriteFactory.LoadTextures(this);
+            blockSprites = Content.Load<Texture2D>("BlocksV3");
+            pipeSprite = Content.Load<Texture2D>("pipe");
+
+            // Load from Level file
+            levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
+            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
+
+            mario = (Mario) objects[0];
+            InitializeCommands();
         }
 
         protected override void Update(GameTime gameTime)
