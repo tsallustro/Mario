@@ -15,7 +15,10 @@ namespace States
             this.mario = mario;
             this.left = left;
 
-            //mario.SetYVelocity(100);
+            this.mario.SetXAcceleration(0);
+            this.mario.SetYAcceleration(0);
+            this.mario.SetXVelocity(0);
+            this.mario.SetYVelocity(0);
         }
 
         public bool GetDirection()
