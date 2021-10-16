@@ -23,6 +23,7 @@ namespace GameObjects
         private Vector2 oldPosition;
         List<IGameObject> objects;
         private bool collided = false;
+        private int livesRemaining = 3;
 
         GraphicsDeviceManager Graphics { get; set; }
 
@@ -208,7 +209,7 @@ namespace GameObjects
             if (newPosition.Y > maxCoords.Y)
             {
                 newPosition = new Vector2(Position.X, maxCoords.Y);
-                powerState = new DeadMario(this);
+                if (!(powerState is DeadMario)) powerState = new DeadMario(this);
             }
             else if (newPosition.Y < 0)
             {

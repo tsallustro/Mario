@@ -25,8 +25,11 @@ namespace Game1
         private List<IGameObject> objects;
         private List<IGameObject> initialObjects;
 
+        private static int livesRemaining = 3;
+
         //Monogame Objects
         private GraphicsDeviceManager graphics;
+        private SpriteFont arial;
         private SpriteBatch spriteBatch;
 
         //Controllers
@@ -55,6 +58,11 @@ namespace Game1
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+        }
+
+        public static void DecrementLivesRemaining()
+        {
+            livesRemaining--;
         }
 
         // Resets objects back to their initial state
@@ -125,6 +133,7 @@ namespace Game1
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            arial = Content.Load<SpriteFont>("ArialSpriteFont");
 
             marioSpriteFactory.LoadTextures(this);
             goombaSpriteFactory.LoadTextures(this);
@@ -170,6 +179,8 @@ namespace Game1
             {
                 obj.Draw(spriteBatch);
             }
+
+            spriteBatch.DrawString(arial, "Lives Left: " + livesRemaining, new Vector2(10, 10), Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);
