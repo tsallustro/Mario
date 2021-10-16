@@ -47,7 +47,7 @@ namespace GameObjects
 
             if (Collidee is Mario mario)
             {
-                Sprite.ToggleVisibility();
+                //Sprite.ToggleVisibility();
                 //this.
             }
 

@@ -26,7 +26,15 @@ namespace Controllers
 
         public void AddMapping(int key, ICommand command)
         {
-            this.buttonMapping.Add(key, command);
+            if (this.buttonMapping.ContainsKey(key))
+            {
+                this.buttonMapping.Remove(key);
+                this.buttonMapping.Add(key, command);
+            }
+            else
+            {
+                this.buttonMapping.Add(key, command);
+            }
         }
 
         // TODO: Consider moving these out of seperate methods and right into the update

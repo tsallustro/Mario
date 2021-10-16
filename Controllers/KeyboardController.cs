@@ -23,7 +23,14 @@ namespace Controllers
 
         public void AddMapping(int key, ICommand command)
         {
-            this.keyMapping.Add(key, command);
+            if (this.keyMapping.ContainsKey(key))
+            {
+                this.keyMapping.Remove(key);
+                this.keyMapping.Add(key, command);
+            } else
+            {
+                this.keyMapping.Add(key, command);
+            }
         }
         
         // execute on press
