@@ -10,6 +10,9 @@ namespace States
         private Mario mario;
         private bool left;
 
+        // Physics variables
+        private int RunningAcceleration { get; } = 150;
+
         public RunningState(Mario mario, bool left)
         {
             this.mario = mario;
@@ -19,11 +22,11 @@ namespace States
 
             if (this.left)
             {
-                this.mario.SetXAcceleration(-150);
+                this.mario.SetXAcceleration(-RunningAcceleration);
             }
             else
             {
-                this.mario.SetXAcceleration(150);
+                this.mario.SetXAcceleration(RunningAcceleration);
             }
             
         }
