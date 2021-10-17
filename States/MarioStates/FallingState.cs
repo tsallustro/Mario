@@ -9,13 +9,13 @@ namespace States
     {
         private Mario mario;
         private bool left;
-        private IMarioActionState previousState;
+        private bool initialLeft; // Save so we only continue in the same direction
 
-        public FallingState(Mario mario, bool left, IMarioActionState previousState)
+        public FallingState(Mario mario, bool left)
         {
             this.mario = mario;
             this.left = left;
-            this.previousState = previousState;
+            initialLeft = left;
 
             mario.SetXAcceleration(0);
 
@@ -37,7 +37,7 @@ namespace States
         {
             if (this.left)
             {
-                mario.SetActionState(new FallingState(mario, !this.left, this.previousState));
+                left = !left;
             }
         }
 
@@ -45,7 +45,7 @@ namespace States
         {
             if (!this.left)
             {
-                mario.SetActionState(new FallingState(mario, !this.left, this.previousState));
+                left = !left;
             }
         }
 
@@ -69,17 +69,16 @@ namespace States
             float priorVel = mario.GetVelocity().X;
             mario.SetYVelocity(0);
 
-            System.Diagnostics.Debug.WriteLine("Previous state: " + previousState);
-
-            if (mario.Acceleration.X < 150 && mario.Acceleration.X > -150) 
-                mario.SetActionState(new IdleState(mario, this.left));
-            else if (previousState is RunningState)
+            if (mario.ContinueRunning && initialLeft == left)
             {
-                mario.SetActionState(previousState);
+                mario.SetActionState(new RunningState(mario, left));
                 mario.SetXVelocity(priorVel);
+            } else
+            {
+                mario.SetActionState(new IdleState(mario, this.left));
             }
 
-            
+            mario.ContinueRunning = false;
         }
 
         public void Idle()
