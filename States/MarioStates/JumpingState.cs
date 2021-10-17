@@ -63,7 +63,7 @@ namespace States
 
         public void Fall()
         {
-            mario.SetActionState(new FallingState(mario, this.left, this.previousState));
+            mario.SetActionState(new FallingState(mario, this.left));
         }
 
         public void Land()

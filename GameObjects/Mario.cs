@@ -24,7 +24,8 @@ namespace GameObjects
         private Vector2 newPosition;
         private Vector2 oldPosition;
 
-        public Block BlockMarioIsOn { get; set; }
+        public bool ContinueRunning { get; set; } = false;
+        private Block BlockMarioIsOn { get; set; }
 
         GraphicsDeviceManager Graphics { get; set; }
 
@@ -37,7 +38,7 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             
             powerState = new StandardMario(this);
-            actionState = new FallingState(this, false, new IdleState(this, false));
+            actionState = new FallingState(this, false);
             Graphics = graphics;
 
             // Adjust given maxCoords to account for sprite's height
@@ -79,7 +80,6 @@ namespace GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            //base.Update(gameTime);
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // If at max speed, only change Y velocity
@@ -233,6 +233,12 @@ namespace GameObjects
         
         public void MoveLeft(int pressType)
         {
+            if (actionState is FallingState)
+            {
+                if (pressType == 1 || pressType == 2) ContinueRunning = true;
+                else ContinueRunning = false;
+            }
+
             if (!(powerState is DeadMario) && !(actionState is FallingState) && !(actionState is JumpingState) && !(actionState is CrouchingState))
             {
                 if (pressType == 1 || pressType == 2) actionState.MoveLeft();
@@ -247,6 +253,12 @@ namespace GameObjects
 
         public void MoveRight(int pressType)
         {
+            if (actionState is FallingState)
+            {
+                if (pressType == 1 || pressType == 2) ContinueRunning = true;
+                else ContinueRunning = false;
+            }
+
             if (!(powerState is DeadMario) && !(actionState is FallingState) && !(actionState is JumpingState) && !(actionState is CrouchingState))
             {
                 if (pressType == 1 || pressType == 2) actionState.MoveRight();
