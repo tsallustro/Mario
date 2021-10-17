@@ -74,7 +74,10 @@ namespace Controllers
                     {
                         HandleButtonHold(button);
                     }
-                    // Key Press release
+                }
+
+                foreach (var button in buttonsPressed)
+                {
                     if (currentState.IsButtonUp(button) && previousState.IsButtonDown(button) && buttonMapping.ContainsKey((int)button))
                     {
                         HandleButtonRelease(button);
