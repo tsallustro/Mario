@@ -15,7 +15,6 @@ namespace GameObjects
          * on that sheet!
          */
         private readonly int numberOfSpritesOnSheet = 15;
-        private readonly int maxHorizontalSpeed = 150;
 
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
@@ -28,8 +27,12 @@ namespace GameObjects
         private bool JumpIsHeld { get; set; } = false;
         private float TimeJumpHeld { get; set; } = 0;
         private Block BlockMarioIsOn { get; set; }
-
         GraphicsDeviceManager Graphics { get; set; }
+
+        // Physics variables
+        private int MaxHorizontalSpeed { get; } = 150;
+        private int FallingAcceleration { get; } = 155; // Must be consistent across files
+        private int JumpHoldAccelerationBoost { get; } = 40;
 
         public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords)
             : base(position, velocity, acceleration)
@@ -88,7 +91,7 @@ namespace GameObjects
             if (actionState is JumpingState && JumpIsHeld) TimeJumpHeld += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // If at max speed, only change Y velocity
-            if (Velocity.X < maxHorizontalSpeed && Velocity.X > -maxHorizontalSpeed)
+            if (Velocity.X < MaxHorizontalSpeed && Velocity.X > -MaxHorizontalSpeed)
                 Velocity += Acceleration * timeElapsed;
             else
                 SetYVelocity(Velocity.Y + Acceleration.Y * timeElapsed);
@@ -184,6 +187,7 @@ namespace GameObjects
 
                     switch (side)
                     {
+                        // Here, we reset the position slightly so the character can move away
                         case TOP:
                             this.powerState.TakeDamage();
                             this.actionState.Idle();
@@ -213,12 +217,12 @@ namespace GameObjects
             if (newPosition.X > maxCoords.X)
             {
                 this.SetXVelocity(0);
-                this.Acceleration = new Vector2(0, 155);
+                this.Acceleration = new Vector2(0, FallingAcceleration);
             }
             else if (newPosition.X < 0)
             {
                 this.SetXVelocity(0);
-                this.Acceleration = new Vector2(0, 155);
+                this.Acceleration = new Vector2(0, FallingAcceleration);
             }
             if (newPosition.Y > maxCoords.Y)
             {
@@ -287,8 +291,8 @@ namespace GameObjects
 
                 if (Velocity.Y == 0)
                     actionState.Jump();
-                else if (TimeJumpHeld > 0.4 && Acceleration.Y >= 115)
-                    SetYAcceleration(Acceleration.Y - 40);
+                else if (TimeJumpHeld > 0.4 && Acceleration.Y >= FallingAcceleration - JumpHoldAccelerationBoost)
+                    SetYAcceleration(Acceleration.Y - JumpHoldAccelerationBoost);
             }
             else if (pressType == 3)
             {

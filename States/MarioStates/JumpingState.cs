@@ -11,6 +11,10 @@ namespace States
         private bool left;
         private IMarioActionState previousState;
 
+        // Physics variables
+        private int InitialJumpingVelocity { get; } = -150;
+        private int InitialJumpingAcceleration { get; } = 155; // Must be consistent across files
+
         public JumpingState(Mario mario, bool left, IMarioActionState previousState)
         {
             this.mario = mario;
@@ -25,8 +29,8 @@ namespace States
                  * Adjust these values to adjust jump height. Acceleration should be GREATER THAN
                  * velocity in order for gravity to feel correct.
                  */
-                this.mario.SetYVelocity(-150);
-                this.mario.SetYAcceleration(155);
+                this.mario.SetYVelocity(InitialJumpingVelocity);
+                this.mario.SetYAcceleration(InitialJumpingAcceleration);
             }
         }
 

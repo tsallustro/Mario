@@ -11,6 +11,9 @@ namespace States
         private bool left;
         private bool initialLeft; // Save so we only continue in the same direction
 
+        // Physics variables
+        private int InitialFallingAcceleration { get; } = 155; // Must be consistent across files
+
         public FallingState(Mario mario, bool left)
         {
             this.mario = mario;
@@ -24,7 +27,7 @@ namespace States
                 mario.SetYVelocity(-mario.GetVelocity().Y / 2);
             } else
             {
-                mario.SetYAcceleration(155);
+                mario.SetYAcceleration(InitialFallingAcceleration);
             }
         }
 
