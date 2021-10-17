@@ -298,7 +298,6 @@ namespace GameObjects
             {
                 TimeJumpHeld = 0;
                 JumpIsHeld = false;
-                SetYAcceleration(FallingAcceleration);
             }
 
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
