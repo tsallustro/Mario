@@ -93,6 +93,8 @@ namespace GameObjects
             else
                 SetYVelocity(Velocity.Y + Acceleration.Y * timeElapsed);
 
+            base.Update(gameTime);
+
             newPosition = Position + Velocity * timeElapsed;
             CheckAndHandleIfAtScreenBoundary();
             Position = newPosition;
@@ -152,7 +154,7 @@ namespace GameObjects
                                 this.SetYVelocity(0);
                                 this.SetXAcceleration(0);
                                 this.SetXVelocity(0);
-                                this.actionState.Fall();
+                                //this.actionState.Fall();
                             }
                             break;
                         case RIGHT:
@@ -161,7 +163,7 @@ namespace GameObjects
                                 this.SetYVelocity(0);
                                 this.SetXAcceleration(0);
                                 this.SetXVelocity(0);
-                                this.actionState.Fall();
+                                //this.actionState.Fall();
                             }
                             break;
                     }
