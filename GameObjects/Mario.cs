@@ -25,6 +25,8 @@ namespace GameObjects
         private Vector2 oldPosition;
 
         public bool ContinueRunning { get; set; } = false;
+        private bool JumpIsHeld { get; set; } = false;
+        private float TimeJumpHeld { get; set; } = 0;
         private Block BlockMarioIsOn { get; set; }
 
         GraphicsDeviceManager Graphics { get; set; }
@@ -81,6 +83,9 @@ namespace GameObjects
         public override void Update(GameTime gameTime)
         {
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            // Handle jump timer to allow higher jumping when button held
+            if (actionState is JumpingState && JumpIsHeld) TimeJumpHeld += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // If at max speed, only change Y velocity
             if (Velocity.X < maxHorizontalSpeed && Velocity.X > -maxHorizontalSpeed)
@@ -274,7 +279,21 @@ namespace GameObjects
 
         public void Up(int pressType)
         {
-            if (!(powerState is DeadMario)) actionState.Jump();
+            if (!(powerState is DeadMario) && (pressType == 1 || pressType == 2))
+            {
+                JumpIsHeld = true;
+
+                if (Velocity.Y == 0)
+                    actionState.Jump();
+                else if (TimeJumpHeld > 0.4 && Acceleration.Y >= 115)
+                    SetYAcceleration(Acceleration.Y - 40);
+            }
+            else if (pressType == 3)
+            {
+                TimeJumpHeld = 0;
+                JumpIsHeld = false;
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
