@@ -25,10 +25,6 @@ namespace States
 
             if (this.mario.Acceleration.Y <= 0)
             {
-                /*
-                 * Adjust these values to adjust jump height. Acceleration should be GREATER THAN
-                 * velocity in order for gravity to feel correct.
-                 */
                 this.mario.SetYVelocity(InitialJumpingVelocity);
                 this.mario.SetYAcceleration(InitialJumpingAcceleration);
             }
