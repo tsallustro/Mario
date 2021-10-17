@@ -15,10 +15,7 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			if(pressType == 1)			// On Key press
-            {
-				avatar.Up(pressType);
-			}
+			avatar.Up(pressType);
 		}
 	}
 }
