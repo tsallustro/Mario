@@ -17,10 +17,19 @@ namespace GameObjects
         protected readonly int numberOfSpritesOnSheet = 9;
         protected IItemState itemState;
         protected ItemSpriteFactory spriteFactory;
+        protected bool isVisible = false;
 
         public Item(Vector2 position)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
+        }
+
+        protected void Emerge()
+        {
+            Vector2 initialPosition = this.Position;
+            this.Position = new Vector2(Position.X, Position.Y - this.Sprite.texture.Height);
+
+            //this.Velocity = new Vector2(0, 0);
         }
 
         public IItemState GetItemState()
@@ -31,6 +40,16 @@ namespace GameObjects
         public void SetItemState(IItemState itemState)
         {
             this.itemState = itemState;
+        }
+
+        public bool GetVisibility()
+        {
+            return this.isVisible;
+        }
+
+        public void SetVisibility(bool isVisible)
+        {
+            this.isVisible = isVisible;
         }
 
         public override void Halt()
@@ -55,16 +74,25 @@ namespace GameObjects
         //Update all items
         public override void Update(GameTime gameTime)
         {
+            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Velocity += Acceleration * timeElapsed;
+            Position += Velocity * timeElapsed;
+            Sprite = spriteFactory.GetCurrentSprite(Position, itemState);
+            AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             Sprite.Update();
         }
 
         //Draw Item
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Sprite = spriteFactory.GetCurrentSprite(Sprite.location, itemState);
-            Sprite.location = Position;
-            Sprite.Draw(spriteBatch, false);
-            DrawAABBIfVisible(Color.Green, spriteBatch);
+            if (isVisible)
+            {
+                Sprite = spriteFactory.GetCurrentSprite(Sprite.location, itemState);
+                Sprite.location = Position;
+                Sprite.Draw(spriteBatch, false);
+                DrawAABBIfVisible(Color.Green, spriteBatch);
+            }
         }
     }
 
@@ -76,6 +104,7 @@ namespace GameObjects
             spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateCoin(position);
             itemState = new CoinState(this);
+            Emerge();
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -89,6 +118,7 @@ namespace GameObjects
             spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateFireFlower(position);
             itemState = new FireFlowerState(this);
+            Emerge();
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -102,6 +132,7 @@ namespace GameObjects
             spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateSuperMushroom(position);
             itemState = new SuperMushroomState(this);
+            Emerge();
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -115,6 +146,7 @@ namespace GameObjects
             spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateOneUpMushroom(position);
             itemState = new OneUpMushroomState(this);
+            Emerge();
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -128,6 +160,7 @@ namespace GameObjects
             spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateStar(position);
             itemState = new StarState(this);
+            Emerge();
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }

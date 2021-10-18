@@ -118,7 +118,7 @@ namespace GameObjects
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
-            if (obj is Item item)
+            if (obj is Item item && item.GetVisibility())
             {
                 if (item is SuperMushroom)
                 {

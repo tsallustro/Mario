@@ -162,7 +162,7 @@ namespace LevelParser
                 };
                 IItem generatedItem = DetermineQuestionItem(item.Attribute("type").Value, itemPos);
 
-                list.Add(generatedItem);
+                //list.Add(generatedItem);
                
             }
         }
@@ -218,6 +218,7 @@ namespace LevelParser
                 {
                     DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos)
                 };
+                list.AddRange(items);
                 Block tempQuestion = new Block(questionBlockPos, blockSprites, mario, items);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
