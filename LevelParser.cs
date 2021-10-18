@@ -256,52 +256,26 @@ namespace LevelParser
 
         private static void ParseBrickBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
-            IEnumerable<XElement> brickRows = level.Element("brickBlocks").Element("rows").Elements();
-            int rowNumber = 0;
+            IEnumerable<XElement> brickBlocks = level.Element("brickBlocks").Elements();
 
-            //Handle each individual row
-            foreach (XElement brick in brickRows)
+            foreach (XElement brick in brickBlocks)
             {
 
-                string[] columnNumbers = brick.Value.Split(',');
-                //Handle each column in the row
-                if (columnNumbers.Length > 1)
+
+                Vector2 brickBlockPos = new Vector2
                 {
-                    for (int i = 1; i < columnNumbers.Length; i++)
-                    {
-                        string column = columnNumbers[i];
+                    Y = 16 * Int32.Parse(brick.Element("row").Value),
+                    X = 16 * Int32.Parse(brick.Element("column").Value)
+                };
+                List<IItem> items = new List<IItem>
+                {
+                    DetermineQuestionItem(brick.Attribute("item").Value, brickBlockPos)
+                };
+                list.AddRange(items);
+                Block tempBrick = new Block(brickBlockPos, blockSprites, mario, items);
+                tempBrick.SetBlockState(new BrickBlockState(tempBrick));
+                list.Add(tempBrick);
 
-                        //Separate the row number from the coin count
-                        string[] splitRow = column.Split("@");
-
-                        Vector2 brickBlockPos = new Vector2
-                        {
-                            X = 16 * Int32.Parse(splitRow[0]),
-                            Y = 16 * rowNumber
-                        };
-
-                        //Handle coins
-                        List<IItem> coins = new List<IItem>();
-                        if (splitRow.Length > 1)
-                        {
-                            int numCoins = Int32.Parse(splitRow[1]);
-                            for (int j = 0; j < numCoins; j++)
-                            {
-                                Vector2 coinPos = new Vector2(brickBlockPos.X, brickBlockPos.Y);
-                                IItem coin = new Coin(coinPos);
-                                coins.Add(coin);
-                            }
-
-                        }
-
-                        Block tempBrick = new Block(brickBlockPos, blockSprites, mario, coins);
-                        tempBrick.SetBlockState(new BrickBlockState(tempBrick));
-                        list.Add(tempBrick);
-                        
-                    }
-                }
-
-                rowNumber++;
             }
         }
 
