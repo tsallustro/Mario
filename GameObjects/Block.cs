@@ -24,7 +24,7 @@ namespace GameObjects
         private Vector2 originalLocation;
         private Boolean falling = false;
         private Boolean bumped = false;
-        private HashSet<IItem> items;
+        private List<IItem> items;
 
         public Block(Vector2 position, Texture2D blockSprites, Mario Mario)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
@@ -39,7 +39,7 @@ namespace GameObjects
         }
 
         // Future constructor for adding items to block
-        public Block(Vector2 position, Texture2D blockSprites, Mario Mario, HashSet<IItem> items)
+        public Block(Vector2 position, Texture2D blockSprites, Mario Mario, List<IItem> items)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
             originalLocation = position;
@@ -84,6 +84,18 @@ namespace GameObjects
         public void SetBlockState(IBlockState blockState)
         {
             this.blockState = blockState;
+        }
+
+        public List<IItem> GetItems()
+        {
+            return this.items;
+        }
+
+        public IItem RemoveItem()
+        {
+            IItem item = this.items[0];
+            this.items.RemoveAt(0);
+            return item;
         }
 
         public override void Halt()

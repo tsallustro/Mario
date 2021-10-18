@@ -214,7 +214,7 @@ namespace LevelParser
                     Y = 16 * Int32.Parse(question.Element("row").Value),
                     X = 16 * Int32.Parse(question.Element("column").Value)
                 };
-                HashSet<IItem> items = new HashSet<IItem>
+                List<IItem> items = new List<IItem>
                 {
                     DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos)
                 };
@@ -280,7 +280,7 @@ namespace LevelParser
                         };
 
                         //Handle coins
-                        HashSet<IItem> coins = new HashSet<IItem>();
+                        List<IItem> coins = new List<IItem>();
                         if (splitRow.Length > 1)
                         {
                             int numCoins = Int32.Parse(splitRow[1]);

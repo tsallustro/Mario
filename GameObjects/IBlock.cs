@@ -16,11 +16,9 @@ namespace GameObjects
         Boolean GetFalling();
         void SetBumped(Boolean Bumped);
         Boolean GetBumped();
-        /*
-         * SetBlockState() is probably not needed in this interface,
-         * but is required to work for now. Can probably remove this
-         * if we update the main game class.
-         */
         void SetBlockState(IBlockState blockState);
+
+        List<IItem> GetItems();
+        IItem RemoveItem();
     }
 }
