@@ -150,7 +150,12 @@ namespace GameObjects
             
             if (side == CollisionHandler.BOTTOM && Collidee is Mario && Collidee.GetVelocity().Y >0)
             {
-                System.Diagnostics.Debug.WriteLine("Collided! Bumping...");
+                if (this.items != null)
+                {
+                    foreach (IItem item in items) System.Diagnostics.Debug.WriteLine("Item: " + item);
+
+                }
+                
                 this.Bump();
                
             }

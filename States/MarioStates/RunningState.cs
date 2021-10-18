@@ -11,7 +11,7 @@ namespace States
         private bool left;
 
         // Physics variables
-        private int RunningAcceleration { get; } = 150;
+        private int RunningAcceleration { get; } = 200;
 
         public RunningState(Mario mario, bool left)
         {
