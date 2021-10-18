@@ -13,6 +13,6 @@ namespace GameObjects
         IItemState GetItemState();
         bool GetVisibility();
         void SetVisibility(bool isVisible);
-        void SetVisibilityAndEmerge(bool isVisible);
+        void MakeVisibleAndEmerge();
     }
 }
