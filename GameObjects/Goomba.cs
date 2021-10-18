@@ -57,7 +57,7 @@ namespace GameObjects
         // Overide
         public override void Collision(int side, GameObject Collidee)
         {
-
+            
             if (side == 1)          //Top
             {
                 if (Collidee is Mario)
@@ -77,11 +77,23 @@ namespace GameObjects
             }
             else if (side == 3)     //Left
             {
-
+                if (Collidee is KoopaTroopa koopaTroopa)
+                {
+                    if (koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)    //If kicked koopatroop hits goomba, goomba dies.
+                    {
+                        goombaState.Stomped();
+                    }
+                }
             }
             else if (side == 4)     //Right
             {
-
+                if (Collidee is KoopaTroopa koopaTroopa)
+                {
+                    if (koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)    //If kicked koopatroop hits goomba, goomba dies.
+                    {
+                        goombaState.Stomped();
+                    }
+                }
             }
 
         }

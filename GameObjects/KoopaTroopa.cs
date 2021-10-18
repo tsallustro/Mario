@@ -20,9 +20,17 @@ namespace GameObjects
         private IEnemyState koopaTroopaState;
         private KoopaTroopaSpriteFactory spriteFactory;
 
+        //Timer for Koopa Shell
+        private float timer;
+        private float shellSpeed;
+
         public KoopaTroopa(Vector2 position)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
+            if (koopaTroopaState is StompedKoopaTroopaState)
+            {
+                Revive();
+            }
             spriteFactory = KoopaTroopaSpriteFactory.Instance;
             Sprite = spriteFactory.CreateIdleKoopaTroopa(position);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
@@ -50,6 +58,56 @@ namespace GameObjects
             koopaTroopaState.Stomped();
         }
 
+        //KoopaTroopa is affected only when Mario stomps it. Everything affects the other object.
+        public override void Collision(int side, GameObject Collidee)
+        {
+            const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
+            if (Collidee is Mario)
+            {
+                if (koopaTroopaState is StompedKoopaTroopaState)
+                {
+                    switch (side)
+                    {
+                        case TOP:
+                            koopaTroopaState.Stomped();
+                            break;
+                        case BOTTOM:
+                            //Do nothing. Not sure what happens when Mario hits the shell from bottom.
+                            break;
+                        case LEFT:
+                            shellSpeed = 100;
+                            Kicked();
+                            break;
+                        case RIGHT:
+                            shellSpeed = -100;
+                            Kicked();
+                            break;
+                    }
+                } else 
+                {
+                    if (side == 1)          //Top
+                    {
+                        koopaTroopaState.Stomped();
+                    }
+                }
+            } else if (Collidee is KoopaTroopa koopa) //If koopa is also shelled and kicked, then it only changes direction when it hits another kicked koopa. If it's in any other state, another kicked koopa kills it.
+            {
+                if (koopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState && this.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)     {
+                    this.SetXVelocity(this.GetVelocity().X * -1);
+                } else
+                {
+                    this.Die();
+                }
+            } else if (Collidee is Block)  //Koopa changes its direction when it hits block
+            {
+                if (this.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)    
+                {
+                    this.SetXVelocity(this.GetVelocity().X * -1);
+                }
+            }
+        }
+
         //Update all of Goomba's members
         public override void Update(GameTime gameTime)
         {
@@ -68,6 +126,7 @@ namespace GameObjects
         public void Stomped()
         {
             koopaTroopaState.Stomped();
+            timer = 50;
         }
 
         //Change Goomba state to moving mode
@@ -80,7 +139,28 @@ namespace GameObjects
         {
             koopaTroopaState.StayIdle();
         }
-        
-
+        public void Revive()
+        {
+            if (koopaTroopaState is StompedKoopaTroopaState)
+            {
+                if (timer == 0)
+                {
+                    koopaTroopaState.Move();
+                } else
+                {
+                    timer--;
+                }
+            }
+        }
+        public void Kicked()
+        {
+            timer = 50;
+            SetXVelocity(shellSpeed);
+            SetKoopaTroopaState(new MovingShelledKoopaTroopaState(this));
+        }
+        public void Die()
+        {
+            SetKoopaTroopaState(new DeadKoopaTroopaState(this));
+        }
     }
 }

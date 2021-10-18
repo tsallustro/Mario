@@ -162,8 +162,9 @@ namespace GameObjects
       
         public override void Collision(int side, GameObject Collidee)
         {
-            
-            if (side == CollisionHandler.BOTTOM && Collidee is Mario && Collidee.GetVelocity().Y >0)
+            const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
+            if (side == BOTTOM && Collidee is Mario && Collidee.GetVelocity().Y >0)
             {
                 if (this.items != null)
                 {
@@ -173,6 +174,12 @@ namespace GameObjects
                 
                 this.Bump();
                
+            } else if ((side == LEFT || side == RIGHT) && Collidee is KoopaTroopa && Collidee.GetVelocity().X > 0) //Kicked koopa Troopa breaks the brick block
+            {
+                if (this.GetBlockState() is BrickBlockState)
+                {
+                    this.SetBlockState(new BrokenBrickBlockState(this));
+                }
             }
         }
     }

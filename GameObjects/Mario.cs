@@ -208,6 +208,51 @@ namespace GameObjects
                             break;
                     }
             }
+            else if (obj is KoopaTroopa koopaTroopa)
+            {
+                if (!(koopaTroopa.GetKoopaTroopaState() is StompedKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState))
+                {
+                    switch (side)
+                    {
+                        // Here, we reset the position slightly so the character can move away
+                        case TOP:
+                            this.powerState.TakeDamage();
+                            this.actionState.Idle();
+                            Position = new Vector2(Position.X, Position.Y - 2);
+                            break;
+                        case BOTTOM:
+                            this.actionState.Jump();
+                            break;
+                        case LEFT:
+                            this.powerState.TakeDamage();
+                            this.actionState.Idle();
+                            Position = new Vector2(Position.X + 2, Position.Y);
+                            break;
+                        case RIGHT:
+                            this.powerState.TakeDamage();
+                            this.actionState.Idle();
+                            Position = new Vector2(Position.X - 2, Position.Y);
+                            break;
+                    }
+                } else if (koopaTroopa.GetKoopaTroopaState() is StompedGoombaState)
+                {
+                    switch (side)
+                    {
+                        case TOP:
+                            //Does Mario gets damaged when he hits his head on Koopatroopa shell when it's not moving?
+                            break;
+                        case BOTTOM:
+                            this.actionState.Jump();
+                            break;
+                        case LEFT:
+                            //Do Nothing. This will kick the shell, but won't affect Mario
+                            break;
+                        case RIGHT:
+                            //Do Nothing. This will kick the shell, but won't affect Mario
+                            break;
+                    }
+                }
+            }
         }
     
 
