@@ -11,5 +11,7 @@ namespace GameObjects
     {
         void SetItemState(IItemState itemState);
         IItemState GetItemState();
+        bool GetVisibility();
+        void SetVisibility(bool isVisible);
     }
 }
