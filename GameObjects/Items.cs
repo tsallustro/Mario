@@ -14,27 +14,31 @@ namespace GameObjects
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
          */
+        private readonly int emergingVelocity = -30;
+
         protected readonly int numberOfSpritesOnSheet = 9;
         protected IItemState itemState;
         protected ItemSpriteFactory spriteFactory;
         protected bool isVisible = false;
+        protected bool isEmergingFromBlock = false;
+        protected Vector2 initialPosition;
 
         public Item(Vector2 position)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
+            initialPosition = position;
         }
 
-        protected void Emerge()
+        // This constructor should be used when creating STATIONARY items for testing
+        public Item(Vector2 position, Vector2 velocity, Vector2 acceleration) 
+            : base(position, velocity, acceleration)
         {
-            Vector2 initialPosition = this.Position;
-            this.Position = new Vector2(Position.X, Position.Y - this.Sprite.texture.Height);
-
-            //this.Velocity = new Vector2(0, 0);
+            initialPosition = position;
         }
 
         public IItemState GetItemState()
         {
-            return this.itemState;
+            return itemState;
         }
 
         public void SetItemState(IItemState itemState)
@@ -44,12 +48,18 @@ namespace GameObjects
 
         public bool GetVisibility()
         {
-            return this.isVisible;
+            return isVisible;
         }
 
         public void SetVisibility(bool isVisible)
         {
             this.isVisible = isVisible;
+        }
+
+        public void SetVisibilityAndEmerge(bool isVisible)
+        {
+            this.isVisible = isVisible;
+            isEmergingFromBlock = true;
         }
 
         public override void Halt()
@@ -77,6 +87,18 @@ namespace GameObjects
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Velocity += Acceleration * timeElapsed;
             Position += Velocity * timeElapsed;
+
+            if (isEmergingFromBlock)
+            {
+                SetYVelocity(emergingVelocity);
+
+                if (Sprite.texture != null && Position.Y <= initialPosition.Y - Sprite.texture.Height)
+                {
+                    SetYVelocity(0);
+                    isEmergingFromBlock = false;
+                }
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, itemState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
@@ -104,7 +126,6 @@ namespace GameObjects
             spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateCoin(position);
             itemState = new CoinState(this);
-            Emerge();
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -118,7 +139,6 @@ namespace GameObjects
             spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateFireFlower(position);
             itemState = new FireFlowerState(this);
-            Emerge();
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -132,7 +152,6 @@ namespace GameObjects
             spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateSuperMushroom(position);
             itemState = new SuperMushroomState(this);
-            Emerge();
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -146,7 +165,6 @@ namespace GameObjects
             spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateOneUpMushroom(position);
             itemState = new OneUpMushroomState(this);
-            Emerge();
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -160,7 +178,6 @@ namespace GameObjects
             spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateStar(position);
             itemState = new StarState(this);
-            Emerge();
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
