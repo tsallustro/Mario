@@ -36,7 +36,7 @@ namespace States
         public void Bump(Mario Mario)
         {
             IItem removedItem = block.RemoveItem();
-            removedItem.SetVisibility(true);
+            removedItem.SetVisibilityAndEmerge(true);
 
             if (block.GetItems().Count <= 0) block.SetBlockState(new UsedBlockState(block));
             else block.SetBlockState(new QuestionBlockState(block));
