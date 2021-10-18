@@ -56,9 +56,9 @@ namespace GameObjects
             this.isVisible = isVisible;
         }
 
-        public void SetVisibilityAndEmerge(bool isVisible)
+        public void MakeVisibleAndEmerge()
         {
-            this.isVisible = isVisible;
+            this.isVisible = true;
             isEmergingFromBlock = true;
         }
 

@@ -91,10 +91,13 @@ namespace GameObjects
             return this.items;
         }
 
+        /*
+         *  This method assumes that items.Count() > 0. Must check before calling!
+         */
         public IItem RemoveItem()
         {
-            IItem item = this.items[0];
-            this.items.RemoveAt(0);
+            IItem item = items[0];
+            items.RemoveAt(0);
             return item;
         }
 

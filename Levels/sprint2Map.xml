@@ -31,17 +31,14 @@
     </rows>
   </floorBlocks>
   <brickBlocks>
-    <rows>
-      <row>x</row>
-      <row>x</row>
-      <row>x</row>
-      <row>x</row>
-      <row>x</row>
-      <row>x</row>
-      <row>x</row>
-      <row>x</row>
-      <row>x,7</row>
-    </rows>
+	  <brickBlock item="fire">
+		  <row>8</row>
+		  <column>7</column>
+	  </brickBlock>
+	  <brickBlock>
+		  <row>12</row>
+		  <column>27</column>
+	  </brickBlock>
   </brickBlocks>
   <questionBlocks>
     <questionBlock item="mushroom">

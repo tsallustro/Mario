@@ -160,7 +160,7 @@ namespace LevelParser
                     Y = 16 * Int32.Parse(item.Element("row").Value),
                     X = 16 * Int32.Parse(item.Element("column").Value)
                 };
-                IItem generatedItem = DetermineQuestionItem(item.Attribute("type").Value, itemPos);
+                IItem generatedItem = GetItemOfType(item.Attribute("type").Value, itemPos);
 
                 //list.Add(generatedItem);
                
@@ -207,26 +207,27 @@ namespace LevelParser
 
             foreach (XElement question in questionBlocks)
             {
-
-
                 Vector2 questionBlockPos = new Vector2
                 {
                     Y = 16 * Int32.Parse(question.Element("row").Value),
                     X = 16 * Int32.Parse(question.Element("column").Value)
                 };
-                List<IItem> items = new List<IItem>
+
+                List<IItem> items = new List<IItem>();
+
+                if (question.HasAttributes)
                 {
-                    DetermineQuestionItem(question.Attribute("item").Value, questionBlockPos)
-                };
-                list.AddRange(items);
+                    items.Add(GetItemOfType(question.Attribute("item").Value, questionBlockPos));
+                    list.AddRange(items);
+                }
+
                 Block tempQuestion = new Block(questionBlockPos, blockSprites, mario, items);
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
-               
             }
         }
 
-        private static IItem DetermineQuestionItem(string itemType, Vector2 blockPos)
+        private static IItem GetItemOfType(string itemType, Vector2 blockPos)
         {
             IItem item;
             switch (itemType)
@@ -256,52 +257,28 @@ namespace LevelParser
 
         private static void ParseBrickBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
-            IEnumerable<XElement> brickRows = level.Element("brickBlocks").Element("rows").Elements();
-            int rowNumber = 0;
+            IEnumerable<XElement> brickBlocks = level.Element("brickBlocks").Elements();
 
-            //Handle each individual row
-            foreach (XElement brick in brickRows)
+            foreach (XElement brick in brickBlocks)
             {
-
-                string[] columnNumbers = brick.Value.Split(',');
-                //Handle each column in the row
-                if (columnNumbers.Length > 1)
+                Vector2 brickBlockPos = new Vector2
                 {
-                    for (int i = 1; i < columnNumbers.Length; i++)
-                    {
-                        string column = columnNumbers[i];
+                    Y = 16 * Int32.Parse(brick.Element("row").Value),
+                    X = 16 * Int32.Parse(brick.Element("column").Value)
+                };
 
-                        //Separate the row number from the coin count
-                        string[] splitRow = column.Split("@");
+                List<IItem> items = new List<IItem>();
 
-                        Vector2 brickBlockPos = new Vector2
-                        {
-                            X = 16 * Int32.Parse(splitRow[0]),
-                            Y = 16 * rowNumber
-                        };
-
-                        //Handle coins
-                        List<IItem> coins = new List<IItem>();
-                        if (splitRow.Length > 1)
-                        {
-                            int numCoins = Int32.Parse(splitRow[1]);
-                            for (int j = 0; j < numCoins; j++)
-                            {
-                                Vector2 coinPos = new Vector2(brickBlockPos.X, brickBlockPos.Y);
-                                IItem coin = new Coin(coinPos);
-                                coins.Add(coin);
-                            }
-
-                        }
-
-                        Block tempBrick = new Block(brickBlockPos, blockSprites, mario, coins);
-                        tempBrick.SetBlockState(new BrickBlockState(tempBrick));
-                        list.Add(tempBrick);
-                        
-                    }
+                if (brick.HasAttributes)
+                {
+                    items.Add(GetItemOfType(brick.Attribute("item").Value, brickBlockPos));
+                    list.AddRange(items);
                 }
 
-                rowNumber++;
+                Block tempBrick = new Block(brickBlockPos, blockSprites, mario, items);
+                tempBrick.SetBlockState(new BrickBlockState(tempBrick));
+                list.Add(tempBrick);
+
             }
         }
 

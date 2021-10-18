@@ -36,7 +36,7 @@ namespace States
         public void Bump(Mario Mario)
         {
             IItem removedItem = block.RemoveItem();
-            removedItem.SetVisibilityAndEmerge(true);
+            removedItem.MakeVisibleAndEmerge();
 
             if (block.GetItems().Count <= 0) block.SetBlockState(new UsedBlockState(block));
             else block.SetBlockState(new QuestionBlockState(block));
@@ -144,8 +144,17 @@ namespace States
 
         public void Bump(Mario Mario)
         {
-            // Used to reset to BrickBlockState
-            block.SetBlockState(new BrickBlockState(block));
+            if (block.GetItems().Count > 0)
+            {
+                IItem removedItem = block.RemoveItem();
+                removedItem.MakeVisibleAndEmerge();
+
+                if (block.GetItems().Count <= 0) block.SetBlockState(new UsedBlockState(block));
+                else block.SetBlockState(new BrickBlockState(block));
+            } else
+            {
+                block.SetBlockState(new BrickBlockState(block));
+            }
         }
     }
     public class BrokenBrickBlockState : IBlockState
