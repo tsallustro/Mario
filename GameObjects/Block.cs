@@ -32,6 +32,7 @@ namespace GameObjects
             originalLocation = position;
             mario = Mario;
             spriteFactory = new BlockSpriteFactory(blockSprites);
+            this.items = new List<IItem>();
             blockState = new BrickBlockState(this);
             Sprite = spriteFactory.CreateBrickBlock(position, false);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
