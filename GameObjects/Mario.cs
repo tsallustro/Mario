@@ -154,7 +154,8 @@ namespace GameObjects
                         case LEFT:
                             if (Velocity.X < 0)
                             {
-                                this.SetYVelocity(0);
+                                //I don't think hitting side of block should stop mario's y velocity
+                                //this.SetYVelocity(0);
                                 this.SetXAcceleration(0);
                                 this.SetXVelocity(0);
                                 //this.actionState.Fall();
@@ -163,7 +164,7 @@ namespace GameObjects
                         case RIGHT:
                             if (Velocity.X > 0)
                             {
-                                this.SetYVelocity(0);
+                                //this.SetYVelocity(0);
                                 this.SetXAcceleration(0);
                                 this.SetXVelocity(0);
                                 //this.actionState.Fall();
