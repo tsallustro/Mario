@@ -76,6 +76,7 @@ namespace GameObjects
                             //Do nothing. Not sure what happens when Mario hits the shell from bottom.
                             break;
                         case LEFT:
+                            //shell is kicked.
                             shellSpeed = 100;
                             Kicked();
                             break;
@@ -126,6 +127,7 @@ namespace GameObjects
         public void Stomped()
         {
             koopaTroopaState.Stomped();
+            this.SetXVelocity(0);
             timer = 50;
         }
 

@@ -102,6 +102,7 @@ namespace GameObjects
         //Update all of Goomba's members
         public override void Update(GameTime GameTime)
         {
+
             ChangeDirection();
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
             newPosition = Position + (Velocity * timeElapsed);
