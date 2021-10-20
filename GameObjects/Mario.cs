@@ -54,6 +54,10 @@ namespace GameObjects
         {
             return powerState;
         }
+        public IMarioActionState GetActionState()
+        {
+            return actionState;
+        }
 
         public void SetPowerState(IMarioPowerState powerState)
         {
@@ -140,7 +144,11 @@ namespace GameObjects
                     switch (side)
                     {
                         case TOP:
-                            if (Velocity.Y < 0) this.actionState.Fall();
+                            if (Velocity.Y < 0)
+                            {
+                                this.actionState.Fall();
+                            }
+
                             break;
                         case BOTTOM:
                             if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState))

@@ -165,7 +165,7 @@ namespace GameObjects
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
-            if (side == BOTTOM && Collidee is Mario && Collidee.GetVelocity().Y >0)
+            if (side == BOTTOM && Collidee is Mario && Collidee.GetVelocity().Y > 0)
             {
                 if (this.items != null)
                 {
