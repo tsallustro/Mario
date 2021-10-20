@@ -16,13 +16,16 @@ namespace GameObjects
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
          */
-        private readonly int numberOfSpritesOnSheet = 3;
+        private readonly int numberOfSpritesOnSheet = 5;
         private IEnemyState koopaTroopaState;
         private KoopaTroopaSpriteFactory spriteFactory;
 
         //Timer for Koopa Shell
         private float timer;
         private float shellSpeed;
+        List<IGameObject> objects;
+
+        Vector2 newPosition;
 
         public KoopaTroopa(Vector2 position)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
@@ -78,11 +81,11 @@ namespace GameObjects
                         case LEFT:
                             //shell is kicked.
                             shellSpeed = 100;
-                            Kicked();
+                            Kicked(shellSpeed);
                             break;
                         case RIGHT:
                             shellSpeed = -100;
-                            Kicked();
+                            Kicked(shellSpeed);
                             break;
                     }
                 } else 
@@ -110,9 +113,14 @@ namespace GameObjects
         }
 
         //Update all of Goomba's members
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime GameTime)
         {
-            Sprite = spriteFactory.GetCurrentSprite(Sprite.location, koopaTroopaState);
+            float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+            Position = Position + (Velocity * timeElapsed);
+            base.Update(GameTime);
+            Sprite = spriteFactory.GetCurrentSprite(Position, koopaTroopaState);
+            AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, (Sprite.texture.Height) - boundaryAdjustment));
             Sprite.Update();
         }
 
@@ -154,10 +162,10 @@ namespace GameObjects
                 }
             }
         }
-        public void Kicked()
+        public void Kicked(float sspeed)
         {
             timer = 50;
-            SetXVelocity(shellSpeed);
+            SetXVelocity(sspeed);
             SetKoopaTroopaState(new MovingShelledKoopaTroopaState(this));
         }
         public void Die()

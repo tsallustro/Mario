@@ -29,6 +29,8 @@ namespace GameObjects
         private Block BlockMarioIsOn { get; set; }
         GraphicsDeviceManager Graphics { get; set; }
 
+        private IMarioActionState previousAction { get; set; }
+
         // Physics variables
         private int MaxHorizontalSpeed { get; } = 150;
         private int FallingAcceleration { get; } = 155; // Must be consistent across files
@@ -44,6 +46,7 @@ namespace GameObjects
             
             powerState = new StandardMario(this);
             actionState = new FallingState(this, false);
+            previousAction = new FallingState(this, false);
             Graphics = graphics;
 
             // Adjust given maxCoords to account for sprite's height
@@ -57,6 +60,10 @@ namespace GameObjects
         public IMarioActionState GetActionState()
         {
             return actionState;
+        }
+        public IMarioActionState GetPreActionState()
+        {
+            return previousAction;
         }
 
         public void SetPowerState(IMarioPowerState powerState)
@@ -84,6 +91,7 @@ namespace GameObjects
        
         public void SetActionState(IMarioActionState actionState)
         {
+            previousAction = this.actionState;
             this.actionState = actionState;
         }
 

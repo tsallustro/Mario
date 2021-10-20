@@ -93,8 +93,8 @@
       <column>18</column>
     </enemy>
     <enemy type="koopa">
-      <row>4</row>
-      <column>21</column>
+      <row>12</row>
+      <column>14</column>
     </enemy>
     <enemy type="redKoopa">
       <row>4</row>

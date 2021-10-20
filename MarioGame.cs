@@ -14,6 +14,7 @@ using States;
 using System;
 using Collisions;
 using LevelParser;
+using View;
 
 
 namespace Game1
@@ -51,6 +52,9 @@ namespace Game1
         private Texture2D pipeSprite;
         private string levelPath;
 
+        //Background textures
+        private Background background;
+
         private Mario mario;
 
         public MarioGame()
@@ -75,7 +79,7 @@ namespace Game1
         }
 
         protected override void Initialize()
-        {
+        {;
             keyboardController = new KeyboardController();
             gamepadController = new GamepadController();
             collisionHandler = new CollisionHandler();
@@ -143,6 +147,10 @@ namespace Game1
             blockSprites = Content.Load<Texture2D>("BlocksV3");
             pipeSprite = Content.Load<Texture2D>("pipe");
 
+
+            background = new Background(GraphicsDevice, spriteBatch, this);
+            background.LoadContent();
+
             // Load from Level file
             levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
@@ -172,7 +180,12 @@ namespace Game1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            //Background
+            background.Draw();
+
             spriteBatch.Begin();
+
 
             // call draw methods from each sprite and pass in sprite batch
             foreach (var obj in objects)
