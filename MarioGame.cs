@@ -168,12 +168,17 @@ namespace Game1
 
             //Make sure to put update collisiondetection before object update
             collisionHandler.Update(gameTime, objects);
+           
+            
             foreach (var obj in objects)
             {
                 obj.Update(gameTime);
             }
 
-
+            objects.RemoveAll(delegate (IGameObject obj)
+            {
+                return obj.isQueuedForDeletion();
+            });
             base.Update(gameTime);
         }
 

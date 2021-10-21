@@ -9,7 +9,7 @@ namespace GameObjects
 {
     public abstract class Item : GameObject, IItem
     {
-        protected readonly int boundaryAdjustment = -10;
+        protected readonly int boundaryAdjustment = +5;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
@@ -22,6 +22,7 @@ namespace GameObjects
         protected bool isVisible = false;
         protected bool isEmergingFromBlock = false;
         protected Vector2 initialPosition;
+       
 
         public Item(Vector2 position)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
@@ -74,12 +75,14 @@ namespace GameObjects
         public override void Collision(int side, GameObject Collidee)
         {
 
-            if (Collidee is Mario)
+            if (Collidee is Mario && !isEmergingFromBlock)
             {
-                Sprite.ToggleVisibility();
+                this.queuedForDeletion = true;
             }
 
         }
+
+        
 
         //Update all items
         public override void Update(GameTime gameTime)

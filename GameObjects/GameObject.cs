@@ -15,7 +15,7 @@ namespace GameObjects
         public ISprite Sprite { get; set; }
         protected Rectangle AABB { get; set; }
         public bool BorderIsVisible { get; set; } = false;
-
+        protected bool queuedForDeletion = false;
         private Vector2 AABBCollisionExtension { get; set; }
 
         private int Width
@@ -172,5 +172,10 @@ namespace GameObjects
         public abstract void Damage();
 
         public abstract void Halt();
+
+        public bool isQueuedForDeletion()
+        {
+            return queuedForDeletion;
+        }
     }
 }

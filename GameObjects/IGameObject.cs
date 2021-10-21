@@ -23,6 +23,8 @@ namespace GameObjects
         bool LeftCollision(IGameObject obj);
         bool TopCollision(IGameObject obj);
         bool BottomCollision(IGameObject obj);
+
+        public bool isQueuedForDeletion();
     }
 }  
 
