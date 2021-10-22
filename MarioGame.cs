@@ -21,7 +21,10 @@ namespace Game1
 {
     public class MarioGame : Game
     {
+        private readonly int levelWidth = 1000;
+        private readonly int levelHeight = 480;
         private readonly string levelToLoad = "level11";
+
         private Point maxCoords; 
         private List<IGameObject> objects;
         private List<IGameObject> initialObjects;
@@ -96,9 +99,9 @@ namespace Game1
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
 
             camera = new Camera(GraphicsDevice.Viewport);
-            camera.Limits = new Rectangle(0, 0, 1000, 500);
+            camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+            maxCoords = new Point(levelWidth, levelHeight);
 
-            maxCoords = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             this.Window.Title = "Cornet Mario Game";
             base.Initialize();
         }
