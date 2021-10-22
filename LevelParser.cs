@@ -194,7 +194,16 @@ namespace LevelParser
                     Y = 16 * Int32.Parse(hidden.Element("row").Value),
                     X = 16 * Int32.Parse(hidden.Element("column").Value)
                 };
-                Block tempHidden = new Block(hiddenBlockPos, blockSprites, mario);
+
+                List<IItem> items = new List<IItem>();
+
+                if (hidden.HasAttributes)
+                {
+                    items.Add(GetItemOfType(hidden.Attribute("item").Value, hiddenBlockPos));
+                    list.AddRange(items);
+                }
+
+                Block tempHidden = new Block(hiddenBlockPos, blockSprites, mario, items);
                 tempHidden.SetBlockState(new HiddenBlockState(tempHidden));
                 list.Add(tempHidden);
                 
