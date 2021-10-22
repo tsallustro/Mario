@@ -31,7 +31,7 @@
     </rows>
   </floorBlocks>
   <brickBlocks>
-	  <brickBlock item="fire">
+	  <brickBlock item="coin">
 		  <row>8</row>
 		  <column>7</column>
 	  </brickBlock>
