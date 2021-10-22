@@ -54,6 +54,8 @@ namespace Game1
 
         //Background textures
         private Background background;
+        private Camera camera;
+        private Vector2 parallax;
 
         private Mario mario;
 
@@ -89,6 +91,9 @@ namespace Game1
             itemSpriteFactory = ItemSpriteFactory.Instance;
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
+
+            camera = new Camera(GraphicsDevice.Viewport);
+            camera.Limits = new Rectangle(0, 0, 8000, 500);
 
             maxCoords = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             this.Window.Title = "Cornet Mario Game";
@@ -148,8 +153,7 @@ namespace Game1
             pipeSprite = Content.Load<Texture2D>("pipe");
 
 
-            background = new Background(GraphicsDevice, spriteBatch, this);
-            background.LoadContent();
+            
 
             // Load from Level file
             levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
@@ -158,6 +162,9 @@ namespace Game1
 
             mario = (Mario) objects[0];
             InitializeCommands();
+
+            background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
+            background.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
@@ -172,6 +179,7 @@ namespace Game1
             {
                 obj.Update(gameTime);
             }
+            background.Update();
 
 
             base.Update(gameTime);
@@ -181,19 +189,22 @@ namespace Game1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            // Legend
+            spriteBatch.Begin();
+            spriteBatch.DrawString(arial, "Lives Left: " + livesRemaining, new Vector2(10, 10), Color.White);
+            spriteBatch.End();
+
             //Background
             background.Draw();
 
-            spriteBatch.Begin();
-
+            parallax = new Vector2(1f);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
 
             // call draw methods from each sprite and pass in sprite batch
             foreach (var obj in objects)
             {
                 obj.Draw(spriteBatch);
             }
-
-            spriteBatch.DrawString(arial, "Lives Left: " + livesRemaining, new Vector2(10, 10), Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);
