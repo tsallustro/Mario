@@ -44,7 +44,7 @@
 		</rows>
 	</floorBlocks>
 	<brickBlocks>
-		<brickBlock item="coin">
+		<brickBlock>
 			<row>24</row>
 			<column>21</column>
 		</brickBlock>
@@ -58,7 +58,7 @@
 		</brickBlock>
 	</brickBlocks>
 	<questionBlocks>
-		<questionBlock>
+		<questionBlock item="coin">
 			<row>24</row>
 			<column>17</column>
 		</questionBlock>
@@ -66,7 +66,7 @@
 			<row>24</row>
 			<column>22</column>
 		</questionBlock>
-		<questionBlock>
+		<questionBlock item="coin">
 			<row>20</row>
 			<column>23</column>
 		</questionBlock>
