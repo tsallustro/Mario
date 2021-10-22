@@ -78,6 +78,9 @@ namespace Game1
             initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
             mario = (Mario)objects[0];
             InitializeCommands();
+            //camera.LookAt(mario.GetPosition());
+            background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
+            background.LoadContent();
         }
 
         protected override void Initialize()
