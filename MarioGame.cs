@@ -93,7 +93,7 @@ namespace Game1
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
 
             camera = new Camera(GraphicsDevice.Viewport);
-            camera.Limits = new Rectangle(0, 0, 8000, 500);
+            camera.Limits = new Rectangle(0, 0, 1000, 500);
 
             maxCoords = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             this.Window.Title = "Cornet Mario Game";

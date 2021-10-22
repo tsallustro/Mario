@@ -133,6 +133,8 @@ namespace View
         }
         public void LoadContent()
         {
+            //block size 16 by16
+            //All have height of 40pt
             hillSmallSprite = game.Content.Load<Texture2D>("hillSmall");
             hillBigSprite = game.Content.Load<Texture2D>("hillBig");
             cloudOne = game.Content.Load<Texture2D>("cloud1");
@@ -152,22 +154,26 @@ namespace View
         {
             Vector2 parallax = new Vector2(0.2f);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, camera.GetViewMatrix(parallax));
-            spriteBatch.Draw(cloudTwo, new Vector2(200, 300),Color.White);
+            spriteBatch.Draw(cloudThree, new Vector2(50, 220), Color.White);
             spriteBatch.Draw(cloudThree, new Vector2(300, 100), Color.White);
-            spriteBatch.Draw(cloudOne, new Vector2(350, 120), Color.White);
+            spriteBatch.Draw(cloudTwo, new Vector2(200, 300),Color.White);
+            spriteBatch.Draw(cloudTwo, new Vector2(600, 150), Color.White);
+            spriteBatch.Draw(cloudOne, new Vector2(340, 110), Color.White);
             spriteBatch.End();
 
-            parallax = new Vector2(0.6f);
+            parallax = new Vector2(0.7f);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, camera.GetViewMatrix(parallax));
-            spriteBatch.Draw(hillSmallSprite, new Vector2(0, 0), Color.White);
-            spriteBatch.Draw(hillBigSprite, new Vector2(0, 0), Color.White);
+            spriteBatch.Draw(hillBigSprite, new Vector2(220, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(hillBigSprite, new Vector2(600, graphicsDevice.Viewport.Height -40 - 32), Color.White);
+            spriteBatch.Draw(hillSmallSprite, new Vector2(650, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
             spriteBatch.End();
 
             parallax = new Vector2(0.8f);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, camera.GetViewMatrix(parallax));
-            spriteBatch.Draw(bushOne, new Vector2(30, graphicsDevice.Viewport.Height - 20), Color.White);
-            spriteBatch.Draw(bushTwo, new Vector2(280, graphicsDevice.Viewport.Height - 20), Color.White);
-            spriteBatch.Draw(bushThree, new Vector2(160, graphicsDevice.Viewport.Height - 20), Color.White);
+            spriteBatch.Draw(bushOne, new Vector2(30, graphicsDevice.Viewport.Height -40 -32), Color.White);
+            spriteBatch.Draw(bushTwo, new Vector2(250, graphicsDevice.Viewport.Height -40 -32), Color.White);
+            spriteBatch.Draw(bushTwo, new Vector2(580, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(bushThree, new Vector2(360, graphicsDevice.Viewport.Height -40 -32), Color.White);
             spriteBatch.End();
         }
     }
