@@ -15,6 +15,7 @@ namespace GameObjects
          * on that sheet!
          */
         private readonly int numberOfSpritesOnSheet = 15;
+        const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
@@ -26,7 +27,7 @@ namespace GameObjects
         public bool ContinueRunning { get; set; } = false;
         private bool JumpIsHeld { get; set; } = false;
         private float TimeJumpHeld { get; set; } = 0;
-        private Block BlockMarioIsOn { get; set; }
+        private GameObject BlockMarioIsOn { get; set; }
         GraphicsDeviceManager Graphics { get; set; }
 
         private IMarioActionState previousAction { get; set; }
@@ -126,9 +127,51 @@ namespace GameObjects
             Sprite.Update();
         }
 
+        private void HandleBlockCollision(int side, GameObject block)
+        {
+            switch (side)
+            {
+                case TOP:
+                    if (Velocity.Y < 0)
+                    {
+                        this.actionState.Fall();
+                    }
+
+                    break;
+                case BOTTOM:
+                    if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState))
+                    {
+                        this.actionState.Land();
+                    }
+
+                    BlockMarioIsOn = block;
+
+                    break;
+                case LEFT:
+                    if (Velocity.X < 0)
+                    {
+                        //I don't think hitting side of block should stop mario's y velocity
+                        //this.SetYVelocity(0);
+                        this.SetXAcceleration(0);
+                        this.SetXVelocity(0);
+                        //this.actionState.Fall();
+                    }
+                    break;
+                case RIGHT:
+                    if (Velocity.X > 0)
+                    {
+                        //this.SetYVelocity(0);
+                        this.SetXAcceleration(0);
+                        this.SetXVelocity(0);
+                        //this.actionState.Fall();
+                    }
+                    break;
+            }
+        }
+
         public override void Collision(int side, GameObject obj)
         {
-            const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+            
 
             if (obj is Item item && item.GetVisibility())
             {
@@ -149,44 +192,7 @@ namespace GameObjects
             {
                 if (!(block.GetBlockState() is HiddenBlockState))
                 {
-                    switch (side)
-                    {
-                        case TOP:
-                            if (Velocity.Y < 0)
-                            {
-                                this.actionState.Fall();
-                            }
-
-                            break;
-                        case BOTTOM:
-                            if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState))
-                            {
-                                this.actionState.Land();
-                            }
-
-                            BlockMarioIsOn = block;
-
-                            break;
-                        case LEFT:
-                            if (Velocity.X < 0)
-                            {
-                                //I don't think hitting side of block should stop mario's y velocity
-                                //this.SetYVelocity(0);
-                                this.SetXAcceleration(0);
-                                this.SetXVelocity(0);
-                                //this.actionState.Fall();
-                            }
-                            break;
-                        case RIGHT:
-                            if (Velocity.X > 0)
-                            {
-                                //this.SetYVelocity(0);
-                                this.SetXAcceleration(0);
-                                this.SetXVelocity(0);
-                                //this.actionState.Fall();
-                            }
-                            break;
-                    }
+                    HandleBlockCollision(side, block);
                 } else
                 {
                     switch(side)
@@ -196,8 +202,11 @@ namespace GameObjects
                             break;
                     }
                 }
-            }
-
+            } 
+            else if (obj is WarpPipe pipe)
+            {
+                HandleBlockCollision(side, pipe);
+            } 
             else if (obj is Goomba goomba)
             {
                 if (!(goomba.GetGoombaState() is StompedGoombaState) && !(goomba.GetGoombaState() is DeadGoombaState))

@@ -38,12 +38,12 @@ namespace GameObjects
         }
         public override void Collision(int side, GameObject Collidee)
         {
-            if (side == CollisionHandler.TOP || side == CollisionHandler.BOTTOM)
+            /*if (side == CollisionHandler.TOP || side == CollisionHandler.BOTTOM)
             {
                 Collidee.SetYVelocity(0);
             }
             else
-                Collidee.SetXVelocity(0);
+                Collidee.SetXVelocity(0);*/
         }
     }
 }
