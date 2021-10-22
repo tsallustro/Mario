@@ -112,8 +112,8 @@
 	</items>
 	<warpPipes>
 		<pipe>
-			<row> 8</row>
-			<column>20</column>
+			<row>26</row>
+			<column>29</column>
 		</pipe>
 	</warpPipes>
 	<enemies>

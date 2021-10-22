@@ -279,12 +279,10 @@ namespace GameObjects
             if (newPosition.X > maxCoords.X)
             {
                 this.SetXVelocity(0);
-                this.Acceleration = new Vector2(0, FallingAcceleration);
             }
             else if (newPosition.X < 0)
             {
                 this.SetXVelocity(0);
-                this.Acceleration = new Vector2(0, FallingAcceleration);
             }
             if (newPosition.Y > maxCoords.Y)
             {
