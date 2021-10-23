@@ -35,7 +35,8 @@ namespace GameObjects
         // Physics variables
         private int MaxHorizontalSpeed { get; } = 120;
         private int FallingAcceleration { get; } = 275; // Must be consistent across files
-        private int JumpHoldAccelerationBoost { get; } = 30;
+        private int JumpHoldAccelerationBoost { get; } = 55;
+        private float HighJumpTimer { get; } = 0.35f;
 
         public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords)
             : base(position, velocity, acceleration)
@@ -360,7 +361,7 @@ namespace GameObjects
 
                 if (Velocity.Y == 0)
                     actionState.Jump();
-                else if (TimeJumpHeld > 0.4 && Acceleration.Y >= FallingAcceleration - JumpHoldAccelerationBoost)
+                else if (TimeJumpHeld > HighJumpTimer && Acceleration.Y >= FallingAcceleration - JumpHoldAccelerationBoost)
                     SetYAcceleration(Acceleration.Y - JumpHoldAccelerationBoost);
             }
             else if (pressType == 3)
