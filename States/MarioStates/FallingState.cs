@@ -12,7 +12,7 @@ namespace States
         private bool initialLeft; // Save so we only continue in the same direction
 
         // Physics variables
-        private int InitialFallingAcceleration { get; } = 155; // Must be consistent across files
+        private int InitialFallingAcceleration { get; } = 275; // Must be consistent across files
 
         public FallingState(Mario mario, bool left)
         {

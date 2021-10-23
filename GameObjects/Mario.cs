@@ -33,9 +33,9 @@ namespace GameObjects
         private IMarioActionState previousAction { get; set; }
 
         // Physics variables
-        private int MaxHorizontalSpeed { get; } = 150;
-        private int FallingAcceleration { get; } = 155; // Must be consistent across files
-        private int JumpHoldAccelerationBoost { get; } = 40;
+        private int MaxHorizontalSpeed { get; } = 120;
+        private int FallingAcceleration { get; } = 275; // Must be consistent across files
+        private int JumpHoldAccelerationBoost { get; } = 30;
 
         public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords)
             : base(position, velocity, acceleration)

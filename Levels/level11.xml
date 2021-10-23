@@ -19,11 +19,11 @@
 			<row>x</row>
 			<row>x</row>
 			<row>x</row>
-			<row>x,4</row>
 			<row>x</row>
 			<row>x</row>
 			<row>x</row>
-			<row>x,5</row>
+			<row>x</row>
+			<row>x</row>
 			<row>x</row>
 			<row>x</row>
 			<row>x</row>
@@ -89,8 +89,8 @@
 	</questionBlocks>
 	<stairBlocks>
 		<stairBlock>
-			<row>8</row>
-			<column>15</column>
+			<row>1</row>
+			<column>1</column>
 		</stairBlock>
 	</stairBlocks>
 	<hiddenBlocks>
@@ -142,15 +142,15 @@
 	</warpPipes>
 	<enemies>
 		<enemy type="goomba">
-			<row>4</row>
+			<row>27</row>
 			<column>18</column>
 		</enemy>
 		<enemy type="koopa">
-			<row>12</row>
+			<row>27</row>
 			<column>14</column>
 		</enemy>
 		<enemy type="redKoopa">
-			<row>4</row>
+			<row>27</row>
 			<column>24</column>
 		</enemy>
 	</enemies>

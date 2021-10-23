@@ -12,8 +12,8 @@ namespace States
         private IMarioActionState previousState;
 
         // Physics variables
-        private int InitialJumpingVelocity { get; } = -150;
-        private int InitialJumpingAcceleration { get; } = 155; // Must be consistent across files
+        private int InitialJumpingVelocity { get; } = -200;
+        private int InitialJumpingAcceleration { get; } = 275; // Must be consistent across files
         private int RunningAcceleration { get; } = 100;
 
         public JumpingState(Mario mario, bool left, IMarioActionState previousState)
