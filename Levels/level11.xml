@@ -39,8 +39,8 @@
 			<row>x</row>
 			<row>x</row>
 			<row>x</row>
-			<row>x,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,46, 47, 48, 49, 50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86</row>
-			<row>x,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,46, 47, 48, 49, 50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86</row>
+			<row>x,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,46, 47, 48, 49, 50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112</row>
+			<row>x,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,46, 47, 48, 49, 50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112</row>
 		</rows>
 	</floorBlocks>
 	<brickBlocks>
@@ -64,6 +64,54 @@
 			<row>24</row>
 			<column>80</column>
 		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>81</column>
+		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>82</column>
+		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>83</column>
+		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>84</column>
+		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>85</column>
+		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>86</column>
+		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>87</column>
+		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>88</column>
+		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>92</column>
+		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>93</column>
+		</brickBlock>
+		<brickBlock>
+			<row>20</row>
+			<column>94</column>
+		</brickBlock>
+		<brickBlock item="coin">
+			<row>24</row>
+			<column>95</column>
+		</brickBlock>
 	</brickBlocks>
 	<questionBlocks>
 		<questionBlock item="coin">
@@ -85,6 +133,10 @@
 		<questionBlock item="fire">
 			<row>24</row>
 			<column>79</column>
+		</questionBlock>
+		<questionBlock>
+			<row>20</row>
+			<column>95</column>
 		</questionBlock>
 	</questionBlocks>
 	<stairBlocks>
