@@ -32,6 +32,8 @@ namespace Collisions
                     float obj1PosY = obj1AABB.Center.Y;
                     float obj1VelX = obj1.GetVelocity().X;
                     float obj1VelY = obj1.GetVelocity().Y;
+                    List<Block> bumpedBlocks = new List<Block>();
+
                     foreach (GameObject obj2 in GameObjects)
                     {
                         if (obj1 != obj2)
@@ -55,13 +57,12 @@ namespace Collisions
                                 obj2.Sprite.isCollided = true;
 
                                 /*
-                                 * If object is a block, we must update it first so it can
-                                 * accurately detect Mario's speed on collision
+                                 * If object is a block, we add it to the list so we can
+                                 * handle collisions with multiple blocks at a time
                                  */
-                                if (obj2 is Block block)
+                                if (obj2 is Block block && obj1 is Mario)
                                 {
-                                    obj2.Collision(BOTTOM, obj1);
-                                    obj1.Collision(TOP, obj2);
+                                    bumpedBlocks.Add(block);
                                 } else
                                 {
                                     obj1.Collision(TOP, obj2);
@@ -94,6 +95,18 @@ namespace Collisions
                             //}
                         }
                     }
+
+                    // Bump all blocks that were collided with
+                    foreach (Block block in bumpedBlocks)
+                    {
+                        block.Collision(BOTTOM, obj1);
+                    }
+
+                    /*
+                     * We have to update Mario after all blocks are bumped so his
+                     * velocity and action state doesn't change.
+                     */
+                    if (bumpedBlocks.Count > 0) obj1.Collision(TOP, bumpedBlocks[0]);
                 }
             }
         }
