@@ -141,7 +141,7 @@ namespace GameObjects
         {
 
             if (this.AABB.Top < obj.GetAABB().Bottom &&
-                this.AABB.Bottom > obj.GetAABB().Top &&
+                this.AABB.Bottom > (obj.GetAABB().Top + 1) &&
                 this.AABB.Left - AABBCollisionExtension.X <= obj.GetAABB().Right &&
                 this.AABB.Right > obj.GetAABB().Right)
             {
@@ -157,7 +157,7 @@ namespace GameObjects
         {
 
             if (this.AABB.Top < obj.GetAABB().Bottom && 
-                this.AABB.Bottom > obj.GetAABB().Top &&
+                this.AABB.Bottom > (obj.GetAABB().Top + 1) &&
                 this.AABB.Left < obj.GetAABB().Left &&
                 this.AABB.Right + AABBCollisionExtension.X >= obj.GetAABB().Left )
             {
