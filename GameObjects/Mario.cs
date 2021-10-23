@@ -359,7 +359,7 @@ namespace GameObjects
             {
                 JumpIsHeld = true;
 
-                if (Velocity.Y == 0)
+                if (Velocity.Y == 0 && pressType == 1)
                     actionState.Jump();
                 else if (TimeJumpHeld > HighJumpTimer && Acceleration.Y >= FallingAcceleration - JumpHoldAccelerationBoost)
                     SetYAcceleration(Acceleration.Y - JumpHoldAccelerationBoost);
