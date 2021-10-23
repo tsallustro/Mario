@@ -69,13 +69,17 @@ namespace States
 
         public void Land()
         {
-            float priorVel = mario.GetVelocity().X;
             mario.SetYVelocity(0);
 
             if (mario.ContinueRunning && initialLeft == left)
             {
+                // If we changed direction while jumping, reset velocity to 0
+                if ((!left && mario.GetVelocity().X < 0) || (left && mario.GetVelocity().X > 0))
+                {
+                    mario.SetXVelocity(0);
+                }
+
                 mario.SetActionState(new RunningState(mario, left));
-                mario.SetXVelocity(priorVel);
             } else
             {
                 mario.SetActionState(new IdleState(mario, this.left));

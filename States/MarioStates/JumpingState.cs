@@ -38,22 +38,22 @@ namespace States
 
         public void MoveRight()
         {
-            if (this.left)
+            if (left)
             {
-                mario.SetActionState(new JumpingState(mario, !this.left, this.previousState));
+                left = !left;
             } else
             {
-                this.mario.SetXAcceleration(RunningAcceleration);
+                mario.SetXAcceleration(RunningAcceleration);
             }
         }
 
         public void MoveLeft()
         {
-            if (!this.left)
+            if (!left)
             {
-                mario.SetActionState(new JumpingState(mario, !this.left, this.previousState));
+                left = !left;
             } else {
-                this.mario.SetXAcceleration(-RunningAcceleration);
+                mario.SetXAcceleration(-RunningAcceleration);
             }
         }
 
@@ -74,13 +74,22 @@ namespace States
 
         public void Land()
         {
-            if (previousState is IdleState) mario.SetActionState(new IdleState(mario, this.left));
-            else if (previousState is RunningState) mario.SetActionState(new RunningState(mario, this.left));
+            if (previousState is IdleState) mario.SetActionState(new IdleState(mario, left));
+            else if (previousState is RunningState)
+            {
+                if (previousState.GetDirection() == left)
+                {
+                    mario.SetActionState(previousState);
+                } else
+                {
+                    mario.SetActionState(new IdleState(mario, !left));
+                }
+            }
         }
 
         public void Idle()
         {
-            mario.SetActionState(new IdleState(mario, this.left));
+            mario.SetActionState(new IdleState(mario, left));
         }
     }
 }

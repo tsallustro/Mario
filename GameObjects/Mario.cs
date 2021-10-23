@@ -314,7 +314,7 @@ namespace GameObjects
         
         public void MoveLeft(int pressType)
         {
-            if (actionState is FallingState)
+            if (actionState is FallingState || actionState is JumpingState)
             {
                 if (pressType == 1 || pressType == 2) ContinueRunning = true;
                 else ContinueRunning = false;
@@ -334,7 +334,7 @@ namespace GameObjects
 
         public void MoveRight(int pressType)
         {
-            if (actionState is FallingState)
+            if (actionState is FallingState || actionState is JumpingState)
             {
                 if (pressType == 1 || pressType == 2) ContinueRunning = true;
                 else ContinueRunning = false;
