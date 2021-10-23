@@ -53,6 +53,7 @@ namespace Game1
         //For level parser
         private Texture2D blockSprites;
         private Texture2D pipeSprite;
+        private Texture2D itemSprites;
         private string levelPath;
 
         //Background textures
@@ -78,7 +79,7 @@ namespace Game1
         public void ResetObjects()
         {
             objects = initialObjects;
-            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites);
             mario = (Mario)objects[0];
             InitializeCommands();
             //camera.LookAt(mario.GetPosition());
@@ -94,7 +95,6 @@ namespace Game1
 
             marioSpriteFactory = MarioSpriteFactory.Instance;
             goombaSpriteFactory = GoombaSpriteFactory.Instance;
-            itemSpriteFactory = ItemSpriteFactory.Instance;
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
 
@@ -152,16 +152,17 @@ namespace Game1
 
             marioSpriteFactory.LoadTextures(this);
             goombaSpriteFactory.LoadTextures(this);
-            itemSpriteFactory.LoadTextures(this);
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             blockSprites = Content.Load<Texture2D>("BlocksV3");
             pipeSprite = Content.Load<Texture2D>("pipe");
+            itemSprites = Content.Load<Texture2D>("Items");
+            itemSpriteFactory = new ItemSpriteFactory(itemSprites);
 
             // Load from Level file
             levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
-            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
+            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites);
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites);
 
             mario = (Mario) objects[0];
             InitializeCommands();

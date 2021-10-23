@@ -17,7 +17,7 @@ namespace LevelParser
 {
     class LevelParser
     {
-        public static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites, Point maxCoords, Texture2D pipeSprite)
+        public static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites, Point maxCoords, Texture2D pipeSprite, Texture2D itemSprites)
         {
             List<IGameObject> list = new List<IGameObject>();
             XElement level;
@@ -42,16 +42,16 @@ namespace LevelParser
             ParseFloorBlocks(blockSprites, list, level, mario);
 
             //Parse brick blocks
-            ParseBrickBlocks(blockSprites, list, level, mario);
+            ParseBrickBlocks(blockSprites, list, level, mario, itemSprites);
 
             //Parse question blocks
-            ParseQuestionBlocks(blockSprites, list, level, mario);
+            ParseQuestionBlocks(blockSprites, list, level, mario, itemSprites);
 
             //Parse hidden blocks
-            ParseHiddenBlocks(blockSprites, list, level, mario);
+            ParseHiddenBlocks(blockSprites, list, level, mario, itemSprites);
 
             //Parse items
-            ParseItems(list, level);
+            ParseItems(list, level, itemSprites);
 
             //Parse Stairs
             ParseStairBlocks(blockSprites, list, level, mario);
@@ -150,7 +150,7 @@ namespace LevelParser
                 list.Add(tempEnemy);
             }
         }
-        private static void ParseItems(List<IGameObject> list, XElement level)
+        private static void ParseItems(List<IGameObject> list, XElement level, Texture2D itemSprites)
         {
             IEnumerable<XElement> items = level.Element("items").Elements();
             foreach (XElement item in items)
@@ -161,7 +161,7 @@ namespace LevelParser
                     Y = 16 * Int32.Parse(item.Element("row").Value),
                     X = 16 * Int32.Parse(item.Element("column").Value)
                 };
-                IItem generatedItem = GetItemOfType(item.Attribute("type").Value, itemPos);
+                IItem generatedItem = GetItemOfType(item.Attribute("type").Value, itemPos, itemSprites);
 
                 //list.Add(generatedItem);
                
@@ -184,7 +184,7 @@ namespace LevelParser
                 
             }
         }
-        private static void ParseHiddenBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
+        private static void ParseHiddenBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario, Texture2D itemSprites)
         {
             IEnumerable<XElement> hiddenBlocks = level.Element("hiddenBlocks").Elements();
             foreach (XElement hidden in hiddenBlocks)
@@ -200,7 +200,7 @@ namespace LevelParser
 
                 if (hidden.HasAttributes)
                 {
-                    items.Add(GetItemOfType(hidden.Attribute("item").Value, hiddenBlockPos));
+                    items.Add(GetItemOfType(hidden.Attribute("item").Value, hiddenBlockPos, itemSprites));
                     list.AddRange(items);
                 }
 
@@ -211,7 +211,7 @@ namespace LevelParser
             }
         }
 
-        private static void ParseQuestionBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
+        private static void ParseQuestionBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario, Texture2D itemSprites)
         {
             IEnumerable<XElement> questionBlocks = level.Element("questionBlocks").Elements();
 
@@ -227,7 +227,7 @@ namespace LevelParser
 
                 if (question.HasAttributes)
                 {
-                    items.Add(GetItemOfType(question.Attribute("item").Value, questionBlockPos));
+                    items.Add(GetItemOfType(question.Attribute("item").Value, questionBlockPos, itemSprites));
                     list.AddRange(items);
                 }
 
@@ -237,25 +237,25 @@ namespace LevelParser
             }
         }
 
-        private static IItem GetItemOfType(string itemType, Vector2 blockPos)
+        private static IItem GetItemOfType(string itemType, Vector2 blockPos, Texture2D itemSprites)
         {
             IItem item;
             switch (itemType)
             {
                 case "mushroom":
-                    item = new SuperMushroom(new Vector2(blockPos.X, blockPos.Y));
+                    item = new SuperMushroom(new Vector2(blockPos.X, blockPos.Y), itemSprites);
                     break;
                 case "fire":
-                    item = new FireFlower(new Vector2(blockPos.X, blockPos.Y));
+                    item = new FireFlower(new Vector2(blockPos.X, blockPos.Y), itemSprites);
                     break;
                 case "star":
-                    item = new Star(new Vector2(blockPos.X, blockPos.Y));
+                    item = new Star(new Vector2(blockPos.X, blockPos.Y), itemSprites);
                     break;
                 case "oneUp":
-                    item = new OneUpMushroom(new Vector2(blockPos.X, blockPos.Y));
+                    item = new OneUpMushroom(new Vector2(blockPos.X, blockPos.Y), itemSprites);
                     break;
                 case "coin":
-                    item = new Coin(new Vector2(blockPos.X, blockPos.Y));
+                    item = new Coin(new Vector2(blockPos.X, blockPos.Y), itemSprites);
                     break;
                 default:
                     item = null;
@@ -265,7 +265,7 @@ namespace LevelParser
             return item;
         }
 
-        private static void ParseBrickBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
+        private static void ParseBrickBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario, Texture2D itemSprites)
         {
             IEnumerable<XElement> brickBlocks = level.Element("brickBlocks").Elements();
 
@@ -281,7 +281,7 @@ namespace LevelParser
 
                 if (brick.HasAttributes)
                 {
-                    items.Add(GetItemOfType(brick.Attribute("item").Value, brickBlockPos));
+                    items.Add(GetItemOfType(brick.Attribute("item").Value, brickBlockPos, itemSprites));
                     list.AddRange(items);
                 }
 
