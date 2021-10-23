@@ -112,6 +112,14 @@
 			<row>24</row>
 			<column>95</column>
 		</brickBlock>
+		<brickBlock>
+			<row>24</row>
+			<column>101</column>
+		</brickBlock>
+		<brickBlock item="star">
+			<row>24</row>
+			<column>102</column>
+		</brickBlock>
 	</brickBlocks>
 	<questionBlocks>
 		<questionBlock item="coin">
