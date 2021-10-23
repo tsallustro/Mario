@@ -206,7 +206,7 @@ namespace Game1
             background.Draw();
 
             parallax = new Vector2(1f);
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, null, null, null, null, camera.GetViewMatrix(parallax));
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
 
             // call draw methods from each sprite and pass in sprite batch
             foreach (var obj in objects)
