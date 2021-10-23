@@ -35,6 +35,9 @@ namespace LevelParser
             //Mario MUST be parsed first, so that he is the first object in the list.
             Mario mario = ParseMario(g, list, level, maxCoords);
 
+            //Parse Warp Pipes
+            ParseWarpPipes(list, level, pipeSprite);
+
             //Parse floor blocks
             ParseFloorBlocks(blockSprites, list, level, mario);
 
@@ -53,8 +56,6 @@ namespace LevelParser
             //Parse Stairs
             ParseStairBlocks(blockSprites, list, level, mario);
 
-            //Parse Warp Pipes
-            ParseWarpPipes(list, level,pipeSprite);
             //Parse Enemies
             ParseEnemies(list, level);
 
