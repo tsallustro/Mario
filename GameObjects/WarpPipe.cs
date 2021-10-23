@@ -11,7 +11,7 @@ namespace GameObjects
     {
         public WarpPipe(Vector2 position, Vector2 velocity, Vector2 acceleration) : base(position, velocity, acceleration)
         {
-            AABB = new Rectangle((int) position.X,(int) position.Y, 32, 32);
+            AABB = new Rectangle((int) position.X,(int) position.Y, 32, 64);
         }
 
         public override void Damage()

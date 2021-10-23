@@ -158,9 +158,6 @@ namespace Game1
             blockSprites = Content.Load<Texture2D>("BlocksV3");
             pipeSprite = Content.Load<Texture2D>("pipe");
 
-
-            
-
             // Load from Level file
             levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite);
@@ -209,7 +206,7 @@ namespace Game1
             background.Draw();
 
             parallax = new Vector2(1f);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, null, null, null, null, camera.GetViewMatrix(parallax));
 
             // call draw methods from each sprite and pass in sprite batch
             foreach (var obj in objects)
