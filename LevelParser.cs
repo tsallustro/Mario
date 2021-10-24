@@ -51,7 +51,7 @@ namespace LevelParser
             ParseHiddenBlocks(blockSprites, list, level, mario, itemSprites);
 
             //Parse items
-            ParseItems(list, level, itemSprites);
+            ParseItems(list, level, itemSprites, mario);
 
             //Parse Stairs
             ParseStairBlocks(blockSprites, list, level, mario);
@@ -150,7 +150,7 @@ namespace LevelParser
                 list.Add(tempEnemy);
             }
         }
-        private static void ParseItems(List<IGameObject> list, XElement level, Texture2D itemSprites)
+        private static void ParseItems(List<IGameObject> list, XElement level, Texture2D itemSprites, Mario mario)
         {
             IEnumerable<XElement> items = level.Element("items").Elements();
             foreach (XElement item in items)
@@ -161,7 +161,7 @@ namespace LevelParser
                     Y = 16 * Int32.Parse(item.Element("row").Value),
                     X = 16 * Int32.Parse(item.Element("column").Value)
                 };
-                IItem generatedItem = GetItemOfType(item.Attribute("type").Value, itemPos, itemSprites);
+                IItem generatedItem = GetItemOfType(item.Attribute("type").Value, itemPos, itemSprites, mario);
 
                 //list.Add(generatedItem);
                
@@ -200,7 +200,7 @@ namespace LevelParser
 
                 if (hidden.HasAttributes)
                 {
-                    items.Add(GetItemOfType(hidden.Attribute("item").Value, hiddenBlockPos, itemSprites));
+                    items.Add(GetItemOfType(hidden.Attribute("item").Value, hiddenBlockPos, itemSprites, mario));
                     list.AddRange(items);
                 }
 
@@ -227,7 +227,7 @@ namespace LevelParser
 
                 if (question.HasAttributes)
                 {
-                    items.Add(GetItemOfType(question.Attribute("item").Value, questionBlockPos, itemSprites));
+                    items.Add(GetItemOfType(question.Attribute("item").Value, questionBlockPos, itemSprites, mario));
                     list.AddRange(items);
                 }
 
@@ -237,25 +237,25 @@ namespace LevelParser
             }
         }
 
-        private static IItem GetItemOfType(string itemType, Vector2 blockPos, Texture2D itemSprites)
+        private static IItem GetItemOfType(string itemType, Vector2 blockPos, Texture2D itemSprites, Mario mario)
         {
             IItem item;
             switch (itemType)
             {
                 case "mushroom":
-                    item = new SuperMushroom(new Vector2(blockPos.X, blockPos.Y), itemSprites);
+                    item = new SuperMushroom(new Vector2(blockPos.X, blockPos.Y), itemSprites, mario);
                     break;
                 case "fire":
-                    item = new FireFlower(new Vector2(blockPos.X, blockPos.Y), itemSprites);
+                    item = new FireFlower(new Vector2(blockPos.X, blockPos.Y), itemSprites, mario);
                     break;
                 case "star":
-                    item = new Star(new Vector2(blockPos.X, blockPos.Y), itemSprites);
+                    item = new Star(new Vector2(blockPos.X, blockPos.Y), itemSprites, mario);
                     break;
                 case "oneUp":
-                    item = new OneUpMushroom(new Vector2(blockPos.X, blockPos.Y), itemSprites);
+                    item = new OneUpMushroom(new Vector2(blockPos.X, blockPos.Y), itemSprites, mario);
                     break;
                 case "coin":
-                    item = new Coin(new Vector2(blockPos.X, blockPos.Y), itemSprites);
+                    item = new Coin(new Vector2(blockPos.X, blockPos.Y), itemSprites, mario);
                     break;
                 default:
                     item = null;
@@ -281,7 +281,7 @@ namespace LevelParser
 
                 if (brick.HasAttributes)
                 {
-                    items.Add(GetItemOfType(brick.Attribute("item").Value, brickBlockPos, itemSprites));
+                    items.Add(GetItemOfType(brick.Attribute("item").Value, brickBlockPos, itemSprites, mario));
                     list.AddRange(items);
                 }
 

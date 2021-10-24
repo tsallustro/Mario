@@ -22,21 +22,24 @@ namespace GameObjects
         protected bool isVisible = false;
         protected bool isEmergingFromBlock = false;
         protected Vector2 initialPosition;
+        protected Mario boundMario;
        
 
-        public Item(Vector2 position, Texture2D itemSprites)
+        public Item(Vector2 position, Texture2D itemSprites, Mario mario)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
             initialPosition = position;
             spriteFactory = new ItemSpriteFactory(itemSprites);
+            boundMario = mario;
         }
 
         // This constructor should be used when creating STATIONARY items for testing
-        public Item(Vector2 position, Vector2 velocity, Vector2 acceleration, Texture2D itemSprites) 
+        public Item(Vector2 position, Vector2 velocity, Vector2 acceleration, Texture2D itemSprites, Mario mario) 
             : base(position, velocity, acceleration)
         {
             initialPosition = position;
             spriteFactory = new ItemSpriteFactory(itemSprites);
+            boundMario = mario;
         }
 
         public IItemState GetItemState()
@@ -125,61 +128,66 @@ namespace GameObjects
 
     public class Coin : Item
     {
-        public Coin(Vector2 position, Texture2D itemSprites)
-            : base(position, itemSprites)
+        public Coin(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
         {
             Sprite = spriteFactory.CreateCoin(position);
             itemState = new CoinState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            
         }
     }
 
     public class FireFlower : Item
     {
-        public FireFlower(Vector2 position, Texture2D itemSprites)
-            : base(position, itemSprites)
+        public FireFlower(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
         {
             Sprite = spriteFactory.CreateFireFlower(position);
             itemState = new FireFlowerState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            
         }
     }
 
     public class SuperMushroom : Item
     {
-        public SuperMushroom(Vector2 position, Texture2D itemSprites)
-            : base(position, itemSprites)
+        public SuperMushroom(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
         {
             Sprite = spriteFactory.CreateSuperMushroom(position);
             itemState = new SuperMushroomState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+           
         }
     }
 
     public class OneUpMushroom : Item
     {
-        public OneUpMushroom(Vector2 position, Texture2D itemSprites)
-            : base(position, itemSprites)
+        public OneUpMushroom(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
         {
             Sprite = spriteFactory.CreateOneUpMushroom(position);
             itemState = new OneUpMushroomState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            
         }
     }
 
     public class Star : Item
     {
-        public Star(Vector2 position, Texture2D itemSprites)
-            : base(position, itemSprites)
+        public Star(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
         {
             Sprite = spriteFactory.CreateStar(position);
             itemState = new StarState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            
         }
     }
 }
