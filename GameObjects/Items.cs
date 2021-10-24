@@ -9,7 +9,8 @@ namespace GameObjects
 {
     public abstract class Item : GameObject, IItem
     {
-        protected readonly int boundaryAdjustment = +5;
+        protected readonly static int mushroomSpeed = 5;
+        protected readonly static int boundaryAdjustment = +5;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
@@ -86,6 +87,12 @@ namespace GameObjects
                 this.queuedForDeletion = true;
             }
 
+            //Make blocks change direction with blocking entity
+            if (Collidee is Block && Velocity.X != 0)
+            {
+                SetXVelocity(-1 * Velocity.X);
+            }
+
         }
 
         
@@ -157,7 +164,7 @@ namespace GameObjects
     public class SuperMushroom : Item
     {
 
-        private static int superMushroomSpeed = 5;
+        
         public SuperMushroom(Vector2 position, Texture2D itemSprites, Mario mario)
             : base(position, itemSprites, mario)
         {
@@ -178,12 +185,12 @@ namespace GameObjects
                 if (Velocity.X == 0 && Position.X - boundMario.GetPosition().X > 0)
                 {
                     //Mushroom is to the right of mario
-                    SetXVelocity(-1 * superMushroomSpeed);
+                    SetXVelocity(-1 * mushroomSpeed);
                 }
                 else if (Velocity.X == 0)
                 {
                     //Mushroom is to the left of mario
-                    SetXVelocity(superMushroomSpeed);
+                    SetXVelocity(mushroomSpeed);
                 }
             }
         }
@@ -192,7 +199,7 @@ namespace GameObjects
     public class OneUpMushroom : Item
     {
 
-        private static int oneUpMushroomSpeed = 1;
+        
         public OneUpMushroom(Vector2 position, Texture2D itemSprites, Mario mario)
             : base(position, itemSprites, mario)
         {
@@ -213,12 +220,12 @@ namespace GameObjects
                 if (Velocity.X == 0 && Position.X - boundMario.GetPosition().X > 0)
                 {
                     //Mushroom is to the right of mario
-                    SetXVelocity(oneUpMushroomSpeed);
+                    SetXVelocity(mushroomSpeed);
                 }
                 else if (Velocity.X == 0)
                 {
                     //Mushroom is to the left of mario
-                    SetXVelocity(-1*oneUpMushroomSpeed);
+                    SetXVelocity(-1* mushroomSpeed);
                 }
             }
         }
