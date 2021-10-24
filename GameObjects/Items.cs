@@ -21,6 +21,7 @@ namespace GameObjects
         protected ItemSpriteFactory spriteFactory;
         protected bool isVisible = false;
         protected bool isEmergingFromBlock = false;
+        protected bool isFinishedEmerging = false;
         protected Vector2 initialPosition;
         protected Mario boundMario;
        
@@ -104,6 +105,7 @@ namespace GameObjects
                 {
                     SetYVelocity(0);
                     isEmergingFromBlock = false;
+                    isFinishedEmerging = true;
                 }
             }
 
@@ -154,6 +156,8 @@ namespace GameObjects
 
     public class SuperMushroom : Item
     {
+
+        private static int superMushroomSpeed = 5;
         public SuperMushroom(Vector2 position, Texture2D itemSprites, Mario mario)
             : base(position, itemSprites, mario)
         {
@@ -163,10 +167,32 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
            
         }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (isFinishedEmerging)
+            {
+
+
+                if (Velocity.X == 0 && Position.X - boundMario.GetPosition().X > 0)
+                {
+                    //Mushroom is to the right of mario
+                    SetXVelocity(-1 * superMushroomSpeed);
+                }
+                else if (Velocity.X == 0)
+                {
+                    //Mushroom is to the left of mario
+                    SetXVelocity(superMushroomSpeed);
+                }
+            }
+        }
     }
 
     public class OneUpMushroom : Item
     {
+
+        private static int oneUpMushroomSpeed = 1;
         public OneUpMushroom(Vector2 position, Texture2D itemSprites, Mario mario)
             : base(position, itemSprites, mario)
         {
@@ -175,6 +201,26 @@ namespace GameObjects
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (isFinishedEmerging)
+            {
+
+
+                if (Velocity.X == 0 && Position.X - boundMario.GetPosition().X > 0)
+                {
+                    //Mushroom is to the right of mario
+                    SetXVelocity(oneUpMushroomSpeed);
+                }
+                else if (Velocity.X == 0)
+                {
+                    //Mushroom is to the left of mario
+                    SetXVelocity(-1*oneUpMushroomSpeed);
+                }
+            }
         }
     }
 
