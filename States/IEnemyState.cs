@@ -9,5 +9,6 @@ namespace States
         public void Stomped();
         public void Move();
         public void StayIdle();
+        public void Kicked(float sspeed);
     }
 }

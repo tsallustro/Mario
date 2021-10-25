@@ -24,6 +24,7 @@ namespace GameObjects
         private float timer;
         private float shellSpeed;
         List<IGameObject> objects;
+        private bool left = true;
 
         Vector2 newPosition;
 
@@ -49,6 +50,17 @@ namespace GameObjects
         {
             this.koopaTroopaState = koopaTroopaState;
         }
+        public bool GetDirection()
+        {
+            if (this.GetVelocity().X <= 0 )
+            {
+                left = true;
+            } else
+            {
+                left = false;
+            }
+            return left;
+        }
 
         public override void Halt()
         {
@@ -68,8 +80,9 @@ namespace GameObjects
 
             if (Collidee is Mario)
             {
-                if (koopaTroopaState is StompedKoopaTroopaState)
+                if (this.koopaTroopaState is StompedKoopaTroopaState)
                 {
+                    
                     switch (side)
                     {
                         case TOP:
@@ -79,6 +92,7 @@ namespace GameObjects
                             //Do nothing. Not sure what happens when Mario hits the shell from bottom.
                             break;
                         case LEFT:
+                            this.SetYVelocity(-100);
                             //shell is kicked.
                             shellSpeed = 100;
                             Kicked(shellSpeed);
@@ -90,10 +104,10 @@ namespace GameObjects
                     }
                 } else 
                 {
-                    if (side == 1)          //Top
+                    if (side == TOP)
                     {
                         koopaTroopaState.Stomped();
-                    }
+                    } 
                 }
             } else if (Collidee is KoopaTroopa koopa) //If koopa is also shelled and kicked, then it only changes direction when it hits another kicked koopa. If it's in any other state, another kicked koopa kills it.
             {
@@ -130,7 +144,8 @@ namespace GameObjects
         //Draw Goomba
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Sprite.Draw(spriteBatch, true);
+            Sprite.location = Position;
+            Sprite.Draw(spriteBatch, left);
             DrawAABBIfVisible(Color.Red, spriteBatch);
         }
 
@@ -168,9 +183,9 @@ namespace GameObjects
         public void Kicked(float sspeed)
         {
             timer = 50;
-            SetXVelocity(sspeed);
-            SetKoopaTroopaState(new MovingShelledKoopaTroopaState(this));
+            koopaTroopaState.Kicked(sspeed);
         }
+            
         public void Die()
         {
             SetKoopaTroopaState(new DeadKoopaTroopaState(this));
