@@ -632,18 +632,84 @@
 			<column>180</column>
 		</pipe>
 	</warpPipes>
+	<endElements>
+		<flag>
+			<row>19</row>
+			<column>199</column>
+		</flag>
+		<castle>
+			<row>23</row>
+			<column>205</column>
+		</castle>
+	</endElements>
 	<enemies>
 		<enemy type="goomba">
 			<row>27</row>
 			<column>18</column>
 		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>40</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>51</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>52</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>18</row>
+			<column>80</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>24</row>
+			<column>82</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>24</row>
+			<column>98</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>100</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>115</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>116</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>124</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>126</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>129</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>131</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>175</column>
+		</enemy>
+		<enemy type="goomba">
+			<row>27</row>
+			<column>177</column>
+		</enemy>
 		<enemy type="koopa">
 			<row>27</row>
-			<column>14</column>
-		</enemy>
-		<enemy type="redKoopa">
-			<row>27</row>
-			<column>24</column>
+			<column>108</column>
 		</enemy>
 	</enemies>
 </level>

@@ -54,6 +54,8 @@ namespace Game1
         private Texture2D blockSprites;
         private Texture2D pipeSprite;
         private Texture2D itemSprites;
+        private Texture2D flagSprite;
+        private Texture2D castleSprite;
         private string levelPath;
 
         //Background textures
@@ -79,7 +81,7 @@ namespace Game1
         public void ResetObjects()
         {
             objects = initialObjects;
-            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites);
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite);
             mario = (Mario)objects[0];
             InitializeCommands();
             //camera.LookAt(mario.GetPosition());
@@ -163,12 +165,14 @@ namespace Game1
             blockSprites = Content.Load<Texture2D>("BlocksV3");
             pipeSprite = Content.Load<Texture2D>("pipe");
             itemSprites = Content.Load<Texture2D>("Items");
+            flagSprite = Content.Load<Texture2D>("Flag");
+            castleSprite = Content.Load<Texture2D>("castle");
             itemSpriteFactory = new ItemSpriteFactory(itemSprites);
 
             // Load from Level file
             levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites);
-            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites);
+            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite);
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite);
 
             mario = (Mario) objects[0];
             InitializeCommands();

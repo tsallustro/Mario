@@ -17,7 +17,7 @@ namespace LevelParser
 {
     class LevelParser
     {
-        public static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites, Point maxCoords, Texture2D pipeSprite, Texture2D itemSprites)
+        public static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites, Point maxCoords, Texture2D pipeSprite, Texture2D itemSprites, Texture2D flagSprite, Texture2D castleSprite)
         {
             List<IGameObject> list = new List<IGameObject>();
             XElement level;
@@ -71,8 +71,38 @@ namespace LevelParser
             //Parse Enemies
             ParseEnemies(list, level);
 
+            ParseEnd(list, level, flagSprite, castleSprite);
+
             return list;
         }
+
+        private static void ParseEnd(List<IGameObject> list, XElement level, Texture2D flagSprite, Texture2D castleSprite)
+        {
+
+            XElement flagElement = level.Element("endElements").Element("flag");
+            XElement castleElement = level.Element("endElements").Element("castle");
+
+            Vector2 flagPos = new Vector2
+            {
+                Y = 16 * Int32.Parse(flagElement.Element("row").Value),
+                X = 16 * Int32.Parse(flagElement.Element("column").Value)
+            };
+            Vector2 castlePos = new Vector2
+            {
+                Y = 16 * Int32.Parse(castleElement.Element("row").Value),
+                X = 16 * Int32.Parse(castleElement.Element("column").Value)
+            };
+
+            Flag flag = new Flag(flagPos, new Vector2(0, 0), new Vector2(0, 0));
+            Castle castle = new Castle(castlePos, new Vector2(0, 0), new Vector2(0, 0));
+
+            flag.Sprite = new Sprite(false, true, flagPos, flagSprite, 1, 1, 0, 0);
+            castle.Sprite = new Sprite(false, true, castlePos, castleSprite, 1, 1, 0, 0);
+
+            list.Add(flag);
+            list.Add(castle);
+        }
+
         private static void ParseWarpPipes(List<IGameObject> list, XElement level, Texture2D pipeSprite)
         {
 
