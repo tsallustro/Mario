@@ -27,6 +27,10 @@ namespace States
         {
             //Do Nothing.
         }
+        public void Kicked(float sspeed)
+        {
+            //Do Nothing
+        }
     }
     public class MovingKoopaTroopaState : IEnemyState
     {
@@ -48,6 +52,10 @@ namespace States
         public void StayIdle()
         {
             koopaTroopa.SetKoopaTroopaState(new IdleKoopaTroopaState(koopaTroopa));
+        }
+        public void Kicked(float sspeed)
+        {
+            //Do Nothing
         }
     }
 
@@ -76,7 +84,13 @@ namespace States
         {
             //Do Revive
         }
+        public void Kicked(float sspeed)
+        {
+            this.koopaTroopa.SetXVelocity(sspeed);
+            koopaTroopa.SetKoopaTroopaState(new MovingShelledKoopaTroopaState(koopaTroopa));
+        }
     }
+    
     public class MovingShelledKoopaTroopaState : IEnemyState
     {
         private KoopaTroopa koopaTroopa;
@@ -102,6 +116,10 @@ namespace States
         {
             //Do Revive
         }
+        public void Kicked(float sspeed)
+        {
+            //Do Nothing
+        }
     }
     public class DeadKoopaTroopaState : IEnemyState
     {
@@ -123,6 +141,10 @@ namespace States
         public void StayIdle()
         {
             //Do Nothing.
+        }
+        public void Kicked(float sspeed)
+        {
+            //Do Nothing
         }
     }
   

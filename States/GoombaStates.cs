@@ -36,6 +36,10 @@ namespace States
         {
 
         }
+        public void Kicked(float sspeed)
+        {
+            //Do Nothing
+        }
     }
     public class MovingGoombaState : IEnemyState
     {
@@ -70,6 +74,10 @@ namespace States
         {
 
         }
+        public void Kicked(float sspeed)
+        {
+            //Do Nothing
+        }
     }
 
     public class StompedGoombaState : IEnemyState
@@ -102,6 +110,10 @@ namespace States
         {
 
         }
+        public void Kicked(float sspeed)
+        {
+            //Do Nothing
+        }
     }
     //Once dead, Goomba's gone
     public class DeadGoombaState : IEnemyState
@@ -133,6 +145,10 @@ namespace States
         public void Exit()
         {
 
+        }
+        public void Kicked(float sspeed)
+        {
+            //Do Nothing
         }
     }
   
