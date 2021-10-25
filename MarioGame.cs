@@ -49,7 +49,7 @@ namespace Game1
         private ItemSpriteFactory itemSpriteFactory;
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
-
+        private FireBallSpriteFactory fireBallSpriteFactory;
         //For level parser
         private Texture2D blockSprites;
         private Texture2D pipeSprite;
@@ -97,6 +97,7 @@ namespace Game1
             goombaSpriteFactory = GoombaSpriteFactory.Instance;
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
+            fireBallSpriteFactory = FireBallSpriteFactory.Instance;
 
             camera = new Camera(GraphicsDevice.Viewport);
             camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
@@ -113,6 +114,7 @@ namespace Game1
             ICommand moveRight = new MoveRightCommand(mario);
             ICommand jump = new JumpCommand(mario);
             ICommand crouch = new CrouchCommand(mario);
+            ICommand throwFireBall = new throwFireballCommand((FireBall)objects[1]);
 
             // Initialize keyboard controller mappinqgs
             // Action commands
@@ -125,6 +127,8 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.W, jump);
             keyboardController.AddMapping((int)Keys.Down, crouch);
             keyboardController.AddMapping((int)Keys.S, crouch);
+            keyboardController.AddMapping((int)Keys.Space, throwFireBall);
+            keyboardController.AddMapping((int)Keys.B, throwFireBall);
 
             // Power-up commands
             keyboardController.AddMapping((int)Keys.Y, new StandardMarioCommand(mario));
@@ -154,6 +158,8 @@ namespace Game1
             goombaSpriteFactory.LoadTextures(this);
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
+            fireBallSpriteFactory.LoadTextures(this);
+
             blockSprites = Content.Load<Texture2D>("BlocksV3");
             pipeSprite = Content.Load<Texture2D>("pipe");
             itemSprites = Content.Load<Texture2D>("Items");

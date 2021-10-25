@@ -45,54 +45,52 @@ namespace Collisions
 
                             // For some reason, left/right collisions do not work if this is uncommented. -Jesse
 
-                            //if (Math.Abs(obj2PosX - obj1PosX) < 8 + Math.Abs(obj1VelX * GameTime.ElapsedGameTime.TotalSeconds))       // Check to see if obj2 is close to obj1 X
-                            //{
-                            //System.Diagnostics.Debug.WriteLine("XPos Close:" + obj1.GetType());
-
-                            //if (Math.Abs(obj2PosY - obj1PosY) < 16 + Math.Abs(obj1VelY * GameTime.ElapsedGameTime.TotalSeconds))   // Check to see if obj2 is close to obj1 Y
-                            //{
-                            if (obj1.TopCollision(obj2))
+                            if (Math.Abs(obj2PosX - obj1PosX) < 64 + Math.Abs(obj1VelX * GameTime.ElapsedGameTime.TotalSeconds))       // Check to see if obj2 is close to obj1 X
                             {
-                                obj1.Sprite.isCollided = true;
-                                obj2.Sprite.isCollided = true;
+                                if (Math.Abs(obj2PosY - obj1PosY) < 64 + Math.Abs(obj1VelY * GameTime.ElapsedGameTime.TotalSeconds))   // Check to see if obj2 is close to obj1 Y
+                                {
+                                    if (obj1.TopCollision(obj2))
+                                    {
+                                        obj1.Sprite.isCollided = true;
+                                        obj2.Sprite.isCollided = true;
 
-                                /*
-                                 * If object is a block, we add it to the list so we can
-                                 * handle collisions with multiple blocks at a time
-                                 */
-                                if (obj2 is Block block && obj1 is Mario)
-                                {
-                                    bumpedBlocks.Add(block);
-                                } else
-                                {
-                                    obj1.Collision(TOP, obj2);
-                                    obj2.Collision(BOTTOM, obj1);
+                                        /*
+                                         * If object is a block, we add it to the list so we can
+                                         * handle collisions with multiple blocks at a time
+                                         */
+                                        if (obj2 is Block block && obj1 is Mario)
+                                        {
+                                            bumpedBlocks.Add(block);
+                                        } else
+                                        {
+                                            obj1.Collision(TOP, obj2);
+                                            obj2.Collision(BOTTOM, obj1);
+                                        }
+                                    } else if (obj1.BottomCollision(obj2))
+                                    {
+                                        obj1.Sprite.isCollided = true;
+                                        obj2.Sprite.isCollided = true;
+                                        obj1.Collision(BOTTOM, obj2);
+                                        obj2.Collision(TOP, obj1);
+                                    } else if (obj1.LeftCollision(obj2))
+                                    {
+                                        obj1.Sprite.isCollided = true;
+                                        obj2.Sprite.isCollided = true;
+                                        obj1.Collision(LEFT, obj2);
+                                        obj2.Collision(RIGHT, obj1);
+                                    } else if (obj1.RightCollision(obj2))
+                                    {
+                                        obj1.Sprite.isCollided = true;
+                                        obj2.Sprite.isCollided = true;
+                                        obj1.Collision(RIGHT, obj2);
+                                        obj2.Collision(LEFT, obj1);
+                                    } else
+                                    {
+                                        obj1.Sprite.isCollided = false;
+                                        obj2.Sprite.isCollided = false;
+                                    }
                                 }
-                            } else if (obj1.BottomCollision(obj2))
-                            {
-                                obj1.Sprite.isCollided = true;
-                                obj2.Sprite.isCollided = true;
-                                obj1.Collision(BOTTOM, obj2);
-                                obj2.Collision(TOP, obj1);
-                            } else if (obj1.LeftCollision(obj2))
-                            {
-                                obj1.Sprite.isCollided = true;
-                                obj2.Sprite.isCollided = true;
-                                obj1.Collision(LEFT, obj2);
-                                obj2.Collision(RIGHT, obj1);
-                            } else if (obj1.RightCollision(obj2))
-                            {
-                                obj1.Sprite.isCollided = true;
-                                obj2.Sprite.isCollided = true;
-                                obj1.Collision(RIGHT, obj2);
-                                obj2.Collision(LEFT, obj1);
-                            } else
-                            {
-                                obj1.Sprite.isCollided = false;
-                                obj2.Sprite.isCollided = false;
                             }
-                                //}
-                            //}
                         }
                     }
 
