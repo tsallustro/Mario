@@ -3,13 +3,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 using States;
-
+using Collisions;
 
 namespace GameObjects
 {
     public abstract class Item : GameObject, IItem
     {
         protected readonly static int mushroomSpeed = 5;
+        protected readonly static int defaultItemGravity = 20;
+        
         protected readonly static int boundaryAdjustment = +5;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
@@ -88,9 +90,16 @@ namespace GameObjects
             }
 
             //Make blocks change direction with blocking entity
-            if (Collidee is Block && Velocity.X != 0)
+            if ((side == CollisionHandler.RIGHT || side == CollisionHandler.LEFT) && Collidee is Block && Velocity.X != 0)
             {
                 SetXVelocity(-1 * Velocity.X);
+            }
+
+            if(isFinishedEmerging && side == CollisionHandler.BOTTOM && Collidee is Block)
+            {
+                
+                this.SetYVelocity(0);
+                
             }
 
         }
@@ -113,9 +122,13 @@ namespace GameObjects
                     SetYVelocity(0);
                     isEmergingFromBlock = false;
                     isFinishedEmerging = true;
+                   
                 }
             }
-
+            if (isFinishedEmerging)
+            {
+                SetYAcceleration(defaultItemGravity);
+            }
             Sprite = spriteFactory.GetCurrentSprite(Position, itemState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
@@ -180,7 +193,7 @@ namespace GameObjects
             base.Update(gameTime);
             if (isFinishedEmerging)
             {
-
+                
 
                 if (Velocity.X == 0 && Position.X - boundMario.GetPosition().X > 0)
                 {
@@ -233,6 +246,10 @@ namespace GameObjects
 
     public class Star : Item
     {
+
+        protected readonly static int starXSpeed = 10, starInitialBounceSpeed = 30;
+       
+
         public Star(Vector2 position, Texture2D itemSprites, Mario mario)
             : base(position, itemSprites, mario)
         {
@@ -242,5 +259,50 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             
         }
+        public override void Collision(int side, GameObject Collidee)
+        {
+            
+            base.Collision(side, Collidee);
+           
+            //Bounce on collision with ground
+            if (isFinishedEmerging && Collidee is Block)
+            {
+                if ( side == CollisionHandler.BOTTOM)
+                {
+                    
+                    this.SetYVelocity(-1 * starInitialBounceSpeed);
+                }
+                else if (side == CollisionHandler.TOP)
+                {
+                    
+                    this.SetYVelocity(1 * starInitialBounceSpeed);
+                }
+
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (isFinishedEmerging)
+            {
+               
+
+                if (Velocity.X == 0 && Position.X - boundMario.GetPosition().X > 0)
+                {
+                    //Star is to the right of mario
+                    SetXVelocity(mushroomSpeed);
+                }
+                else if (Velocity.X == 0)
+                {
+                    //Star is to the left of mario
+                    SetXVelocity(-1 * mushroomSpeed);
+                }
+
+             
+            }
+
+          }
+
     }
 }
