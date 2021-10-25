@@ -12,7 +12,8 @@ namespace GameObjects
         protected readonly static int mushroomSpeed = 5;
         protected readonly static int defaultItemGravity = 20;
         
-        protected readonly static int boundaryAdjustment = +5;
+        protected readonly static int boundaryAdjustment = 0;
+        protected float lastY;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
@@ -35,6 +36,7 @@ namespace GameObjects
             initialPosition = position;
             spriteFactory = new ItemSpriteFactory(itemSprites);
             boundMario = mario;
+            lastY = this.Position.Y;
         }
 
         // This constructor should be used when creating STATIONARY items for testing
@@ -84,7 +86,7 @@ namespace GameObjects
         public override void Collision(int side, GameObject Collidee)
         {
 
-            if (Collidee is Mario && !isEmergingFromBlock)
+            if (Collidee is Mario && CanBePickedUp())
             {
                 this.queuedForDeletion = true;
             }
@@ -95,11 +97,14 @@ namespace GameObjects
                 SetXVelocity(-1 * Velocity.X);
             }
 
+            //Make items stop falling when they hit a block
             if(isFinishedEmerging && side == CollisionHandler.BOTTOM && Collidee is Block)
             {
                 
                 this.SetYVelocity(0);
-                
+
+                //This makes corrections based on gravity. The constant is the difference in y position between frames without having this line
+                this.Position = new Vector2(Position.X, Position.Y-0.005554199f);
             }
 
         }
@@ -109,10 +114,11 @@ namespace GameObjects
         //Update all items
         public override void Update(GameTime gameTime)
         {
+            lastY = this.Position.Y;
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Velocity += Acceleration * timeElapsed;
             Position += Velocity * timeElapsed;
-
+            
             if (isEmergingFromBlock)
             {
                 SetYVelocity(emergingVelocity);
@@ -127,6 +133,8 @@ namespace GameObjects
             }
             if (isFinishedEmerging)
             {
+                System.Diagnostics.Debug.WriteLine("Position: " + this.Position);
+                System.Diagnostics.Debug.WriteLine("Delta pos: " + (this.Position.Y - lastY));
                 SetYAcceleration(defaultItemGravity);
             }
             Sprite = spriteFactory.GetCurrentSprite(Position, itemState);
@@ -145,6 +153,11 @@ namespace GameObjects
                 Sprite.Draw(spriteBatch, false);
                 DrawAABBIfVisible(Color.Green, spriteBatch);
             }
+        }
+
+        public bool CanBePickedUp()
+        {
+            return this.isFinishedEmerging;
         }
     }
 
