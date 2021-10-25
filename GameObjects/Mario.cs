@@ -283,7 +283,7 @@ namespace GameObjects
             else if (Collidee is FireBall && ((FireBall)Collidee).getActive()) // only pay attention to active fireballs
             {
                 this.Damage();
-                this.actionState.Idle();
+                //this.actionState.Idle();
             }
         }
     

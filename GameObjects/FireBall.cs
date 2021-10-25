@@ -80,6 +80,7 @@ namespace GameObjects
                         this.Position = new Vector2(mario.GetPosition().X + 16, mario.GetPosition().Y);
                         this.SetXVelocity(HorizontalVelocity);
                     }
+                    this.SetYVelocity(-50);
                     Sprite = spriteFactory.GetCurrentSprite(this.Position);
                     AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                         (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
@@ -94,15 +95,34 @@ namespace GameObjects
 
 
         // Updating Methods
+        private void CheckAndHandleIfAtScreenBoundary() // ripped from mario.cs, handles if fireball goes outside of screen
+        {
+            if (mario.GetPosition().X - Position.X > 400)       // default screen height is 800 px
+            {
+                this.active = false;
+            }
+            else if (mario.GetPosition().X - Position.X < -400)
+            {
+                this.active = false;
+            }
+            if (Position.Y > 480)       // default screen Width is 480 px
+            {
+                this.active = false;
+            }
+            else if (Position.Y < 0)
+            {
+                this.active = false;
+            }
+        }
         public override void Collision(int side, GameObject Collidee)
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
             
             if (this.active) // only handle collisions if active
             {
-                if (Collidee is Block && ((Block)Collidee).GetBlockState() is HiddenBlockState)
+                if (Collidee is Item || (Collidee is Block && ((Block)Collidee).GetBlockState() is HiddenBlockState))
                 {
-                    return;     //Short circuit that! we dont care about hidden blocks
+                    return;     //Short circuit that! we dont care about hidden blocks or item collisions
                 }
 
                 if (side == 1)          //Top
@@ -111,7 +131,7 @@ namespace GameObjects
                 }
                 else if (side == 2)     //Bottom
                 {
-                    if (Collidee is Block)
+                    if (Collidee is Block || Collidee is WarpPipe)
                     {
                         this.SetYVelocity(-100);
                     } else
@@ -135,6 +155,9 @@ namespace GameObjects
             if (this.active)
             {
                 float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+
+                // Check if fireball is out of bounds
+                this.CheckAndHandleIfAtScreenBoundary();
 
                 // Move Fireball
                 this.SetYVelocity(this.Velocity.Y + Acceleration.Y * timeElapsed);
