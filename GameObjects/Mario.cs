@@ -174,7 +174,7 @@ namespace GameObjects
         {
             
 
-            if (Collidee is Item item && item.GetVisibility())
+            if (Collidee is Item item && item.CanBePickedUp())
             {
                 if (item is SuperMushroom)
                 {

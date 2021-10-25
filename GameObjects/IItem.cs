@@ -15,6 +15,8 @@ namespace GameObjects
         void SetVisibility(bool isVisible);
         void MakeVisibleAndEmerge();
 
+        bool CanBePickedUp();
+
         
     }
 }
