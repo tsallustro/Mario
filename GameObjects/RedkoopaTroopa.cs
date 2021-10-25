@@ -20,6 +20,11 @@ namespace GameObjects
         private IEnemyState redKoopaTroopaState;
         private RedKoopaTroopaSpriteFactory spriteFactory;
 
+        //Timer for Koopa Shell NOTE:CtrlV 
+        private float timer;
+        private float shellSpeed;
+
+
         public RedKoopaTroopa(Vector2 position)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
@@ -50,6 +55,67 @@ namespace GameObjects
         {
             redKoopaTroopaState.Stomped();
         }
+
+        //This is a copy paste from KoopaTroopa
+        public override void Collision(int side, GameObject Collidee)
+        {
+            const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
+            if (Collidee is Mario)
+            {
+                if (redKoopaTroopaState is StompedRedKoopaTroopaState)
+                {
+                    switch (side)
+                    {
+                        case TOP:
+                            redKoopaTroopaState.Stomped();
+                            break;
+                        case BOTTOM:
+                            //Do nothing. Not sure what happens when Mario hits the shell from bottom.
+                            break;
+                        case LEFT:
+                            //shell is kicked.
+                            shellSpeed = 100;
+                            Kicked(shellSpeed);
+                            break;
+                        case RIGHT:
+                            shellSpeed = -100;
+                            Kicked(shellSpeed);
+                            break;
+                    }
+                }
+                else
+                {
+                    if (side == 1)          //Top
+                    {
+                        redKoopaTroopaState.Stomped();
+                    }
+                }
+            }
+            else if (Collidee is KoopaTroopa koopa) //If koopa is also shelled and kicked, then it only changes direction when it hits another kicked koopa. If it's in any other state, another kicked koopa kills it.
+            {
+                if (koopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState && this.GetRedKoopaTroopaState() is MovingShelledKoopaTroopaState)
+                {
+                    this.SetXVelocity(this.GetVelocity().X * -1);
+                }
+                else
+                {
+                    this.Die();
+                }
+            }
+            else if (Collidee is Block)  //Koopa changes its direction when it hits block
+            {
+                if (this.GetRedKoopaTroopaState() is MovingShelledKoopaTroopaState)
+                {
+                    this.SetXVelocity(this.GetVelocity().X * -1);
+                }
+            }
+            else if (Collidee is FireBall && ((FireBall)Collidee).getActive())
+            {
+                this.Damage();
+            }
+        }
+
 
         //Update all of Goomba's members
         public override void Update(GameTime gameTime)
@@ -82,7 +148,16 @@ namespace GameObjects
         {
             redKoopaTroopaState.StayIdle();
         }
-       
 
+        public void Kicked(float sspeed)
+        {
+            timer = 50;
+            SetXVelocity(sspeed);
+            SetRedKoopaTroopaState(new MovingRedShelledKoopaTroopaState(this));
+        }
+        public void Die()
+        {
+            SetRedKoopaTroopaState(new DeadRedKoopaTroopaState(this));
+        }
     }
 }

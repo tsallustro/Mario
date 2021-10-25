@@ -68,23 +68,23 @@ namespace GameObjects
             return previousAction;
         }
 
-        public void SetPowerState(IMarioPowerState powerState)
+        public void SetPowerState(IMarioPowerState PowerState)
         {
             int previousSpriteHeight = Sprite.texture.Height;
 
             // Update the position of the sprite to account for varying heights of Mario
             if ((this.powerState is StandardMario || this.powerState is DeadMario) && 
-                !(powerState is StandardMario) && !(powerState is DeadMario))
+                !(PowerState is StandardMario) && !(PowerState is DeadMario))
             {
                 Position -= new Vector2(0, this.Sprite.texture.Height);
             } else if ((!(this.powerState is StandardMario) && !(this.powerState is DeadMario))
-                && powerState is StandardMario)
+                && PowerState is StandardMario)
             {
                 Position += new Vector2(0, this.Sprite.texture.Height / 2);
             }
 
-            this.powerState = powerState;
-            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
+            this.powerState = PowerState;
+            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, PowerState);
 
             // Update maxCoords to match change in height from power state
             maxCoords.Y -= (Sprite.texture.Height - previousSpriteHeight);
@@ -170,11 +170,11 @@ namespace GameObjects
             }
         }
 
-        public override void Collision(int side, GameObject obj)
+        public override void Collision(int side, GameObject Collidee)
         {
             
 
-            if (obj is Item item && item.GetVisibility())
+            if (Collidee is Item item && item.GetVisibility())
             {
                 if (item is SuperMushroom)
                 {
@@ -189,7 +189,7 @@ namespace GameObjects
                     //Implement invicibility
                 }
             }
-            else if (obj is Block block)
+            else if (Collidee is Block block)
             {
                 if (!(block.GetBlockState() is HiddenBlockState))
                 {
@@ -204,11 +204,11 @@ namespace GameObjects
                     }
                 }
             } 
-            else if (obj is WarpPipe pipe)
+            else if (Collidee is WarpPipe pipe)
             {
                 HandleBlockCollision(side, pipe);
             } 
-            else if (obj is Goomba goomba)
+            else if (Collidee is Goomba goomba)
             {
                 if (!(goomba.GetGoombaState() is StompedGoombaState) && !(goomba.GetGoombaState() is DeadGoombaState))
 
@@ -216,7 +216,7 @@ namespace GameObjects
                     {
                         // Here, we reset the position slightly so the character can move away
                         case TOP:
-                            this.powerState.TakeDamage();
+                            this.Damage();
                             this.actionState.Idle();
                             Position = new Vector2(Position.X, Position.Y - 2);
                             break;
@@ -224,18 +224,18 @@ namespace GameObjects
                             //Skip off of enemy
                             break;
                         case LEFT:
-                            this.powerState.TakeDamage();
+                            this.Damage();
                             this.actionState.Idle();
                             Position = new Vector2(Position.X + 2, Position.Y);
                             break;
                         case RIGHT:
-                            this.powerState.TakeDamage();
+                            this.Damage();
                             this.actionState.Idle();
                             Position = new Vector2(Position.X - 2, Position.Y);
                             break;
                     }
             }
-            else if (obj is KoopaTroopa koopaTroopa)
+            else if (Collidee is KoopaTroopa koopaTroopa)
             {
                 if (!(koopaTroopa.GetKoopaTroopaState() is StompedKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState))
                 {
@@ -243,7 +243,7 @@ namespace GameObjects
                     {
                         // Here, we reset the position slightly so the character can move away
                         case TOP:
-                            this.powerState.TakeDamage();
+                            this.Damage();
                             this.actionState.Idle();
                             Position = new Vector2(Position.X, Position.Y - 2);
                             break;
@@ -251,12 +251,12 @@ namespace GameObjects
                             this.actionState.Jump();
                             break;
                         case LEFT:
-                            this.powerState.TakeDamage();
+                            this.Damage();
                             this.actionState.Idle();
                             Position = new Vector2(Position.X + 2, Position.Y);
                             break;
                         case RIGHT:
-                            this.powerState.TakeDamage();
+                            this.Damage();
                             this.actionState.Idle();
                             Position = new Vector2(Position.X - 2, Position.Y);
                             break;
@@ -279,6 +279,11 @@ namespace GameObjects
                             break;
                     }
                 }
+            }
+            else if (Collidee is FireBall && ((FireBall)Collidee).getActive()) // only pay attention to active fireballs
+            {
+                this.Damage();
+                this.actionState.Idle();
             }
         }
     
@@ -379,7 +384,10 @@ namespace GameObjects
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
-        public override void Damage() { }
+        public override void Damage() 
+        {
+            this.powerState.TakeDamage();
+        }
 
         public override void Halt()
         {

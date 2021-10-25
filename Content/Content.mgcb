@@ -140,7 +140,7 @@
 /processorParam:TextureFormat=Color
 /build:enemies.png
 
-#begin fireball.gif
+#begin fireball.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=0,0,255,255
@@ -150,7 +150,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:fireball.gif
+/build:fireball.png
 
 #begin FireMario.png
 /importer:TextureImporter
@@ -179,7 +179,7 @@
 #begin Goomba.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=0,136,255,255
+/processorParam:ColorKeyColor=0,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True

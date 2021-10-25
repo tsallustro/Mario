@@ -35,6 +35,18 @@ namespace LevelParser
             //Mario MUST be parsed first, so that he is the first object in the list.
             Mario mario = ParseMario(g, list, level, maxCoords);
 
+            //Add Fireballs to list. Must Be added second & onward in list
+            int numOfFireBalls = 2;
+            for (int i = 1; i <= numOfFireBalls; i++)           // add fireballs to object list
+            {
+                FireBall fireball = new FireBall(true, mario);
+                list.Add(fireball);
+            }
+            for (int i = 1; i <= numOfFireBalls-1; i++)         // Add reference to next fireball to all fireballs in list but last
+            {
+                ((FireBall)list[i]).setNextFireBall((FireBall)list[i + 1]);
+            }
+
             //Parse Warp Pipes
             ParseWarpPipes(list, level, pipeSprite);
 

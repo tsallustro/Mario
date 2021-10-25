@@ -57,8 +57,12 @@ namespace GameObjects
         // Overide
         public override void Collision(int side, GameObject Collidee)
         {
-            
-            if (side == 1)          //Top
+            if(Collidee is FireBall && ((FireBall)Collidee).getActive())    // if collidee is a fireball, then stomp
+            {
+                goombaState.Stomped();
+                return;
+            }
+            else if (side == 1)          //Top
             {
                 if (Collidee is Mario)
                 {
