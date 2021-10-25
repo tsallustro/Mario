@@ -5,6 +5,7 @@ using GameObjects;
 
 namespace States
 {
+    //Base KoopaTroopa State. Normally KoopaTroopa won't be Idle, but moving
     public class IdleKoopaTroopaState : IEnemyState
     {
         private KoopaTroopa koopaTroopa;
@@ -70,6 +71,36 @@ namespace States
         public void StayIdle()
         {
             //Do Nothing.
+        }
+        public void Revive()
+        {
+            //Do Revive
+        }
+    }
+    public class MovingShelledKoopaTroopaState : IEnemyState
+    {
+        private KoopaTroopa koopaTroopa;
+
+        public MovingShelledKoopaTroopaState(KoopaTroopa koopaTroopa)
+        {
+            this.koopaTroopa = koopaTroopa;
+        }
+
+        public void Stomped()
+        {
+            koopaTroopa.SetKoopaTroopaState(new StompedKoopaTroopaState(koopaTroopa));
+        }
+        public void Move()
+        {
+            //Do nothing. It can't move while Stomped.
+        }
+        public void StayIdle()
+        {
+            //Do Nothing.
+        }
+        public void Revive()
+        {
+            //Do Revive
         }
     }
     public class DeadKoopaTroopaState : IEnemyState

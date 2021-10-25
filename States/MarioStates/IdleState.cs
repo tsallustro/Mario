@@ -16,6 +16,8 @@ namespace States
             this.mario = mario;
             this.left = left;
 
+            this.mario.SetXAcceleration(0);
+            this.mario.SetYAcceleration(0);
             this.mario.SetXVelocity(0);
             this.mario.SetYVelocity(0);
         }
@@ -42,7 +44,6 @@ namespace States
             if (!this.left)
             {
                 mario.SetActionState(new RunningState(mario, this.left));
-                                
             }
             else
             {
@@ -57,7 +58,7 @@ namespace States
 
         public void Jump()
         {
-            mario.SetActionState(new JumpingState(mario, this.left));
+            mario.SetActionState(new JumpingState(mario, this.left, this));
         }
 
         public void Fall()
@@ -67,7 +68,7 @@ namespace States
 
         public void Land()
         {
-            //Do Nothing
+            //mario.SetActionState(new CrouchingState(mario, this.left));
         }
 
         public void Idle()

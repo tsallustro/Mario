@@ -10,19 +10,25 @@ namespace States
         private Mario mario;
         private bool left;
 
+        // Physics variables
+        private int RunningAcceleration { get; } = 250;
+
         public RunningState(Mario mario, bool left)
         {
             this.mario = mario;
             this.left = left;
 
+            this.mario.SetYAcceleration(0);
+
             if (this.left)
             {
-                this.mario.SetXVelocity(-100);
+                this.mario.SetXAcceleration(-RunningAcceleration);
             }
             else
             {
-                this.mario.SetXVelocity(100);
+                this.mario.SetXAcceleration(RunningAcceleration);
             }
+            
         }
 
         public bool GetDirection()
@@ -48,12 +54,13 @@ namespace States
 
         public void Crouch()
         {
+            mario.SetXVelocity(0);
             mario.SetActionState(new CrouchingState(mario, this.left));
         }
 
         public void Jump()
         {
-            mario.SetActionState(new JumpingState(mario, this.left));
+            mario.SetActionState(new JumpingState(mario, this.left, this));
         }
 
         public void Fall()

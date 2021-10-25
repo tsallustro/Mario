@@ -23,7 +23,14 @@ namespace Controllers
 
         public void AddMapping(int key, ICommand command)
         {
-            this.keyMapping.Add(key, command);
+            if (this.keyMapping.ContainsKey(key))
+            {
+                this.keyMapping.Remove(key);
+                this.keyMapping.Add(key, command);
+            } else
+            {
+                this.keyMapping.Add(key, command);
+            }
         }
         
         // execute on press
@@ -51,13 +58,14 @@ namespace Controllers
                 if (currentState.IsKeyDown(key) && previousState.IsKeyUp(key) && keyMapping.ContainsKey((int)key))
                 {
                     HandleKeyPress(key);
-                }
-                // Key Press hold down
-                if (currentState.IsKeyDown(key) && previousState.IsKeyDown(key) && keyMapping.ContainsKey((int)key))
+                } else if (currentState.IsKeyDown(key) && previousState.IsKeyDown(key) && keyMapping.ContainsKey((int)key))
                 {
                     HandleKeyHold(key);
                 }
-                // Key Press release
+            }
+
+            foreach (Keys key in previousState.GetPressedKeys())
+            {
                 if (currentState.IsKeyUp(key) && previousState.IsKeyDown(key) && keyMapping.ContainsKey((int)key))
                 {
                     HandleKeyRelease(key);

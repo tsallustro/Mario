@@ -9,13 +9,26 @@ namespace States
     {
         private Mario mario;
         private bool left;
+        private bool initialLeft; // Save so we only continue in the same direction
+
+        // Physics variables
+        private int InitialFallingAcceleration { get; } = 275; // Must be consistent across files
 
         public FallingState(Mario mario, bool left)
         {
             this.mario = mario;
             this.left = left;
+            initialLeft = left;
 
-            mario.SetYVelocity(100);
+            mario.SetXAcceleration(0);
+
+            if (mario.GetVelocity().Y < 0)
+            {
+                mario.SetYVelocity(-mario.GetVelocity().Y / 2);
+            } else
+            {
+                mario.SetYAcceleration(InitialFallingAcceleration);
+            }
         }
 
         public bool GetDirection()
@@ -27,7 +40,7 @@ namespace States
         {
             if (this.left)
             {
-                mario.SetActionState(new FallingState(mario, !this.left));
+                left = !left;
             }
         }
 
@@ -35,28 +48,44 @@ namespace States
         {
             if (!this.left)
             {
-                mario.SetActionState(new FallingState(mario, !this.left));
+                left = !left;
             }
         }
 
         public void Crouch()
         {
-            mario.SetActionState(new CrouchingState(mario, this.left));
+            // Do nothing
         }
 
         public void Jump()
         {
-            mario.SetActionState(new IdleState(mario, this.left));
+            // Do nothing
         }
 
         public void Fall()
         {
-            //Do nothing
+            // Do nothing
         }
 
         public void Land()
         {
-            mario.SetActionState(new IdleState(mario, this.left));
+            mario.SetYVelocity(0);
+
+            if (mario.ContinueRunning && initialLeft == left)
+            {
+                // If we changed direction while jumping, reset velocity to 0
+                if ((!left && mario.GetVelocity().X < 0) || (left && mario.GetVelocity().X > 0))
+                {
+                    mario.SetXVelocity(0);
+                }
+
+                mario.SetActionState(new RunningState(mario, left));
+            } else
+            {
+                mario.SetActionState(new IdleState(mario, this.left));
+            }
+
+            mario.ContinueRunning = false;
         }
 
         public void Idle()

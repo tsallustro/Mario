@@ -27,12 +27,12 @@ namespace GameObjects
             : base(position, velocity, acceleration)
         {
             spriteFactory = GoombaSpriteFactory.Instance;
-            Sprite = spriteFactory.CreateMovingGoomba(position);
+            Sprite = spriteFactory.CreateIdleGoomba(position);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
-            goombaState = new MovingGoombaState(this);
+            goombaState = new IdleGoombaState(this);
             objects = objs;
-            this.SetXVelocity((float)50);
+            //this.SetXVelocity((float)50);
         }
 
         public IEnemyState GetGoombaState()
@@ -57,8 +57,12 @@ namespace GameObjects
         // Overide
         public override void Collision(int side, GameObject Collidee)
         {
-
-            if (side == 1)          //Top
+            if(Collidee is FireBall && ((FireBall)Collidee).getActive())    // if collidee is a fireball, then stomp
+            {
+                goombaState.Stomped();
+                return;
+            }
+            else if (side == 1)          //Top
             {
                 if (Collidee is Mario)
                 {
@@ -77,11 +81,23 @@ namespace GameObjects
             }
             else if (side == 3)     //Left
             {
-
+                if (Collidee is KoopaTroopa koopaTroopa)
+                {
+                    if (koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)    //If kicked koopatroop hits goomba, goomba dies.
+                    {
+                        goombaState.Stomped();
+                    }
+                }
             }
             else if (side == 4)     //Right
             {
-
+                if (Collidee is KoopaTroopa koopaTroopa)
+                {
+                    if (koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)    //If kicked koopatroop hits goomba, goomba dies.
+                    {
+                        goombaState.Stomped();
+                    }
+                }
             }
 
         }
@@ -90,24 +106,6 @@ namespace GameObjects
         //Update all of Goomba's members
         public override void Update(GameTime GameTime)
         {
-            
-            foreach (GameObject obj in objects)
-            {
-                if (obj != this)
-                {
-                    //If Goomba is stomped
-                    // Need to check that Mario is travelling downwards
-                    if (obj is Mario && this.TopCollision(obj) && obj.GetVelocity().Y > 0)
-                    {
-                            //this.Stomped();
-                    }
-                    else if (obj is Block && this.LeftCollision(obj) || this.RightCollision(obj))
-                    {
-                        //If goomba hits the wall
-                        this.ChangeDirection();
-                    }
-                }    
-            }
 
             ChangeDirection();
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;

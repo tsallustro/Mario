@@ -15,7 +15,10 @@ namespace States
             this.mario = mario;
             this.left = left;
 
-            mario.SetYVelocity(100);
+            this.mario.SetXAcceleration(0);
+            this.mario.SetYAcceleration(0);
+            this.mario.SetXVelocity(0);
+            this.mario.SetYVelocity(0);
         }
 
         public bool GetDirection()
@@ -51,7 +54,7 @@ namespace States
 
         public void Fall()
         {
-            mario.SetActionState(new FallingState(mario, this.left));
+            //mario.SetActionState(new FallingState(mario, this.left));
         }
 
         public void Land()

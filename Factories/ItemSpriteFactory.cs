@@ -11,32 +11,15 @@ namespace Factories
     public class ItemSpriteFactory
     {
         private Texture2D itemSprites;
-
-		private static ItemSpriteFactory factoryInstance = new ItemSpriteFactory();
-		
-		// TODO - Since we'll have multiple items, DO NOT cache the sprites
-		// We don't want to continually instantiate more and more sprites.
 		private ISprite coin;
 		private ISprite superMushroom;
 		private ISprite oneUpMushroom;
 		private ISprite fireFlower;
 		private ISprite star;
 
-		public static ItemSpriteFactory Instance
+		public ItemSpriteFactory(Texture2D itemSprites)
 		{
-			get
-			{
-				return factoryInstance;
-			}
-		}
-
-		private ItemSpriteFactory()
-		{
-		}
-
-		public void LoadTextures(Game game)
-		{
-			itemSprites = game.Content.Load<Texture2D>("Items");
+			this.itemSprites = itemSprites;
 		}
 
 		/*
@@ -69,48 +52,63 @@ namespace Factories
 		
 		public ISprite CreateCoin(Vector2 location)
         {
-			if (coin == null)
+			if (coin != null)
 			{
-				coin = new Sprite(true, location, itemSprites, 1, 9, 7, 8);
 				return coin;
 			}
-			else return coin;
-        }
+			else
+			{
+				coin = new Sprite(false, true, location, itemSprites, 1, 9, 7, 8);
+				return coin;
+			}
+		}
+
 		public ISprite CreateSuperMushroom(Vector2 location)
 		{
-			if (superMushroom == null)
-			{
-				superMushroom = new Sprite(true, location, itemSprites, 1, 9, 0, 0);
+			if (superMushroom != null)
+            {
+				return superMushroom;
+            } else
+            {
+				superMushroom = new Sprite(false, true, location, itemSprites, 1, 9, 0, 0);
 				return superMushroom;
 			}
-			else return superMushroom;
 		}
+
 		public ISprite CreateOneUpMushroom(Vector2 location)
 		{
-			if (oneUpMushroom == null)
-			{
-				oneUpMushroom = new Sprite(true, location, itemSprites, 1, 9, 1, 1);
+			if (oneUpMushroom != null)
+            {
+				return oneUpMushroom;
+            } else
+            {
+				oneUpMushroom = new Sprite(false, true, location, itemSprites, 1, 9, 1, 1);
 				return oneUpMushroom;
 			}
-			else return oneUpMushroom;
 		}
+
 		public ISprite CreateFireFlower(Vector2 location)
 		{
-			if (fireFlower == null)
-			{
-				fireFlower = new Sprite(true, location, itemSprites, 1, 9, 2, 2);
+			if (fireFlower != null)
+            {
+				return fireFlower;
+            } else
+            {
+				fireFlower = new Sprite(false, true, location, itemSprites, 1, 9, 2, 2);
 				return fireFlower;
 			}
-			else return fireFlower;
 		}
+
 		public ISprite CreateStar(Vector2 location)
 		{
-			if (star == null)
-			{
-				star = new Sprite(true, location, itemSprites, 1, 9, 3, 6);
+			if (star != null)
+            {
+				return star;
+            } else
+            {
+				star = new Sprite(false, true, location, itemSprites, 1, 9, 3, 6);
 				return star;
 			}
-			else return star;
 		}
 	}
 }

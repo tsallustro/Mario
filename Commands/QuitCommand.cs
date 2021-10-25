@@ -9,7 +9,7 @@ namespace Commands
 {
     class QuitCommand : ICommand
     {
-        public Game game;
+        private Game game;
 
         public QuitCommand(Game game)
         {

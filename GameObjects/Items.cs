@@ -9,28 +9,65 @@ namespace GameObjects
 {
     public abstract class Item : GameObject, IItem
     {
-        protected readonly int boundaryAdjustment = -10;
+        protected readonly static int mushroomSpeed = 5;
+        protected readonly static int boundaryAdjustment = +5;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
          */
+        private readonly int emergingVelocity = -30;
+
         protected readonly int numberOfSpritesOnSheet = 9;
         protected IItemState itemState;
         protected ItemSpriteFactory spriteFactory;
+        protected bool isVisible = false;
+        protected bool isEmergingFromBlock = false;
+        protected bool isFinishedEmerging = false;
+        protected Vector2 initialPosition;
+        protected Mario boundMario;
+       
 
-        public Item(Vector2 position)
+        public Item(Vector2 position, Texture2D itemSprites, Mario mario)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
+            initialPosition = position;
+            spriteFactory = new ItemSpriteFactory(itemSprites);
+            boundMario = mario;
+        }
+
+        // This constructor should be used when creating STATIONARY items for testing
+        public Item(Vector2 position, Vector2 velocity, Vector2 acceleration, Texture2D itemSprites, Mario mario) 
+            : base(position, velocity, acceleration)
+        {
+            initialPosition = position;
+            spriteFactory = new ItemSpriteFactory(itemSprites);
+            boundMario = mario;
         }
 
         public IItemState GetItemState()
         {
-            return this.itemState;
+            return itemState;
         }
 
         public void SetItemState(IItemState itemState)
         {
             this.itemState = itemState;
+        }
+
+        public bool GetVisibility()
+        {
+            return isVisible;
+        }
+
+        public void SetVisibility(bool isVisible)
+        {
+            this.isVisible = isVisible;
+        }
+
+        public void MakeVisibleAndEmerge()
+        {
+            this.isVisible = true;
+            isEmergingFromBlock = true;
         }
 
         public override void Halt()
@@ -42,87 +79,168 @@ namespace GameObjects
         {
             return;
         }
+        public override void Collision(int side, GameObject Collidee)
+        {
+
+            if (Collidee is Mario && !isEmergingFromBlock)
+            {
+                this.queuedForDeletion = true;
+            }
+
+            //Make blocks change direction with blocking entity
+            if (Collidee is Block && Velocity.X != 0)
+            {
+                SetXVelocity(-1 * Velocity.X);
+            }
+
+        }
+
+        
 
         //Update all items
         public override void Update(GameTime gameTime)
         {
-            Sprite = spriteFactory.GetCurrentSprite(Sprite.location, itemState);
+            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Velocity += Acceleration * timeElapsed;
+            Position += Velocity * timeElapsed;
+
+            if (isEmergingFromBlock)
+            {
+                SetYVelocity(emergingVelocity);
+
+                if (Sprite.texture != null && Position.Y <= initialPosition.Y - Sprite.texture.Height)
+                {
+                    SetYVelocity(0);
+                    isEmergingFromBlock = false;
+                    isFinishedEmerging = true;
+                }
+            }
+
+            Sprite = spriteFactory.GetCurrentSprite(Position, itemState);
+            AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             Sprite.Update();
         }
 
         //Draw Item
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Sprite.location = Position;
-            Sprite.Draw(spriteBatch, false);
-            DrawAABBIfVisible(Color.Green, spriteBatch);
+            if (isVisible)
+            {
+                Sprite = spriteFactory.GetCurrentSprite(Sprite.location, itemState);
+                Sprite.location = Position;
+                Sprite.Draw(spriteBatch, false);
+                DrawAABBIfVisible(Color.Green, spriteBatch);
+            }
         }
-        
-
     }
 
     public class Coin : Item
     {
-        public Coin(Vector2 position)
-            : base(position)
+        public Coin(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
         {
-            spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateCoin(position);
             itemState = new CoinState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            
         }
     }
 
     public class FireFlower : Item
     {
-        public FireFlower(Vector2 position)
-            : base(position)
+        public FireFlower(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
         {
-            spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateFireFlower(position);
             itemState = new FireFlowerState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            
         }
     }
 
     public class SuperMushroom : Item
     {
-        public SuperMushroom(Vector2 position)
-            : base(position)
+
+        
+        public SuperMushroom(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
         {
-            spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateSuperMushroom(position);
             itemState = new SuperMushroomState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+           
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (isFinishedEmerging)
+            {
+
+
+                if (Velocity.X == 0 && Position.X - boundMario.GetPosition().X > 0)
+                {
+                    //Mushroom is to the right of mario
+                    SetXVelocity(-1 * mushroomSpeed);
+                }
+                else if (Velocity.X == 0)
+                {
+                    //Mushroom is to the left of mario
+                    SetXVelocity(mushroomSpeed);
+                }
+            }
         }
     }
 
     public class OneUpMushroom : Item
     {
-        public OneUpMushroom(Vector2 position)
-            : base(position)
+
+        
+        public OneUpMushroom(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
         {
-            spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateOneUpMushroom(position);
             itemState = new OneUpMushroomState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (isFinishedEmerging)
+            {
+
+
+                if (Velocity.X == 0 && Position.X - boundMario.GetPosition().X > 0)
+                {
+                    //Mushroom is to the right of mario
+                    SetXVelocity(mushroomSpeed);
+                }
+                else if (Velocity.X == 0)
+                {
+                    //Mushroom is to the left of mario
+                    SetXVelocity(-1* mushroomSpeed);
+                }
+            }
         }
     }
 
     public class Star : Item
     {
-        public Star(Vector2 position)
-            : base(position)
+        public Star(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
         {
-            spriteFactory = ItemSpriteFactory.Instance;
             Sprite = spriteFactory.CreateStar(position);
             itemState = new StarState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            
         }
     }
 }

@@ -72,6 +72,32 @@ namespace States
             //Do Nothing.
         }
     }
+    public class MovingRedShelledKoopaTroopaState : IEnemyState
+    {
+        private RedKoopaTroopa redKoopaTroopa;
+
+        public MovingRedShelledKoopaTroopaState(RedKoopaTroopa redKoopaTroopa)
+        {
+            this.redKoopaTroopa = redKoopaTroopa;
+        }
+
+        public void Stomped()
+        {
+            redKoopaTroopa.SetRedKoopaTroopaState(new StompedRedKoopaTroopaState(redKoopaTroopa));
+        }
+        public void Move()
+        {
+            //Do nothing. It can't move while Stomped.
+        }
+        public void StayIdle()
+        {
+            //Do Nothing.
+        }
+        public void Revive()
+        {
+            //Do Revive
+        }
+    }
     public class DeadRedKoopaTroopaState : IEnemyState
     {
         private RedKoopaTroopa redKoopaTroopa;

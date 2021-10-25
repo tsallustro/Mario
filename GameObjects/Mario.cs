@@ -15,15 +15,30 @@ namespace GameObjects
          * on that sheet!
          */
         private readonly int numberOfSpritesOnSheet = 15;
+        const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
         private Point maxCoords;
         private Vector2 newPosition;
-        List<IGameObject> objects;
+        private Vector2 oldPosition;
+
+        public bool ContinueRunning { get; set; } = false;
+        private bool JumpIsHeld { get; set; } = false;
+        private float TimeJumpHeld { get; set; } = 0;
+        private GameObject BlockMarioIsOn { get; set; }
         GraphicsDeviceManager Graphics { get; set; }
 
-        public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords, List<IGameObject> objs)
+        private IMarioActionState previousAction { get; set; }
+
+        // Physics variables
+        private int MaxHorizontalSpeed { get; } = 120;
+        private int FallingAcceleration { get; } = 275; // Must be consistent across files
+        private int JumpHoldAccelerationBoost { get; } = 55;
+        private float HighJumpTimer { get; } = 0.35f;
+
+        public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords)
             : base(position, velocity, acceleration)
         {
             spriteFactory = MarioSpriteFactory.Instance;
@@ -32,9 +47,9 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             
             powerState = new StandardMario(this);
-            actionState = new IdleState(this, false);
+            actionState = new FallingState(this, false);
+            previousAction = new FallingState(this, false);
             Graphics = graphics;
-            objects = objs;
 
             // Adjust given maxCoords to account for sprite's height
             this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
@@ -44,12 +59,32 @@ namespace GameObjects
         {
             return powerState;
         }
+        public IMarioActionState GetActionState()
+        {
+            return actionState;
+        }
+        public IMarioActionState GetPreActionState()
+        {
+            return previousAction;
+        }
 
-        public void SetPowerState(IMarioPowerState powerState)
+        public void SetPowerState(IMarioPowerState PowerState)
         {
             int previousSpriteHeight = Sprite.texture.Height;
-            this.powerState = powerState;
-            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
+
+            // Update the position of the sprite to account for varying heights of Mario
+            if ((this.powerState is StandardMario || this.powerState is DeadMario) && 
+                !(PowerState is StandardMario) && !(PowerState is DeadMario))
+            {
+                Position -= new Vector2(0, this.Sprite.texture.Height);
+            } else if ((!(this.powerState is StandardMario) && !(this.powerState is DeadMario))
+                && PowerState is StandardMario)
+            {
+                Position += new Vector2(0, this.Sprite.texture.Height / 2);
+            }
+
+            this.powerState = PowerState;
+            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, PowerState);
 
             // Update maxCoords to match change in height from power state
             maxCoords.Y -= (Sprite.texture.Height - previousSpriteHeight);
@@ -58,116 +93,216 @@ namespace GameObjects
        
         public void SetActionState(IMarioActionState actionState)
         {
+            previousAction = this.actionState;
             this.actionState = actionState;
         }
 
-        public override void Update(GameTime GameTime)
+        public override void Update(GameTime gameTime)
         {
+            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+            // Handle jump timer to allow higher jumping when button held
+            if (actionState is JumpingState && JumpIsHeld) TimeJumpHeld += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            // If at max speed, only change Y velocity
+            if (Velocity.X < MaxHorizontalSpeed && Velocity.X > -MaxHorizontalSpeed)
+                Velocity += Acceleration * timeElapsed;
+            else
+                SetYVelocity(Velocity.Y + Acceleration.Y * timeElapsed);
+
+            base.Update(gameTime);
+
             newPosition = Position + Velocity * timeElapsed;
-
-            StopMarioBoundary();
+            CheckAndHandleIfAtScreenBoundary();
             Position = newPosition;
 
+            // Fall if we are at peak of jump and not currently on a block
+            if (BlockMarioIsOn != null && !BottomCollision(BlockMarioIsOn) && this.Velocity.Y >= 0)
+            {
+                this.actionState.Fall();
+            }
+
+            Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             Sprite.Update();
         }
 
-        public override void Collision(int side, GameObject obj)
+        private void HandleBlockCollision(int side, GameObject block)
         {
-            const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
-
-            System.Diagnostics.Debug.WriteLine("Mario collision side:" + side);
-            System.Diagnostics.Debug.WriteLine("Mario action state:" + this.actionState);
-
-            if (obj is Item)
+            switch (side)
             {
-                Item itemObj = (Item)obj;
-                IItemState iState = itemObj.GetItemState();
-                if(iState is SuperMushroomState)
+                case TOP:
+                    if (Velocity.Y < 0)
+                    {
+                        this.actionState.Fall();
+                    }
+
+                    break;
+                case BOTTOM:
+                    if (Velocity.Y > 0 && !(this.actionState is RunningState) && !(this.actionState is IdleState))
+                    {
+                        this.actionState.Land();
+                    }
+
+                    BlockMarioIsOn = block;
+
+                    break;
+                case LEFT:
+                    if (Velocity.X < 0)
+                    {
+                        //I don't think hitting side of block should stop mario's y velocity
+                        //this.SetYVelocity(0);
+                        this.SetXAcceleration(0);
+                        this.SetXVelocity(0);
+                        //this.actionState.Fall();
+                    }
+                    break;
+                case RIGHT:
+                    if (Velocity.X > 0)
+                    {
+                        //this.SetYVelocity(0);
+                        this.SetXAcceleration(0);
+                        this.SetXVelocity(0);
+                        //this.actionState.Fall();
+                    }
+                    break;
+            }
+        }
+
+        public override void Collision(int side, GameObject Collidee)
+        {
+            
+
+            if (Collidee is Item item && item.GetVisibility())
+            {
+                if (item is SuperMushroom)
                 {
                     this.powerState.Mushroom();
                 }
-                else if (iState is FireFlowerState)
+                else if (item is FireFlower)
                 {
                     this.powerState.FireFlower();
                 }
-                else if (iState is StarState)
+                else if (item is Star)
                 {
                     //Implement invicibility
                 }
             }
-            else if(obj is Block)
+            else if (Collidee is Block block)
             {
-                switch (side)
+                if (!(block.GetBlockState() is HiddenBlockState))
                 {
-                    case TOP:
-                        if (Velocity.Y < 0) this.actionState.Fall();
-                        break;
-                    case BOTTOM:
-                        if (Velocity.Y > 0) this.actionState.Land();
-                        System.Diagnostics.Debug.WriteLine("Landed!");
-                        break;
-                    case LEFT:
-                        if (Velocity.X < 0)
-                        {
+                    HandleBlockCollision(side, block);
+                } else
+                {
+                    switch(side)
+                    {
+                        case TOP:
+                            if (Velocity.Y < 0) this.actionState.Fall();
+                            break;
+                    }
+                }
+            } 
+            else if (Collidee is WarpPipe pipe)
+            {
+                HandleBlockCollision(side, pipe);
+            } 
+            else if (Collidee is Goomba goomba)
+            {
+                if (!(goomba.GetGoombaState() is StompedGoombaState) && !(goomba.GetGoombaState() is DeadGoombaState))
+
+                    switch (side)
+                    {
+                        // Here, we reset the position slightly so the character can move away
+                        case TOP:
+                            this.Damage();
                             this.actionState.Idle();
-                            this.SetXVelocity((float)0);
-                        }
-                        
-                        break;
-                    case RIGHT:
-                        if (Velocity.X > 0)
-                        {
+                            Position = new Vector2(Position.X, Position.Y - 2);
+                            break;
+                        case BOTTOM:
+                            //Skip off of enemy
+                            break;
+                        case LEFT:
+                            this.Damage();
                             this.actionState.Idle();
-                            this.SetXVelocity((float)0);
-                        }
-                        
-                        break;
+                            Position = new Vector2(Position.X + 2, Position.Y);
+                            break;
+                        case RIGHT:
+                            this.Damage();
+                            this.actionState.Idle();
+                            Position = new Vector2(Position.X - 2, Position.Y);
+                            break;
+                    }
+            }
+            else if (Collidee is KoopaTroopa koopaTroopa)
+            {
+                if (!(koopaTroopa.GetKoopaTroopaState() is StompedKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState))
+                {
+                    switch (side)
+                    {
+                        // Here, we reset the position slightly so the character can move away
+                        case TOP:
+                            this.Damage();
+                            this.actionState.Idle();
+                            Position = new Vector2(Position.X, Position.Y - 2);
+                            break;
+                        case BOTTOM:
+                            this.actionState.Jump();
+                            break;
+                        case LEFT:
+                            this.Damage();
+                            this.actionState.Idle();
+                            Position = new Vector2(Position.X + 2, Position.Y);
+                            break;
+                        case RIGHT:
+                            this.Damage();
+                            this.actionState.Idle();
+                            Position = new Vector2(Position.X - 2, Position.Y);
+                            break;
+                    }
+                } else if (koopaTroopa.GetKoopaTroopaState() is StompedGoombaState)
+                {
+                    switch (side)
+                    {
+                        case TOP:
+                            //Does Mario gets damaged when he hits his head on Koopatroopa shell when it's not moving?
+                            break;
+                        case BOTTOM:
+                            this.actionState.Jump();
+                            break;
+                        case LEFT:
+                            //Do Nothing. This will kick the shell, but won't affect Mario
+                            break;
+                        case RIGHT:
+                            //Do Nothing. This will kick the shell, but won't affect Mario
+                            break;
+                    }
                 }
             }
-            else if(obj is Goomba)
+            else if (Collidee is FireBall && ((FireBall)Collidee).getActive()) // only pay attention to active fireballs
             {
-                Goomba goomba = (Goomba)obj;
-                if (!(goomba.GetGoombaState() is StompedGoombaState) && !(goomba.GetGoombaState() is DeadGoombaState))
-                switch (side)
-                {
-
-                    case TOP:
-                        this.powerState.TakeDamage();
-                        this.actionState.Idle();
-                        break;
-                    case BOTTOM:
-                        //Skip off of enemy
-                        break;
-                    case LEFT:
-                        this.powerState.TakeDamage();
-                        this.actionState.Idle();
-                        break;
-                    case RIGHT:
-                        this.powerState.TakeDamage();
-                        this.actionState.Idle();
-                        break;
-                }
+                this.Damage();
+                //this.actionState.Idle();
             }
         }
+    
 
-        private void StopMarioBoundary()
+        private void CheckAndHandleIfAtScreenBoundary()
         {
             //This prevents Mario from going outside the screen
             if (newPosition.X > maxCoords.X)
             {
-                newPosition = new Vector2(maxCoords.X, Position.Y);
+                this.SetXVelocity(0);
             }
             else if (newPosition.X < 0)
             {
-                newPosition = new Vector2(0, Position.Y);
+                this.SetXVelocity(0);
             }
             if (newPosition.Y > maxCoords.Y)
             {
                 newPosition = new Vector2(Position.X, maxCoords.Y);
+                if (!(powerState is DeadMario)) powerState = new DeadMario(this);
             }
             else if (newPosition.Y < 0)
             {
@@ -184,75 +319,79 @@ namespace GameObjects
         
         public void MoveLeft(int pressType)
         {
-            /*actionState.MoveLeft();
-            if (this.actionState is RunningState && pressType == 2)
+            if (actionState is FallingState || actionState is JumpingState)
             {
-                this.location.X -= 1;
-            }*/
+                if (pressType == 1 || pressType == 2) ContinueRunning = true;
+                else ContinueRunning = false;
+            }
 
-            actionState.MoveLeft();
+            if (!(powerState is DeadMario) && !(actionState is FallingState) && !(actionState is JumpingState) && !(actionState is CrouchingState))
+            {
+                if (pressType == 1 || pressType == 2) actionState.MoveLeft();
+                else actionState.MoveRight();
+            } else if (actionState is FallingState || actionState is JumpingState || actionState is CrouchingState)
+            {
+                actionState.MoveLeft();
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void MoveRight(int pressType)
         {
-            //Mario only moves when holding the key
-            actionState.MoveRight();
-
-            //sprite.Move();
-            /*if (this.actionState is RunningState && pressType == 2)
+            if (actionState is FallingState || actionState is JumpingState)
             {
-                this.location.X += 1;
-            }*/
+                if (pressType == 1 || pressType == 2) ContinueRunning = true;
+                else ContinueRunning = false;
+            }
+
+            if (!(powerState is DeadMario) && !(actionState is FallingState) && !(actionState is JumpingState) && !(actionState is CrouchingState))
+            {
+                if (pressType == 1 || pressType == 2) actionState.MoveRight();
+                else actionState.MoveLeft();
+            }
+            else if (actionState is FallingState || actionState is JumpingState || actionState is CrouchingState)
+            {
+                actionState.MoveRight();
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void Up(int pressType)
         {
-            actionState.Jump();
-            /*if (this.actionState is JumpingState && pressType == 2)
+            if (!(powerState is DeadMario) && (pressType == 1 || pressType == 2))
             {
-                this.location.Y -= 1;
-            }/*
-            /*
-             * actionState.Jump() already changes the state to idle if crouching or to jumping if idle
-             * Is there need to do it again, besides changing velocity?
-            if (this.actionState is CrouchingState)
-            {
-                this.SetActionState(new IdleState(this, actionState.GetDirection()));
-                velocity.Y = 0;
-            } else
-            {
-                velocity.Y = 100;
-                this.SetActionState(new IdleState(this, actionState.GetDirection()));
-                actionState.Jump();
+                JumpIsHeld = true;
+
+                if (Velocity.Y == 0 && pressType == 1)
+                    actionState.Jump();
+                else if (TimeJumpHeld > HighJumpTimer && Acceleration.Y >= FallingAcceleration - JumpHoldAccelerationBoost)
+                    SetYAcceleration(Acceleration.Y - JumpHoldAccelerationBoost);
             }
-            */
+            else if (pressType == 3)
+            {
+                TimeJumpHeld = 0;
+                JumpIsHeld = false;
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
         public void Down(int pressType)
         {
-            actionState.Crouch();
-            /*if (this.actionState is CrouchingState && pressType == 2)
-            {
-                this.location.Y += 1;
-            }*/
-            /* UNCOMMENT FOR SPRINT2
-            if (this.actionState is JumpingState || this.actionState is FallingState)
-            {
-                this.SetActionState(new IdleState(this, actionState.GetDirection()));
-                velocity.Y = 0;
-            }
-            */
+            if (!(powerState is DeadMario)) actionState.Crouch();
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
-        public override void Damage() { }
+        public override void Damage() 
+        {
+            this.powerState.TakeDamage();
+        }
 
         public override void Halt()
         {
-            foreach (GameObject obj in objects)
+            /*foreach (GameObject obj in objects)
             {
                 if (obj != this)
                 {
@@ -271,9 +410,8 @@ namespace GameObjects
                         }
                     } 
                 }
-            }
+            }*/
         }
-
         public bool CanBreakBricks()
         {
             return !(powerState is StandardMario || powerState is DeadMario);
@@ -281,6 +419,21 @@ namespace GameObjects
         public bool isFacingLeft()
         {
             return actionState.GetDirection();
+        }
+
+        public void Die()
+        {
+            oldPosition = Position;
+            this.powerState.TakeDamage();
+            this.SetXVelocity((float)0);
+            this.SetYVelocity((float)-20);
+            if (Position.Y < oldPosition.Y - (float)5 && Velocity.Y < 0)
+            {
+                this.SetYVelocity((float)20);
+            } else if (Position.Y > oldPosition.Y + (float)5)
+            {
+                Sprite.ToggleVisibility();
+            }
         }
     }
 }

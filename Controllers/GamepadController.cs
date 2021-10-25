@@ -26,7 +26,15 @@ namespace Controllers
 
         public void AddMapping(int key, ICommand command)
         {
-            this.buttonMapping.Add(key, command);
+            if (this.buttonMapping.ContainsKey(key))
+            {
+                this.buttonMapping.Remove(key);
+                this.buttonMapping.Add(key, command);
+            }
+            else
+            {
+                this.buttonMapping.Add(key, command);
+            }
         }
 
         // TODO: Consider moving these out of seperate methods and right into the update
@@ -66,7 +74,10 @@ namespace Controllers
                     {
                         HandleButtonHold(button);
                     }
-                    // Key Press release
+                }
+
+                foreach (var button in buttonsPressed)
+                {
                     if (currentState.IsButtonUp(button) && previousState.IsButtonDown(button) && buttonMapping.ContainsKey((int)button))
                     {
                         HandleButtonRelease(button);

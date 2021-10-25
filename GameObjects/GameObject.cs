@@ -11,10 +11,12 @@ namespace GameObjects
     {
         protected Vector2 Position { get; set; }
         protected Vector2 Velocity { get; set; }
-        protected Vector2 Acceleration { get; set; }
-        protected ISprite Sprite { get; set; }
+        public Vector2 Acceleration { get; set; }
+        public ISprite Sprite { get; set; }
         protected Rectangle AABB { get; set; }
         public bool BorderIsVisible { get; set; } = false;
+        protected bool queuedForDeletion = false;
+        private Vector2 AABBCollisionExtension { get; set; }
 
         private int Width
         {
@@ -30,6 +32,7 @@ namespace GameObjects
             Position = position;
             Velocity = velocity;
             Acceleration = acceleration;
+            AABBCollisionExtension = new Vector2(1, 1);
         }
 
         public void DrawAABBIfVisible(Color color, SpriteBatch spriteBatch)
@@ -48,7 +51,15 @@ namespace GameObjects
             }
         }
 
-        public abstract void Update(GameTime GameTime);
+        public virtual void Update(GameTime gameTime)
+        {
+            if (Velocity.X > 100 || Velocity.X < -100) AABBCollisionExtension = new Vector2(2, AABBCollisionExtension.Y);
+            else if (Velocity.X <= 100 && Velocity.X >= -100) AABBCollisionExtension = new Vector2(1, AABBCollisionExtension.Y);
+
+            if (Velocity.Y > 100 || Velocity.Y < -100) AABBCollisionExtension = new Vector2(AABBCollisionExtension.X, 2);
+            else if (Velocity.Y <= 100 && Velocity.Y >= -100) AABBCollisionExtension = new Vector2(AABBCollisionExtension.X, 1);
+        }
+
         public abstract void Draw(SpriteBatch spriteBatch);
 
         //positive x velocity makes object go right
@@ -62,6 +73,17 @@ namespace GameObjects
         {
             this.Velocity = new Vector2(this.Velocity.X, y);
         }
+
+        public void SetXAcceleration(float x)
+        {
+            this.Acceleration = new Vector2(x, this.Acceleration.Y);
+        }
+
+        public void SetYAcceleration(float y)
+        {
+            this.Acceleration = new Vector2(this.Acceleration.X, y);
+        }
+
         public Vector2 GetPosition()
         {
             return this.Position;
@@ -86,7 +108,7 @@ namespace GameObjects
         //this.Top collide with obj.Bottom
         public bool TopCollision(IGameObject obj)
         {
-            if (this.AABB.Top + 1 <= obj.GetAABB().Bottom &&
+            if (this.AABB.Top + AABBCollisionExtension.Y <= obj.GetAABB().Bottom &&
                 this.AABB.Bottom > obj.GetAABB().Bottom &&
                 this.AABB.Left < obj.GetAABB().Right &&
                 this.AABB.Right > obj.GetAABB().Left)
@@ -103,7 +125,7 @@ namespace GameObjects
         {
 
             if (this.AABB.Top < obj.GetAABB().Top &&
-                this.AABB.Bottom + 1 >= obj.GetAABB().Top &&
+                this.AABB.Bottom + AABBCollisionExtension.Y >= obj.GetAABB().Top &&
                 this.AABB.Left < obj.GetAABB().Right &&
                 this.AABB.Right > obj.GetAABB().Left)
             {
@@ -119,8 +141,8 @@ namespace GameObjects
         {
 
             if (this.AABB.Top < obj.GetAABB().Bottom &&
-                this.AABB.Bottom > obj.GetAABB().Top &&
-                this.AABB.Left + 1 <= obj.GetAABB().Right &&
+                this.AABB.Bottom > (obj.GetAABB().Top + 1) &&
+                this.AABB.Left - AABBCollisionExtension.X <= obj.GetAABB().Right &&
                 this.AABB.Right > obj.GetAABB().Right)
             {
                 return true;
@@ -135,9 +157,9 @@ namespace GameObjects
         {
 
             if (this.AABB.Top < obj.GetAABB().Bottom && 
-                this.AABB.Bottom > obj.GetAABB().Top &&
+                this.AABB.Bottom > (obj.GetAABB().Top + 1) &&
                 this.AABB.Left < obj.GetAABB().Left &&
-                this.AABB.Right + 1 >= obj.GetAABB().Left )
+                this.AABB.Right + AABBCollisionExtension.X >= obj.GetAABB().Left )
             {
                 return true;
             }
@@ -150,5 +172,10 @@ namespace GameObjects
         public abstract void Damage();
 
         public abstract void Halt();
+
+        public bool isQueuedForDeletion()
+        {
+            return queuedForDeletion;
+        }
     }
 }

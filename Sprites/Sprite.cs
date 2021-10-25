@@ -9,9 +9,11 @@ namespace Sprites
         public int rows { get; set; }
         public int columns { get; set; }
         public Texture2D texture { get; set; }
+
         public Vector2 location { get; set; }
 
-        public bool isVisible = true;
+        public bool isVisible { get; set; }
+        public bool isCollided { get; set; }
 
         // We'll need to change direction to a 2D vector at some point
         public int movementDirection { get; set; } = 1;
@@ -23,8 +25,9 @@ namespace Sprites
         //Timer to slow down animation
         public int timer = 0;
 
-        public Sprite(bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns, int initialFrame, int finalFrame)
+        public Sprite(bool collided, bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns, int initialFrame, int finalFrame)
         {
+            isCollided = collided;
             isVisible = IsVisible;
             location = Location;
             texture = Texture;
@@ -99,9 +102,15 @@ namespace Sprites
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
             
-            if (isVisible) { 
-                if (!left) spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-                else spriteBatch.Draw(texture, destinationRectangle, sourceRectangle,
+            if (isVisible) {
+                if (!isCollided && !left) 
+                    spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
+                else if (isCollided && left) 
+                    spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.Red, 0f, new Vector2(0f, 0f), SpriteEffects.FlipHorizontally, 0f);
+                else if (isCollided && !left) 
+                    spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.Red);
+                else
+                    spriteBatch.Draw(texture, destinationRectangle, sourceRectangle,
                     Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.FlipHorizontally, 0f);
             }
         }

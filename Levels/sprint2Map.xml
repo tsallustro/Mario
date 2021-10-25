@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!--ALLOWED ITEMS: "mushroom", "fire", "star", "oneUp", "coin"-->
+<!--ALLOWED ENEMIES: "goomba", "koopa", "redKoopa"-->
+<!--COINS ARE NOTATED IN BRICK BLOCKS BY <row>1@2</row> i.e. COLUMN ONE OF THIS ROW HAS 2 COINS-->
+
+
+<level number="1-1">
+  <mario>
+    <row>10</row>
+    <column>10</column>
+  </mario>
+  <floorBlocks>
+    <rows>
+      <row>x</row>
+      <row>x</row>
+      <row>x</row>
+      <row>x</row>
+      <row>x</row>
+      <row>x</row>
+      <row>x</row>
+      <row>x</row>
+      <row>x,4</row>
+	  <row>x</row>
+      <row>x</row>
+	  <row>x</row>
+      <row>x,5</row>
+      <row>x,6,7,8,9,10,11,12,13,14,15</row>
+	  <row>x</row>
+	  <row>x</row>
+	  <row>x,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,46, 47, 48, 49, 50</row>
+    </rows>
+  </floorBlocks>
+  <brickBlocks>
+	  <brickBlock item="coin">
+		  <row>8</row>
+		  <column>7</column>
+	  </brickBlock>
+	  <brickBlock>
+		  <row>12</row>
+		  <column>27</column>
+	  </brickBlock>
+  </brickBlocks>
+  <questionBlocks>
+    <questionBlock item="mushroom">
+      <row>8</row>
+      <column>10</column>
+    </questionBlock>
+  </questionBlocks>
+  <stairBlocks>
+    <stairBlock>
+      <row>8</row>
+      <column>15</column>
+    </stairBlock>
+  </stairBlocks>
+  <hiddenBlocks>
+    <hiddenBlock>
+      <row>8</row>
+      <column>13</column>
+    </hiddenBlock>
+  </hiddenBlocks>
+  <items>
+    <!-- Only used for sprint 2-->
+    <item type="fire">
+      <row>4</row>
+      <column>3</column>
+    </item>
+    <item type="coin">
+      <row>4</row>
+      <column>5</column>
+    </item>
+    <item type="mushroom">
+      <row>4</row>
+      <column>8</column>
+    </item>
+    <item type="oneUp">
+      <row>4</row>
+      <column>11</column>
+    </item>
+    <item type="star">
+      <row>4</row>
+      <column>15</column>
+    </item>
+  </items>
+  <warpPipes>
+    <pipe>
+      <row> 8</row>
+      <column>20</column>
+    </pipe>
+  </warpPipes>
+  <enemies>
+    <enemy type="goomba">
+      <row>4</row>
+      <column>18</column>
+    </enemy>
+    <enemy type="koopa">
+      <row>12</row>
+      <column>14</column>
+    </enemy>
+    <enemy type="redKoopa">
+      <row>4</row>
+      <column>24</column>
+    </enemy>
+  </enemies>
+</level>

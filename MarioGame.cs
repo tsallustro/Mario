@@ -14,19 +14,26 @@ using States;
 using System;
 using Collisions;
 using LevelParser;
+using View;
 
 
 namespace Game1
 {
     public class MarioGame : Game
     {
-        private readonly string levelToLoad = "test";
-        private Point maxCoords; 
-        List<IGameObject> objects;
+        private readonly int levelWidth = 3500;
+        private readonly int levelHeight = 480;
+        private readonly string levelToLoad = "level11";
 
+        private Point maxCoords; 
+        private List<IGameObject> objects;
+        private List<IGameObject> initialObjects;
+
+        private static int livesRemaining = 3;
 
         //Monogame Objects
         private GraphicsDeviceManager graphics;
+        private SpriteFont arial;
         private SpriteBatch spriteBatch;
 
         //Controllers
@@ -42,6 +49,19 @@ namespace Game1
         private ItemSpriteFactory itemSpriteFactory;
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
+        private FireBallSpriteFactory fireBallSpriteFactory;
+        //For level parser
+        private Texture2D blockSprites;
+        private Texture2D pipeSprite;
+        private Texture2D itemSprites;
+        private string levelPath;
+
+        //Background textures
+        private Background background;
+        private Camera camera;
+        private Vector2 parallax;
+
+        private Mario mario;
 
         public MarioGame()
         {
@@ -50,45 +70,51 @@ namespace Game1
             IsMouseVisible = true;
         }
 
-        protected override void Initialize()
+        public static void DecrementLivesRemaining()
         {
+            livesRemaining--;
+        }
+
+        // Resets objects back to their initial state
+        public void ResetObjects()
+        {
+            objects = initialObjects;
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites);
+            mario = (Mario)objects[0];
+            InitializeCommands();
+            //camera.LookAt(mario.GetPosition());
+            background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
+            background.LoadContent();
+        }
+
+        protected override void Initialize()
+        {;
             keyboardController = new KeyboardController();
             gamepadController = new GamepadController();
             collisionHandler = new CollisionHandler();
 
             marioSpriteFactory = MarioSpriteFactory.Instance;
             goombaSpriteFactory = GoombaSpriteFactory.Instance;
-            itemSpriteFactory = ItemSpriteFactory.Instance;
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
+            fireBallSpriteFactory = FireBallSpriteFactory.Instance;
 
-            maxCoords = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            camera = new Camera(GraphicsDevice.Viewport);
+            camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+            maxCoords = new Point(levelWidth, levelHeight);
+
             this.Window.Title = "Cornet Mario Game";
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        private void InitializeCommands()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            marioSpriteFactory.LoadTextures(this);
-            goombaSpriteFactory.LoadTextures(this);
-            itemSpriteFactory.LoadTextures(this);
-            koopaTroopaSpriteFactory.LoadTextures(this);
-            redKoopaTroopaSpriteFactory.LoadTextures(this);
-            Texture2D blockSprites = Content.Load<Texture2D>("BlocksV3");
-
-            // Load from Level file
-            string levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords);
-            Mario mario = (Mario) objects[0];
-            
-
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
             ICommand moveRight = new MoveRightCommand(mario);
             ICommand jump = new JumpCommand(mario);
             ICommand crouch = new CrouchCommand(mario);
+            ICommand throwFireBall = new throwFireballCommand((FireBall)objects[1]);
 
             // Initialize keyboard controller mappinqgs
             // Action commands
@@ -101,6 +127,8 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.W, jump);
             keyboardController.AddMapping((int)Keys.Down, crouch);
             keyboardController.AddMapping((int)Keys.S, crouch);
+            keyboardController.AddMapping((int)Keys.Space, throwFireBall);
+            keyboardController.AddMapping((int)Keys.B, throwFireBall);
 
             // Power-up commands
             keyboardController.AddMapping((int)Keys.Y, new StandardMarioCommand(mario));
@@ -108,14 +136,45 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.I, new FireMarioCommand(mario));
             keyboardController.AddMapping((int)Keys.O, new DeadMarioCommand(mario));
 
-            // AABB Visualization
-            keyboardController.AddMapping((int)Keys.C, new BorderVisibleCommand(objects));
-
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);
             gamepadController.AddMapping((int)Buttons.DPadRight, moveRight);
             gamepadController.AddMapping((int)Buttons.A, jump);
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
+
+            // Level Reset
+            keyboardController.AddMapping((int)Keys.R, new LevelResetCommand(this));
+
+            // AABB Visualization
+            keyboardController.AddMapping((int)Keys.C, new BorderVisibleCommand(objects));
+        }
+
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            arial = Content.Load<SpriteFont>("ArialSpriteFont");
+
+            marioSpriteFactory.LoadTextures(this);
+            goombaSpriteFactory.LoadTextures(this);
+            koopaTroopaSpriteFactory.LoadTextures(this);
+            redKoopaTroopaSpriteFactory.LoadTextures(this);
+            fireBallSpriteFactory.LoadTextures(this);
+
+            blockSprites = Content.Load<Texture2D>("BlocksV3");
+            pipeSprite = Content.Load<Texture2D>("pipe");
+            itemSprites = Content.Load<Texture2D>("Items");
+            itemSpriteFactory = new ItemSpriteFactory(itemSprites);
+
+            // Load from Level file
+            levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
+            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites);
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites);
+
+            mario = (Mario) objects[0];
+            InitializeCommands();
+
+            background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
+            background.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
@@ -126,20 +185,35 @@ namespace Game1
 
             //Make sure to put update collisiondetection before object update
             collisionHandler.Update(gameTime, objects);
+           
+            
             foreach (var obj in objects)
             {
                 obj.Update(gameTime);
             }
+            background.Update();
 
-            
-
+            objects.RemoveAll(delegate (IGameObject obj)
+            {
+                return obj.isQueuedForDeletion();
+            });
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            // Legend
             spriteBatch.Begin();
+            spriteBatch.DrawString(arial, "Lives Left: " + livesRemaining, new Vector2(10, 10), Color.White);
+            spriteBatch.End();
+
+            //Background
+            background.Draw();
+
+            parallax = new Vector2(1f);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
 
             // call draw methods from each sprite and pass in sprite batch
             foreach (var obj in objects)

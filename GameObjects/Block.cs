@@ -24,7 +24,7 @@ namespace GameObjects
         private Vector2 originalLocation;
         private Boolean falling = false;
         private Boolean bumped = false;
-        private HashSet<IItem> items; // Future use for storing items in block
+        private List<IItem> items;
 
         public Block(Vector2 position, Texture2D blockSprites, Mario Mario)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
@@ -32,14 +32,15 @@ namespace GameObjects
             originalLocation = position;
             mario = Mario;
             spriteFactory = new BlockSpriteFactory(blockSprites);
+            this.items = new List<IItem>();
             blockState = new BrickBlockState(this);
-            Sprite = spriteFactory.CreateBrickBlock(position);
+            Sprite = spriteFactory.CreateBrickBlock(position, false);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
 
         // Future constructor for adding items to block
-        public Block(Vector2 position, Texture2D blockSprites, Mario Mario, HashSet<IItem> items)
+        public Block(Vector2 position, Texture2D blockSprites, Mario Mario, List<IItem> items)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
             originalLocation = position;
@@ -47,7 +48,7 @@ namespace GameObjects
             spriteFactory = new BlockSpriteFactory(blockSprites);
             this.items = items;
             blockState = new BrickBlockState(this);
-            Sprite = spriteFactory.CreateBrickBlock(position);
+            Sprite = spriteFactory.CreateBrickBlock(position, false);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
@@ -86,6 +87,21 @@ namespace GameObjects
             this.blockState = blockState;
         }
 
+        public List<IItem> GetItems()
+        {
+            return this.items;
+        }
+
+        /*
+         *  This method assumes that items.Count() > 0. Must check before calling!
+         */
+        public IItem RemoveItem()
+        {
+            IItem item = items[0];
+            items.RemoveAt(0);
+            return item;
+        }
+
         public override void Halt()
         {
             return;
@@ -109,7 +125,7 @@ namespace GameObjects
                         falling = false;
                         bumped = false;
                         blockState.Bump(mario);
-                        Sprite = spriteFactory.GetCurrentSprite(Position, blockState);
+                        Sprite = spriteFactory.GetCurrentSprite(Position, blockState, Sprite.isCollided);
                     }
                 } else {                                                // Logic for rising blocks
                     Position = new Vector2(Position.X, Position.Y - 100 * (float)GameTime.ElapsedGameTime.TotalSeconds);
@@ -124,7 +140,7 @@ namespace GameObjects
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
 
-            Sprite = spriteFactory.GetCurrentSprite(Position, blockState);
+            Sprite = spriteFactory.GetCurrentSprite(Position, blockState, Sprite.isCollided);
             Sprite.Update();
         }
 
@@ -137,7 +153,6 @@ namespace GameObjects
         public void Bump()
         {
             blockState.Bump(mario);
-            //Sprite = spriteFactory.CreateBumpedBrickBlock(location);
         }
 
         public void MoveLeft() { }
@@ -147,11 +162,24 @@ namespace GameObjects
       
         public override void Collision(int side, GameObject Collidee)
         {
-            if (side == CollisionHandler.BOTTOM && Collidee is Mario && Collidee.GetVelocity().Y >0)
+            const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
+            if (side == BOTTOM && Collidee is Mario && Collidee.GetVelocity().Y < 0)
             {
-                System.Diagnostics.Debug.WriteLine("Collided! Bumping...");
+                if (this.items != null)
+                {
+                    foreach (IItem item in items) System.Diagnostics.Debug.WriteLine("Item: " + item);
+
+                }
+                
                 this.Bump();
                
+            } else if ((side == LEFT || side == RIGHT) && Collidee is KoopaTroopa && Collidee.GetVelocity().X > 0) //Kicked koopa Troopa breaks the brick block
+            {
+                if (this.GetBlockState() is BrickBlockState)
+                {
+                    this.SetBlockState(new BrokenBrickBlockState(this));
+                }
             }
         }
     }
