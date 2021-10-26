@@ -147,7 +147,7 @@ namespace GameObjects
                 }
                 else if (side == TOP)
                 {
-                    koopaTroopaState.Stomped();
+                    Stomped();
                 } else if (koopaTroopaState is MovingShelledKoopaTroopaState)
                 {
                     mario.Damage();
@@ -208,6 +208,7 @@ namespace GameObjects
         //Change Goomba state to stomped mode
         public void Stomped()
         {
+            timer = 0;
             this.koopaTroopaState.Stomped();
             this.SetXVelocity(0);
             //timer = 50;
