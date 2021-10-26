@@ -141,7 +141,7 @@ namespace GameObjects
                         case RIGHT:
                             Position = new Vector2(this.Position.X - 10, this.Position.Y);
                             Kicked(mario.GetVelocity().X - 50);
-                            
+
                             break;
                     }
                 }
@@ -155,12 +155,15 @@ namespace GameObjects
             }
             else if (Collidee is KoopaTroopa koopa) //If koopa is also shelled and kicked, then it only changes direction when it hits another kicked koopa. If it's in any other state, another kicked koopa kills it.
             {
-                if (koopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState && this.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)     {
+                if (koopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState && this.GetKoopaTroopaState() is MovingShelledKoopaTroopaState) {
                     this.SetXVelocity(this.GetVelocity().X * -1);
-                } else
+                } else if (koopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)
                 {
                     this.Die();
                 }
+            } else if (Collidee is Goomba goomba && koopaTroopaState is MovingShelledKoopaTroopaState)
+            {
+                goomba.Damage();
             } else if (Collidee is Block)  //Koopa changes its direction when it hits block
             {
                 if (this.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)    
