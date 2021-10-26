@@ -9,8 +9,8 @@ namespace GameObjects
 {
     public abstract class Item : GameObject, IItem
     {
-        protected readonly static int mushroomSpeed = 5;
-        protected readonly static int defaultItemGravity = 20;
+        protected readonly static int mushroomSpeed = 50;
+        protected readonly static int defaultItemGravity = 255;
         
         protected readonly static int boundaryAdjustment = 0;
         protected float lastY;
@@ -28,6 +28,7 @@ namespace GameObjects
         protected bool isFinishedEmerging = false;
         protected Vector2 initialPosition;
         protected Mario boundMario;
+        protected GameObject blockItemIsOn;
        
 
         public Item(Vector2 position, Texture2D itemSprites, Mario mario)
@@ -93,16 +94,19 @@ namespace GameObjects
             }
 
             //Make blocks change direction with blocking entity
-            if ((side == CollisionHandler.RIGHT || side == CollisionHandler.LEFT) && Collidee is Block && Velocity.X != 0)
+            if ((side == CollisionHandler.RIGHT || side == CollisionHandler.LEFT) && (Collidee is Block || Collidee is WarpPipe) && Velocity.X != 0)
             {
                 SetXVelocity(-1 * Velocity.X);
             }
 
             //Make items stop falling when they hit a block
-            if(isFinishedEmerging && side == CollisionHandler.BOTTOM && Collidee is Block)
+            if(isFinishedEmerging && side == CollisionHandler.BOTTOM && Collidee is Block || Collidee is WarpPipe)
             {
-                
+                GameObject block = Collidee;
+
+                blockItemIsOn = block;
                 this.SetYVelocity(0);
+                this.SetYAcceleration(0);
 
                 //This makes corrections based on gravity. The constant is the difference in y position between frames without having this line
                 this.Position = new Vector2(Position.X, Position.Y-0.005554199f);
@@ -119,7 +123,7 @@ namespace GameObjects
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Velocity += Acceleration * timeElapsed;
             Position += Velocity * timeElapsed;
-            
+
             if (isEmergingFromBlock)
             {
                 SetYVelocity(emergingVelocity);
@@ -129,13 +133,15 @@ namespace GameObjects
                     SetYVelocity(0);
                     isEmergingFromBlock = false;
                     isFinishedEmerging = true;
-                   
+
                 }
             }
-            if (isFinishedEmerging)
+
+            if (isFinishedEmerging && blockItemIsOn != null && !BottomCollision(blockItemIsOn))
             {
                 SetYAcceleration(defaultItemGravity);
             }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, itemState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
@@ -279,7 +285,7 @@ namespace GameObjects
             //Bounce on collision with ground
             if (isFinishedEmerging && Collidee is Block)
             {
-                if ( side == CollisionHandler.BOTTOM)
+                if (side == CollisionHandler.BOTTOM)
                 {
                     
                     this.SetYVelocity(-1 * starInitialBounceSpeed);
