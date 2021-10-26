@@ -48,7 +48,7 @@ namespace States
         public MovingGoombaState(Goomba goomba)
         {
             this.goomba = goomba;
-            goomba.SetXVelocity((float)100);
+            //goomba.SetXVelocity((float)100);
         }
 
         public void Stomped()

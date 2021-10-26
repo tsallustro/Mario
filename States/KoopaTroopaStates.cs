@@ -35,7 +35,6 @@ namespace States
     public class MovingKoopaTroopaState : IEnemyState
     {
         private KoopaTroopa koopaTroopa;
-
         public MovingKoopaTroopaState(KoopaTroopa koopaTroopa)
         {
             this.koopaTroopa = koopaTroopa;
@@ -86,8 +85,8 @@ namespace States
         }
         public void Kicked(float sspeed)
         {
-            this.koopaTroopa.SetXVelocity(sspeed);
             koopaTroopa.SetKoopaTroopaState(new MovingShelledKoopaTroopaState(koopaTroopa));
+            koopaTroopa.SetXVelocity(sspeed);
         }
     }
     
@@ -144,7 +143,6 @@ namespace States
         }
         public void Kicked(float sspeed)
         {
-            //Do Nothing
         }
     }
   

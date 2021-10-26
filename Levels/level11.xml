@@ -649,7 +649,7 @@
 		</enemy>
 		<enemy type="goomba">
 			<row>27</row>
-			<column>40</column>
+			<column>37</column>
 		</enemy>
 		<enemy type="goomba">
 			<row>27</row>
@@ -709,7 +709,7 @@
 		</enemy>
 		<enemy type="koopa">
 			<row>27</row>
-			<column>108</column>
+			<column>10</column>
 		</enemy>
 	</enemies>
 </level>

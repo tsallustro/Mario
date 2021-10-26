@@ -108,7 +108,7 @@ namespace GameObjects
         //this.Top collide with obj.Bottom
         public bool TopCollision(IGameObject obj)
         {
-            if (this.AABB.Top + AABBCollisionExtension.Y <= obj.GetAABB().Bottom &&
+            if (this.AABB.Top - AABBCollisionExtension.Y <= obj.GetAABB().Bottom &&
                 this.AABB.Bottom > obj.GetAABB().Bottom &&
                 this.AABB.Left < obj.GetAABB().Right &&
                 this.AABB.Right > obj.GetAABB().Left)

@@ -22,19 +22,12 @@ namespace GameObjects
 
         //Timer for Koopa Shell
         private float timer;
-        private float shellSpeed;
         List<IGameObject> objects;
         private bool left = true;
-
-        Vector2 newPosition;
 
         public KoopaTroopa(Vector2 position)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
-            if (koopaTroopaState is StompedKoopaTroopaState)
-            {
-                Revive();
-            }
             spriteFactory = KoopaTroopaSpriteFactory.Instance;
             Sprite = spriteFactory.CreateIdleKoopaTroopa(position);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
@@ -72,44 +65,92 @@ namespace GameObjects
         {
             koopaTroopaState.Stomped();
         }
-
+        //Handle Collision with Block
+        private void HandleBlockCollision(int side, Block block)
+        {
+            const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+            switch (side)
+            {
+                case TOP:
+                    //Do Nothing
+                    break;
+                case BOTTOM:
+                    if (!(block.GetBlockState() is HiddenBlockState))
+                    {
+                        this.SetYVelocity(0);
+                        this.SetYAcceleration(0);
+                    }
+                    else if (block.GetBumped())
+                    {
+                        koopaTroopaState.Stomped();
+                    }
+                    break;
+                case LEFT:
+                    if (!(block.GetBlockState() is HiddenBlockState))
+                    {
+                        this.SetXVelocity(this.GetVelocity().X * -1);
+                    }
+                    break;
+                case RIGHT:
+                    if (!(block.GetBlockState() is HiddenBlockState))
+                    {
+                        this.SetXVelocity(this.GetVelocity().X * -1);
+                    }
+                    break;
+            }
+        }
         //KoopaTroopa is affected only when Mario stomps it. Everything affects the other object.
         public override void Collision(int side, GameObject Collidee)
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
-            if (Collidee is Mario)
+            if (Collidee is Block block)
             {
-                if (this.koopaTroopaState is StompedKoopaTroopaState)
+                HandleBlockCollision(side, block);
+            }
+            else if (Collidee is WarpPipe)
+            {
+                if (side == LEFT || side == RIGHT)
                 {
-                    
+                    this.SetXVelocity(this.GetVelocity().X * -1);
+                }
+            }
+            else if (Collidee is FireBall)
+            {
+                this.Damage();
+                return;
+            }
+            else if (Collidee is Mario)
+            {
+                if (!(this.koopaTroopaState is MovingKoopaTroopaState) && !(this.koopaTroopaState is MovingShelledKoopaTroopaState) && !(this.koopaTroopaState is IdleKoopaTroopaState) && !(this.koopaTroopaState is DeadKoopaTroopaState))
+                {
                     switch (side)
                     {
                         case TOP:
-                            koopaTroopaState.Stomped();
+                            Stomped();
                             break;
                         case BOTTOM:
                             //Do nothing. Not sure what happens when Mario hits the shell from bottom.
                             break;
                         case LEFT:
-                            this.SetYVelocity(-100);
-                            //shell is kicked.
-                            shellSpeed = 100;
-                            Kicked(shellSpeed);
+                            Position = new Vector2(this.Position.X + 5, this.Position.Y);
+                            Kicked(100);
                             break;
                         case RIGHT:
-                            shellSpeed = -100;
-                            Kicked(shellSpeed);
+                            Position = new Vector2(this.Position.X - 5, this.Position.Y);
+                            Kicked(-100);
                             break;
                     }
-                } else 
+                }
+                else
                 {
                     if (side == TOP)
                     {
                         koopaTroopaState.Stomped();
-                    } 
+                    }
                 }
-            } else if (Collidee is KoopaTroopa koopa) //If koopa is also shelled and kicked, then it only changes direction when it hits another kicked koopa. If it's in any other state, another kicked koopa kills it.
+            }
+            else if (Collidee is KoopaTroopa koopa) //If koopa is also shelled and kicked, then it only changes direction when it hits another kicked koopa. If it's in any other state, another kicked koopa kills it.
             {
                 if (koopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState && this.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)     {
                     this.SetXVelocity(this.GetVelocity().X * -1);
@@ -152,9 +193,9 @@ namespace GameObjects
         //Change Goomba state to stomped mode
         public void Stomped()
         {
-            koopaTroopaState.Stomped();
+            this.koopaTroopaState.Stomped();
             this.SetXVelocity(0);
-            timer = 50;
+            //timer = 50;
         }
 
         //Change Goomba state to moving mode
@@ -182,13 +223,12 @@ namespace GameObjects
         }
         public void Kicked(float sspeed)
         {
-            timer = 50;
             koopaTroopaState.Kicked(sspeed);
         }
             
         public void Die()
         {
-            SetKoopaTroopaState(new DeadKoopaTroopaState(this));
+            this.SetKoopaTroopaState(new DeadKoopaTroopaState(this));
         }
     }
 }
