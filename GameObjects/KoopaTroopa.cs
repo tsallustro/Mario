@@ -134,11 +134,16 @@ namespace GameObjects
                             break;
                         case LEFT:
                             Position = new Vector2(this.Position.X + 5, this.Position.Y);
-                            SetXVelocity(100);
+                            //koopaTroopaState = new MovingShelledKoopaTroopaState(this);
+                            //SetXVelocity(100);
+                            Kicked(100);
                             break;
                         case RIGHT:
                             Position = new Vector2(this.Position.X - 5, this.Position.Y);
-                            SetXVelocity(-100);
+                            //koopaTroopaState = new MovingShelledKoopaTroopaState(this);
+                            //SetXVelocity(-100);
+                            Kicked(-100);
+                            
                             break;
                     }
                 }
@@ -177,6 +182,7 @@ namespace GameObjects
             Position = Position + (Velocity * timeElapsed);
             base.Update(GameTime);
             Sprite = spriteFactory.GetCurrentSprite(Position, koopaTroopaState);
+            System.Diagnostics.Debug.WriteLine("Sprite: " + Sprite);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, (Sprite.texture.Height) - boundaryAdjustment));
             Sprite.Update();
