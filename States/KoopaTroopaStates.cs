@@ -92,8 +92,8 @@ namespace States
         }
         public void Kicked(float sspeed)
         {
-            koopaTroopa.SetKoopaTroopaState(new MovingShelledKoopaTroopaState(koopaTroopa));
             koopaTroopa.SetXVelocity(sspeed);
+            koopaTroopa.SetKoopaTroopaState(new MovingShelledKoopaTroopaState(koopaTroopa));
         }
     }
     
