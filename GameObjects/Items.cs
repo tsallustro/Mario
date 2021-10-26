@@ -39,6 +39,7 @@ namespace GameObjects
             lastY = this.Position.Y;
         }
 
+
         // This constructor should be used when creating STATIONARY items for testing
         public Item(Vector2 position, Vector2 velocity, Vector2 acceleration, Texture2D itemSprites, Mario mario) 
             : base(position, velocity, acceleration)
@@ -133,8 +134,6 @@ namespace GameObjects
             }
             if (isFinishedEmerging)
             {
-                System.Diagnostics.Debug.WriteLine("Position: " + this.Position);
-                System.Diagnostics.Debug.WriteLine("Delta pos: " + (this.Position.Y - lastY));
                 SetYAcceleration(defaultItemGravity);
             }
             Sprite = spriteFactory.GetCurrentSprite(Position, itemState);
