@@ -165,5 +165,11 @@ namespace GameObjects
         {
             SetRedKoopaTroopaState(new DeadRedKoopaTroopaState(this));
         }
+        public bool IsDead()
+        {
+            if (this.GetRedKoopaTroopaState() is DeadRedKoopaTroopaState)
+                return true;
+            return false;
+        }
     }
 }

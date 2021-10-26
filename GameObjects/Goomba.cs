@@ -200,7 +200,12 @@ namespace GameObjects
             goombaState.StayIdle();
         }
 
-        
+        public bool IsDead()
+        {
+            if (this.GetGoombaState() is DeadGoombaState)
+                return true;
+            return false;
+        }
 
     }
 }

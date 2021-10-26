@@ -7,6 +7,7 @@ namespace GameObjects
 	public interface IEnemy : IGameObject
 	{
 		public void Stomped();
+		public Boolean IsDead();
 		public void Move();
 		public void StayIdle();
 	}

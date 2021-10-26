@@ -13,6 +13,8 @@ namespace States
 
         // Physics variables
         private int InitialFallingAcceleration { get; } = 275; // Must be consistent across files
+        private int RunningAcceleration { get; } = 100;
+
 
         public FallingState(Mario mario, bool left)
         {
@@ -38,17 +40,25 @@ namespace States
 
         public void MoveRight()
         {
-            if (this.left)
+            if (left)
             {
                 left = !left;
+            }
+            else
+            {
+                mario.SetXAcceleration(RunningAcceleration);
             }
         }
 
         public void MoveLeft()
         {
-            if (!this.left)
+            if (!left)
             {
                 left = !left;
+            }
+            else
+            {
+                mario.SetXAcceleration(-RunningAcceleration);
             }
         }
 

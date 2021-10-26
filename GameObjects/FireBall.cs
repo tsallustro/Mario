@@ -10,7 +10,7 @@ namespace GameObjects
     {
         private FireBallSpriteFactory spriteFactory;
         private readonly int numberOfSpritesOnSheet = 4;
-        private readonly int HorizontalVelocity = 100;
+        private readonly int HorizontalVelocity = 130;
         private readonly int boundaryAdjustment = 8;
 
 
@@ -21,7 +21,7 @@ namespace GameObjects
         private Mario mario;
 
         public FireBall(Boolean Left, Mario Mario)       // Constructer for fireball
-           : base(new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 150))
+           : base(new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 250))
         {
             left = Left;
             active = false;
@@ -120,9 +120,9 @@ namespace GameObjects
             
             if (this.active) // only handle collisions if active
             {
-                if (Collidee is Item || (Collidee is Block && ((Block)Collidee).GetBlockState() is HiddenBlockState))
+                if (Collidee is Item || (Collidee is Block && ((Block)Collidee).GetBlockState() is HiddenBlockState) || (Collidee is IEnemy && ((IEnemy)Collidee).IsDead()))
                 {
-                    return;     //Short circuit that! we dont care about hidden blocks or item collisions
+                    return;     //Short circuit that! we dont care about hidden blocks, item collisions, or dead enemies
                 }
 
                 if (side == 1)          //Top
@@ -138,6 +138,7 @@ namespace GameObjects
                     {
                         IEnemy enemy = (IEnemy) Collidee;
                         enemy.Stomped();
+                        this.active = false;
                     }
                     else
                     {

@@ -268,5 +268,12 @@ namespace GameObjects
         {
             this.SetKoopaTroopaState(new DeadKoopaTroopaState(this));
         }
+
+        public bool IsDead()
+        {
+            if (this.GetKoopaTroopaState() is DeadKoopaTroopaState)
+                return true;
+            return false;
+        }
     }
 }
