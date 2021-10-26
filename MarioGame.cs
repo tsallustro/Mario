@@ -163,7 +163,7 @@ namespace Game1
             fireBallSpriteFactory.LoadTextures(this);
 
             blockSprites = Content.Load<Texture2D>("BlocksV3");
-            pipeSprite = Content.Load<Texture2D>("pipe");
+            pipeSprite = Content.Load<Texture2D>("longPipe");
             itemSprites = Content.Load<Texture2D>("Items");
             flagSprite = Content.Load<Texture2D>("Flag");
             castleSprite = Content.Load<Texture2D>("castle");
