@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using States;
 using Sprites;
 using Factories;
+using View;
 
 namespace GameObjects
 {
@@ -23,9 +24,9 @@ namespace GameObjects
         //Timer for Koopa Shell NOTE:CtrlV 
         private float timer;
         private float shellSpeed;
+        Camera camera;
 
-
-        public RedKoopaTroopa(Vector2 position)
+        public RedKoopaTroopa(Vector2 position, Camera camera)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
             spriteFactory = RedKoopaTroopaSpriteFactory.Instance;
@@ -33,6 +34,7 @@ namespace GameObjects
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             redKoopaTroopaState = new IdleRedKoopaTroopaState(this);
+            this.camera = camera;
         }
 
         public IEnemyState GetRedKoopaTroopaState()
@@ -120,6 +122,10 @@ namespace GameObjects
         //Update all of Goomba's members
         public override void Update(GameTime gameTime)
         {
+            if (this.Position.X - camera.Position.X < 800)
+            {
+                redKoopaTroopaState.Move();
+            }
             Sprite = spriteFactory.GetCurrentSprite(Sprite.location, redKoopaTroopaState);
             Sprite.Update();
         }

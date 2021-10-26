@@ -53,10 +53,12 @@ namespace Factories
 			}
 			else if (koopaTroopaState is StompedKoopaTroopaState)
 			{
+				System.Diagnostics.Debug.WriteLine("Creating stomped koopa state");
 				return CreateStompedKoopaTroopa(location);
 			}
 			else if (koopaTroopaState is MovingShelledKoopaTroopaState)
             {
+				System.Diagnostics.Debug.WriteLine("Creating moving stomped koopa state");
 				return CreateMovingShelledKoopaTroopa(location);
             }
 			return CreateDeadKoopaTroopa(location);
@@ -90,7 +92,7 @@ namespace Factories
 		}
 		public ISprite CreateMovingShelledKoopaTroopa(Vector2 location)
 		{
-			if (stompedKoopaTroopa == null)
+			if (movingShelledKoopaTroopa == null)
 			{
 				movingShelledKoopaTroopa = new Sprite(false, true, location, koopaTroopaSprites, 1, 5, 2, 4);
 				return movingShelledKoopaTroopa;

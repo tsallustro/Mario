@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using States;
 using Sprites;
 using Factories;
+using View;
 
 namespace GameObjects
 {
@@ -16,14 +17,17 @@ namespace GameObjects
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
          */
+        private GameObject BlockEnemyIsOn { get; set; }
         private readonly int numberOfSpritesOnSheet = 3;
         private IEnemyState goombaState;
         private GoombaSpriteFactory spriteFactory;
+        private bool introduced = false;
         Vector2 newPosition;
         List<IGameObject> objects;
+        Camera camera;
 
-
-        public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs)
+        //I
+        public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs, Camera camera)
             : base(position, velocity, acceleration)
         {
             spriteFactory = GoombaSpriteFactory.Instance;
@@ -32,14 +36,14 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             goombaState = new IdleGoombaState(this);
             objects = objs;
-            //this.SetXVelocity((float)50);
+            this.camera = camera;
         }
-
+        //Get Goomba State
         public IEnemyState GetGoombaState()
         {
             return this.goombaState;
         }
-
+        //Set Goomba State
         public void SetGoombaState(IEnemyState goombaState)
         {
             this.goombaState = goombaState;
@@ -47,68 +51,103 @@ namespace GameObjects
 
         public override void Halt()
         {
-            
+            //Do Nothing
         }
-
         public override void Damage()
         {
             goombaState.Stomped();
         }
-        // Overide
+        //Handle Collision with Block
+        private void HandleBlockCollision(int side, Block block)
+        {
+            const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
+            switch (side)
+            {
+                case TOP:
+                    //Do Nothing
+                    break;
+                case BOTTOM:
+                    if (!(block.GetBlockState() is HiddenBlockState))
+                    {
+                        this.SetYVelocity(0);
+                        this.SetYAcceleration(0);
+                    } else if (block.GetBumped())
+                    {
+                        goombaState.Stomped();
+                    }
+                    BlockEnemyIsOn = block;
+                    break;
+                case LEFT:
+                    if (!(block.GetBlockState() is HiddenBlockState))
+                    {
+                        this.SetXVelocity(this.GetVelocity().X * -1);
+                    }
+                    break;
+                case RIGHT:
+                    if (!(block.GetBlockState() is HiddenBlockState))
+                    {
+                        this.SetXVelocity(this.GetVelocity().X * -1);
+                    }
+                    break;
+            }
+        }
+        //Handles Collision with other Objects
         public override void Collision(int side, GameObject Collidee)
         {
-            if(Collidee is FireBall && ((FireBall)Collidee).getActive())    // if collidee is a fireball, then stomp
+            const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
+            //Goomba should fall if not working on the 
+            if (Collidee is Block block)
             {
-                goombaState.Stomped();
+                HandleBlockCollision(side, block);
+            }
+            else if (Collidee is WarpPipe)
+            {
+                if (side == LEFT || side == RIGHT)
+                {
+                    this.SetXVelocity(this.GetVelocity().X * -1);
+                }
+            }
+            else if (Collidee is FireBall) 
+            {
+                this.Damage();
                 return;
             }
-            else if (side == 1)          //Top
+            else if (Collidee is Mario)
             {
-                if (Collidee is Mario)
+                if (side == TOP)
                 {
-                    goombaState.Stomped();
-                } else
-                {
-                    //do nothing
+                    this.Damage();
                 }
             }
-            else if (side == 2)     //Bottom
+            else if (Collidee is KoopaTroopa koopaTroopa && koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)
             {
-                if (Collidee is Block )//&& block is bumped
-                {
-                    goombaState.Stomped();
-                }
-            }
-            else if (side == 3)     //Left
-            {
-                if (Collidee is KoopaTroopa koopaTroopa)
-                {
-                    if (koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)    //If kicked koopatroop hits goomba, goomba dies.
-                    {
-                        goombaState.Stomped();
-                    }
-                }
-            }
-            else if (side == 4)     //Right
-            {
-                if (Collidee is KoopaTroopa koopaTroopa)
-                {
-                    if (koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)    //If kicked koopatroop hits goomba, goomba dies.
-                    {
-                        goombaState.Stomped();
-                    }
-                }
-            }
-
+                this.Damage();
+            } 
+        }
+        //If Goomba is not on blocks, it will have downward acceleration
+        public void Gravity()
+        {
+            this.SetYVelocity(50);
         }
 
 
         //Update all of Goomba's members
         public override void Update(GameTime GameTime)
         {
-
-            ChangeDirection();
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+            //800 would be the width of the viewport
+            if (introduced == false && this.Position.X - camera.Position.X < 800)
+            {
+                goombaState.Move();
+                introduced = true;
+            }
+            //If Goomba is not standing on anything, it should fall
+            if (BlockEnemyIsOn != null && !BottomCollision(BlockEnemyIsOn))
+            {
+                this.SetYVelocity(50);
+            }
             newPosition = Position + (Velocity * timeElapsed);
             Position = newPosition;
 

@@ -22,6 +22,7 @@ namespace States
         public void Move()
         {
             koopaTroopa.SetKoopaTroopaState(new MovingKoopaTroopaState(koopaTroopa));
+            koopaTroopa.SetXVelocity((float)-50);
         }
         public void StayIdle()
         {
@@ -62,16 +63,20 @@ namespace States
     public class StompedKoopaTroopaState : IEnemyState
     {
         private KoopaTroopa koopaTroopa;
+        private float previousVelocity;
 
         public StompedKoopaTroopaState(KoopaTroopa koopaTroopa)
         {
             this.koopaTroopa = koopaTroopa;
+            previousVelocity = koopaTroopa.GetVelocity().X;
+            this.koopaTroopa.SetXVelocity(0);
         }
 
         public void Stomped()
         {
-            koopaTroopa.SetKoopaTroopaState(new DeadKoopaTroopaState(koopaTroopa));
+            //koopaTroopa.SetKoopaTroopaState(new DeadKoopaTroopaState(koopaTroopa));
         }
+
         public void Move()
         {
             //Do nothing. It can't move while Stomped.
@@ -82,11 +87,12 @@ namespace States
         }
         public void Revive()
         {
-            //Do Revive
+            koopaTroopa.SetKoopaTroopaState(new MovingKoopaTroopaState(koopaTroopa));
+            koopaTroopa.SetXVelocity(previousVelocity);
         }
         public void Kicked(float sspeed)
         {
-            this.koopaTroopa.SetXVelocity(sspeed);
+            koopaTroopa.SetXVelocity(sspeed);
             koopaTroopa.SetKoopaTroopaState(new MovingShelledKoopaTroopaState(koopaTroopa));
         }
     }
@@ -144,7 +150,6 @@ namespace States
         }
         public void Kicked(float sspeed)
         {
-            //Do Nothing
         }
     }
   

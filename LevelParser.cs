@@ -12,15 +12,17 @@ using System.Xml.Linq;
 using System.IO;
 using System.Diagnostics;
 using Sprites;
+using View;
 
 namespace LevelParser
 {
     class LevelParser
     {
-        public static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites, Point maxCoords, Texture2D pipeSprite, Texture2D itemSprites, Texture2D flagSprite, Texture2D castleSprite)
+        public static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites, Point maxCoords, Texture2D pipeSprite, Texture2D itemSprites, Texture2D flagSprite, Texture2D castleSprite, Camera camera)
         {
             List<IGameObject> list = new List<IGameObject>();
             XElement level;
+
             try
             {
                 level = XElement.Load(levelPath);
@@ -69,7 +71,7 @@ namespace LevelParser
             ParseStairBlocks(blockSprites, list, level, mario);
 
             //Parse Enemies
-            ParseEnemies(list, level);
+            ParseEnemies(list, level, camera);
 
             ParseEnd(list, level, flagSprite, castleSprite);
 
@@ -153,7 +155,7 @@ namespace LevelParser
                 rowNumber++;
             }
         }
-        private static void ParseEnemies(List<IGameObject> list, XElement level)
+        private static void ParseEnemies(List<IGameObject> list, XElement level, Camera camera)
         {
             IEnumerable<XElement> enemies = level.Element("enemies").Elements();
             foreach (XElement enemy in enemies)
@@ -169,22 +171,22 @@ namespace LevelParser
                 {
                     case "goomba":
 
-                        tempEnemy = new Goomba(enemyPos, new Vector2(0, 0), new Vector2(0, 0), list);
+                        tempEnemy = new Goomba(enemyPos, new Vector2(0, 0), new Vector2(0, 0), list, camera);
                         break;
                     case "koopa":
                         enemyPos.Y -= 8;
-                        tempEnemy = new KoopaTroopa(enemyPos);
+                        tempEnemy = new KoopaTroopa(enemyPos, camera);
 
                         break;
                     case "redKoopa":
                         enemyPos.Y -= 8;
-                        tempEnemy = new RedKoopaTroopa(enemyPos);
+                        tempEnemy = new RedKoopaTroopa(enemyPos, camera);
 
                         break;
 
                     default:
                         //default to goomba on invalid type
-                        tempEnemy = new Goomba(enemyPos, new Vector2(0, 0), new Vector2(0, 0), list);
+                        tempEnemy = new Goomba(enemyPos, new Vector2(0, 0), new Vector2(0, 0), list, camera);
                         break;
 
                 }
