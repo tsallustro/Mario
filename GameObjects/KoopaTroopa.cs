@@ -134,11 +134,11 @@ namespace GameObjects
                             break;
                         case LEFT:
                             Position = new Vector2(this.Position.X + 5, this.Position.Y);
-                            Kicked(100);
+                            SetXVelocity(100);
                             break;
                         case RIGHT:
                             Position = new Vector2(this.Position.X - 5, this.Position.Y);
-                            Kicked(-100);
+                            SetXVelocity(-100);
                             break;
                     }
                 }
