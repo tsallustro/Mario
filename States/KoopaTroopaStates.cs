@@ -62,10 +62,12 @@ namespace States
     public class StompedKoopaTroopaState : IEnemyState
     {
         private KoopaTroopa koopaTroopa;
+        private float previousVelocity;
 
         public StompedKoopaTroopaState(KoopaTroopa koopaTroopa)
         {
             this.koopaTroopa = koopaTroopa;
+            previousVelocity = koopaTroopa.GetVelocity().X;
             this.koopaTroopa.SetXVelocity(0);
         }
 
@@ -85,6 +87,7 @@ namespace States
         public void Revive()
         {
             koopaTroopa.SetKoopaTroopaState(new MovingKoopaTroopaState(koopaTroopa));
+            koopaTroopa.SetXVelocity(previousVelocity);
         }
         public void Kicked(float sspeed)
         {
