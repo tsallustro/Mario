@@ -12,6 +12,7 @@ namespace GameObjects
 {
     public class Goomba : GameObject, IEnemy
     {
+        private readonly float gravityAcceleration = 275;
         private readonly int boundaryAdjustment = 4;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
@@ -37,6 +38,7 @@ namespace GameObjects
             goombaState = new IdleGoombaState(this);
             objects = objs;
             this.camera = camera;
+            this.Acceleration = new Vector2(0, gravityAcceleration);
         }
         //Get Goomba State
         public IEnemyState GetGoombaState()
@@ -72,11 +74,11 @@ namespace GameObjects
                     {
                         this.SetYVelocity(0);
                         this.SetYAcceleration(0);
+                        BlockEnemyIsOn = block;
                     } else if (block.GetBumped())
                     {
                         goombaState.Stomped();
                     }
-                    BlockEnemyIsOn = block;
                     break;
                 case LEFT:
                     if (!(block.GetBlockState() is HiddenBlockState))
@@ -143,13 +145,16 @@ namespace GameObjects
                 goombaState.Move();
                 introduced = true;
             }
+
+            Velocity += (Acceleration * timeElapsed);
+            newPosition = Position + (Velocity * timeElapsed);
+            Position = newPosition;
+
             //If Goomba is not standing on anything, it should fall
             if (BlockEnemyIsOn != null && !BottomCollision(BlockEnemyIsOn))
             {
                 this.SetYVelocity(50);
             }
-            newPosition = Position + (Velocity * timeElapsed);
-            Position = newPosition;
 
             Sprite = spriteFactory.GetCurrentSprite(Position, goombaState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
