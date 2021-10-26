@@ -69,8 +69,9 @@ namespace States
 
         public void Stomped()
         {
-            koopaTroopa.SetKoopaTroopaState(new DeadKoopaTroopaState(koopaTroopa));
+            //koopaTroopa.SetKoopaTroopaState(new DeadKoopaTroopaState(koopaTroopa));
         }
+
         public void Move()
         {
             //Do nothing. It can't move while Stomped.
