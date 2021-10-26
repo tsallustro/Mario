@@ -17,9 +17,11 @@ namespace GameObjects
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
          */
+        private GameObject BlockEnemyIsOn { get; set; }
         private readonly int numberOfSpritesOnSheet = 3;
         private IEnemyState goombaState;
         private GoombaSpriteFactory spriteFactory;
+        private bool introduced = false;
         Vector2 newPosition;
         List<IGameObject> objects;
         Camera camera;
@@ -59,6 +61,7 @@ namespace GameObjects
         private void HandleBlockCollision(int side, Block block)
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
             switch (side)
             {
                 case TOP:
@@ -73,6 +76,7 @@ namespace GameObjects
                     {
                         goombaState.Stomped();
                     }
+                    BlockEnemyIsOn = block;
                     break;
                 case LEFT:
                     if (!(block.GetBlockState() is HiddenBlockState))
@@ -134,9 +138,15 @@ namespace GameObjects
         {
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
             //800 would be the width of the viewport
-            if (this.Position.X - camera.Position.X < 800)
+            if (introduced == false && this.Position.X - camera.Position.X < 800)
             {
                 goombaState.Move();
+                introduced = true;
+            }
+            //If Goomba is not standing on anything, it should fall
+            if (BlockEnemyIsOn != null && !BottomCollision(BlockEnemyIsOn))
+            {
+                this.SetYVelocity(50);
             }
             newPosition = Position + (Velocity * timeElapsed);
             Position = newPosition;
