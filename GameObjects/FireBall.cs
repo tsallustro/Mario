@@ -134,18 +134,24 @@ namespace GameObjects
                     if (Collidee is Block || Collidee is WarpPipe)
                     {
                         this.SetYVelocity(-100);
-                    } else
+                    } else if (Collidee is Goomba || Collidee is KoopaTroopa || Collidee is RedKoopaTroopa)
+                    {
+                        IEnemy enemy = (IEnemy) Collidee;
+                        enemy.Stomped();
+                    }
+                    else
                     {
                         this.active = false;
                     }
                 }
-                else if (side == 3)     //Left
+                else if (side == 3 || side == 4)     //Left
                 {
                     this.active = false;
-                }
-                else if (side == 4)     //Right
-                {
-                    this.active = false;
+                    if (Collidee is Goomba || Collidee is KoopaTroopa || Collidee is RedKoopaTroopa)
+                    {
+                        IEnemy enemy = (IEnemy)Collidee;
+                        enemy.Stomped();
+                    }
                 }
             }
         }
