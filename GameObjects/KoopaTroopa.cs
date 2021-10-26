@@ -12,6 +12,7 @@ namespace GameObjects
 {
     public class KoopaTroopa : GameObject, IEnemy
     {
+        private readonly float gravityAccleration = 275;
         private readonly int boundaryAdjustment = 4;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
@@ -21,6 +22,7 @@ namespace GameObjects
         private readonly float timeInShell = 10;
         private IEnemyState koopaTroopaState;
         private KoopaTroopaSpriteFactory spriteFactory;
+        private GameObject BlockEnemyIsOn { get; set; }
 
         //Timer for Koopa Shell
         private float timer;
@@ -38,6 +40,7 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             koopaTroopaState = new IdleKoopaTroopaState(this);
             this.camera = camera;
+            this.Acceleration = new Vector2(0, gravityAccleration);
         }
 
         public IEnemyState GetKoopaTroopaState()
@@ -89,6 +92,8 @@ namespace GameObjects
                     {
                         koopaTroopaState.Stomped();
                     }
+
+                    BlockEnemyIsOn = block;
                     break;
                 case LEFT:
                     if (!(block.GetBlockState() is HiddenBlockState))
@@ -197,8 +202,16 @@ namespace GameObjects
                 timer = 0;
             }
 
+            Velocity += (Acceleration * timeElapsed);
             Position = Position + (Velocity * timeElapsed);
             base.Update(GameTime);
+
+            //If Goomba is not standing on anything, it should fall
+            if (BlockEnemyIsOn != null && !BottomCollision(BlockEnemyIsOn))
+            {
+                this.SetYVelocity(50);
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, koopaTroopaState);
 
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),

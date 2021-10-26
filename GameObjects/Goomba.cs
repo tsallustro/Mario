@@ -74,11 +74,12 @@ namespace GameObjects
                     {
                         this.SetYVelocity(0);
                         this.SetYAcceleration(0);
-                        BlockEnemyIsOn = block;
                     } else if (block.GetBumped())
                     {
                         goombaState.Stomped();
                     }
+
+                    BlockEnemyIsOn = block;
                     break;
                 case LEFT:
                     if (!(block.GetBlockState() is HiddenBlockState))

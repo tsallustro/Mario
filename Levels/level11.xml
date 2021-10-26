@@ -644,10 +644,6 @@
 	</endElements>
 	<enemies>
 		<enemy type="goomba">
-			<row>23</row>
-			<column>25</column>
-		</enemy>
-		<enemy type="goomba">
 			<row>27</row>
 			<column>18</column>
 		</enemy>
