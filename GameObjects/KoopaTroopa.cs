@@ -17,6 +17,7 @@ namespace GameObjects
          * on that sheet!
          */
         private readonly int numberOfSpritesOnSheet = 5;
+        private readonly float timeInShell = 10;
         private IEnemyState koopaTroopaState;
         private KoopaTroopaSpriteFactory spriteFactory;
 
@@ -28,6 +29,7 @@ namespace GameObjects
         public KoopaTroopa(Vector2 position)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
+            timer = 0;
             spriteFactory = KoopaTroopaSpriteFactory.Instance;
             Sprite = spriteFactory.CreateIdleKoopaTroopa(position);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
@@ -120,7 +122,7 @@ namespace GameObjects
                 this.Damage();
                 return;
             }
-            else if (Collidee is Mario)
+            else if (Collidee is Mario mario)
             {
                 if (!(this.koopaTroopaState is MovingKoopaTroopaState) && !(this.koopaTroopaState is MovingShelledKoopaTroopaState) && !(this.koopaTroopaState is IdleKoopaTroopaState) && !(this.koopaTroopaState is DeadKoopaTroopaState))
                 {
@@ -136,13 +138,13 @@ namespace GameObjects
                             Position = new Vector2(this.Position.X + 5, this.Position.Y);
                             //koopaTroopaState = new MovingShelledKoopaTroopaState(this);
                             //SetXVelocity(100);
-                            Kicked(100);
+                            Kicked(mario.GetVelocity().X + 50);
                             break;
                         case RIGHT:
                             Position = new Vector2(this.Position.X - 5, this.Position.Y);
                             //koopaTroopaState = new MovingShelledKoopaTroopaState(this);
                             //SetXVelocity(-100);
-                            Kicked(-100);
+                            Kicked(mario.GetVelocity().X - 50);
                             
                             break;
                     }
@@ -179,10 +181,18 @@ namespace GameObjects
         public override void Update(GameTime GameTime)
         {
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+            timer += timeElapsed;
+
+            if (timer >= timeInShell && !(koopaTroopaState is MovingShelledKoopaTroopaState))
+            {
+                koopaTroopaState = new IdleKoopaTroopaState(this);
+                timer = 0;
+            }
+
             Position = Position + (Velocity * timeElapsed);
             base.Update(GameTime);
             Sprite = spriteFactory.GetCurrentSprite(Position, koopaTroopaState);
-            System.Diagnostics.Debug.WriteLine("Sprite: " + Sprite);
+
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, (Sprite.texture.Height) - boundaryAdjustment));
             Sprite.Update();
