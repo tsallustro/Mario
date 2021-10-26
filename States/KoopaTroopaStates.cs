@@ -65,6 +65,7 @@ namespace States
         public StompedKoopaTroopaState(KoopaTroopa koopaTroopa)
         {
             this.koopaTroopa = koopaTroopa;
+            this.koopaTroopa.SetXVelocity(0);
         }
 
         public void Stomped()
