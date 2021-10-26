@@ -81,7 +81,7 @@ namespace Game1
         public void ResetObjects()
         {
             objects = initialObjects;
-            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite);
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
             mario = (Mario)objects[0];
             InitializeCommands();
             //camera.LookAt(mario.GetPosition());
@@ -171,8 +171,8 @@ namespace Game1
 
             // Load from Level file
             levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite);
-            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite);
+            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
 
             mario = (Mario) objects[0];
             InitializeCommands();

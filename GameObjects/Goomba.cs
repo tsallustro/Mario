@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using States;
 using Sprites;
 using Factories;
+using View;
 
 namespace GameObjects
 {
@@ -21,9 +22,10 @@ namespace GameObjects
         private GoombaSpriteFactory spriteFactory;
         Vector2 newPosition;
         List<IGameObject> objects;
+        Camera camera;
 
         //I
-        public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs)
+        public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs, Camera camera)
             : base(position, velocity, acceleration)
         {
             spriteFactory = GoombaSpriteFactory.Instance;
@@ -32,7 +34,7 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             goombaState = new IdleGoombaState(this);
             objects = objs;
-            this.SetXVelocity((float)-50);
+            this.camera = camera;
         }
         //Get Goomba State
         public IEnemyState GetGoombaState()
@@ -131,6 +133,11 @@ namespace GameObjects
         public override void Update(GameTime GameTime)
         {
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+            //800 would be the width of the viewport
+            if (this.Position.X - camera.Position.X < 800)
+            {
+                goombaState.Move();
+            }
             newPosition = Position + (Velocity * timeElapsed);
             Position = newPosition;
 

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using States;
 using Sprites;
 using Factories;
+using View;
 
 namespace GameObjects
 {
@@ -25,8 +26,9 @@ namespace GameObjects
         private float timer;
         List<IGameObject> objects;
         private bool left = true;
+        Camera camera;
 
-        public KoopaTroopa(Vector2 position)
+        public KoopaTroopa(Vector2 position, Camera camera)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
             timer = 0;
@@ -35,6 +37,7 @@ namespace GameObjects
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             koopaTroopaState = new IdleKoopaTroopaState(this);
+            this.camera = camera;
         }
 
         public IEnemyState GetKoopaTroopaState()
@@ -176,11 +179,17 @@ namespace GameObjects
             }
         }
 
-        //Update all of Goomba's members
+        //Update all of Koopa's members
         public override void Update(GameTime GameTime)
         {
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
             timer += timeElapsed;
+
+            //800 would be the width of viewport. koopa's move once in the view
+            if (this.Position.X - camera.Position.X < 800)
+            {
+                koopaTroopaState.Move();
+            }
 
             if (timer >= timeInShell && !(koopaTroopaState is MovingShelledKoopaTroopaState))
             {

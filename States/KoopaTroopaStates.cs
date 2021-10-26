@@ -22,6 +22,7 @@ namespace States
         public void Move()
         {
             koopaTroopa.SetKoopaTroopaState(new MovingKoopaTroopaState(koopaTroopa));
+            koopaTroopa.SetXVelocity((float)-50);
         }
         public void StayIdle()
         {
