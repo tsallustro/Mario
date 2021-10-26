@@ -133,7 +133,6 @@ namespace GameObjects
                     SetYVelocity(0);
                     isEmergingFromBlock = false;
                     isFinishedEmerging = true;
-
                 }
             }
 
@@ -265,7 +264,7 @@ namespace GameObjects
     public class Star : Item
     {
 
-        protected readonly static int starXSpeed = 10, starInitialBounceSpeed = 30;
+        protected readonly static int starXSpeed = 10, starInitialBounceSpeed = 90;
        
 
         public Star(Vector2 position, Texture2D itemSprites, Mario mario)
@@ -304,8 +303,6 @@ namespace GameObjects
             base.Update(gameTime);
             if (isFinishedEmerging)
             {
-               
-
                 if (Velocity.X == 0 && Position.X - boundMario.GetPosition().X > 0)
                 {
                     //Star is to the right of mario
