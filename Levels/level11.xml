@@ -664,11 +664,11 @@
 			<column>80</column>
 		</enemy>
 		<enemy type="goomba">
-			<row>24</row>
+			<row>23</row>
 			<column>82</column>
 		</enemy>
 		<enemy type="goomba">
-			<row>24</row>
+			<row>23</row>
 			<column>98</column>
 		</enemy>
 		<enemy type="goomba">
