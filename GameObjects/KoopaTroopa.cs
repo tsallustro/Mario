@@ -135,26 +135,22 @@ namespace GameObjects
                             //Do nothing. Not sure what happens when Mario hits the shell from bottom.
                             break;
                         case LEFT:
-                            Position = new Vector2(this.Position.X + 5, this.Position.Y);
-                            //koopaTroopaState = new MovingShelledKoopaTroopaState(this);
-                            //SetXVelocity(100);
+                            Position = new Vector2(this.Position.X + 10, this.Position.Y);
                             Kicked(mario.GetVelocity().X + 50);
                             break;
                         case RIGHT:
-                            Position = new Vector2(this.Position.X - 5, this.Position.Y);
-                            //koopaTroopaState = new MovingShelledKoopaTroopaState(this);
-                            //SetXVelocity(-100);
+                            Position = new Vector2(this.Position.X - 10, this.Position.Y);
                             Kicked(mario.GetVelocity().X - 50);
                             
                             break;
                     }
                 }
-                else
+                else if (side == TOP)
                 {
-                    if (side == TOP)
-                    {
-                        koopaTroopaState.Stomped();
-                    }
+                    koopaTroopaState.Stomped();
+                } else if (koopaTroopaState is MovingShelledKoopaTroopaState)
+                {
+                    mario.Damage();
                 }
             }
             else if (Collidee is KoopaTroopa koopa) //If koopa is also shelled and kicked, then it only changes direction when it hits another kicked koopa. If it's in any other state, another kicked koopa kills it.
