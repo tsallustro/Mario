@@ -170,8 +170,8 @@ namespace Game1
             itemSpriteFactory = new ItemSpriteFactory(itemSprites);
 
             // Load from Level file
-            System.Diagnostics.Debug.WriteLine("Loading from "+Content.RootDirectory + "\\Levels\\" + levelToLoad + ".xml");
-            levelPath = Path.GetFullPath(Content.RootDirectory+ "\\" + levelToLoad + ".xml");
+            
+            levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
             initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
 
