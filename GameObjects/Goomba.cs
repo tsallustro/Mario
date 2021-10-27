@@ -203,8 +203,11 @@ namespace GameObjects
         public bool IsDead()
         {
             if (this.GetGoombaState() is DeadGoombaState)
+            {
                 return true;
-            return false;
+            } else {
+                return false;
+            }
         }
 
     }
