@@ -112,11 +112,11 @@ namespace GameObjects
                     this.SetXVelocity(this.GetVelocity().X * -1);
                 }
             }
-            else if (Collidee is FireBall) 
+            /*else if (Collidee is FireBall && ((FireBall)Collidee).getActive()) 
             {
                 this.Damage();
                 return;
-            }
+            }*/
             else if (Collidee is Mario)
             {
                 if (side == TOP)

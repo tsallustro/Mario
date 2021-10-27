@@ -181,7 +181,7 @@ namespace GameObjects
             } else if (Collidee is FireBall && ((FireBall)Collidee).getActive())
             {
                 this.Damage();
-            }
+            }*/
         }
 
         //Update all of Koopa's members
