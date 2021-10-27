@@ -1,0 +1,30 @@
+﻿Author: Jesse Fowler
+
+Date: October 26, 2021
+
+Sprint Number: 3
+
+Name of file being reviewed: FireBall.cs
+
+Author of file being reviewed: Maxwell Ortwig
+
+Comments on Code Quality:
+	This class is quite straightforward and follows the pattern of the other GameObjects. The code
+	is about as minimal and easy to understand as possible. Each method does what one would expect it
+	to do, and there is not really any extra fluff or inefficiencies. However, it doesn't seem like the
+	2 fireball limit is enforced inside FireBall, and is enforced in LevelParser instead. While this
+	is understandable since the limit is more relevant to the level/game, it's probably less clear than
+	if it was enforced inside FireBall. Finally, the physics and movement constants are hard-coded and not
+	contained inside private readonly constants. It would be easier to tweak the behavior if these are easier
+	to find and change.
+
+Minutes Taken to Review: 20 minutes
+
+Hypothetical Change:
+	One hypothetical change that was hinted at in my previous comments is the changing of the number of
+	FireBalls allowed on screen. This change would not be made in FireBall, but would have to be made in
+	LevelParser. However, FireBall seems to be able to handle any change in this limit without modifications.
+	Another hypothetical change is modifying the physics of FireBalls so they can be launched further/not as 
+	far or faster, etc. As mentioned before, the physics constants are hard-coded inside methods so they aren't
+	really easy to access. It would be easy to miss changing a constant or two when making a future change, so
+	the current implementation could not handle physics modifications as well as it could.
