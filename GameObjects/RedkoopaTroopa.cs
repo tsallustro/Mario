@@ -156,32 +156,38 @@ namespace GameObjects
                 else if (side == TOP)
                 {
                     Stomped();
-                } else if (redKoopaTroopaState is MovingRedShelledKoopaTroopaState)
+                }
+                else if (redKoopaTroopaState is MovingRedShelledKoopaTroopaState)
                 {
                     mario.Damage();
                 }
             }
             else if (Collidee is KoopaTroopa koopa) //If koopa is also shelled and kicked, then it only changes direction when it hits another kicked koopa. If it's in any other state, another kicked koopa kills it.
             {
-                if (koopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState && this.GetRedKoopaTroopaState() is MovingRedShelledKoopaTroopaState) {
+                if (koopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState && this.GetRedKoopaTroopaState() is MovingRedShelledKoopaTroopaState)
+                {
                     this.SetXVelocity(this.GetVelocity().X * -1);
-                } else if (koopa.GetKoopaTroopaState() is MovingRedShelledKoopaTroopaState)
+                }
+                else if (koopa.GetKoopaTroopaState() is MovingRedShelledKoopaTroopaState)
                 {
                     this.Die();
                 }
-            } else if (Collidee is Goomba goomba && redKoopaTroopaState is MovingRedShelledKoopaTroopaState)
+            }
+            else if (Collidee is Goomba goomba && redKoopaTroopaState is MovingRedShelledKoopaTroopaState)
             {
                 goomba.Damage();
-            } else if (Collidee is Block)  //Koopa changes its direction when it hits block
+            }
+            else if (Collidee is Block)  //Koopa changes its direction when it hits block
             {
-                if (this.GetRedKoopaTroopaState() is MovingRedShelledKoopaTroopaState)    
+                if (this.GetRedKoopaTroopaState() is MovingRedShelledKoopaTroopaState)
                 {
                     this.SetXVelocity(this.GetVelocity().X * -1);
                 }
-            } else if (Collidee is FireBall && ((FireBall)Collidee).getActive())
+            }
+            else if (Collidee is FireBall && ((FireBall)Collidee).getActive())
             {
                 this.Damage();
-            }*/
+            }
         }
 
         //Update all of Koopa's members
@@ -209,7 +215,7 @@ namespace GameObjects
             //If Goomba is not standing on anything, it should fall
             if (BlockEnemyIsOn != null && !BottomCollision(BlockEnemyIsOn))
             {
-                this.SetYVelocity(50);
+                this.SetXVelocity(this.GetVelocity().X * -1);
             }
 
             Sprite = spriteFactory.GetCurrentSprite(Position, redKoopaTroopaState);
