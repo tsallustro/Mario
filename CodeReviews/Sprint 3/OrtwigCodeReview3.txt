@@ -4,21 +4,20 @@ Date: October 26th, 2021
 
 Sprint #: 3
 
-File Reviewed: GameObject.cs
+File Reviewed: RedkoopaTroopa.cs
 
-Author of File Reviewed: Tae Kim
+Author of File Reviewed: Tae Kim (alterations by Jesse Fowler)
 
 Code Quality:
-	The quality of the code is good. The class's main purpose is to hold values that
-	are defined for each gameObject and it serves that purpose well. Originally this class
-	had methods for detecting collisions, but it was rooted out to make this class more concise. 
-	This class works well as with all the changes, we use it's helper methods quite a bit for
-	collision regardless of what type of object.
+	 The code itself is very identical to the other IEnemy objects that exist. With that, I believe 
+	 has the same clutteryness that comes from all the behaviors that are needed for collisions and
+	 updates. There is some repeat in how damage() just calls stomped() and some cases for collision 
+	 are the same, but all the code is concise enough that i dont see any extrenious choices.
 
 Time Length of Review: 20 minutes
 
 Hypothetical Change:
-	In the future, this class could be further split into a gameobjectBlock and gameobjectCharacter
-	class. This would separate movement and other types of methods and parameters a bit further and
-	may simplify handling of gameObjects later.
+	In the future, this class could become a child of KoopaTroopa due to their simularities. This could
+	result in a smaller file size, not having to change things in two places, and shorter code to detect
+	what kind of object collidees are.
 	

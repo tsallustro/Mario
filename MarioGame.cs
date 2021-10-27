@@ -130,7 +130,6 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.Down, crouch);
             keyboardController.AddMapping((int)Keys.S, crouch);
             keyboardController.AddMapping((int)Keys.Space, throwFireBall);
-            keyboardController.AddMapping((int)Keys.B, throwFireBall);
 
             // Power-up commands
             keyboardController.AddMapping((int)Keys.Y, new StandardMarioCommand(mario));
@@ -143,6 +142,7 @@ namespace Game1
             gamepadController.AddMapping((int)Buttons.DPadRight, moveRight);
             gamepadController.AddMapping((int)Buttons.A, jump);
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
+            gamepadController.AddMapping((int)Buttons.B, throwFireBall);
 
             // Level Reset
             keyboardController.AddMapping((int)Keys.R, new LevelResetCommand(this));

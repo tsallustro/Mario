@@ -1,0 +1,36 @@
+﻿Author: Tony Sallustro
+
+Date: October 26, 2021
+
+Sprint Number: 3
+
+Name of file being reviewed: Camera.cs
+
+Author of file being reviewed: Jesse Fowler
+
+Comments on Code Quality: Overall, this file is pretty well written. The actual metrics of the code (specifically, maintainability index) could be improved. I also
+notice that the comments are a bit lacking, which makes it difficult to tell which parts of the code are doing what 
+
+The first thing I notice about this file is that it has two classes, both of which are instantiated outside the file (MarioGame.cs). It seems like Background and
+Camera should be split up into separate files. If Background were only used within Camera (or vice-versa), it would make more sense to keep them together, but otherwise
+it clutters things up by keeping them together. (Splitting them up would help maintainability as well). The Background object also has a Camera member, which, considering
+that there only exist one camera and one background object at a time, gives another reason to reorganize how they are structured (this makes the case for a class/private
+member class relationship between the two).
+
+In Camera's Rectangle member Limits, the set method says "if the value passed is null, explicitly set the _limits to null". Why not just set it to value (since we
+know value is null)? Going even further, why allow it to be changed to null at all? This seems like a big opening for null pointers to appear, especially in Sprint 4
+when transitions between above/below ground will be implemented.
+
+There's also a lot of magic numbers across this class. It would make readability/maintainability better if they were moved to named constants (at least, for the time being).
+
+Overall, it works well and operates smoothly, but if changes need to be made to either class in the future (and I feel like they most certainly will), it could cause 
+some major headaches.
+
+
+Minutes Taken to Review: 30 minutes
+
+Hypothetical Change: I would make Background a private member class of Camera and only allow external access through a UpdateBackground() and DrawBackground() methods.
+This is the only real place where other parts of the program touch the background, and it would still allow Background to modify Camera's other fields. My rationale
+is better explained above, but, in short, it helps keep code hidden from parts of the program that don't need it and would reduce the number of variables passed between
+objects. 
+	
