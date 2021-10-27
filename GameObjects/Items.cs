@@ -48,6 +48,7 @@ namespace GameObjects
             initialPosition = position;
             spriteFactory = new ItemSpriteFactory(itemSprites);
             boundMario = mario;
+            lastY = this.Position.Y;
         }
 
         public IItemState GetItemState()
