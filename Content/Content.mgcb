@@ -248,6 +248,15 @@
 /processorParam:TextureFormat=Color
 /build:KoopaTroopas.png
 
+#begin Levels/level11.xml
+/copy:Levels/level11.xml
+
+#begin Levels/sprint2Map.xml
+/copy:Levels/sprint2Map.xml
+
+#begin Levels/test.xml
+/copy:Levels/test.xml
+
 #begin longPipe.png
 /importer:TextureImporter
 /processor:TextureProcessor
