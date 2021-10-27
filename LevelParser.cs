@@ -248,7 +248,7 @@ namespace LevelParser
                     if (itemAttribute != null)
                     {
                         items.Add(GetItemOfType(itemAttribute.Value, hiddenBlockPos, itemSprites, mario));
-                        list.AddRange(items);
+                        
                     }
 
 
@@ -268,7 +268,7 @@ namespace LevelParser
                 Block tempHidden = new Block(hiddenBlockPos, blockSprites, mario, items);
                 tempHidden.SetBlockState(new HiddenBlockState(tempHidden));
                 list.Add(tempHidden);
-                
+                list.AddRange(items);
             }
         }
 
@@ -345,7 +345,7 @@ namespace LevelParser
                     XAttribute itemAttribute = brick.Attribute("item");
                     if (itemAttribute != null) {
                         items.Add(GetItemOfType(itemAttribute.Value, brickBlockPos, itemSprites, mario));
-                        list.AddRange(items);
+                        
                     }
 
                     XAttribute coinCountAttribute = brick.Attribute("coinCount");
@@ -363,7 +363,7 @@ namespace LevelParser
                 Block tempBrick = new Block(brickBlockPos, blockSprites, mario, items);
                 tempBrick.SetBlockState(new BrickBlockState(tempBrick));
                 list.Add(tempBrick);
-
+                list.AddRange(items);
             }
         }
 
