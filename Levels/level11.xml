@@ -56,7 +56,7 @@
 			<row>24</row>
 			<column>25</column>
 		</brickBlock>
-		<brickBlock>
+		<brickBlock coinCount ="5">
 			<row>24</row>
 			<column>78</column>
 		</brickBlock>

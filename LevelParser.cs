@@ -242,10 +242,30 @@ namespace LevelParser
 
                 List<IItem> items = new List<IItem>();
 
-                if (hidden.HasAttributes)
+                if(hidden.HasAttributes)
                 {
-                    items.Add(GetItemOfType(hidden.Attribute("item").Value, hiddenBlockPos, itemSprites, mario));
-                    list.AddRange(items);
+                    XAttribute itemAttribute = hidden.Attribute("item");
+                    if (itemAttribute != null)
+                    {
+                        items.Add(GetItemOfType(itemAttribute.Value, hiddenBlockPos, itemSprites, mario));
+                        list.AddRange(items);
+                    }
+
+
+                    XAttribute coinCountAttribute = hidden.Attribute("coinCount");
+                    int numcoins;
+                    if (coinCountAttribute != null && int.TryParse(coinCountAttribute.Value, out numcoins))
+                    {
+                        for (int i = 0; i < numcoins; i++)
+                        {
+                            
+                            items.Add(GetItemOfType("coin", hiddenBlockPos, itemSprites, mario));
+                        }
+                    }
+
+
+
+
                 }
 
                 Block tempHidden = new Block(hiddenBlockPos, blockSprites, mario, items);
@@ -325,8 +345,22 @@ namespace LevelParser
 
                 if (brick.HasAttributes)
                 {
-                    items.Add(GetItemOfType(brick.Attribute("item").Value, brickBlockPos, itemSprites, mario));
-                    list.AddRange(items);
+                    XAttribute itemAttribute = brick.Attribute("item");
+                    if (itemAttribute != null) {
+                        items.Add(GetItemOfType(itemAttribute.Value, brickBlockPos, itemSprites, mario));
+                        list.AddRange(items);
+                    }
+
+                    XAttribute coinCountAttribute = brick.Attribute("coinCount");
+                    int numcoins;
+                    if(coinCountAttribute != null && int.TryParse(coinCountAttribute.Value, out numcoins))
+                    {
+                        for(int i = 0; i < numcoins; i++)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Adding coin " + i);
+                            items.Add(GetItemOfType("coin", brickBlockPos, itemSprites, mario));
+                        }
+                    }
                 }
 
                 Block tempBrick = new Block(brickBlockPos, blockSprites, mario, items);
