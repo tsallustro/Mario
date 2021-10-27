@@ -263,9 +263,6 @@ namespace LevelParser
                         }
                     }
 
-
-
-
                 }
 
                 Block tempHidden = new Block(hiddenBlockPos, blockSprites, mario, items);
@@ -357,7 +354,6 @@ namespace LevelParser
                     {
                         for(int i = 0; i < numcoins; i++)
                         {
-                            System.Diagnostics.Debug.WriteLine("Adding coin " + i);
                             items.Add(GetItemOfType("coin", brickBlockPos, itemSprites, mario));
                         }
                     }
