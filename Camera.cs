@@ -160,9 +160,10 @@ namespace View
             spriteBatch.Draw(cloudTwo, new Vector2(600, 150), Color.White);
             spriteBatch.Draw(cloudOne, new Vector2(340, 110), Color.White);
             spriteBatch.Draw(cloudThree, new Vector2(550, 220), Color.White);
-            spriteBatch.Draw(cloudThree, new Vector2(800, 100), Color.White);
-            spriteBatch.Draw(cloudTwo, new Vector2(950, 300), Color.White);
-            spriteBatch.Draw(cloudOne, new Vector2(120, 110), Color.White);
+            spriteBatch.Draw(cloudThree, new Vector2(800, 105), Color.White);
+            spriteBatch.Draw(cloudTwo, new Vector2(950, 290), Color.White);
+            spriteBatch.Draw(cloudOne, new Vector2(120, 130), Color.White);
+            spriteBatch.Draw(cloudOne, new Vector2(1250, 180), Color.White);
             spriteBatch.End();
 
             parallax = new Vector2(0.7f);
@@ -185,6 +186,7 @@ namespace View
             spriteBatch.Draw(bushOne, new Vector2(670, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
             spriteBatch.Draw(bushTwo, new Vector2(1320, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
             spriteBatch.Draw(bushThree, new Vector2(1730, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(bushTwo, new Vector2(2400, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
             spriteBatch.End();
         }
     }
