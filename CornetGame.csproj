@@ -12,11 +12,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Content\NewFolder\**" />
+    <Compile Remove="Levels\**" />
     <EmbeddedResource Remove="Content\NewFolder\**" />
+    <EmbeddedResource Remove="Levels\**" />
     <None Remove="Content\NewFolder\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Levels\level11.xml" />
+    <None Remove="Levels\**" />
   </ItemGroup>
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
@@ -27,8 +27,5 @@
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Levels\" />
   </ItemGroup>
 </Project>
