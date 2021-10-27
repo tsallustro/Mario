@@ -64,7 +64,7 @@ namespace Game1
         private Vector2 parallax;
 
         private Mario mario;
-
+        
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -170,13 +170,14 @@ namespace Game1
             itemSpriteFactory = new ItemSpriteFactory(itemSprites);
 
             // Load from Level file
-            levelPath = Path.GetFullPath(@"..\..\..\Levels\" + levelToLoad + ".xml");
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
+            System.Diagnostics.Debug.WriteLine("Loading from "+Content.RootDirectory + "\\Levels\\" + levelToLoad + ".xml");
+            levelPath = Path.GetFullPath(Content.RootDirectory+ "\\" + levelToLoad + ".xml");
             initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
+            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
 
             mario = (Mario) objects[0];
             InitializeCommands();
-
+            
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
