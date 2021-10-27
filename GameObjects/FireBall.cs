@@ -117,44 +117,47 @@ namespace GameObjects
         public override void Collision(int side, GameObject Collidee)
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
-            
-            if (this.active) // only handle collisions if active
+            if (this.active)
             {
-                if (Collidee is Item || (Collidee is Block && ((Block)Collidee).GetBlockState() is HiddenBlockState) || (Collidee is IEnemy && ((IEnemy)Collidee).IsDead()))
+                if (Collidee is Goomba || Collidee is KoopaTroopa || Collidee is RedKoopaTroopa) //remove on enemies order matters, so enemy's dont collide with fireball
                 {
-                    return;     //Short circuit that! we dont care about hidden blocks, item collisions, or dead enemies
+                    ((IEnemy)Collidee).Stomped();
+                    this.active = false;
+                } else if (Collidee is Mario)
+                {
+                    mario.Damage();
+                    this.active = false;
                 }
+                else
+                {
+                    switch (side)
+                    {
+                        case TOP:
+                            this.active = false;
+                            break;
 
-                if (side == 1)          //Top
-                {
-                    this.active = false;
-                }
-                else if (side == 2)     //Bottom
-                {
-                    if (Collidee is Block || Collidee is WarpPipe)
-                    {
-                        this.SetYVelocity(-100);
-                    } else if (Collidee is Goomba || Collidee is KoopaTroopa || Collidee is RedKoopaTroopa)
-                    {
-                        IEnemy enemy = (IEnemy) Collidee;
-                        enemy.Stomped();
-                        this.active = false;
-                    }
-                    else
-                    {
-                        this.active = false;
-                    }
-                }
-                else if (side == 3 || side == 4)     //Left
-                {
-                    this.active = false;
-                    if (Collidee is Goomba || Collidee is KoopaTroopa || Collidee is RedKoopaTroopa)
-                    {
-                        IEnemy enemy = (IEnemy)Collidee;
-                        enemy.Stomped();
+                        case BOTTOM:
+                            if (Collidee is Block || Collidee is WarpPipe)      //bounce on blocks
+                            {
+                                this.SetYVelocity(-100);
+                            }
+                            else
+                            {
+                                this.active = false;
+                            }
+                            break;
+
+                        case LEFT:
+                            this.active = false;
+                            break;
+
+                        case RIGHT:
+                            this.active = false;
+                            break;
                     }
                 }
             }
+
         }
 
         public override void Update(GameTime GameTime)

@@ -178,10 +178,10 @@ namespace GameObjects
                 {
                     this.SetXVelocity(this.GetVelocity().X * -1);
                 }
-            } else if (Collidee is FireBall && ((FireBall)Collidee).getActive())
+            } /*else if (Collidee is FireBall && ((FireBall)Collidee).getActive())
             {
                 this.Damage();
-            }
+            }*/
         }
 
         //Update all of Koopa's members
@@ -219,7 +219,7 @@ namespace GameObjects
             Sprite.Update();
         }
 
-        //Draw Goomba
+        //Draw koopaTroopa
         public override void Draw(SpriteBatch spriteBatch)
         {
             Sprite.location = Position;
@@ -227,7 +227,7 @@ namespace GameObjects
             DrawAABBIfVisible(Color.Red, spriteBatch);
         }
 
-        //Change Goomba state to stomped mode
+        //Change koopaTroopa state to stomped mode
         public void Stomped()
         {
             timer = 0;
@@ -236,12 +236,12 @@ namespace GameObjects
             //timer = 50;
         }
 
-        //Change Goomba state to moving mode
+        //Change koopaTroopa state to moving mode
         public void Move()
         {
             koopaTroopaState.Move();
         }
-        //Change Goomba state to idle mode
+        //Change koopaTroopa state to idle mode
         public void StayIdle()
         {
             koopaTroopaState.StayIdle();
