@@ -362,8 +362,9 @@ namespace LevelParser
 
                 Block tempBrick = new Block(brickBlockPos, blockSprites, mario, items);
                 tempBrick.SetBlockState(new BrickBlockState(tempBrick));
-                list.Add(tempBrick);
+                
                 list.AddRange(items);
+                list.Add(tempBrick);
             }
         }
 
