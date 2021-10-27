@@ -159,6 +159,10 @@ namespace View
             spriteBatch.Draw(cloudTwo, new Vector2(200, 300),Color.White);
             spriteBatch.Draw(cloudTwo, new Vector2(600, 150), Color.White);
             spriteBatch.Draw(cloudOne, new Vector2(340, 110), Color.White);
+            spriteBatch.Draw(cloudThree, new Vector2(550, 220), Color.White);
+            spriteBatch.Draw(cloudThree, new Vector2(800, 100), Color.White);
+            spriteBatch.Draw(cloudTwo, new Vector2(950, 300), Color.White);
+            spriteBatch.Draw(cloudOne, new Vector2(120, 110), Color.White);
             spriteBatch.End();
 
             parallax = new Vector2(0.7f);
@@ -166,6 +170,10 @@ namespace View
             spriteBatch.Draw(hillBigSprite, new Vector2(220, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
             spriteBatch.Draw(hillBigSprite, new Vector2(600, graphicsDevice.Viewport.Height -40 - 32), Color.White);
             spriteBatch.Draw(hillSmallSprite, new Vector2(650, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(hillBigSprite, new Vector2(1300, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(hillSmallSprite, new Vector2(1550, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(hillSmallSprite, new Vector2(2000, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(hillBigSprite, new Vector2(2050, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
             spriteBatch.End();
 
             parallax = new Vector2(0.8f);
@@ -174,6 +182,9 @@ namespace View
             spriteBatch.Draw(bushTwo, new Vector2(250, graphicsDevice.Viewport.Height -40 -32), Color.White);
             spriteBatch.Draw(bushTwo, new Vector2(580, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
             spriteBatch.Draw(bushThree, new Vector2(360, graphicsDevice.Viewport.Height -40 -32), Color.White);
+            spriteBatch.Draw(bushOne, new Vector2(670, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(bushTwo, new Vector2(1320, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(bushThree, new Vector2(1730, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
             spriteBatch.End();
         }
     }
