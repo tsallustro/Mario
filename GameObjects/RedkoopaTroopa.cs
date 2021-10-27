@@ -112,10 +112,10 @@ namespace GameObjects
                     this.SetXVelocity(this.GetVelocity().X * -1);
                 }
             }
-            else if (Collidee is FireBall && ((FireBall)Collidee).getActive())
+            /*else if (Collidee is FireBall && ((FireBall)Collidee).getActive())
             {
                 this.Damage();
-            }
+            }*/
         }
 
 
