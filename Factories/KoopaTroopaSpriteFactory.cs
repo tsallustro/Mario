@@ -53,12 +53,10 @@ namespace Factories
 			}
 			else if (koopaTroopaState is StompedKoopaTroopaState)
 			{
-				System.Diagnostics.Debug.WriteLine("Creating stomped koopa state");
 				return CreateStompedKoopaTroopa(location);
 			}
 			else if (koopaTroopaState is MovingShelledKoopaTroopaState)
             {
-				System.Diagnostics.Debug.WriteLine("Creating moving stomped koopa state");
 				return CreateMovingShelledKoopaTroopa(location);
             }
 			return CreateDeadKoopaTroopa(location);
