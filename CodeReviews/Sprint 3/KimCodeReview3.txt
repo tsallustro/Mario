@@ -1,0 +1,26 @@
+﻿Author: Tae Kim
+
+Date: 10/26
+
+Sprint #: 3
+
+File being Reviewed: Mario.cs
+
+Author of the file: Jesse Fowler
+
+Code Quality: Just to let you know, I'm reviewing parts that were added to the original code. The code is
+	getting messier and messier. Without being able to separate the part of code that does one thing, we
+	are continuously adding on to the original code to add more functionality to Mario as an Object. I see
+	that some physics were added to not only the update function, but it also reference to method that handles 
+	collision. It feels like code is reaching out to all over the place, but we know that if we don't do it
+	this way, it doesn't work because Mario update is currently ordered so if we tried to put the functionality 
+	to a place that makes more sense to check, it simply won't work. 
+
+
+Number of minutes taken to complete the review: 20
+
+Hypothetical change: We could possibly create a new class called Physics where we can put all the functionality
+	that works with the physics in the game to that class. Instead of putting it in a Mario.update() where it
+	has to extend out to different classes and methods to figure out whether gravity should apply or not, we
+	should separate such method/class, so that the code is kept clean and easier to manage.
+		
