@@ -126,7 +126,7 @@ namespace LevelParser
         private static void ParseFloorBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
             IEnumerable<XElement> floorRows = level.Element("floorBlocks").Element("rows").Elements();
-            int rowNumber = 0;
+           
 
             //Handle each individual row
             foreach (XElement floor in floorRows)
@@ -136,23 +136,23 @@ namespace LevelParser
                 //Handle each column in the row
                 if (columnNumbers.Length > 1)
                 {
-                    for (int i = 1; i < columnNumbers.Length; i++)
+                    for (int i = 0; i < columnNumbers.Length; i++)
                     {
                         string column = columnNumbers[i];
-                        Vector2 brickBlockPos = new Vector2
+                        Vector2 floorBlockPos = new Vector2
                         {
                             X = 16 * Int32.Parse(column),
-                            Y = 16 * rowNumber
+                            Y = 16 * int.Parse( floor.Attribute("num").Value)
                         };
 
-                        Block tempFloor = new Block(brickBlockPos, blockSprites, mario);
+                        Block tempFloor = new Block(floorBlockPos, blockSprites, mario);
                         tempFloor.SetBlockState(new FloorBlockState(tempFloor));
                         list.Add(tempFloor);
                         
                     }
                 }
 
-                rowNumber++;
+                
             }
         }
         private static void ParseEnemies(List<IGameObject> list, XElement level, Camera camera)
@@ -354,6 +354,7 @@ namespace LevelParser
                     {
                         for(int i = 0; i < numcoins; i++)
                         {
+                            System.Diagnostics.Debug.WriteLine("Adding coin " + i);
                             items.Add(GetItemOfType("coin", brickBlockPos, itemSprites, mario));
                         }
                     }

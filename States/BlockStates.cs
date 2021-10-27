@@ -79,7 +79,7 @@ namespace States
         {
             // if mario state != normal, then make broken brick
             // else make brick
-            if (mario.CanBreakBricks())
+            if (mario.CanBreakBricks() && block.GetItems().Count == 0)
             {
                 block.SetBlockState(new BrokenBrickBlockState(block));
             } else
