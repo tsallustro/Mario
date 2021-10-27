@@ -1,0 +1,26 @@
+Author: Michael Lavelle
+
+Date: October 26th, 2021
+
+Sprint #: 3
+
+File Reviewed: WarpPipe.cs
+
+Author of File Reviewed: Tony Sallustro
+
+Code Quality:
+	WarpPipe.cs is a nice and simple implementation of GameObject with a lot of
+	"do nothing" default behavior. The most important portion comes from the
+	AABB box set in the constructor. The code does rely a good bit on position
+	and velocity for the creation in the constructor, but that is just necessary
+	for the creation of the object.
+
+Time Length of Review: 15 minutes
+
+Hypothetical Change:
+	I would remove the comments from the file and reformat all of the empty
+	functions to be single lines. There is not much to improve in this file, but
+	the format that it takes is incredibly important for level generation, so it
+	is vital that the format the file takes is clean. I would suggest possibly
+	reformatting the entire GameObject or creating a child more suited for
+	stationary objects in world generation. Overall, this file is good!!
