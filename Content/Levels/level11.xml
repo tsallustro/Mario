@@ -681,7 +681,7 @@
 		</enemy>
 		<enemy type="koopa">
 			<row>27</row>
-			<column>10</column>
+			<column>108</column>
 		</enemy>
 	</enemies>
 </level>
