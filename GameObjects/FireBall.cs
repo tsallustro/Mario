@@ -119,16 +119,31 @@ namespace GameObjects
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
             if (this.active)
             {
-                if (Collidee is Goomba || Collidee is KoopaTroopa || Collidee is RedKoopaTroopa) //remove on enemies order matters, so enemy's dont collide with fireball
+                System.Diagnostics.Debug.WriteLine("Collidee: " + Collidee);
+
+                if (Collidee is IItem || Collidee is FireBall) // Short on items and other fireballs
                 {
-                    ((IEnemy)Collidee).Stomped();
-                    this.active = false;
-                } else if (Collidee is Mario)
+                    // Do Nothing
+                }
+                else if (Collidee is Goomba || Collidee is KoopaTroopa || Collidee is RedKoopaTroopa)
+                {   // for collision on enemies order matters, so enemy's dont collide with fireball (it is handled here instead)
+                    if (((IEnemy)Collidee).IsDead())    // short on dead enemies
+                    {
+                        // Do Nothing
+                        System.Diagnostics.Debug.WriteLine("Collidee is DEAD");
+                    }
+                    else
+                    {
+                        ((IEnemy)Collidee).Stomped();
+                        this.active = false;
+                    }
+                }
+                else if (Collidee is Mario)
                 {
                     mario.Damage();
                     this.active = false;
                 }
-                else
+                else                // do collision via sides (primarily for blocks)
                 {
                     switch (side)
                     {
