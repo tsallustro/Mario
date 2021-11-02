@@ -121,7 +121,7 @@ namespace GameObjects
             {
                 System.Diagnostics.Debug.WriteLine("Collidee: " + Collidee);
 
-                if (Collidee is IItem || Collidee is FireBall) // Short on items and other fireballs
+                if (Collidee is IItem || Collidee is FireBall || Collidee is Castle || Collidee is Flag) // Short on items and other fireballs
                 {
                     // Do Nothing
                 }
