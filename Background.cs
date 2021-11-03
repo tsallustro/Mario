@@ -32,6 +32,9 @@ namespace View
 
         private Camera camera;
 
+        //Y location of background bushes and hills.
+        private float backgroundYPos;
+
         public Background(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, MarioGame game, GameObject mario, Camera camera)
         {
             this.graphicsDevice = graphicsDevice;
@@ -39,6 +42,7 @@ namespace View
             this.game = game;
             this.mario = mario;
             this.camera = camera;
+            this.backgroundYPos = backgroundYPos = graphicsDevice.Viewport.Height - 40 - 32;
         }
         public void LoadContent()
         {
@@ -77,25 +81,25 @@ namespace View
 
             parallax = new Vector2(0.7f);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, camera.GetViewMatrix(parallax));
-            spriteBatch.Draw(hillBigSprite, new Vector2(220, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(hillBigSprite, new Vector2(600, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(hillSmallSprite, new Vector2(650, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(hillBigSprite, new Vector2(1300, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(hillSmallSprite, new Vector2(1550, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(hillSmallSprite, new Vector2(2000, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(hillBigSprite, new Vector2(2050, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(hillBigSprite, new Vector2(220, backgroundYPos), Color.White);
+            spriteBatch.Draw(hillBigSprite, new Vector2(600, backgroundYPos), Color.White);
+            spriteBatch.Draw(hillSmallSprite, new Vector2(650, backgroundYPos), Color.White);
+            spriteBatch.Draw(hillBigSprite, new Vector2(1300, backgroundYPos), Color.White);
+            spriteBatch.Draw(hillSmallSprite, new Vector2(1550, backgroundYPos), Color.White);
+            spriteBatch.Draw(hillSmallSprite, new Vector2(2000, backgroundYPos), Color.White);
+            spriteBatch.Draw(hillBigSprite, new Vector2(2050, backgroundYPos), Color.White);
             spriteBatch.End();
 
             parallax = new Vector2(0.8f);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, camera.GetViewMatrix(parallax));
-            spriteBatch.Draw(bushOne, new Vector2(30, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(bushTwo, new Vector2(250, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(bushTwo, new Vector2(580, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(bushThree, new Vector2(360, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(bushOne, new Vector2(670, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(bushTwo, new Vector2(1320, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(bushThree, new Vector2(1730, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
-            spriteBatch.Draw(bushTwo, new Vector2(2400, graphicsDevice.Viewport.Height - 40 - 32), Color.White);
+            spriteBatch.Draw(bushOne, new Vector2(30, backgroundYPos), Color.White);
+            spriteBatch.Draw(bushTwo, new Vector2(250, backgroundYPos), Color.White);
+            spriteBatch.Draw(bushTwo, new Vector2(580, backgroundYPos), Color.White);
+            spriteBatch.Draw(bushThree, new Vector2(360, backgroundYPos), Color.White);
+            spriteBatch.Draw(bushOne, new Vector2(670, backgroundYPos), Color.White);
+            spriteBatch.Draw(bushTwo, new Vector2(1320, backgroundYPos), Color.White);
+            spriteBatch.Draw(bushThree, new Vector2(1730, backgroundYPos), Color.White);
+            spriteBatch.Draw(bushTwo, new Vector2(2400, backgroundYPos), Color.White);
             spriteBatch.End();
         }
     }
