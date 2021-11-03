@@ -16,7 +16,7 @@ using Collisions;
 using LevelParser;
 using View;
 using Cameras;
-
+using Microsoft.Xna.Framework.Media;
 
 namespace Game1
 {
@@ -64,6 +64,9 @@ namespace Game1
         private Camera camera;
         private Vector2 parallax;
 
+        private Song soundtrack;
+        private bool isMuted = false;
+
         private Mario mario;
         
         public MarioGame()
@@ -88,6 +91,11 @@ namespace Game1
             //camera.LookAt(mario.GetPosition());
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
+        }
+        public void muteMusic()
+        {
+            isMuted = !isMuted;
+            MediaPlayer.IsMuted = !isMuted;
         }
 
         protected override void Initialize()
@@ -145,6 +153,9 @@ namespace Game1
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
             gamepadController.AddMapping((int)Buttons.B, throwFireBall);
 
+            //Music Background Mute
+            keyboardController.AddMapping((int)Keys.M, new muteBackgroundMusicCommand(this));
+
             // Level Reset
             keyboardController.AddMapping((int)Keys.R, new LevelResetCommand(this));
 
@@ -181,6 +192,11 @@ namespace Game1
             
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
+
+            //Background Music
+            soundtrack = Content.Load<Song>("soundtrack/mainOverworld");
+            MediaPlayer.Play(soundtrack);
+            MediaPlayer.IsRepeating = true;
         }
 
         protected override void Update(GameTime gameTime)
