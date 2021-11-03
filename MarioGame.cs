@@ -15,6 +15,7 @@ using System;
 using Collisions;
 using LevelParser;
 using View;
+using Cameras;
 
 
 namespace Game1

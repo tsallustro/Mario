@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using States;
 using Sprites;
 using Factories;
-using View;
+using Cameras;
 
 namespace GameObjects
 {

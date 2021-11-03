@@ -12,7 +12,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Diagnostics;
 using Sprites;
-using View;
+using Cameras;
 
 namespace LevelParser
 {
