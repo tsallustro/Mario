@@ -21,7 +21,7 @@ namespace Commands
 			if (pressType == 1)
 			{
 				//_isMuted = !_isMuted;
-				game.muteMusic();
+				game.MuteMusic();
 				
             }
         }

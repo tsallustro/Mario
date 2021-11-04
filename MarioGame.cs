@@ -25,6 +25,8 @@ namespace Game1
         private readonly int levelWidth = 3500;
         private readonly int levelHeight = 480;
         private readonly string levelToLoad = "level11";
+        private readonly double timeLimit = 4;
+        private double secondsRemaining = 4;
 
         private Point maxCoords; 
         private List<IGameObject> objects;
@@ -77,19 +79,10 @@ namespace Game1
             IsMouseVisible = true;
         }
 
-        /*public static void IncrementLivesRemaining()
-        {
-            livesRemaining++;
-        }
-
-        public static void DecrementLivesRemaining()
-        {
-            livesRemaining--;
-        }*/
-
         // Resets objects back to their initial state
         public void ResetObjects()
         {
+            secondsRemaining = timeLimit;
             objects = initialObjects;
             initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
             mario = (Mario)objects[0];
@@ -98,7 +91,8 @@ namespace Game1
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
-        public void muteMusic()
+
+        public void MuteMusic()
         {
             isMuted = !isMuted;
             MediaPlayer.IsMuted = isMuted;
@@ -223,7 +217,16 @@ namespace Game1
 
                 if (!paused)
                 {
-                    //Make sure to put update collisiondetection before object update
+                    // Update time remaining
+                    if (secondsRemaining <= 0)
+                    {
+                        mario.Die(); // Time limit reached!
+                    } else
+                    {
+                        secondsRemaining -= gameTime.ElapsedGameTime.TotalSeconds;
+                    }
+
+                    // Make sure to put update collisiondetection before object update
                     collisionHandler.Update(gameTime, objects);
 
                     foreach (var obj in objects)
@@ -280,10 +283,15 @@ namespace Game1
 
             int livesRemaining = mario.GetLivesRemaining();
 
-            if (livesRemaining > 9) spriteBatch.DrawString(arial, "Livesx" + livesRemaining, new Vector2(490, 50), Color.White);
-            else spriteBatch.DrawString(arial, "Livesx0" + livesRemaining, new Vector2(490, 50), Color.White);
+            spriteBatch.DrawString(arial, "Livesx" + livesRemaining.ToString("D2"), new Vector2(490, 50), Color.White);
             spriteBatch.DrawString(arial, "Time", new Vector2(730, 20), Color.White);
-            spriteBatch.DrawString(arial, "000", new Vector2(740, 50), Color.White);
+
+            // Draw time remaining with appropriate number of leading 0s
+            if (secondsRemaining >= 100) spriteBatch.DrawString(arial, secondsRemaining.ToString("F0"), new Vector2(740, 50), Color.White);
+            else if (secondsRemaining >= 10) spriteBatch.DrawString(arial, "0" + secondsRemaining.ToString("F0"), new Vector2(740, 50), Color.White);
+            else if (secondsRemaining >= 0) spriteBatch.DrawString(arial, "00" + secondsRemaining.ToString("F0"), new Vector2(740, 50), Color.White);
+            else spriteBatch.DrawString(arial, "000", new Vector2(740, 50), Color.White); // Prevent displaying negative time
+
             spriteBatch.End();
 
             base.Draw(gameTime);
