@@ -91,7 +91,7 @@ namespace States
 
         public void Stomped()
         {
-            goomba.SetGoombaState(new DeadGoombaState(goomba));
+            //Do nothing.
         }
         public void Move()
         {

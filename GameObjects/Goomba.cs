@@ -20,6 +20,9 @@ namespace GameObjects
          */
         private GameObject BlockEnemyIsOn { get; set; }
         private readonly int numberOfSpritesOnSheet = 3;
+        private readonly double deathTimer = 1.5; // Timer for stomped Goomba disappearing
+        private double timeStomped = 0;
+
         private IEnemyState goombaState;
         private GoombaSpriteFactory spriteFactory;
         private bool introduced = false;
@@ -57,8 +60,11 @@ namespace GameObjects
         }
         public override void Damage()
         {
+            if (!(goombaState is StompedGoombaState) || !(goombaState is DeadGoombaState)) 
+                Position = new Vector2(Position.X, Position.Y + 4);
             goombaState.Stomped();
         }
+
         //Handle Collision with Block
         private void HandleBlockCollision(int side, Block block)
         {
@@ -140,6 +146,14 @@ namespace GameObjects
         public override void Update(GameTime GameTime)
         {
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+
+            if (goombaState is StompedGoombaState || goombaState is DeadGoombaState)
+            {
+                timeStomped += timeElapsed;
+
+                if (timeStomped >= deathTimer) this.queuedForDeletion = true;
+            }
+
             //800 would be the width of the viewport
             if (introduced == false && this.Position.X - camera.Position.X < 800)
             {
@@ -174,6 +188,8 @@ namespace GameObjects
         //Change Goomba state to stomped mode
         public void Stomped()
         {
+            if (!(goombaState is StompedGoombaState) || !(goombaState is DeadGoombaState))
+                Position = new Vector2(Position.X, Position.Y + 4);
             goombaState.Stomped();
         }
 
