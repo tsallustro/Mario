@@ -237,9 +237,8 @@ namespace GameObjects
                             break;
                         case BOTTOM:
                             //Skip off of enemy
+                            actionState.Land();
                             actionState.Jump();
-                            this.SetYVelocity(-200);
-                            this.SetYAcceleration(275);
                             break;
                         case LEFT:
                             this.Damage();
