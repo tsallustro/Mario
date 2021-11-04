@@ -19,7 +19,7 @@ namespace GameObjects
          * on that sheet!
          */
         private readonly int numberOfSpritesOnSheet = 5;
-        private readonly float timeInShell = 10;
+        private readonly float timeInShell = 7;
         private IEnemyState koopaTroopaState;
         private KoopaTroopaSpriteFactory spriteFactory;
         private GameObject BlockEnemyIsOn { get; set; }

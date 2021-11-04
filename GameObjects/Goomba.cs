@@ -60,7 +60,7 @@ namespace GameObjects
         }
         public override void Damage()
         {
-            if (!(goombaState is StompedGoombaState) || !(goombaState is DeadGoombaState)) 
+            if (!(goombaState is StompedGoombaState) && !(goombaState is DeadGoombaState)) 
                 Position = new Vector2(Position.X, Position.Y + 4);
             goombaState.Stomped();
         }
@@ -188,8 +188,6 @@ namespace GameObjects
         //Change Goomba state to stomped mode
         public void Stomped()
         {
-            if (!(goombaState is StompedGoombaState) || !(goombaState is DeadGoombaState))
-                Position = new Vector2(Position.X, Position.Y + 4);
             goombaState.Stomped();
         }
 
