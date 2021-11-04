@@ -228,9 +228,10 @@ namespace Game1
 
             background.Draw();
 
+
+
             parallax = new Vector2(1f);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
-            spriteBatch.DrawString(arial, "Lives Left: " + livesRemaining, new Vector2(10, 10), Color.White);
 
             // call draw methods from each sprite and pass in sprite batch
             foreach (var obj in objects)
@@ -239,6 +240,17 @@ namespace Game1
             }
 
             spriteBatch.End();
+
+            // Draw the legend for player feedback
+            spriteBatch.Begin();
+            spriteBatch.DrawString(arial, "Mario", new Vector2(20, 20), Color.White);
+            spriteBatch.DrawString(arial, "000000", new Vector2(20, 50), Color.White);
+            spriteBatch.DrawString(arial, "Coinsx00", new Vector2(230, 50), Color.White);
+            spriteBatch.DrawString(arial, "Livesx0" + livesRemaining, new Vector2(490, 50), Color.White);
+            spriteBatch.DrawString(arial, "Time", new Vector2(730, 20), Color.White);
+            spriteBatch.DrawString(arial, "000", new Vector2(740, 50), Color.White);
+            spriteBatch.End();
+            
             base.Draw(gameTime);
         }
     }
