@@ -33,6 +33,7 @@ namespace Game1
         private static int livesRemaining = 3;
 
         private bool gameIsOver = false;
+        private bool paused = false;
 
         //Monogame Objects
         private GraphicsDeviceManager graphics;
@@ -97,7 +98,7 @@ namespace Game1
         public void muteMusic()
         {
             isMuted = !isMuted;
-            MediaPlayer.IsMuted = !isMuted;
+            MediaPlayer.IsMuted = isMuted;
         }
 
         protected override void Initialize()
