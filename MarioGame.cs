@@ -25,8 +25,8 @@ namespace Game1
         private readonly int levelWidth = 3500;
         private readonly int levelHeight = 480;
         private readonly string levelToLoad = "level11";
-        private readonly double timeLimit = 4;
-        private double secondsRemaining = 4;
+        private readonly double timeLimit = 400;
+        private double secondsRemaining = 400;
 
         private Point maxCoords; 
         private List<IGameObject> objects;
