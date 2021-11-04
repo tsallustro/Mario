@@ -101,6 +101,9 @@ namespace Game1
         public void TogglePause()
         {
             paused = !paused;
+
+            if (!paused) MediaPlayer.Resume();
+            else MediaPlayer.Pause();
         }
 
         protected override void Initialize()
