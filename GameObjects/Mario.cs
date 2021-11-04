@@ -264,8 +264,8 @@ namespace GameObjects
                             Position = new Vector2(Position.X, Position.Y - 2);
                             break;
                         case BOTTOM:
-                            this.SetYVelocity(-200);
-                            this.SetYAcceleration(275);
+                            actionState.Land();
+                            actionState.Jump();
                             break;
                         case LEFT:
                             this.Damage();
@@ -284,8 +284,8 @@ namespace GameObjects
                             //Does Mario gets damaged when he hits his head on Koopatroopa shell when it's not moving?
                             break;
                         case BOTTOM:
-                            this.SetYVelocity(-200);
-                            this.SetYAcceleration(275);
+                            actionState.Land();
+                            actionState.Jump();
                             break;
                         case LEFT:
                             //Do Nothing. This will kick the shell, but won't affect Mario
