@@ -32,6 +32,8 @@ namespace Game1
 
         private static int livesRemaining = 3;
 
+        private bool gameIsOver = false;
+
         //Monogame Objects
         private GraphicsDeviceManager graphics;
         private SpriteFont arial;
@@ -201,45 +203,59 @@ namespace Game1
 
         protected override void Update(GameTime gameTime)
         {
-            // Update the controllers
-            gamepadController.Update();
-            keyboardController.Update();
-
-            //Make sure to put update collisiondetection before object update
-            collisionHandler.Update(gameTime, objects);
-           
-            
-            foreach (var obj in objects)
+            if (!gameIsOver)
             {
-                obj.Update(gameTime);
+                // Update the controllers
+                gamepadController.Update();
+                keyboardController.Update();
+
+                //Make sure to put update collisiondetection before object update
+                collisionHandler.Update(gameTime, objects);
+
+                foreach (var obj in objects)
+                {
+                    obj.Update(gameTime);
+                }
+
+                background.Update();
+
+                objects.RemoveAll(delegate (IGameObject obj)
+                {
+                    return obj.isQueuedForDeletion();
+                });
+
+                if (livesRemaining <= 0) gameIsOver = true;
             }
-            background.Update();
 
-            objects.RemoveAll(delegate (IGameObject obj)
-            {
-                return obj.isQueuedForDeletion();
-            });
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            background.Draw();
-
-
-
-            parallax = new Vector2(1f);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
-
-            // call draw methods from each sprite and pass in sprite batch
-            foreach (var obj in objects)
+            if (!gameIsOver)
             {
-                obj.Draw(spriteBatch);
-            }
+                GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.End();
+                background.Draw();
+
+                parallax = new Vector2(1f);
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
+
+                // call draw methods from each sprite and pass in sprite batch
+                foreach (var obj in objects)
+                {
+                    obj.Draw(spriteBatch);
+                }
+
+                spriteBatch.End();
+            } else
+            {
+                GraphicsDevice.Clear(Color.Black);
+
+                spriteBatch.Begin();
+                spriteBatch.DrawString(arial, "Game Over", new Vector2(330, 250), Color.White);
+                spriteBatch.End();
+            }
 
             // Draw the legend for player feedback
             spriteBatch.Begin();
@@ -252,7 +268,7 @@ namespace Game1
             spriteBatch.DrawString(arial, "Time", new Vector2(730, 20), Color.White);
             spriteBatch.DrawString(arial, "000", new Vector2(740, 50), Color.White);
             spriteBatch.End();
-            
+
             base.Draw(gameTime);
         }
     }

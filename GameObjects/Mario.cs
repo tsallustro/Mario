@@ -167,8 +167,6 @@ namespace GameObjects
 
         public override void Collision(int side, GameObject Collidee)
         {
-            
-
             if (Collidee is Item item && item.CanBePickedUp())
             {
                 if (item is SuperMushroom)
@@ -224,12 +222,10 @@ namespace GameObjects
                         case LEFT:
                             this.Damage();
                             this.actionState.Idle();
-                            Position = new Vector2(Position.X + 2, Position.Y);
                             break;
                         case RIGHT:
                             this.Damage();
                             this.actionState.Idle();
-                            Position = new Vector2(Position.X - 2, Position.Y);
                             break;
                     }
                 }
@@ -253,12 +249,10 @@ namespace GameObjects
                         case LEFT:
                             this.Damage();
                             this.actionState.Idle();
-                            Position = new Vector2(Position.X + 2, Position.Y);
                             break;
                         case RIGHT:
                             this.Damage();
                             this.actionState.Idle();
-                            Position = new Vector2(Position.X - 2, Position.Y);
                             break;
                     }
                 } else if (!(koopaTroopa.GetKoopaTroopaState() is MovingGoombaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState))
