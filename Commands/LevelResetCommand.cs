@@ -8,7 +8,7 @@ using Game1;
 
 namespace Commands
 {
-    class LevelResetCommand : ICommand
+    class LevelResetCommand : Command, ICommand
     {
         // We need a MarioGame here so we can call ResetObjects()
         private MarioGame game;
@@ -18,12 +18,10 @@ namespace Commands
             this.game = game;
         }
 
-        public void Execute(int pressType)
+        public override void Execute(int pressType)
         {
-            // 1:ExecuteOnPress
-            if (pressType == 1)
+            if (pressType == 1 && active)
             {
-                //objects.Clear();
                 game.ResetObjects();
             }
 

@@ -6,7 +6,7 @@ using GameObjects;
 
 namespace Commands
 {
-	class throwFireballCommand : ICommand
+	class throwFireballCommand : Command, ICommand
 	{
 		private FireBall fireball;
 
@@ -15,9 +15,9 @@ namespace Commands
 			fireball = FireBall;
 		}
 
-        public void Execute(int pressType)
+        public override void Execute(int pressType)
 		{
-			if (pressType == 1)
+			if (pressType == 1 && active)
 			{
 				fireball.ThrowFireBall();
 			}

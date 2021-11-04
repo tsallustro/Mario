@@ -15,7 +15,7 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			if (pressType == 1)
+			if (pressType == 1 && active)
 			{
 				avatar.SetPowerState(new SuperMario(avatar));
 			}

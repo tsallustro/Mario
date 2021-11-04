@@ -5,20 +5,18 @@ using Game1;
 
 namespace Commands
 {
-    class PauseGameCommand : ICommand
-	{
-		private MarioGame game;
-		public PauseGameCommand(MarioGame game)
-		{
-			this.game = game;
-		}
-
-		public void Execute(int pressType)
-		{
-			if (pressType == 1)
-			{
-				game.TogglePause();
-			}
-		}
+    class PauseGameCommand : Command, ICommand
+    {
+        private MarioGame game; public PauseGameCommand(MarioGame game)
+        {
+            this.game = game;
+        }
+        public override void Execute(int pressType)
+        {
+            if (pressType == 1 && active)
+            {
+                game.TogglePause();
+            }
+        }
 	}
 }

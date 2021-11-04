@@ -5,7 +5,7 @@ using GameObjects;
 
 namespace Commands
 {
-    class BorderVisibleCommand : ICommand
+    class BorderVisibleCommand : Command, ICommand
     {
         private List<IGameObject> objects;
 
@@ -14,9 +14,9 @@ namespace Commands
             this.objects = objects;
         }
 
-        public void Execute(int pressType)
+        public override void Execute(int pressType)
         {
-            if (pressType == 1)
+            if (pressType == 1 && active)
             {
                 foreach (IGameObject entity in objects)
                 {

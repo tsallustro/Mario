@@ -5,7 +5,7 @@ using GameObjects;
 
 namespace Commands
 {
-    abstract class BlockCommand : ICommand 
+    abstract class BlockCommand : Command, ICommand
     {
 		protected IBlock block;
 
@@ -13,7 +13,5 @@ namespace Commands
 		{
 			this.block = block;
 		}
-
-		public abstract void Execute(int pressType);
 	}
 }

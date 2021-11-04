@@ -13,7 +13,7 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			avatar.MoveLeft(pressType);
+			if (active) avatar.MoveLeft(pressType);
 		}
 	}
 }

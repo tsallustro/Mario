@@ -7,7 +7,7 @@ namespace Commands
 	/*
 	 *  Abstract class for commands that apply to GameObject avatars.
 	 */
-	abstract class GameObjectCommand : ICommand
+	abstract class GameObjectCommand : Command, ICommand
 	{
 		protected GameObject entity;
 
@@ -15,7 +15,5 @@ namespace Commands
         {
 			this.entity = (GameObject) entity;
         }
-
-		public abstract void Execute(int pressType);
 	}
 }

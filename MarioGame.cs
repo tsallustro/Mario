@@ -31,6 +31,7 @@ namespace Game1
         private Point maxCoords; 
         private List<IGameObject> objects;
         private List<IGameObject> initialObjects;
+        private List<ICommand> commands;
 
         private bool gameIsOver = false;
         private bool paused = false;
@@ -82,6 +83,7 @@ namespace Game1
         // Resets objects back to their initial state
         public void ResetObjects()
         {
+            gameIsOver = false;
             secondsRemaining = timeLimit;
             objects = initialObjects;
             initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
@@ -106,6 +108,29 @@ namespace Game1
             else MediaPlayer.Pause();
         }
 
+        private void SetCommandsForPause()
+        {
+            foreach (ICommand command in commands)
+            {
+                if (command is PauseGameCommand || command is QuitCommand) command.SetActive(true);
+                else command.SetActive(false);
+            } 
+        }
+
+        private void SetCommandsForGameOver()
+        {
+            foreach (ICommand command in commands)
+            {
+                if (command is LevelResetCommand || command is QuitCommand) command.SetActive(true);
+                else command.SetActive(false);
+            }
+        }
+
+        private void EnableAllCommands()
+        {
+            foreach (ICommand command in commands) command.SetActive(true);
+        }
+
         protected override void Initialize()
         {;
             keyboardController = new KeyboardController();
@@ -128,16 +153,42 @@ namespace Game1
 
         private void InitializeCommands()
         {
+            commands = new List<ICommand>();
+
             // Initialize commands that will be repeated
             ICommand moveLeft = new MoveLeftCommand(mario);
             ICommand moveRight = new MoveRightCommand(mario);
             ICommand jump = new JumpCommand(mario);
             ICommand crouch = new CrouchCommand(mario);
             ICommand throwFireBall = new throwFireballCommand((FireBall)objects[1]);
+            ICommand quit = new QuitCommand(this);
+            ICommand standard = new StandardMarioCommand(mario);
+            ICommand super = new SuperMarioCommand(mario);
+            ICommand fire = new FireMarioCommand(mario);
+            ICommand dead = new DeadMarioCommand(mario);
+            ICommand mute = new muteBackgroundMusicCommand(this);
+            ICommand reset = new LevelResetCommand(this);
+            ICommand borderVis = new BorderVisibleCommand(objects);
+            ICommand pause = new PauseGameCommand(this);
+
+            commands.Add(moveLeft);
+            commands.Add(moveRight);
+            commands.Add(jump);
+            commands.Add(crouch);
+            commands.Add(throwFireBall);
+            commands.Add(quit);
+            commands.Add(standard);
+            commands.Add(super);
+            commands.Add(fire);
+            commands.Add(dead);
+            commands.Add(mute);
+            commands.Add(reset);
+            commands.Add(borderVis);
+            commands.Add(pause);
 
             // Initialize keyboard controller mappinqgs
             // Action commands
-            keyboardController.AddMapping((int)Keys.Q, new QuitCommand(this));
+            keyboardController.AddMapping((int)Keys.Q, quit);
             keyboardController.AddMapping((int)Keys.Left, moveLeft);
             keyboardController.AddMapping((int)Keys.A, moveLeft);
             keyboardController.AddMapping((int)Keys.Right, moveRight);
@@ -149,10 +200,10 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.Space, throwFireBall);
 
             // Power-up commands
-            keyboardController.AddMapping((int)Keys.Y, new StandardMarioCommand(mario));
-            keyboardController.AddMapping((int)Keys.U, new SuperMarioCommand(mario));
-            keyboardController.AddMapping((int)Keys.I, new FireMarioCommand(mario));
-            keyboardController.AddMapping((int)Keys.O, new DeadMarioCommand(mario));
+            keyboardController.AddMapping((int)Keys.Y, standard);
+            keyboardController.AddMapping((int)Keys.U, super);
+            keyboardController.AddMapping((int)Keys.I, fire);
+            keyboardController.AddMapping((int)Keys.O, dead);
 
             // Initialize gamepad controller mappings
             gamepadController.AddMapping((int)Buttons.DPadLeft, moveLeft);
@@ -162,16 +213,16 @@ namespace Game1
             gamepadController.AddMapping((int)Buttons.B, throwFireBall);
 
             //Music Background Mute
-            keyboardController.AddMapping((int)Keys.M, new muteBackgroundMusicCommand(this));
+            keyboardController.AddMapping((int)Keys.M, mute);
 
             // Level Reset
-            keyboardController.AddMapping((int)Keys.R, new LevelResetCommand(this));
+            keyboardController.AddMapping((int)Keys.R, reset);
 
             // AABB Visualization
-            keyboardController.AddMapping((int)Keys.C, new BorderVisibleCommand(objects));
+            keyboardController.AddMapping((int)Keys.C, borderVis);
 
             // Pause
-            keyboardController.AddMapping((int)Keys.P, new PauseGameCommand(this));
+            keyboardController.AddMapping((int)Keys.P, pause);
         }
 
         protected override void LoadContent()
@@ -212,14 +263,16 @@ namespace Game1
 
         protected override void Update(GameTime gameTime)
         {
+            // Update the controllers
+            gamepadController.Update();
+            keyboardController.Update();
+
             if (!gameIsOver)
             {
-                // Update the controllers
-                gamepadController.Update();
-                keyboardController.Update();
-
                 if (!paused)
                 {
+                    EnableAllCommands();
+
                     // Update time remaining
                     if (secondsRemaining <= 0)
                     {
@@ -245,7 +298,13 @@ namespace Game1
                     });
 
                     if (mario.GetLivesRemaining() <= 0) gameIsOver = true;
+                } else
+                {
+                    SetCommandsForPause();
                 }
+            } else
+            {
+                SetCommandsForGameOver();
             }
 
             base.Update(gameTime);

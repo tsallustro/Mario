@@ -8,7 +8,7 @@ using Game1;
 
 namespace Commands
 {
-	class muteBackgroundMusicCommand : ICommand
+	class muteBackgroundMusicCommand : Command, ICommand
 	{
 		private MarioGame game;
 		public muteBackgroundMusicCommand(MarioGame game)
@@ -16,13 +16,11 @@ namespace Commands
 			this.game = game;
 		}
 
-        public void Execute(int pressType)
+        public override void Execute(int pressType)
 		{
-			if (pressType == 1)
+			if (pressType == 1 && active)
 			{
-				//_isMuted = !_isMuted;
 				game.MuteMusic();
-				
             }
         }
 	}

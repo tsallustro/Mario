@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Sprites;
 namespace Commands
 {
-    class QuitCommand : ICommand
+    class QuitCommand : Command, ICommand
     {
         private Game game;
 
@@ -16,10 +16,10 @@ namespace Commands
             this.game = game;
         }
 
-        public void Execute(int pressType)
+        public override void Execute(int pressType)
         {
             // 1:ExecuteOnPress
-            if (pressType == 1)
+            if (pressType == 1 && active)
             {
                 game.Exit();
             }

@@ -15,7 +15,7 @@ namespace Commands
 
 		public override void Execute(int pressType)
         {
-			if (pressType == 1)
+			if (pressType == 1 && active)
 			{
 				enemy.StayIdle();
 			}
@@ -30,7 +30,7 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			if (pressType == 1)
+			if (pressType == 1 && active)
 			{
 				enemy.Move();
 			}
@@ -45,7 +45,7 @@ namespace Commands
 
         public override void Execute(int pressType)
         {
-            if (pressType == 1)
+            if (pressType == 1 && active)
             {
                 enemy.Stomped();
             }

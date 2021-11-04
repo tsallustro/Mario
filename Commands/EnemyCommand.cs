@@ -5,7 +5,7 @@ using GameObjects;
 
 namespace Commands
 {
-    abstract class EnemyCommand : ICommand
+    abstract class EnemyCommand : Command, ICommand
     {
 		protected IEnemy enemy;
 
@@ -13,7 +13,5 @@ namespace Commands
 		{
 			this.enemy = enemy;
 		}
-
-		public abstract void Execute(int pressType);
 	}
 }

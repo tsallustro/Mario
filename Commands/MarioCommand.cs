@@ -7,7 +7,7 @@ namespace Commands
 	/*
 	 *  Abstract class for commands that apply to the Mario avatar.
 	 */
-	abstract class MarioCommand : ICommand
+	abstract class MarioCommand : Command, ICommand
 	{
 		protected Mario avatar;
 
@@ -20,7 +20,5 @@ namespace Commands
 			 */
 			this.avatar = (Mario) avatar;
         }
-
-		public abstract void Execute(int pressType);
 	}
 }

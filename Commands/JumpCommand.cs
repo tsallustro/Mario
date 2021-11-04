@@ -15,7 +15,7 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			avatar.Up(pressType);
+			if (active) avatar.Up(pressType);
 		}
 	}
 }

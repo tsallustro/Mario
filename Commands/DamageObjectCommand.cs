@@ -15,11 +15,9 @@ namespace Commands
 
 		public override void Execute(int pressType)
 		{
-			if (pressType == 1)
+			if (pressType == 1 && active)
 			{
 				entity.Damage();
-				//Not sure what this is
-				//avatar.velocity;
 			}
 		}
 	}
