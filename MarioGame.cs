@@ -246,7 +246,9 @@ namespace Game1
             spriteBatch.DrawString(arial, "Mario", new Vector2(20, 20), Color.White);
             spriteBatch.DrawString(arial, "000000", new Vector2(20, 50), Color.White);
             spriteBatch.DrawString(arial, "Coinsx00", new Vector2(230, 50), Color.White);
-            spriteBatch.DrawString(arial, "Livesx0" + livesRemaining, new Vector2(490, 50), Color.White);
+
+            if (livesRemaining > 9) spriteBatch.DrawString(arial, "Livesx" + livesRemaining, new Vector2(490, 50), Color.White);
+            else spriteBatch.DrawString(arial, "Livesx0" + livesRemaining, new Vector2(490, 50), Color.White);
             spriteBatch.DrawString(arial, "Time", new Vector2(730, 20), Color.White);
             spriteBatch.DrawString(arial, "000", new Vector2(740, 50), Color.White);
             spriteBatch.End();
