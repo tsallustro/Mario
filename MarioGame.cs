@@ -334,6 +334,8 @@ namespace Game1
 
                 spriteBatch.Begin();
                 spriteBatch.DrawString(arial, "Game Over", new Vector2(330, 250), Color.White);
+                spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 300), Color.White);
+                spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 300), Color.White);
                 spriteBatch.End();
             }
 
