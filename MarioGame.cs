@@ -79,6 +79,11 @@ namespace Game1
             IsMouseVisible = true;
         }
 
+        public static void IncrementLivesRemaining()
+        {
+            livesRemaining++;
+        }
+
         public static void DecrementLivesRemaining()
         {
             livesRemaining--;
@@ -99,6 +104,11 @@ namespace Game1
         {
             isMuted = !isMuted;
             MediaPlayer.IsMuted = isMuted;
+        }
+
+        public void TogglePause()
+        {
+            paused = !paused;
         }
 
         protected override void Initialize()
@@ -164,6 +174,9 @@ namespace Game1
 
             // AABB Visualization
             keyboardController.AddMapping((int)Keys.C, new BorderVisibleCommand(objects));
+
+            // Pause
+            keyboardController.AddMapping((int)Keys.P, new PauseGameCommand(this));
         }
 
         protected override void LoadContent()
@@ -210,22 +223,25 @@ namespace Game1
                 gamepadController.Update();
                 keyboardController.Update();
 
-                //Make sure to put update collisiondetection before object update
-                collisionHandler.Update(gameTime, objects);
-
-                foreach (var obj in objects)
+                if (!paused)
                 {
-                    obj.Update(gameTime);
+                    //Make sure to put update collisiondetection before object update
+                    collisionHandler.Update(gameTime, objects);
+
+                    foreach (var obj in objects)
+                    {
+                        obj.Update(gameTime);
+                    }
+
+                    background.Update();
+
+                    objects.RemoveAll(delegate (IGameObject obj)
+                    {
+                        return obj.isQueuedForDeletion();
+                    });
+
+                    if (livesRemaining <= 0) gameIsOver = true;
                 }
-
-                background.Update();
-
-                objects.RemoveAll(delegate (IGameObject obj)
-                {
-                    return obj.isQueuedForDeletion();
-                });
-
-                if (livesRemaining <= 0) gameIsOver = true;
             }
 
             base.Update(gameTime);
