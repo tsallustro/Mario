@@ -15,6 +15,9 @@ namespace GameObjects
          * on that sheet!
          */
         private readonly int numberOfSpritesOnSheet = 15;
+
+        private int livesRemaining = 3;
+
         const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
         private IMarioPowerState powerState;
@@ -53,6 +56,21 @@ namespace GameObjects
 
             // Adjust given maxCoords to account for sprite's height
             this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
+        }
+
+        public int GetLivesRemaining()
+        {
+            return livesRemaining;
+        }
+
+        public void IncrementLivesRemaining()
+        {
+            livesRemaining++;
+        }
+
+        public void DecrementLivesRemaining()
+        {
+            livesRemaining--;
         }
 
         public IMarioPowerState GetPowerState()
@@ -171,11 +189,15 @@ namespace GameObjects
             {
                 if (item is SuperMushroom)
                 {
-                    this.powerState.Mushroom();
+                    powerState.Mushroom();
                 }
                 else if (item is FireFlower)
                 {
-                    this.powerState.FireFlower();
+                    powerState.FireFlower();
+                }
+                else if (item is OneUpMushroom)
+                {
+                    IncrementLivesRemaining();
                 }
                 else if (item is Star)
                 {

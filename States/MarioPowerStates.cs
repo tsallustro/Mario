@@ -152,7 +152,7 @@ namespace States
         public DeadMario(Mario mario)
         {
             this.mario = mario;
-            Game1.MarioGame.DecrementLivesRemaining();
+            mario.DecrementLivesRemaining();
         }
 
         public void FireFlower()

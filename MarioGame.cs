@@ -30,8 +30,6 @@ namespace Game1
         private List<IGameObject> objects;
         private List<IGameObject> initialObjects;
 
-        private static int livesRemaining = 3;
-
         private bool gameIsOver = false;
         private bool paused = false;
 
@@ -79,7 +77,7 @@ namespace Game1
             IsMouseVisible = true;
         }
 
-        public static void IncrementLivesRemaining()
+        /*public static void IncrementLivesRemaining()
         {
             livesRemaining++;
         }
@@ -87,7 +85,7 @@ namespace Game1
         public static void DecrementLivesRemaining()
         {
             livesRemaining--;
-        }
+        }*/
 
         // Resets objects back to their initial state
         public void ResetObjects()
@@ -240,7 +238,7 @@ namespace Game1
                         return obj.isQueuedForDeletion();
                     });
 
-                    if (livesRemaining <= 0) gameIsOver = true;
+                    if (mario.GetLivesRemaining() <= 0) gameIsOver = true;
                 }
             }
 
@@ -279,6 +277,8 @@ namespace Game1
             spriteBatch.DrawString(arial, "Mario", new Vector2(20, 20), Color.White);
             spriteBatch.DrawString(arial, "000000", new Vector2(20, 50), Color.White);
             spriteBatch.DrawString(arial, "Coinsx00", new Vector2(230, 50), Color.White);
+
+            int livesRemaining = mario.GetLivesRemaining();
 
             if (livesRemaining > 9) spriteBatch.DrawString(arial, "Livesx" + livesRemaining, new Vector2(490, 50), Color.White);
             else spriteBatch.DrawString(arial, "Livesx0" + livesRemaining, new Vector2(490, 50), Color.White);
