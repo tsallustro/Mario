@@ -226,16 +226,11 @@ namespace Game1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // Legend
-            spriteBatch.Begin();
-            spriteBatch.DrawString(arial, "Lives Left: " + livesRemaining, new Vector2(10, 10), Color.White);
-            spriteBatch.End();
-
-            //Background
             background.Draw();
 
             parallax = new Vector2(1f);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
+            spriteBatch.DrawString(arial, "Lives Left: " + livesRemaining, new Vector2(10, 10), Color.White);
 
             // call draw methods from each sprite and pass in sprite batch
             foreach (var obj in objects)
