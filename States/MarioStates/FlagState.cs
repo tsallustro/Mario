@@ -53,6 +53,8 @@ namespace States
 
         public void Land()
         {
+            mario.SetYAcceleration(0);
+            mario.SetYVelocity(0);
             // Move into castle
         }
 
