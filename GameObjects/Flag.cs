@@ -9,9 +9,12 @@ namespace GameObjects
 {
     class Flag : GameObject
     {
-        public Flag(Vector2 position, Vector2 velocity, Vector2 acceleration) : base(position, velocity, acceleration)
+        private readonly int numberOfSpritesOnSheet = 1;
+
+        public Flag(Vector2 position, Vector2 velocity, Vector2 acceleration, ISprite sprite) : base(position, velocity, acceleration)
         {
-            AABB = new Rectangle((int) position.X,(int) position.Y, 32, 64);
+            Sprite = sprite;
+            AABB = new Rectangle((int)position.X, (int)position.Y, (Sprite.texture.Width / numberOfSpritesOnSheet), Sprite.texture.Height);
         }
 
         public override void Damage()

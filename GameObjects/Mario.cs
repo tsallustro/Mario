@@ -300,6 +300,9 @@ namespace GameObjects
                             break;
                     }
                 }
+            } else if (Collidee is Flag flag)
+            {
+                System.Diagnostics.Debug.WriteLine("Distance from top: " + (flag.GetPosition().Y - (GetPosition().Y + Sprite.texture.Height)));
             }
 
         }
