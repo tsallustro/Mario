@@ -85,7 +85,10 @@ namespace GameObjects
         {
             return previousAction;
         }
-
+        public void SetPosition(Vector2 position)
+        {
+            this.Position = position;
+        }
         public void SetPowerState(IMarioPowerState PowerState)
         {
             int previousSpriteHeight = Sprite.texture.Height;

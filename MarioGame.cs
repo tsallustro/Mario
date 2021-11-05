@@ -70,9 +70,10 @@ namespace Game1
         private Camera camera;
         private Vector2 parallax;
 
-        
-        
-        
+        //Checkpoints
+        private Vector2 checkPoint = new Vector2(0,400);
+        int passed = 0;
+
         private Mario mario;
         
         public MarioGame()
@@ -96,8 +97,21 @@ namespace Game1
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
+        public void ResetCheckPoint(Vector2 position)
+        {
+            SoundManager.Instance.StartMusic();
+            gameIsOver = false;
+            secondsRemaining = timeLimit;
+            objects = initialObjects;
+            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
+            mario = (Mario)objects[0];
+            mario.SetPosition(position);
+            InitializeCommands();
+            //camera.LookAt(mario.GetPosition());
+            background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
+            background.LoadContent();
+        }
 
-       
 
         public void TogglePause()
         {
@@ -327,8 +341,24 @@ namespace Game1
             {
                 SetCommandsForGameOver();
             }
-
+            setCheckPoint();
+            if (mario.GetPowerState() is DeadMario && mario.GetLivesRemaining() > 0)
+            {
+                ResetCheckPoint(checkPoint);
+            }
             base.Update(gameTime);
+        }
+        public void setCheckPoint()
+        {
+            if(mario.GetPosition().X > 1200 && passed == 0)
+            {
+                checkPoint = new Vector2(1200, 400);
+                passed = 1;
+            } else if (mario.GetPosition().X >2400 && passed == 1)
+            {
+                checkPoint = new Vector2(2400, 400);
+                passed = 2;
+            }
         }
 
         protected override void Draw(GameTime gameTime)
