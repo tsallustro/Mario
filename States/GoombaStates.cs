@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GameObjects;
+using Sound;
 
 namespace States
 {
@@ -87,6 +88,8 @@ namespace States
         public StompedGoombaState(Goomba goomba)
         {
             this.goomba = goomba;
+            SoundManager.Instance.PlaySound(SoundManager.GameSound.STOMP);
+            
         }
 
         public void Stomped()

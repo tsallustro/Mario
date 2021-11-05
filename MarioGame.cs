@@ -17,6 +17,8 @@ using LevelParser;
 using View;
 using Cameras;
 using Microsoft.Xna.Framework.Media;
+using Sound;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Game1
 {
@@ -27,7 +29,7 @@ namespace Game1
         private readonly string levelToLoad = "level11";
         private readonly double timeLimit = 400;
         private double secondsRemaining = 400;
-
+        private bool playedWarningSound = false;
         private Point maxCoords; 
         private List<IGameObject> objects;
         private List<IGameObject> initialObjects;
@@ -68,9 +70,9 @@ namespace Game1
         private Camera camera;
         private Vector2 parallax;
 
-        private Song soundtrack;
-        private bool isMuted = false;
-
+        
+        
+        
         private Mario mario;
         
         public MarioGame()
@@ -94,11 +96,7 @@ namespace Game1
             background.LoadContent();
         }
 
-        public void MuteMusic()
-        {
-            isMuted = !isMuted;
-            MediaPlayer.IsMuted = isMuted;
-        }
+       
 
         public void TogglePause()
         {
@@ -148,6 +146,7 @@ namespace Game1
             maxCoords = new Point(levelWidth, levelHeight);
 
             this.Window.Title = "Cornet Mario Game";
+            
             base.Initialize();
         }
 
@@ -166,7 +165,7 @@ namespace Game1
             ICommand super = new SuperMarioCommand(mario);
             ICommand fire = new FireMarioCommand(mario);
             ICommand dead = new DeadMarioCommand(mario);
-            ICommand mute = new muteBackgroundMusicCommand(this);
+            ICommand mute = new MuteCommand(this);
             ICommand reset = new LevelResetCommand(this);
             ICommand borderVis = new BorderVisibleCommand(objects);
             ICommand pause = new PauseGameCommand(this);
@@ -243,8 +242,25 @@ namespace Game1
             castleSprite = Content.Load<Texture2D>("castle");
             itemSpriteFactory = new ItemSpriteFactory(itemSprites);
 
+            //Map Sound effects
+            SoundManager.Instance.MapSound(SoundManager.GameSound.STANDARD_JUMP,Content.Load<SoundEffect>("sounds/standard_jump") );
+            SoundManager.Instance.MapSound(SoundManager.GameSound.SUPER_JUMP, Content.Load<SoundEffect>("sounds/super_jump"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.DEATH, Content.Load<SoundEffect>("sounds/death"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.COIN, Content.Load<SoundEffect>("sounds/coin"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.POWER_UP_APPEAR, Content.Load<SoundEffect>("sounds/power_up_appears"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.POWER_UP_COLLECTED, Content.Load<SoundEffect>("sounds/power_up"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.ONE_UP_COLLECTED, Content.Load<SoundEffect>("sounds/one_up"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.BUMP, Content.Load<SoundEffect>("sounds/bump"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.BRICK_BREAK, Content.Load<SoundEffect>("sounds/brick_break"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.PIPE_TRAVEL, Content.Load<SoundEffect>("sounds/pipe"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.TIME_WARNING, Content.Load<SoundEffect>("sounds/running_out_of_time"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.GAME_OVER, Content.Load<SoundEffect>("sounds/game_over"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.STOMP, Content.Load<SoundEffect>("sounds/loud_stomp"));
+            SoundManager.Instance.SetBackgroundMusic(Content.Load<Song>("soundtrack/mainOverworld"));
+            SoundManager.Instance.StartMusic();
+
             // Load from Level file
-            
+
             levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
             initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
@@ -256,9 +272,8 @@ namespace Game1
             background.LoadContent();
 
             //Background Music
-            soundtrack = Content.Load<Song>("soundtrack/mainOverworld");
-            MediaPlayer.Play(soundtrack);
-            MediaPlayer.IsRepeating = true;
+            
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -280,6 +295,11 @@ namespace Game1
                     } else
                     {
                         secondsRemaining -= gameTime.ElapsedGameTime.TotalSeconds;
+                        if(!playedWarningSound && secondsRemaining <= 100)
+                        {
+                            SoundManager.Instance.PlaySound(SoundManager.GameSound.TIME_WARNING);
+                            playedWarningSound = true;
+                        }
                     }
 
                     // Make sure to put update collisiondetection before object update

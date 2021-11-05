@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using GameObjects;
 using Game1;
+using Sound;
 
 namespace States
 {
@@ -153,6 +154,7 @@ namespace States
         {
             this.mario = mario;
             mario.DecrementLivesRemaining();
+            SoundManager.Instance.PlaySound(SoundManager.GameSound.DEATH);
         }
 
         public void FireFlower()

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprites;
 using States;
 using Collisions;
+using Sound;
 
 namespace GameObjects
 {
@@ -75,6 +76,7 @@ namespace GameObjects
         {
             this.isVisible = true;
             isEmergingFromBlock = true;
+            SoundManager.Instance.PlaySound(SoundManager.GameSound.POWER_UP_APPEAR);
         }
 
         public override void Halt()
@@ -92,6 +94,15 @@ namespace GameObjects
             if (Collidee is Mario && CanBePickedUp())
             {
                 this.queuedForDeletion = true;
+                SoundManager.GameSound toPlay;
+
+                if (this is Coin)
+                    toPlay = SoundManager.GameSound.COIN;
+                else if (this is OneUpMushroom)
+                    toPlay = SoundManager.GameSound.ONE_UP_COLLECTED;
+                else
+                    toPlay = SoundManager.GameSound.POWER_UP_COLLECTED;
+                SoundManager.Instance.PlaySound(toPlay);
             }
 
             //Make blocks change direction with blocking entity
@@ -177,6 +188,7 @@ namespace GameObjects
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             
         }
+        
     }
 
     public class FireFlower : Item

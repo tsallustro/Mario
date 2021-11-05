@@ -5,13 +5,14 @@ using Sprites;
 using GameObjects;
 using Microsoft.Xna.Framework.Media;
 using Game1;
+using Sound;
 
 namespace Commands
 {
-	class muteBackgroundMusicCommand : Command, ICommand
+	class MuteCommand : Command, ICommand
 	{
 		private MarioGame game;
-		public muteBackgroundMusicCommand(MarioGame game)
+		public MuteCommand(MarioGame game)
 		{
 			this.game = game;
 		}
@@ -20,7 +21,7 @@ namespace Commands
 		{
 			if (pressType == 1 && active)
 			{
-				game.MuteMusic();
+				SoundManager.Instance.ToggleMute();
             }
         }
 	}

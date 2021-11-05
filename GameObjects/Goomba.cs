@@ -7,6 +7,7 @@ using States;
 using Sprites;
 using Factories;
 using Cameras;
+using Sound;
 
 namespace GameObjects
 {
@@ -63,6 +64,7 @@ namespace GameObjects
             if (!(goombaState is StompedGoombaState) && !(goombaState is DeadGoombaState)) 
                 Position = new Vector2(Position.X, Position.Y + 4);
             goombaState.Stomped();
+            
         }
 
         //Handle Collision with Block

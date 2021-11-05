@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GameObjects;
+using Sound;
 
 namespace States
 {
@@ -29,6 +30,12 @@ namespace States
                 this.mario.SetYVelocity(InitialJumpingVelocity);
                 this.mario.SetYAcceleration(InitialJumpingAcceleration);
             }
+            SoundManager.GameSound jumpSound;
+            if (mario.GetPowerState() is StandardMario)
+                jumpSound = SoundManager.GameSound.STANDARD_JUMP;
+            else
+                jumpSound = SoundManager.GameSound.SUPER_JUMP;
+            SoundManager.Instance.PlaySound(jumpSound);
         }
 
         public bool GetDirection()

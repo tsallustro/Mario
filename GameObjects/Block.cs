@@ -7,6 +7,7 @@ using Sprites;
 using States;
 using Factories;
 using Collisions;
+using Sound;
 
 namespace GameObjects
 {
@@ -153,6 +154,7 @@ namespace GameObjects
         public void Bump()
         {
             blockState.Bump(mario);
+            SoundManager.Instance.PlaySound(SoundManager.GameSound.BUMP);
         }
 
         public void MoveLeft() { }

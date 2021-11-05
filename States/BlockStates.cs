@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using GameObjects;
+using Sound;
 
 namespace States
 {
@@ -171,6 +172,7 @@ namespace States
             this.block = block;
             this.block.SetFalling(true);
             this.block.SetBumped(true);
+            SoundManager.Instance.PlaySound(SoundManager.GameSound.BRICK_BREAK);
         }
 
         public void Bump(Mario Mario)

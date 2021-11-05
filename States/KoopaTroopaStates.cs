@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GameObjects;
+using Sound;
 
 namespace States
 {
@@ -70,6 +71,7 @@ namespace States
             this.koopaTroopa = koopaTroopa;
             previousVelocity = koopaTroopa.GetVelocity().X;
             this.koopaTroopa.SetXVelocity(0);
+            SoundManager.Instance.PlaySound(SoundManager.GameSound.STOMP);
         }
 
         public void Stomped()
