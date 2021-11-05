@@ -85,6 +85,7 @@ namespace Game1
         // Resets objects back to their initial state
         public void ResetObjects()
         {
+            SoundManager.Instance.StartMusic();
             gameIsOver = false;
             secondsRemaining = timeLimit;
             objects = initialObjects;

@@ -115,6 +115,9 @@ namespace GameObjects
 
         public override void Update(GameTime GameTime)
         {
+            if (blockState is BrokenBrickBlockState && this.Position.Y - originalLocation.Y > 200) queuedForDeletion = true; //destroy broken bricks that fall off screen
+
+
             if(bumped)                                                  // if bumped, do physics!
             {
                 if (falling)                                             // logic for falling blocks

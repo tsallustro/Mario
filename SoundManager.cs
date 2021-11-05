@@ -56,6 +56,7 @@ namespace Sound
         }
         public void StartMusic()
         {
+            MediaPlayer.Stop();
             MediaPlayer.Play(backgroundMusic);
             MediaPlayer.IsRepeating = true;
             
