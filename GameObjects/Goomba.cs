@@ -31,7 +31,6 @@ namespace GameObjects
         List<IGameObject> objects;
         Camera camera;
 
-        //I
         public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs, Camera camera)
             : base(position, velocity, acceleration)
         {
@@ -44,11 +43,13 @@ namespace GameObjects
             this.camera = camera;
             this.Acceleration = new Vector2(0, gravityAcceleration);
         }
+
         //Get Goomba State
         public IEnemyState GetGoombaState()
         {
             return this.goombaState;
         }
+
         //Set Goomba State
         public void SetGoombaState(IEnemyState goombaState)
         {
@@ -103,6 +104,7 @@ namespace GameObjects
                     break;
             }
         }
+
         //Handles Collision with other Objects
         public override void Collision(int side, GameObject Collidee)
         {
@@ -120,11 +122,6 @@ namespace GameObjects
                     this.SetXVelocity(this.GetVelocity().X * -1);
                 }
             }
-            /*else if (Collidee is FireBall && ((FireBall)Collidee).getActive()) 
-            {
-                this.Damage();
-                return;
-            }*/
             else if (Collidee is Mario)
             {
                 if (side == TOP)
@@ -137,12 +134,6 @@ namespace GameObjects
                 this.Damage();
             } 
         }
-        //If Goomba is not on blocks, it will have downward acceleration
-        public void Gravity()
-        {
-            this.SetYVelocity(50);
-        }
-
 
         //Update all of Goomba's members
         public override void Update(GameTime GameTime)
@@ -170,7 +161,7 @@ namespace GameObjects
             //If Goomba is not standing on anything, it should fall
             if (BlockEnemyIsOn != null && !BottomCollision(BlockEnemyIsOn))
             {
-                this.SetYVelocity(50);
+                this.SetYAcceleration(gravityAcceleration);
             }
 
             Sprite = spriteFactory.GetCurrentSprite(Position, goombaState);
@@ -200,17 +191,6 @@ namespace GameObjects
         {
             goombaState.Move();
         }
-        public void ChangeDirection()
-        {
-            //Change direction when it reaches certain point
-            if (this.Position.X > 700)
-            {
-                this.SetXVelocity((float)-50);
-            } else if (this.Position.X <= 0)
-            {
-                this.SetXVelocity((float)50);
-            }
-        }
 
         //Change Goomba state to idle mode
         public void StayIdle()
@@ -227,6 +207,5 @@ namespace GameObjects
                 return false;
             }
         }
-
     }
 }
