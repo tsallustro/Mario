@@ -215,7 +215,7 @@ namespace GameObjects
             //If Goomba is not standing on anything, it should fall
             if (BlockEnemyIsOn != null && !BottomCollision(BlockEnemyIsOn))
             {
-                this.SetXVelocity(this.GetVelocity().X * -1);
+                this.SetYAcceleration(gravityAccleration);
             }
 
             Sprite = spriteFactory.GetCurrentSprite(Position, redKoopaTroopaState);

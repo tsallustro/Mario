@@ -11,7 +11,7 @@ namespace GameObjects
     public abstract class Item : GameObject, IItem
     {
         protected readonly static int mushroomSpeed = 50;
-        protected readonly static int defaultItemGravity = 255;
+        protected readonly static int defaultItemGravity = 275;
         
         protected readonly static int boundaryAdjustment = 0;
         protected float lastY;
