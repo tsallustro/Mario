@@ -41,6 +41,8 @@ namespace GameObjects
         private int JumpHoldAccelerationBoost { get; } = 55;
         private float HighJumpTimer { get; } = 0.35f;
 
+        public bool WinningStateReached { get; set; } = false;
+
         public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords)
             : base(position, velocity, acceleration)
         {
@@ -302,7 +304,9 @@ namespace GameObjects
                 }
             } else if (Collidee is Flag flag)
             {
-                System.Diagnostics.Debug.WriteLine("Distance from top: " + (flag.GetPosition().Y - (GetPosition().Y + Sprite.texture.Height)));
+                if (!(actionState is FlagState)) actionState = new FlagState(this, actionState.GetDirection());
+                WinningStateReached = true;
+                System.Diagnostics.Debug.WriteLine("Distance from bottom: " + ((flag.GetPosition().Y + flag.Sprite.texture.Height) - (GetPosition().Y + Sprite.texture.Height)));
             }
 
         }

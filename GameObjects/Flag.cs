@@ -14,7 +14,7 @@ namespace GameObjects
         public Flag(Vector2 position, Vector2 velocity, Vector2 acceleration, ISprite sprite) : base(position, velocity, acceleration)
         {
             Sprite = sprite;
-            AABB = new Rectangle((int)position.X, (int)position.Y, (Sprite.texture.Width / numberOfSpritesOnSheet), Sprite.texture.Height);
+            AABB = new Rectangle((int)position.X + 14, (int)position.Y, (Sprite.texture.Width / numberOfSpritesOnSheet) - 10, Sprite.texture.Height);
         }
 
         public override void Damage()

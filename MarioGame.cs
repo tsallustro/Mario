@@ -36,6 +36,7 @@ namespace Game1
         private List<ICommand> commands;
 
         private bool gameIsOver = false;
+        private bool gameIsWon = false;
         private bool paused = false;
 
         //Monogame Objects
@@ -128,6 +129,16 @@ namespace Game1
                 if (command is PauseGameCommand || command is QuitCommand) command.SetActive(true);
                 else command.SetActive(false);
             } 
+        }
+
+        private void SetCommandsForWinningState()
+        {
+            foreach (ICommand command in commands)
+            {
+                if (command is MarioCommand) 
+                    command.SetActive(false);
+                else command.SetActive(true);
+            }
         }
 
         private void SetCommandsForGameOver()
@@ -297,14 +308,18 @@ namespace Game1
             gamepadController.Update();
             keyboardController.Update();
 
+            System.Diagnostics.Debug.WriteLine("Is won: " + gameIsWon);
+            System.Diagnostics.Debug.WriteLine("Winning reached: " + mario.WinningStateReached);
+
             if (!gameIsOver)
             {
                 if (!paused)
                 {
-                    EnableAllCommands();
+                    if (!mario.WinningStateReached) EnableAllCommands();
+                    else SetCommandsForWinningState();
 
                     // Update time remaining
-                    if (secondsRemaining <= 0)
+                    if (secondsRemaining <= 0 && !gameIsWon)
                     {
                         mario.Die(); // Time limit reached!
                     } else
@@ -333,7 +348,9 @@ namespace Game1
                     });
 
                     if (mario.GetLivesRemaining() <= 0) gameIsOver = true;
-                } else
+                    if (mario.WinningStateReached) gameIsWon = true;
+                }
+                else
                 {
                     SetCommandsForPause();
                 }
@@ -341,11 +358,14 @@ namespace Game1
             {
                 SetCommandsForGameOver();
             }
+
             setCheckPoint();
+
             if (mario.GetPowerState() is DeadMario && mario.GetLivesRemaining() > 0)
             {
                 ResetCheckPoint(checkPoint);
             }
+
             base.Update(gameTime);
         }
         public void setCheckPoint()
