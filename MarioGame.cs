@@ -323,7 +323,7 @@ namespace Game1
 
                     if (mario.hasWarped)
                     {
-                        camera.Limits = new Rectangle(0, 0, levelWidth + 3000, levelHeight);
+                        camera.Limits = new Rectangle(levelWidth + 230, 0, GraphicsDevice.Viewport.Width, levelHeight);
                         maxCoords = new Point(levelWidth + 3000, levelHeight);
                     } else
                     {

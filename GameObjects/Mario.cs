@@ -412,8 +412,9 @@ namespace GameObjects
             {
                 if (BlockMarioIsOn is WarpPipe pipe && pipe.CanWarp())
                 {
+                    // Warp to secret area!
                     hasWarped = true;
-                    maxCoords = new Point(5000, 1200);
+                    maxCoords = new Point(5000, maxCoords.Y);
                     SetPosition(new Vector2(4020, 80));
                     actionState = new FallingState(this, actionState.GetDirection());
                 }
