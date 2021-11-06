@@ -327,7 +327,7 @@ namespace Game1
             gamepadController.Update();
             keyboardController.Update();
 
-            if (!gameIsOver && !gameIsWon)
+            if (!gameIsOver)
             {
                 if (!paused)
                 {
