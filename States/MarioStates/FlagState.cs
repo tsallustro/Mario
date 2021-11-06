@@ -18,7 +18,7 @@ namespace States
 
             this.mario.SetXAcceleration(0);
             this.mario.SetYAcceleration(gravityAcceleration);
-            this.mario.SetYVelocity(40);
+            if (this.mario.GetVelocity().Y > 40) this.mario.SetYVelocity(40);
             this.mario.SetXVelocity(0);
         }
 

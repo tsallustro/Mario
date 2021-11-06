@@ -546,7 +546,11 @@
 		</stairBlock>
 		<stairBlock>
 			<row>27</row>
-			<column>199</column>
+			<column>206</column>
+		</stairBlock>
+		<stairBlock>
+			<row>27</row>
+			<column>207</column>
 		</stairBlock>
 	</stairBlocks>
 	<hiddenBlocks>
@@ -607,11 +611,11 @@
 	<endElements>
 		<flag>
 			<row>19</row>
-			<column>199</column>
+			<column>206</column>
 		</flag>
 		<castle>
 			<row>23</row>
-			<column>205</column>
+			<column>212</column>
 		</castle>
 	</endElements>
 	<enemies>
