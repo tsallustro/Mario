@@ -82,7 +82,7 @@ namespace Game1
         int passed = 0;
 
         private Mario mario;
-        
+        private int coinsCollected = 0;
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -93,12 +93,14 @@ namespace Game1
         // Resets objects back to their initial state
         public void ResetObjects()
         {
+            SoundManager.Instance.Reset();
             SoundManager.Instance.StartMusic();
 
             gameIsOver = false;
             gameIsWon = false;
             secondsRemaining = timeLimit;
-
+            coinsCollected = 0;
+            playedWarningSound = false;
             objects = initialObjects;
             initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
             
@@ -111,22 +113,8 @@ namespace Game1
         }
         public void ResetCheckPoint(Vector2 position)
         {
-            SoundManager.Instance.StartMusic();
-
-            gameIsOver = false;
-            gameIsWon = false;
-            secondsRemaining = timeLimit;
-
-            objects = initialObjects;
-            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
-            
-            mario = (Mario)objects[0];
+            ResetObjects();
             mario.SetPosition(position);
-
-            InitializeCommands();
-
-            background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
-            background.LoadContent();
         }
 
 
@@ -134,8 +122,7 @@ namespace Game1
         {
             paused = !paused;
 
-            if (!paused) MediaPlayer.Resume();
-            else MediaPlayer.Pause();
+            SoundManager.Instance.TogglePaused();
         }
 
         private void SetCommandsForPause()
@@ -298,10 +285,10 @@ namespace Game1
             SoundManager.Instance.MapSound(SoundManager.GameSound.BUMP, Content.Load<SoundEffect>("sounds/bump"));
             SoundManager.Instance.MapSound(SoundManager.GameSound.BRICK_BREAK, Content.Load<SoundEffect>("sounds/brick_break"));
             SoundManager.Instance.MapSound(SoundManager.GameSound.PIPE_TRAVEL, Content.Load<SoundEffect>("sounds/pipe"));
-            SoundManager.Instance.MapSound(SoundManager.GameSound.TIME_WARNING, Content.Load<SoundEffect>("sounds/running_out_of_time"));
+ 
             SoundManager.Instance.MapSound(SoundManager.GameSound.GAME_OVER, Content.Load<SoundEffect>("sounds/game_over"));
             SoundManager.Instance.MapSound(SoundManager.GameSound.STOMP, Content.Load<SoundEffect>("sounds/loud_stomp"));
-            SoundManager.Instance.SetBackgroundMusic(Content.Load<Song>("soundtrack/mainOverworld"));
+            SoundManager.Instance.SetBackgroundMusic(Content.Load<Song>("soundtrack/mainOverworld"), Content.Load<Song>("soundtrack/overworld_fast"));
             SoundManager.Instance.StartMusic();
 
             // Load from Level file
@@ -326,7 +313,7 @@ namespace Game1
             // Update the controllers
             gamepadController.Update();
             keyboardController.Update();
-
+            
             if (!gameIsOver)
             {
                 if (!paused)
@@ -353,7 +340,7 @@ namespace Game1
                         secondsRemaining -= gameTime.ElapsedGameTime.TotalSeconds;
                         if(!playedWarningSound && secondsRemaining <= 100)
                         {
-                            SoundManager.Instance.PlaySound(SoundManager.GameSound.TIME_WARNING);
+                            SoundManager.Instance.TimeWarning();
                             playedWarningSound = true;
                         }
                     }
@@ -368,8 +355,10 @@ namespace Game1
 
                     background.Update();
 
+                    //Removed all items that are queued for deletion
                     objects.RemoveAll(delegate (IGameObject obj)
                     {
+                        if (obj.isQueuedForDeletion() && obj is Coin) CoinCollected();
                         return obj.isQueuedForDeletion();
                     });
 
@@ -455,7 +444,7 @@ namespace Game1
             spriteBatch.DrawString(arial, "000000", new Vector2(20, 50), Color.White);
 
             coinsIcon.Draw(spriteBatch, false);
-            spriteBatch.DrawString(arial, "x00", new Vector2(240, 50), Color.White);
+            spriteBatch.DrawString(arial, "x"+coinsCollected, new Vector2(240, 50), Color.White);
 
             int livesRemaining = mario.GetLivesRemaining();
 
@@ -472,6 +461,16 @@ namespace Game1
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void CoinCollected()
+        {
+            coinsCollected += 1;
+            if(coinsCollected >= 100)
+            {
+                coinsCollected -= 100;
+                mario.IncrementLivesRemaining();
+            }
         }
     }
 }

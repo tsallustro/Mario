@@ -17,7 +17,7 @@ namespace GameObjects
         private readonly int numberOfSpritesOnSheet = 15;
 
         private int livesRemaining = 3;
-        private int coinsCollected = 99;
+       
         public bool hasWarped { get; set; } = false;
 
         const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
@@ -60,6 +60,7 @@ namespace GameObjects
 
             // Adjust given maxCoords to account for sprite's height
             this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
+            
         }
 
         public int GetLivesRemaining()
@@ -210,15 +211,7 @@ namespace GameObjects
                 {
                     //Implement invicibility
                 }
-                else if(item is Coin)
-                {
-                    coinsCollected += 1;
-                    if(coinsCollected >= 100)
-                    {
-                        coinsCollected -= 100;
-                        livesRemaining++;
-                    }
-                }
+                
             }
             else if (Collidee is Block block)
             {

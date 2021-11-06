@@ -21,13 +21,14 @@ namespace Sound
         }
         public enum GameSound
         {
-            STANDARD_JUMP, SUPER_JUMP, STOMP, DEATH, COIN, POWER_UP_APPEAR, POWER_UP_COLLECTED, ONE_UP_COLLECTED, BUMP, BRICK_BREAK, PIPE_TRAVEL, TIME_WARNING, GAME_OVER
+            STANDARD_JUMP, SUPER_JUMP, STOMP, DEATH, COIN, POWER_UP_APPEAR, POWER_UP_COLLECTED, ONE_UP_COLLECTED, BUMP, BRICK_BREAK, PIPE_TRAVEL, GAME_OVER
         }
 
         private Dictionary<GameSound, SoundEffect> effects;
 
-        private Song backgroundMusic;
-        private bool isMuted;
+        private Song backgroundMusic , backgroundMusicFast, activeSong;
+        private bool isMuted, isPaused;
+     
         private SoundManager()
         {
             effects = new Dictionary<GameSound, SoundEffect>();
@@ -36,28 +37,32 @@ namespace Sound
         public void MapSound(GameSound gameSound, SoundEffect soundEffect)
         {
             this.effects.Add(gameSound, soundEffect);
+            
         }
 
         public void PlaySound(GameSound gameSound)
         {
             SoundEffect toPlay;
-            if(!isMuted && effects.TryGetValue(gameSound, out toPlay))
+            if(!(isMuted || isPaused)&& effects.TryGetValue(gameSound, out toPlay))
             {
-                
+                if (gameSound == GameSound.DEATH) MediaPlayer.Stop();
                 toPlay.CreateInstance().Play();
+           
                 
             }
             
         }
 
-        public void SetBackgroundMusic(Song song)
+        public void SetBackgroundMusic(Song mainSong, Song fastSong)
         {
-            backgroundMusic = song;
+            backgroundMusic = mainSong;
+            backgroundMusicFast = fastSong;
+            activeSong = backgroundMusic;
         }
         public void StartMusic()
         {
             MediaPlayer.Stop();
-            MediaPlayer.Play(backgroundMusic);
+            MediaPlayer.Play(activeSong);
             MediaPlayer.IsRepeating = true;
             
         }
@@ -67,6 +72,34 @@ namespace Sound
             isMuted = !isMuted;
             MediaPlayer.IsMuted = isMuted;
         }
+        public void TogglePaused()
+        {
+            isPaused = !isPaused;
+            if (isPaused)
+                MediaPlayer.Pause();
+            else
+                MediaPlayer.Resume();
+        }
+
+        public void TimeWarning()
+        {
+            if (activeSong != backgroundMusicFast) {
+                activeSong = backgroundMusicFast;
+                StartMusic();
+            }
+            
+        }
+
+        public void Reset()
+        {
+            if (activeSong != backgroundMusic)
+            {
+                activeSong = backgroundMusic;
+                StartMusic();
+            }
+
+        }
+
     }
 
     
