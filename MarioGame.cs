@@ -105,7 +105,7 @@ namespace Game1
             mario = (Mario)objects[0];
 
             InitializeCommands();
-
+            checkPoint = mario.GetPosition();
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
