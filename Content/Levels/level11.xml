@@ -728,7 +728,7 @@
 			<row>24</row>
 			<column>47</column>
 		</pipe>
-		<pipe>
+		<pipe canWarp="true">
 			<row>24</row>
 			<column>58</column>
 		</pipe>

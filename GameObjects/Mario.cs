@@ -407,7 +407,7 @@ namespace GameObjects
         {
             if (!(powerState is DeadMario))
             {
-                if (BlockMarioIsOn is WarpPipe)
+                if (BlockMarioIsOn is WarpPipe pipe && pipe.CanWarp())
                 {
                     hasWarped = true;
                     maxCoords = new Point(5000, 1200);

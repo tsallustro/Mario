@@ -104,19 +104,39 @@ namespace LevelParser
             list.Add(castle);
         }
 
+        private static bool ParseBool(String boolString)
+        {
+            return boolString == "true";
+        }
+
         private static void ParseWarpPipes(List<IGameObject> list, XElement level, Texture2D pipeSprite)
         {
-
             IEnumerable<XElement> pipes = level.Element("warpPipes").Elements();
+            bool canWarp = false;
+            WarpPipe pipeToAdd;
+
             foreach (XElement pipe in pipes)
             {
+                if (pipe.HasAttributes)
+                {
+                    XAttribute warpAttribute = pipe.Attribute("canWarp");
+
+                    if (warpAttribute != null)
+                    {
+                        canWarp = ParseBool(warpAttribute.Value);
+                    }
+                }
+
                 //Still need to add coins to block
                 Vector2 pipePos = new Vector2
                 {
                     Y = 16 * Int32.Parse(pipe.Element("row").Value),
                     X = 16 * Int32.Parse(pipe.Element("column").Value)
                 };
-                WarpPipe pipeToAdd = new WarpPipe(pipePos, new Vector2(0,0), new Vector2(0,0));
+
+                if (!canWarp) pipeToAdd = new WarpPipe(pipePos, new Vector2(0,0), new Vector2(0,0));
+                else pipeToAdd = new WarpPipe(pipePos, new Vector2(0, 0), new Vector2(0, 0), true);
+
                 pipeToAdd.Sprite = new Sprite(false, true, pipePos, pipeSprite,1,1,0,0);
                 list.Add(pipeToAdd);
                 

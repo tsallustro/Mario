@@ -9,9 +9,23 @@ namespace GameObjects
 {
     class WarpPipe : GameObject
     {
+        private readonly bool canWarp;
+
         public WarpPipe(Vector2 position, Vector2 velocity, Vector2 acceleration) : base(position, velocity, acceleration)
         {
             AABB = new Rectangle((int) position.X,(int) position.Y, 32, 64);
+            canWarp = false;
+        }
+
+        public WarpPipe(Vector2 position, Vector2 velocity, Vector2 acceleration, bool canWarp) : base(position, velocity, acceleration)
+        {
+            AABB = new Rectangle((int)position.X, (int)position.Y, 32, 64);
+            this.canWarp = canWarp;
+        }
+
+        public bool CanWarp()
+        {
+            return canWarp;
         }
 
         public override void Damage()
