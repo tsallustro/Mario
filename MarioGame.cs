@@ -138,7 +138,7 @@ namespace Game1
         {
             foreach (ICommand command in commands)
             {
-                if (command is MarioCommand) 
+                if (command is MarioCommand || command is MuteCommand || command is PauseGameCommand || command is throwFireballCommand) 
                     command.SetActive(false);
                 else command.SetActive(true);
             }
