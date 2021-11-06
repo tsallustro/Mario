@@ -317,7 +317,7 @@ namespace Game1
             gamepadController.Update();
             keyboardController.Update();
 
-            if (!gameIsOver)
+            if (!gameIsOver && !gameIsWon)
             {
                 if (!paused)
                 {
@@ -354,13 +354,13 @@ namespace Game1
                     });
 
                     if (mario.GetLivesRemaining() <= 0) gameIsOver = true;
-                    if (mario.WinningStateReached) gameIsWon = true;
+                    if (mario.WinningStateReached && mario.GetVelocity().Y == 0) gameIsWon = true;
                 }
                 else
                 {
                     SetCommandsForPause();
                 }
-            } else
+            } else if (gameIsOver || gameIsWon)
             {
                 SetCommandsForGameOver();
             }
@@ -390,7 +390,7 @@ namespace Game1
 
         protected override void Draw(GameTime gameTime)
         {
-            if (!gameIsOver)
+            if (!gameIsOver && !gameIsWon)
             {
                 GraphicsDevice.Clear(Color.CornflowerBlue);
 
@@ -406,12 +406,21 @@ namespace Game1
                 }
 
                 spriteBatch.End();
-            } else
+            } else if (gameIsOver)
             {
                 GraphicsDevice.Clear(Color.Black);
 
                 spriteBatch.Begin();
                 spriteBatch.DrawString(arial, "Game Over", new Vector2(330, 250), Color.White);
+                spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 300), Color.White);
+                spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 300), Color.White);
+                spriteBatch.End();
+            } else if (gameIsWon)
+            {
+                GraphicsDevice.Clear(Color.Black);
+
+                spriteBatch.Begin();
+                spriteBatch.DrawString(arial, "Winner!", new Vector2(338, 250), Color.White);
                 spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 300), Color.White);
                 spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 300), Color.White);
                 spriteBatch.End();
