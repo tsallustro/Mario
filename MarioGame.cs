@@ -12,6 +12,7 @@ using GameObjects;
 using Factories;
 using States;
 using System;
+using Sprites;
 using Collisions;
 using LevelParser;
 using View;
@@ -58,6 +59,7 @@ namespace Game1
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
         private FireBallSpriteFactory fireBallSpriteFactory;
+
         //For level parser
         private Texture2D blockSprites;
         private Texture2D pipeSprite;
@@ -65,6 +67,10 @@ namespace Game1
         private Texture2D flagSprite;
         private Texture2D castleSprite;
         private string levelPath;
+
+        //Sprites for UI
+        private ISprite coinsIcon;
+        private ISprite livesIcon;
 
         //Background textures
         private Background background;
@@ -261,6 +267,9 @@ namespace Game1
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             fireBallSpriteFactory.LoadTextures(this);
 
+            coinsIcon = new Sprite(false, true, new Vector2(225, 54), Content.Load<Texture2D>("Items"), 1, 9, 7, 8);
+            livesIcon = new Sprite(false, true, new Vector2(474, 54), Content.Load<Texture2D>("standardMario"), 1, 15, 0, 0);
+
             blockSprites = Content.Load<Texture2D>("BlocksV3");
             pipeSprite = Content.Load<Texture2D>("longPipe");
             itemSprites = Content.Load<Texture2D>("Items");
@@ -307,9 +316,6 @@ namespace Game1
             // Update the controllers
             gamepadController.Update();
             keyboardController.Update();
-
-            System.Diagnostics.Debug.WriteLine("Is won: " + gameIsWon);
-            System.Diagnostics.Debug.WriteLine("Winning reached: " + mario.WinningStateReached);
 
             if (!gameIsOver)
             {
@@ -366,6 +372,7 @@ namespace Game1
                 ResetCheckPoint(checkPoint);
             }
 
+            coinsIcon.Update();
             base.Update(gameTime);
         }
         public void setCheckPoint()
@@ -414,11 +421,14 @@ namespace Game1
             spriteBatch.Begin();
             spriteBatch.DrawString(arial, "Mario", new Vector2(20, 20), Color.White);
             spriteBatch.DrawString(arial, "000000", new Vector2(20, 50), Color.White);
-            spriteBatch.DrawString(arial, "Coinsx00", new Vector2(230, 50), Color.White);
+
+            coinsIcon.Draw(spriteBatch, false);
+            spriteBatch.DrawString(arial, "x00", new Vector2(240, 50), Color.White);
 
             int livesRemaining = mario.GetLivesRemaining();
 
-            spriteBatch.DrawString(arial, "Livesx" + livesRemaining.ToString("D2"), new Vector2(490, 50), Color.White);
+            livesIcon.Draw(spriteBatch, false);
+            spriteBatch.DrawString(arial, "x" + livesRemaining.ToString("D2"), new Vector2(490, 50), Color.White);
             spriteBatch.DrawString(arial, "Time", new Vector2(730, 20), Color.White);
 
             // Draw time remaining with appropriate number of leading 0s
