@@ -334,6 +334,16 @@ namespace Game1
                     if (!mario.WinningStateReached) EnableAllCommands();
                     else SetCommandsForWinningState();
 
+                    if (mario.hasWarped)
+                    {
+                        camera.Limits = new Rectangle(0, 0, levelWidth + 3000, levelHeight);
+                        maxCoords = new Point(levelWidth + 3000, levelHeight);
+                    } else
+                    {
+                        camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+                        maxCoords = new Point(levelWidth, levelHeight);
+                    }
+
                     // Update time remaining
                     if (secondsRemaining <= 0 && !gameIsWon)
                     {
@@ -402,9 +412,12 @@ namespace Game1
         {
             if (!gameIsOver)
             {
-                GraphicsDevice.Clear(Color.CornflowerBlue);
-
-                background.Draw();
+                if (mario.hasWarped) GraphicsDevice.Clear(Color.Black);
+                else
+                {
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
+                    background.Draw();
+                }
 
                 parallax = new Vector2(1f);
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));

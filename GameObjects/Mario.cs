@@ -17,6 +17,7 @@ namespace GameObjects
         private readonly int numberOfSpritesOnSheet = 15;
 
         private int livesRemaining = 3;
+        public bool hasWarped { get; set; } = false;
 
         const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
@@ -404,7 +405,17 @@ namespace GameObjects
 
         public void Down(int pressType)
         {
-            if (!(powerState is DeadMario)) actionState.Crouch();
+            if (!(powerState is DeadMario))
+            {
+                if (BlockMarioIsOn is WarpPipe)
+                {
+                    hasWarped = true;
+                    maxCoords = new Point(5000, 1200);
+                    SetPosition(new Vector2(4020, 80));
+                    actionState = new FallingState(this, actionState.GetDirection());
+                }
+                else actionState.Crouch();
+            }
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
         }
 
