@@ -186,9 +186,19 @@ namespace GameObjects
             itemState = new CoinState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
-            
         }
-        
+
+        // For visible coins outside of blocks
+        public Coin(Vector2 position, Texture2D itemSprites, Mario mario, bool isVisible) 
+            : base(position, itemSprites, mario)
+        {
+            this.isVisible = isVisible;
+            isFinishedEmerging = true;
+            Sprite = spriteFactory.CreateCoin(position);
+            itemState = new CoinState(this);
+            AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+        }
     }
 
     public class FireFlower : Item

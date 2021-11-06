@@ -216,6 +216,7 @@ namespace LevelParser
         private static void ParseItems(List<IGameObject> list, XElement level, Texture2D itemSprites, Mario mario)
         {
             IEnumerable<XElement> items = level.Element("items").Elements();
+
             foreach (XElement item in items)
             {
                 //Still need to add coins to block
@@ -224,12 +225,13 @@ namespace LevelParser
                     Y = 16 * Int32.Parse(item.Element("row").Value),
                     X = 16 * Int32.Parse(item.Element("column").Value)
                 };
-                IItem generatedItem = GetItemOfType(item.Attribute("type").Value, itemPos, itemSprites, mario);
 
-                //list.Add(generatedItem);
-               
+                IItem generatedItem = GetItemOfType(item.Attribute("type").Value, itemPos, itemSprites, mario);
+                if (generatedItem is Coin) generatedItem = new Coin(itemPos, itemSprites, mario, true);
+                list.Add(generatedItem);
             }
         }
+
         private static void ParseStairBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
             IEnumerable<XElement> stairBlocks = level.Element("stairBlocks").Elements();

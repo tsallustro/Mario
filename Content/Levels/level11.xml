@@ -154,6 +154,66 @@
 			<column>250</column>
 		</brickBlock>
 		<brickBlock>
+			<row>19</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>18</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>17</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>16</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>15</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>14</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>13</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>12</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>11</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>10</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>9</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>8</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>7</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>6</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
+			<row>5</row>
+			<column>250</column>
+		</brickBlock>
+		<brickBlock>
 			<row>5</row>
 			<column>254</column>
 		</brickBlock>
@@ -887,12 +947,80 @@
 	<items>
 		<!-- Coins for inside the secret room -->
 		<item type="coin">
-			<row>16</row>
+			<row>19</row>
 			<column>254</column>
 		</item>
 		<item type="coin">
-			<row>16</row>
+			<row>19</row>
 			<column>255</column>
+		</item>
+		<item type="coin">
+			<row>19</row>
+			<column>256</column>
+		</item>
+		<item type="coin">
+			<row>19</row>
+			<column>257</column>
+		</item>
+		<item type="coin">
+			<row>19</row>
+			<column>258</column>
+		</item>
+		<item type="coin">
+			<row>19</row>
+			<column>259</column>
+		</item>
+		<item type="coin">
+			<row>19</row>
+			<column>260</column>
+		</item>
+		<item type="coin">
+			<row>17</row>
+			<column>254</column>
+		</item>
+		<item type="coin">
+			<row>17</row>
+			<column>255</column>
+		</item>
+		<item type="coin">
+			<row>17</row>
+			<column>256</column>
+		</item>
+		<item type="coin">
+			<row>17</row>
+			<column>257</column>
+		</item>
+		<item type="coin">
+			<row>17</row>
+			<column>258</column>
+		</item>
+		<item type="coin">
+			<row>17</row>
+			<column>259</column>
+		</item>
+		<item type="coin">
+			<row>17</row>
+			<column>260</column>
+		</item>
+		<item type="coin">
+			<row>15</row>
+			<column>255</column>
+		</item>
+		<item type="coin">
+			<row>15</row>
+			<column>256</column>
+		</item>
+		<item type="coin">
+			<row>15</row>
+			<column>257</column>
+		</item>
+		<item type="coin">
+			<row>15</row>
+			<column>258</column>
+		</item>
+		<item type="coin">
+			<row>15</row>
+			<column>259</column>
 		</item>
 	</items>
 	<warpPipes>
