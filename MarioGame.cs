@@ -335,7 +335,7 @@ namespace Game1
                     if (secondsRemaining <= 0 && !gameIsWon)
                     {
                         mario.Die(); // Time limit reached!
-                    } else
+                    } else if (!gameIsWon)
                     {
                         secondsRemaining -= gameTime.ElapsedGameTime.TotalSeconds;
                         if(!playedWarningSound && secondsRemaining <= 100)
