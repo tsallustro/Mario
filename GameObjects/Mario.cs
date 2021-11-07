@@ -410,7 +410,8 @@ namespace GameObjects
         {
             if (!(powerState is DeadMario))
             {
-                if (BlockMarioIsOn is WarpPipe pipe && pipe.CanWarp())
+                if (BlockMarioIsOn is WarpPipe pipe && pipe.CanWarp() && 
+                    (actionState is IdleState || actionState is RunningState || actionState is CrouchingState))
                 {
                     // Warp to secret area!
                     hasWarped = true;
