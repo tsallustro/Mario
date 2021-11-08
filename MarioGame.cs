@@ -363,7 +363,11 @@ namespace Game1
                     });
 
                     if (mario.GetLivesRemaining() <= 0) gameIsOver = true;
-                    if (mario.WinningStateReached && mario.GetVelocity().Y == 0) gameIsWon = true;
+                    if (mario.WinningStateReached && mario.GetVelocity().Y == 0)
+                    {
+                        if(!gameIsWon) mario.score.IncreaseScore((int)(2 * secondsRemaining));
+                        gameIsWon = true;
+                    }
                 }
                 else
                 {

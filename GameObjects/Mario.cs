@@ -317,8 +317,38 @@ namespace GameObjects
             } else if (Collidee is Flag flag)
             {
                 if (!(actionState is FlagState)) actionState = new FlagState(this, actionState.GetDirection());
+                float slideHeight = ((flag.GetPosition().Y + flag.Sprite.texture.Height) - (GetPosition().Y + Sprite.texture.Height));
+                System.Diagnostics.Debug.WriteLine("Distance from bottom: " + slideHeight);
+                if (!WinningStateReached)
+                {
+                    int flagBonus = 0;
+                    if (slideHeight <= 17)
+                    {
+                        flagBonus = 100;
+                    }
+                    else if (slideHeight <= 57)
+                    {
+                        flagBonus = 400;
+                    }
+                    else if (slideHeight <= 81)
+                    {
+                        flagBonus = 800;
+                    }
+                    else if (slideHeight <= 127)
+                    {
+                        flagBonus = 2000;
+                    }
+                    else if (slideHeight <= 153)
+                    {
+                        flagBonus = 4000;
+                    }
+                    else
+                    {
+                        IncrementLivesRemaining();
+                    }
+                    score.IncreaseScore(flagBonus);
+                }
                 WinningStateReached = true;
-                System.Diagnostics.Debug.WriteLine("Distance from bottom: " + ((flag.GetPosition().Y + flag.Sprite.texture.Height) - (GetPosition().Y + Sprite.texture.Height)));
             }
 
         }
