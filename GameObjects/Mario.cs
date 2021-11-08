@@ -22,6 +22,8 @@ namespace GameObjects
 
         const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
 
+        public ScoreHandler score = new ScoreHandler();
+
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
@@ -198,10 +200,12 @@ namespace GameObjects
                 if (item is SuperMushroom)
                 {
                     powerState.Mushroom();
+                    score.IncreaseScore(1000);
                 }
                 else if (item is FireFlower)
                 {
                     powerState.FireFlower();
+                    score.IncreaseScore(1000);
                 }
                 else if (item is OneUpMushroom)
                 {
@@ -210,6 +214,7 @@ namespace GameObjects
                 else if (item is Star)
                 {
                     //Implement invicibility
+                    score.IncreaseScore(1000);
                 }
                 
             }
@@ -248,6 +253,7 @@ namespace GameObjects
                             //Skip off of enemy
                             actionState.Land();
                             actionState.Jump();
+                            score.IncreaseScore(100);
                             break;
                         case LEFT:
                             this.Damage();
@@ -275,6 +281,7 @@ namespace GameObjects
                         case BOTTOM:
                             actionState.Land();
                             actionState.Jump();
+                            score.IncreaseScore(100);
                             break;
                         case LEFT:
                             this.Damage();
@@ -295,6 +302,7 @@ namespace GameObjects
                         case BOTTOM:
                             actionState.Land();
                             actionState.Jump();
+                            score.IncreaseScore(100);
                             break;
                         case LEFT:
                             //Do Nothing. This will kick the shell, but won't affect Mario

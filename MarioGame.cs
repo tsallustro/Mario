@@ -441,7 +441,7 @@ namespace Game1
             // Draw the legend for player feedback
             spriteBatch.Begin();
             spriteBatch.DrawString(arial, "Mario", new Vector2(20, 20), Color.White);
-            spriteBatch.DrawString(arial, "000000", new Vector2(20, 50), Color.White);
+            spriteBatch.DrawString(arial, mario.score.GetScore().ToString("D6"), new Vector2(20, 50), Color.White);
 
             coinsIcon.Draw(spriteBatch, false);
             spriteBatch.DrawString(arial, "x"+coinsCollected, new Vector2(240, 50), Color.White);
@@ -466,6 +466,7 @@ namespace Game1
         private void CoinCollected()
         {
             coinsCollected += 1;
+            mario.score.IncreaseScore(200);
             if(coinsCollected >= 100)
             {
                 coinsCollected -= 100;
