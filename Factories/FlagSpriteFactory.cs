@@ -17,6 +17,8 @@ namespace Factories
 		private ISprite flag;
 		private ISprite endingFlag;
 
+		private int i;
+
 		public static FlagSpriteFactory Instance
 		{
 			get
@@ -46,7 +48,7 @@ namespace Factories
 		{
 			if (endingFlag == null)
 			{
-				endingFlag = new Sprite(false, true, location, flagSprites, 1, 50, 0, 50);
+				endingFlag = new Sprite(false, true, location, flagSprites, 1, 50, 0, 49);
 				return endingFlag;
 			}
 			else return endingFlag;
