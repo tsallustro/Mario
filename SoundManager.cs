@@ -45,9 +45,8 @@ namespace Sound
             SoundEffect toPlay;
             if(!(isMuted || isPaused)&& effects.TryGetValue(gameSound, out toPlay))
             {
-                if (gameSound == GameSound.DEATH) MediaPlayer.Stop();
+                if (gameSound == GameSound.DEATH || gameSound == GameSound.GAME_OVER) MediaPlayer.Stop();
                 toPlay.CreateInstance().Play();
-           
                 
             }
             

@@ -9,6 +9,9 @@ namespace GameObjects
 {
     public abstract class GameObject : IGameObject
     {
+        protected class ObjectResetState { public Vector2 pos, vel, acc; };
+        protected ObjectResetState resetState = new ObjectResetState();
+
         protected Vector2 Position { get; set; }
         protected Vector2 InitialPosition { get; set; }
         protected Vector2 Velocity { get; set; }
@@ -176,6 +179,7 @@ namespace GameObjects
         public abstract void Damage();
 
         public abstract void Halt();
+        public abstract void ResetObject();
 
         public bool isQueuedForDeletion()
         {

@@ -19,6 +19,7 @@ namespace GameObjects
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
          */
+
         private GameObject BlockEnemyIsOn { get; set; }
         private readonly int numberOfSpritesOnSheet = 3;
         private readonly double deathTimer = 1.5; // Timer for stomped Goomba disappearing
@@ -34,6 +35,12 @@ namespace GameObjects
         public Goomba(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs, Camera camera)
             : base(position, velocity, acceleration)
         {
+            // Save initial Data
+            resetState.pos = position;
+            resetState.vel = velocity;
+            resetState.acc = acceleration;
+
+
             spriteFactory = GoombaSpriteFactory.Instance;
             Sprite = spriteFactory.CreateIdleGoomba(position);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
@@ -42,6 +49,21 @@ namespace GameObjects
             objects = objs;
             this.camera = camera;
             this.Acceleration = new Vector2(0, gravityAcceleration);
+        }
+        // reset goomba to default state using initial data
+        public override void ResetObject()
+        {
+            this.Position = resetState.pos;
+            this.Velocity = resetState.vel;
+            this.Acceleration = new Vector2(0, gravityAcceleration);
+
+            Sprite = spriteFactory.CreateIdleGoomba(resetState.pos);
+            AABB = (new Rectangle((int)resetState.pos.X + (boundaryAdjustment / 2), (int)resetState.pos.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            goombaState = new IdleGoombaState(this);
+
+            timeStomped = 0;
+            introduced = false;
         }
 
         //Get Goomba State
@@ -223,5 +245,7 @@ namespace GameObjects
                 return false;
             }
         }
+
+
     }
 }

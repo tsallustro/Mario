@@ -156,7 +156,7 @@ namespace LevelParser
                                 break;
                             case "paranha":
                                 objPos.Y -= 8;
-                                hiddenObj = new KoopaTroopa(objPos, camera);
+                                //hiddenObj = new Paranha(objPos, camera);
                                 break;
                             case "mushroom":
                                 hiddenObj = new SuperMushroom(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
