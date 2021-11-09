@@ -27,6 +27,7 @@ namespace GameObjects
         private IMarioPowerState powerState;
         private IMarioActionState actionState;
         private MarioSpriteFactory spriteFactory;
+        private Point initialMaxCoords;
         private Point maxCoords;
         private Vector2 newPosition;
         private Vector2 oldPosition;
@@ -62,7 +63,7 @@ namespace GameObjects
 
             // Adjust given maxCoords to account for sprite's height
             this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
-            
+            initialMaxCoords = this.maxCoords;
         }
 
         public int GetLivesRemaining()
@@ -449,13 +450,24 @@ namespace GameObjects
             if (!(powerState is DeadMario))
             {
                 if (BlockMarioIsOn is WarpPipe pipe && pipe.CanWarp() && 
-                    (actionState is IdleState || actionState is RunningState || actionState is CrouchingState))
+                    (actionState is IdleState || actionState is RunningState || actionState is CrouchingState) &&
+                    GetPosition().X < 4000)
                 {
                     // Warp to secret area!
                     hasWarped = true;
                     maxCoords = new Point(5000, maxCoords.Y);
                     SetPosition(new Vector2(4020, 80));
                     actionState = new FallingState(this, actionState.GetDirection());
+                } else if (BlockMarioIsOn is WarpPipe returnPipe && returnPipe.CanWarp() &&
+                    (actionState is IdleState || actionState is RunningState || actionState is CrouchingState) &&
+                    GetPosition().X >= 4000)
+                {
+                    hasWarped = false;
+                    maxCoords = initialMaxCoords;
+                    SetPosition(new Vector2(2632, 380));
+                    
+                    actionState = new FallingState(this, actionState.GetDirection());
+                    SetYVelocity(-120); // Launch out of pipe upwards!
                 }
                 else actionState.Crouch();
             }
