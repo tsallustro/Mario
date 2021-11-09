@@ -71,6 +71,11 @@ namespace GameObjects
             return livesRemaining;
         }
 
+        public void SetLivesRemaining(int livesRemaining)
+        {
+            this.livesRemaining = livesRemaining;
+        }
+
         public void IncrementLivesRemaining()
         {
             livesRemaining++;

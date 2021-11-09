@@ -382,7 +382,9 @@ namespace Game1
 
             if (mario.GetPowerState() is DeadMario && mario.GetLivesRemaining() > 0)
             {
+                int prevLivesRemaining = mario.GetLivesRemaining();
                 ResetCheckPoint(checkPoint);
+                mario.SetLivesRemaining(prevLivesRemaining);
             }
 
             coinsIcon.Update();
