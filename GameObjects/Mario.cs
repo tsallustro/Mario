@@ -36,6 +36,7 @@ namespace GameObjects
         private bool JumpIsHeld { get; set; } = false;
         private float TimeJumpHeld { get; set; } = 0;
         private GameObject BlockMarioIsOn { get; set; }
+        private IEnemy EnemyCollidedWith { get; set; }
         GraphicsDeviceManager Graphics { get; set; }
 
         private IMarioActionState previousAction { get; set; }
@@ -156,6 +157,12 @@ namespace GameObjects
                 this.actionState.Fall();
             }
 
+            if (EnemyCollidedWith != null && !BottomCollision(EnemyCollidedWith) && !TopCollision(EnemyCollidedWith) &&
+                !LeftCollision(EnemyCollidedWith) && !RightCollision(EnemyCollidedWith))
+            {
+                EnemyCollidedWith = null;
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
@@ -245,79 +252,88 @@ namespace GameObjects
             } 
             else if (Collidee is Goomba goomba)
             {
-                if (!(goomba.GetGoombaState() is StompedGoombaState) && !(goomba.GetGoombaState() is DeadGoombaState))
+                if (EnemyCollidedWith == null || (EnemyCollidedWith != null && goomba != EnemyCollidedWith))
                 {
-                    switch (side)
+                    EnemyCollidedWith = goomba;
+                    if (!(goomba.GetGoombaState() is StompedGoombaState) && !(goomba.GetGoombaState() is DeadGoombaState))
                     {
-                        // Here, we reset the position slightly so the character can move away
-                        case TOP:
-                            this.Damage();
-                            this.actionState.Idle();
-                            Position = new Vector2(Position.X, Position.Y - 2);
-                            break;
-                        case BOTTOM:
-                            //Skip off of enemy
-                            actionState.Land();
-                            actionState.Jump();
-                            score.IncreaseScore(100);
-                            break;
-                        case LEFT:
-                            this.Damage();
-                            this.actionState.Idle();
-                            break;
-                        case RIGHT:
-                            this.Damage();
-                            this.actionState.Idle();
-                            break;
+                        switch (side)
+                        {
+                            // Here, we reset the position slightly so the character can move away
+                            case TOP:
+                                this.Damage();
+                                this.actionState.Idle();
+                                Position = new Vector2(Position.X, Position.Y - 2);
+                                break;
+                            case BOTTOM:
+                                //Skip off of enemy
+                                actionState.Land();
+                                actionState.Jump();
+                                score.IncreaseScore(100);
+                                break;
+                            case LEFT:
+                                this.Damage();
+                                this.actionState.Idle();
+                                break;
+                            case RIGHT:
+                                this.Damage();
+                                this.actionState.Idle();
+                                break;
+                        }
                     }
                 }
             }
             else if (Collidee is KoopaTroopa koopaTroopa)
             {
-                if (!(koopaTroopa.GetKoopaTroopaState() is StompedKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState))
+                if (EnemyCollidedWith == null || (EnemyCollidedWith != null && koopaTroopa != EnemyCollidedWith))
                 {
-                    switch (side)
+                    EnemyCollidedWith = koopaTroopa;
+                    if (!(koopaTroopa.GetKoopaTroopaState() is StompedKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState))
                     {
-                        // Here, we reset the position slightly so the character can move away
-                        case TOP:
-                            this.Damage();
-                            this.actionState.Idle();
-                            Position = new Vector2(Position.X, Position.Y - 2);
-                            break;
-                        case BOTTOM:
-                            actionState.Land();
-                            actionState.Jump();
-                            score.IncreaseScore(100);
-                            break;
-                        case LEFT:
-                            this.Damage();
-                            this.actionState.Idle();
-                            break;
-                        case RIGHT:
-                            this.Damage();
-                            this.actionState.Idle();
-                            break;
+                        switch (side)
+                        {
+                            // Here, we reset the position slightly so the character can move away
+                            case TOP:
+                                this.Damage();
+                                this.actionState.Idle();
+                                Position = new Vector2(Position.X, Position.Y - 2);
+                                break;
+                            case BOTTOM:
+                                actionState.Land();
+                                actionState.Jump();
+                                score.IncreaseScore(100);
+                                break;
+                            case LEFT:
+                                this.Damage();
+                                this.actionState.Idle();
+                                break;
+                            case RIGHT:
+                                this.Damage();
+                                this.actionState.Idle();
+                                break;
+                        }
                     }
-                } else if (!(koopaTroopa.GetKoopaTroopaState() is MovingGoombaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState))
-                {
-                    switch (side)
+                    else if (!(koopaTroopa.GetKoopaTroopaState() is MovingGoombaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState))
                     {
-                        case TOP:
-                            //Does Mario gets damaged when he hits his head on Koopatroopa shell when it's not moving?
-                            break;
-                        case BOTTOM:
-                            actionState.Land();
-                            actionState.Jump();
-                            score.IncreaseScore(100);
-                            break;
-                        case LEFT:
-                            //Do Nothing. This will kick the shell, but won't affect Mario
-                            Position = new Vector2(Position.X + 1, Position.Y);
-                            break;
-                        case RIGHT:
-                            //Do Nothing. This will kick the shell, but won't affect Mario
-                            Position = new Vector2(Position.X - 1, Position.Y);
-                            break;
+                        switch (side)
+                        {
+                            case TOP:
+                                //Does Mario gets damaged when he hits his head on Koopatroopa shell when it's not moving?
+                                break;
+                            case BOTTOM:
+                                actionState.Land();
+                                actionState.Jump();
+                                score.IncreaseScore(100);
+                                break;
+                            case LEFT:
+                                //Do Nothing. This will kick the shell, but won't affect Mario
+                                Position = new Vector2(Position.X + 1, Position.Y);
+                                break;
+                            case RIGHT:
+                                //Do Nothing. This will kick the shell, but won't affect Mario
+                                Position = new Vector2(Position.X - 1, Position.Y);
+                                break;
+                        }
                     }
                 }
             } else if (Collidee is Flag flag)
@@ -356,7 +372,6 @@ namespace GameObjects
                 }
                 WinningStateReached = true;
             }
-
         }
     
 
@@ -371,14 +386,10 @@ namespace GameObjects
             {
                 this.SetXVelocity(0);
             }
+
             if (newPosition.Y > maxCoords.Y)
             {
-                newPosition = new Vector2(Position.X, maxCoords.Y);
                 if (!(powerState is DeadMario)) powerState = new DeadMario(this);
-            }
-            else if (newPosition.Y < 0)
-            {
-                newPosition = new Vector2(Position.X, 0);
             }
         }
 
