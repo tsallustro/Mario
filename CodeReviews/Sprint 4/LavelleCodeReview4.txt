@@ -1,0 +1,29 @@
+Author: Michael Lavelle
+
+Date: November 9th, 2021
+
+Sprint #: 4
+
+File Reviewed: SoundManager.cs
+
+Author of File Reviewed: Tony Sallustro
+
+Code Quality:
+	The code is a nice abstraction to handle sound in the Mario Game. It
+	covers all of the necessary bases without any complicated logic.
+	The methods are all simple, and are good at the one thing that they
+	do. The mapping of sounds into a dictionary is a genious way to couple
+	sound effects. The "data management" within this class is overall very
+	efficient and keeps the class clean. The only thing in this class that
+	is the least bit confusing is the control logic in the PlaySound()
+	method.
+
+Time Length of Review: 20 min
+
+Hypothetical Change:
+	If I were to change this file, I would tighten up the the PlaySound()
+	method's logic, or otherwise write a short comment clearing up any
+	possible confusions. Otherwise, there are some inconsistencies with the
+	syntax of the file that should be rectified and consolidated into one
+	system.
+	
