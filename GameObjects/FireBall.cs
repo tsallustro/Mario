@@ -206,7 +206,9 @@ namespace GameObjects
             }
         }
 
-
-
+        public override void ResetObject()
+        {
+            // Do nothing
+        }
     }
 }

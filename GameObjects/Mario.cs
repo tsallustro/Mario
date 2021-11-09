@@ -31,7 +31,7 @@ namespace GameObjects
         private Point maxCoords;
         private Vector2 newPosition;
         private Vector2 oldPosition;
-
+        
         public bool ContinueRunning { get; set; } = false;
         private bool JumpIsHeld { get; set; } = false;
         private float TimeJumpHeld { get; set; } = 0;
@@ -52,6 +52,11 @@ namespace GameObjects
         public Mario(Vector2 position, Vector2 velocity, Vector2 acceleration, GraphicsDeviceManager graphics, Point maxCoords)
             : base(position, velocity, acceleration)
         {
+            // Save initial Data
+            resetState.pos = position;
+            resetState.vel = velocity;
+            resetState.acc = acceleration;
+
             spriteFactory = MarioSpriteFactory.Instance;
             Sprite = spriteFactory.CreateStandardIdleMario(position);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2), 
@@ -66,7 +71,31 @@ namespace GameObjects
             this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
             initialMaxCoords = this.maxCoords;
         }
+        public override void ResetObject()
+        {
+            this.Position = resetState.pos;
+            this.Velocity = resetState.vel;
+            this.Acceleration = resetState.acc;
 
+            Sprite = spriteFactory.CreateStandardIdleMario(resetState.pos);
+            AABB = (new Rectangle((int)resetState.pos.X + (boundaryAdjustment / 2), (int)resetState.pos.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+
+            powerState = new StandardMario(this);
+            actionState = new FallingState(this, false);
+            previousAction = new FallingState(this, false);
+
+            this.maxCoords = new Point(maxCoords.X - (Sprite.texture.Width / numberOfSpritesOnSheet), maxCoords.Y - Sprite.texture.Height);
+            initialMaxCoords = this.maxCoords;
+
+            livesRemaining = 3;
+            hasWarped = false;
+            score = new ScoreHandler();
+            ContinueRunning = false;
+            JumpIsHeld = false; 
+            TimeJumpHeld = 0;
+            WinningStateReached = false;
+        }
         public int GetLivesRemaining()
         {
             return livesRemaining;
