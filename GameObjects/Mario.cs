@@ -461,7 +461,7 @@ namespace GameObjects
                     // Warp to secret area!
                     hasWarped = true;
                     maxCoords = new Point(5000, maxCoords.Y);
-                    SetPosition(new Vector2(4020, 80));
+                    SetPosition(pipe.GetWarpPosition());
                     actionState = new FallingState(this, actionState.GetDirection());
                 } else if (BlockMarioIsOn is WarpPipe returnPipe && returnPipe.CanWarp() &&
                     (actionState is IdleState || actionState is RunningState || actionState is CrouchingState) &&
@@ -469,7 +469,7 @@ namespace GameObjects
                 {
                     hasWarped = false;
                     maxCoords = initialMaxCoords;
-                    SetPosition(new Vector2(2632, 380));
+                    SetPosition(returnPipe.GetWarpPosition());
                     
                     actionState = new FallingState(this, actionState.GetDirection());
                     SetYVelocity(-120); // Launch out of pipe upwards!

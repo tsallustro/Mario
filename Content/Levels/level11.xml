@@ -1102,7 +1102,7 @@
 			<row>24</row>
 			<column>47</column>
 		</pipe>
-		<pipe canWarp="true">
+		<pipe canWarp="true" xPos="252" yPos="5">
 			<row>24</row>
 			<column>58</column>
 		</pipe>
@@ -1114,7 +1114,7 @@
 			<row>26</row>
 			<column>180</column>
 		</pipe>
-		<pipe canWarp="true">
+		<pipe canWarp="true" xPos="164" yPos="25">
 			<row>17</row>
 			<column>263</column>
 		</pipe>

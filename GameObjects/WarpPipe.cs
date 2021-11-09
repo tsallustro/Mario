@@ -10,6 +10,7 @@ namespace GameObjects
     class WarpPipe : GameObject
     {
         private readonly bool canWarp;
+        private Vector2 warpedPosition;
 
         public WarpPipe(Vector2 position, Vector2 velocity, Vector2 acceleration) : base(position, velocity, acceleration)
         {
@@ -17,10 +18,16 @@ namespace GameObjects
             canWarp = false;
         }
 
-        public WarpPipe(Vector2 position, Vector2 velocity, Vector2 acceleration, bool canWarp) : base(position, velocity, acceleration)
+        public WarpPipe(Vector2 position, Vector2 velocity, Vector2 acceleration, bool canWarp, Vector2 warpedPosition) : base(position, velocity, acceleration)
         {
             AABB = new Rectangle((int)position.X, (int)position.Y, 32, 64);
             this.canWarp = canWarp;
+            this.warpedPosition = warpedPosition;
+        }
+
+        public Vector2 GetWarpPosition()
+        {
+            return warpedPosition;
         }
 
         public bool CanWarp()

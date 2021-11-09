@@ -114,16 +114,29 @@ namespace LevelParser
             IEnumerable<XElement> pipes = level.Element("warpPipes").Elements();
             bool canWarp = false;
             WarpPipe pipeToAdd;
+            int xPos = 0, yPos = 0;
 
             foreach (XElement pipe in pipes)
             {
                 if (pipe.HasAttributes)
                 {
                     XAttribute warpAttribute = pipe.Attribute("canWarp");
+                    XAttribute xPosAttribute = pipe.Attribute("xPos");
+                    XAttribute yPosAttribute = pipe.Attribute("yPos");
 
                     if (warpAttribute != null)
                     {
                         canWarp = ParseBool(warpAttribute.Value);
+                    }
+
+                    if (xPosAttribute != null)
+                    {
+                        xPos = 16 * Int32.Parse(xPosAttribute.Value);
+                    }
+
+                    if (yPosAttribute != null)
+                    {
+                        yPos = 16 * Int32.Parse(yPosAttribute.Value);
                     }
                 }
 
@@ -135,7 +148,7 @@ namespace LevelParser
                 };
 
                 if (!canWarp) pipeToAdd = new WarpPipe(pipePos, new Vector2(0,0), new Vector2(0,0));
-                else pipeToAdd = new WarpPipe(pipePos, new Vector2(0, 0), new Vector2(0, 0), true);
+                else pipeToAdd = new WarpPipe(pipePos, new Vector2(0, 0), new Vector2(0, 0), true, new Vector2(xPos, yPos));
 
                 pipeToAdd.Sprite = new Sprite(false, true, pipePos, pipeSprite,1,1,0,0);
                 list.Add(pipeToAdd);
