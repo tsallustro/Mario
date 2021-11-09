@@ -163,7 +163,7 @@ namespace GameObjects
             }
 
             //800 would be the width of the viewport
-            if (introduced == false && this.Position.X - camera.Position.X < 800)
+            if (introduced == false && Position.X - camera.Position.X < 800)
             {
                 goombaState.Move();
                 introduced = true;

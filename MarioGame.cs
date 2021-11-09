@@ -33,7 +33,6 @@ namespace Game1
         private bool playedWarningSound = false;
         private Point maxCoords; 
         private List<IGameObject> objects;
-        private List<IGameObject> initialObjects;
         private List<ICommand> commands;
 
         private bool gameIsOver = false;
@@ -101,8 +100,7 @@ namespace Game1
             secondsRemaining = timeLimit;
             coinsCollected = 0;
             playedWarningSound = false;
-            objects = initialObjects;
-            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
+            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
             
             mario = (Mario)objects[0];
 
@@ -294,7 +292,6 @@ namespace Game1
             // Load from Level file
 
             levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
-            initialObjects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
 
             mario = (Mario) objects[0];
@@ -350,7 +347,12 @@ namespace Game1
 
                     foreach (var obj in objects)
                     {
-                        obj.Update(gameTime);
+                        if (!(obj is IEnemy)) obj.Update(gameTime);
+                    }
+
+                    foreach (var obj in objects)
+                    {
+                        if (obj is IEnemy) obj.Update(gameTime);
                     }
 
                     background.Update();
@@ -405,39 +407,39 @@ namespace Game1
 
         protected override void Draw(GameTime gameTime)
         {
-                if (mario.hasWarped) GraphicsDevice.Clear(Color.Black);
-                else
-                {
-                    GraphicsDevice.Clear(Color.CornflowerBlue);
-                    background.Draw();
-                }
+            if (mario.hasWarped) GraphicsDevice.Clear(Color.Black);
+            else
+            {
+                GraphicsDevice.Clear(Color.CornflowerBlue);
+                background.Draw();
+            }
 
-                parallax = new Vector2(1f);
-                spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
+            parallax = new Vector2(1f);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
 
-                // call draw methods from each sprite and pass in sprite batch
-                foreach (var obj in objects)
-                {
-                    obj.Draw(spriteBatch);
-                }
+            // call draw methods from each sprite and pass in sprite batch
+            foreach (var obj in objects)
+            {
+                obj.Draw(spriteBatch);
+            }
 
+            spriteBatch.End();
+
+            if (gameIsWon)
+            {
+                spriteBatch.Begin();
+                spriteBatch.DrawString(arial, "Winner!", new Vector2(338, 190), Color.White);
+                spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 275), Color.White);
+                spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 275), Color.White);
                 spriteBatch.End();
-
-                if (gameIsWon)
-                {
-                    spriteBatch.Begin();
-                    spriteBatch.DrawString(arial, "Winner!", new Vector2(338, 190), Color.White);
-                    spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 275), Color.White);
-                    spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 275), Color.White);
-                    spriteBatch.End();
-                } else if (gameIsOver)
-                {
-                    spriteBatch.Begin();
-                    spriteBatch.DrawString(arial, "Game Over", new Vector2(330, 220), Color.White);
-                    spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 270), Color.White);
-                    spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 270), Color.White);
-                    spriteBatch.End();
-                }
+            } else if (gameIsOver)
+            {
+                spriteBatch.Begin();
+                spriteBatch.DrawString(arial, "Game Over", new Vector2(330, 220), Color.White);
+                spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 270), Color.White);
+                spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 270), Color.White);
+                spriteBatch.End();
+            }
 
             // Draw the legend for player feedback
             spriteBatch.Begin();
