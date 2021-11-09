@@ -405,8 +405,6 @@ namespace Game1
 
         protected override void Draw(GameTime gameTime)
         {
-            if (!gameIsOver)
-            {
                 if (mario.hasWarped) GraphicsDevice.Clear(Color.Black);
                 else
                 {
@@ -432,17 +430,14 @@ namespace Game1
                     spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 275), Color.White);
                     spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 275), Color.White);
                     spriteBatch.End();
+                } else if (gameIsOver)
+                {
+                    spriteBatch.Begin();
+                    spriteBatch.DrawString(arial, "Game Over", new Vector2(330, 220), Color.White);
+                    spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 270), Color.White);
+                    spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 270), Color.White);
+                    spriteBatch.End();
                 }
-            } else
-            {
-                GraphicsDevice.Clear(Color.Black);
-
-                spriteBatch.Begin();
-                spriteBatch.DrawString(arial, "Game Over", new Vector2(330, 250), Color.White);
-                spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 300), Color.White);
-                spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 300), Color.White);
-                spriteBatch.End();
-            }
 
             // Draw the legend for player feedback
             spriteBatch.Begin();
