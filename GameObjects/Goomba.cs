@@ -62,11 +62,17 @@ namespace GameObjects
         }
         public override void Damage()
         {
+            if (IsPiped)        // if goomba is a piped goomba, then we dont want to remove him  
+            {
+                this.Position = this.InitialPosition;
+                return;
+            }
             if (!(goombaState is StompedGoombaState) && !(goombaState is DeadGoombaState)) 
                 Position = new Vector2(Position.X, Position.Y + 4);
             goombaState.Stomped();
             
         }
+        
 
         //Handle Collision with Block
         private void HandleBlockCollision(int side, Block block)
@@ -120,6 +126,10 @@ namespace GameObjects
                 if (side == LEFT || side == RIGHT)
                 {
                     this.SetXVelocity(this.GetVelocity().X * -1);
+                } else if (side == BOTTOM)
+                {
+                    this.SetYVelocity(0);
+                    this.SetYAcceleration(0);
                 }
             }
             else if (Collidee is Mario)
@@ -138,6 +148,11 @@ namespace GameObjects
         //Update all of Goomba's members
         public override void Update(GameTime GameTime)
         {
+            if (this.IsPiped)   // Short if goomba is piped
+            {
+                return;
+            }
+
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
 
             if (goombaState is StompedGoombaState || goombaState is DeadGoombaState)
@@ -181,6 +196,7 @@ namespace GameObjects
         //Change Goomba state to stomped mode
         public void Stomped()
         {
+
             if (!(goombaState is StompedGoombaState) && !(goombaState is DeadGoombaState))
                 Position = new Vector2(Position.X, Position.Y + 4);
             goombaState.Stomped();

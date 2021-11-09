@@ -16,6 +16,7 @@ namespace GameObjects
 
         void SetXVelocity(float x);
         void SetYVelocity(float y);
+        void SetIsPiped(bool isPiped);
 
         // Collision methods?
         void Collision(int side, GameObject Collidee);
@@ -23,7 +24,7 @@ namespace GameObjects
         bool LeftCollision(IGameObject obj);
         bool TopCollision(IGameObject obj);
         bool BottomCollision(IGameObject obj);
-
+        void UnPipe();
         public bool isQueuedForDeletion();
     }
 }  

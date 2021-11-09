@@ -1094,7 +1094,7 @@
 			<row>26</row>
 			<column>29</column>
 		</pipe>
-		<pipe>
+    <pipe obj="goomba">
 			<row>25</row>
 			<column>39</column>
 		</pipe>
