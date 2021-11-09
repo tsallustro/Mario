@@ -100,6 +100,11 @@ namespace Game1
             secondsRemaining = timeLimit;
             coinsCollected = 0;
             playedWarningSound = false;
+
+            camera = new Camera(GraphicsDevice.Viewport);
+            camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+            background.SetCamera(camera);
+
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
             
             mario = (Mario)objects[0];
@@ -290,7 +295,6 @@ namespace Game1
             SoundManager.Instance.StartMusic();
 
             // Load from Level file
-
             levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
 
