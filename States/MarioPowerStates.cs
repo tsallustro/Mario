@@ -154,7 +154,8 @@ namespace States
         {
             this.mario = mario;
             mario.DecrementLivesRemaining();
-            SoundManager.Instance.PlaySound(SoundManager.GameSound.DEATH);
+            if(mario.GetLivesRemaining() > 0) SoundManager.Instance.PlaySound(SoundManager.GameSound.DEATH);
+            else SoundManager.Instance.PlaySound(SoundManager.GameSound.GAME_OVER);
         }
 
         public void FireFlower()

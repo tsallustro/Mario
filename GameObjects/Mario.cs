@@ -1,6 +1,7 @@
 ﻿using Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sound;
 using Sprites;
 using States;
 using System.Collections.Generic;
@@ -478,6 +479,7 @@ namespace GameObjects
                     maxCoords = new Point(5000, maxCoords.Y);
                     SetPosition(pipe.GetWarpPosition());
                     actionState = new FallingState(this, actionState.GetDirection());
+                    SoundManager.Instance.PlaySound(SoundManager.GameSound.PIPE_TRAVEL);
                 } else if (BlockMarioIsOn is WarpPipe returnPipe && returnPipe.CanWarp() &&
                     (actionState is IdleState || actionState is RunningState || actionState is CrouchingState) &&
                     GetPosition().X >= 4000)
@@ -488,6 +490,7 @@ namespace GameObjects
                     
                     actionState = new FallingState(this, actionState.GetDirection());
                     SetYVelocity(-120); // Launch out of pipe upwards!
+                    SoundManager.Instance.PlaySound(SoundManager.GameSound.PIPE_TRAVEL);
                 }
                 else actionState.Crouch();
             }
