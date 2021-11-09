@@ -132,9 +132,9 @@ namespace GameObjects
                     this.SetYAcceleration(0);
                 }
             }
-            else if (Collidee is Mario)
+            else if (Collidee is Mario mario)
             {
-                if (side == TOP)
+                if (side == TOP && mario.GetVelocity().Y < 0)
                 {
                     this.Damage();
                 }
