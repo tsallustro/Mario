@@ -119,7 +119,6 @@ namespace GameObjects
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
             if (this.active)
             {
-                System.Diagnostics.Debug.WriteLine("Collidee: " + Collidee);
 
                 if (Collidee is IItem || Collidee is FireBall || Collidee is Castle || Collidee is Flag) // Short on items and other fireballs
                 {
@@ -130,7 +129,6 @@ namespace GameObjects
                     if (((IEnemy)Collidee).IsDead())    // short on dead enemies
                     {
                         // Do Nothing
-                        System.Diagnostics.Debug.WriteLine("Collidee is DEAD");
                     }
                     else
                     {

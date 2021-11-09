@@ -270,7 +270,7 @@ namespace Game1
             blockSprites = Content.Load<Texture2D>("BlocksV3");
             pipeSprite = Content.Load<Texture2D>("longPipe");
             itemSprites = Content.Load<Texture2D>("Items");
-            flagSprite = Content.Load<Texture2D>("Flag");
+            flagSprite = Content.Load<Texture2D>("Flagx50");
             castleSprite = Content.Load<Texture2D>("castle");
             itemSpriteFactory = new ItemSpriteFactory(itemSprites);
 
