@@ -5,14 +5,19 @@ using System.Collections.Generic;
 using System.Text;
 using Sprites;
 using Collisions;
+using Factories;
+
 namespace GameObjects
 {
     class Flag : GameObject
     {
-        private readonly int numberOfSpritesOnSheet = 1;
+        private readonly int numberOfSpritesOnSheet = 50;
+        private FlagSpriteFactory spriteFactory;
+        private int end = 0;
 
         public Flag(Vector2 position, Vector2 velocity, Vector2 acceleration, ISprite sprite) : base(position, velocity, acceleration)
         {
+            spriteFactory = FlagSpriteFactory.Instance;
             Sprite = sprite;
             AABB = new Rectangle((int)position.X + 20, (int)position.Y, (Sprite.texture.Width / numberOfSpritesOnSheet) - 10, Sprite.texture.Height);
         }
@@ -36,8 +41,9 @@ namespace GameObjects
 
         public override void Update(GameTime GameTime)
         {
+
+            Sprite.Update();
             //Warp pipe doesn't change
-            return;
         }
         public override void Collision(int side, GameObject Collidee)
         {
@@ -47,6 +53,13 @@ namespace GameObjects
             }
             else
                 Collidee.SetXVelocity(0);*/
+            if (Collidee is Mario && end == 0)
+            {
+                /*
+                this.Sprite = spriteFactory.CreateEndingFlag(Position);
+                end = 1;
+                */
+            }
         }
 
         public override void ResetObject()
