@@ -13,6 +13,7 @@ namespace GameObjects
     {
         private readonly int numberOfSpritesOnSheet = 50;
         private FlagSpriteFactory spriteFactory;
+        private int end = 0;
 
         public Flag(Vector2 position, Vector2 velocity, Vector2 acceleration, ISprite sprite) : base(position, velocity, acceleration)
         {
@@ -52,10 +53,18 @@ namespace GameObjects
             }
             else
                 Collidee.SetXVelocity(0);*/
-            if (Collidee is Mario)
+            if (Collidee is Mario && end == 0)
             {
-                spriteFactory.CreateEndingFlag(Position);
+                /*
+                this.Sprite = spriteFactory.CreateEndingFlag(Position);
+                end = 1;
+                */
             }
+        }
+
+        public override void ResetObject()
+        {
+            // Do nothing
         }
     }
 }

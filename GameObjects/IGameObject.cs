@@ -25,6 +25,7 @@ namespace GameObjects
         bool TopCollision(IGameObject obj);
         bool BottomCollision(IGameObject obj);
         void UnPipe();
+        void ResetObject();
         public bool isQueuedForDeletion();
     }
 }  

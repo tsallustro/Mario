@@ -30,6 +30,11 @@ namespace GameObjects
         public Block(Vector2 position, Texture2D blockSprites, Mario Mario)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
+            // Save initial Data
+            resetState.pos = position;
+            resetState.vel = new Vector2(0, 0);
+            resetState.acc = new Vector2(0, 0);
+
             originalLocation = position;
             mario = Mario;
             spriteFactory = new BlockSpriteFactory(blockSprites);
@@ -51,6 +56,18 @@ namespace GameObjects
             blockState = new BrickBlockState(this);
             Sprite = spriteFactory.CreateBrickBlock(position, false);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+        }
+
+        public override void ResetObject()
+        {
+            this.Position = resetState.pos;
+            this.Velocity = resetState.vel;
+            this.Acceleration = resetState.acc;
+
+            blockState = new BrickBlockState(this);
+            Sprite = spriteFactory.CreateBrickBlock(resetState.pos, false);
+            AABB = (new Rectangle((int)resetState.pos.X + (boundaryAdjustment / 2), (int)resetState.pos.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
         }
 
@@ -187,6 +204,7 @@ namespace GameObjects
                 }
             }
         }
+
 
     }
 }

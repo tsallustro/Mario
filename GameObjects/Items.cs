@@ -35,6 +35,11 @@ namespace GameObjects
         public Item(Vector2 position, Texture2D itemSprites, Mario mario)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
+            // Save initial Data
+            resetState.pos = position;
+            resetState.vel = new Vector2(0, 0);
+            resetState.acc = new Vector2(0, 0);
+
             initialPosition = position;
             spriteFactory = new ItemSpriteFactory(itemSprites);
             boundMario = mario;
@@ -52,7 +57,21 @@ namespace GameObjects
             lastY = this.Position.Y;
         }
 
-        public IItemState GetItemState()
+        // reset goomba to default state using initial data
+        public override void ResetObject()
+        {
+            this.Position = resetState.pos;
+            this.Velocity = resetState.vel;      // default is 0
+            this.Acceleration = resetState.acc;  // default is 0
+            
+            
+            isVisible = false;
+            isEmergingFromBlock = false;
+            isFinishedEmerging = false;
+            lastY = resetState.pos.Y;
+        }
+
+            public IItemState GetItemState()
         {
             return itemState;
         }

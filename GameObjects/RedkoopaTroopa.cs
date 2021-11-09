@@ -33,6 +33,11 @@ namespace GameObjects
         public RedKoopaTroopa(Vector2 position, Camera camera)
             : base(position, new Vector2(0, 0), new Vector2(0, 0))
         {
+            // Save initial Data
+            resetState.pos = position;
+            resetState.vel = new Vector2(0, 0);
+            resetState.acc = new Vector2(0, gravityAccleration);
+
             timer = 0;
             spriteFactory = RedKoopaTroopaSpriteFactory.Instance;
             Sprite = spriteFactory.CreateIdleRedKoopaTroopa(position);
@@ -41,6 +46,21 @@ namespace GameObjects
             redKoopaTroopaState = new IdleRedKoopaTroopaState(this);
             this.camera = camera;
             this.Acceleration = new Vector2(0, gravityAccleration);
+        }
+        public override void ResetObject()
+        {
+            this.Position = resetState.pos;
+            this.Velocity = resetState.vel;
+            this.Acceleration = resetState.acc;
+
+            timer = 0;
+            Sprite = spriteFactory.CreateIdleRedKoopaTroopa(resetState.pos);
+            AABB = (new Rectangle((int)resetState.pos.X + (boundaryAdjustment / 2), (int)resetState.pos.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            redKoopaTroopaState = new IdleRedKoopaTroopaState(this);
+            redKoopaTroopaState = new IdleRedKoopaTroopaState(this);
+
+            left = true;
         }
 
         public IEnemyState GetRedKoopaTroopaState()
