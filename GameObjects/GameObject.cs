@@ -10,6 +10,7 @@ namespace GameObjects
     public abstract class GameObject : IGameObject
     {
         protected Vector2 Position { get; set; }
+        protected Vector2 InitialPosition { get; set; }
         protected Vector2 Velocity { get; set; }
         public Vector2 Acceleration { get; set; }
         public ISprite Sprite { get; set; }
@@ -17,6 +18,8 @@ namespace GameObjects
         public bool BorderIsVisible { get; set; } = false;
         protected bool queuedForDeletion = false;
         private Vector2 AABBCollisionExtension { get; set; }
+        protected bool Piped { get; set; }
+        protected bool IsPiped { get; set; }
 
         private int Width
         {
@@ -30,6 +33,7 @@ namespace GameObjects
         public GameObject(Vector2 position, Vector2 velocity, Vector2 acceleration)
         {
             Position = position;
+            InitialPosition = position;
             Velocity = velocity;
             Acceleration = acceleration;
             AABBCollisionExtension = new Vector2(1, 1);
@@ -176,6 +180,18 @@ namespace GameObjects
         public bool isQueuedForDeletion()
         {
             return queuedForDeletion;
+        }
+
+
+        public void SetIsPiped(bool isPiped)
+        {
+            this.IsPiped = isPiped;
+        }
+
+        public void UnPipe()
+        {
+            this.Position = new Vector2(this.InitialPosition.X, this.InitialPosition.Y - 32);
+            this.IsPiped = false;
         }
     }
 }

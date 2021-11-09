@@ -66,6 +66,10 @@ namespace GameObjects
         {
             return isVisible;
         }
+        public void SetIsPiped(bool isPiped)
+        {
+            this.IsPiped = isPiped;
+        }
 
         public void SetVisibility(bool isVisible)
         {
@@ -93,7 +97,10 @@ namespace GameObjects
 
             if (Collidee is Mario && CanBePickedUp())
             {
-                this.queuedForDeletion = true;
+                if (!this.IsPiped)
+                {
+                    this.queuedForDeletion = true;
+                }
                 SoundManager.GameSound toPlay;
 
                 if (this is Coin)
@@ -103,6 +110,11 @@ namespace GameObjects
                 else
                     toPlay = SoundManager.GameSound.POWER_UP_COLLECTED;
                 SoundManager.Instance.PlaySound(toPlay);
+
+                this.Position = this.initialPosition;
+                this.isVisible = false;
+                this.isFinishedEmerging = false;
+                this.isEmergingFromBlock = false;
             }
 
             //Make blocks change direction with blocking entity
@@ -131,10 +143,16 @@ namespace GameObjects
         //Update all items
         public override void Update(GameTime gameTime)
         {
+            if (this.IsPiped)   // Short if item is piped
+            {
+                return;
+            }
+
             lastY = this.Position.Y;
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Velocity += Acceleration * timeElapsed;
             Position += Velocity * timeElapsed;
+
 
             if (isEmergingFromBlock)
             {
