@@ -11,6 +11,8 @@
 	</mario>
 	<floorBlocks>
 		<rows>
+			<row num="21">263,264,265</row>
+			<row num="22">263,264,265</row>
 			<row num="23">250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265</row>
 			<row num="24">250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265</row>
 			<row num="25">250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265</row>
@@ -520,14 +522,6 @@
 		<brickBlock>
 			<row>20</row>
 			<column>260</column>
-		</brickBlock>
-		<brickBlock>
-			<row>22</row>
-			<column>265</column>
-		</brickBlock>
-		<brickBlock>
-			<row>21</row>
-			<column>265</column>
 		</brickBlock>
 		<brickBlock>
 			<row>20</row>
@@ -1121,7 +1115,7 @@
 			<column>180</column>
 		</pipe>
 		<pipe canWarp="true">
-			<row>19</row>
+			<row>17</row>
 			<column>263</column>
 		</pipe>
 	</warpPipes>
