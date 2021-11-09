@@ -157,6 +157,10 @@ namespace GameObjects
                 this.actionState.Fall();
             }
 
+            /*
+             * We need to keep track of which enemy Mario last collided with, so he doesn't continually
+             * take damage and die immediately even when he is in Super or Fire state.
+             */
             if (EnemyCollidedWith != null && !BottomCollision(EnemyCollidedWith) && !TopCollision(EnemyCollidedWith) &&
                 !LeftCollision(EnemyCollidedWith) && !RightCollision(EnemyCollidedWith))
             {
