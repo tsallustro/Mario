@@ -501,7 +501,7 @@ namespace GameObjects
             {
                 if (BlockMarioIsOn is WarpPipe pipe && pipe.CanWarp() && 
                     (actionState is IdleState || actionState is RunningState || actionState is CrouchingState) &&
-                    GetPosition().X < 4000)
+                    GetPosition().X < 2500)
                 {
                     // Warp to secret area!
                     hasWarped = true;
