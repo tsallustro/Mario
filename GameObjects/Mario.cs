@@ -347,7 +347,7 @@ namespace GameObjects
                                 break;
                         }
                     }
-                    else if (!(koopaTroopa.GetKoopaTroopaState() is MovingGoombaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState))
+                    else if (!(koopaTroopa.GetKoopaTroopaState() is MovingKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState))
                     {
                         switch (side)
                         {
@@ -366,6 +366,26 @@ namespace GameObjects
                             case RIGHT:
                                 //Do Nothing. This will kick the shell, but won't affect Mario
                                 Position = new Vector2(Position.X - 1, Position.Y);
+                                break;
+                        }
+                    } else if (!(koopaTroopa.GetKoopaTroopaState() is MovingKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is StompedKoopaTroopaState))
+                    {
+                        switch (side)
+                        {
+                            case TOP:
+                                //Does Mario gets damaged when he hits his head on Koopatroopa shell when it's not moving?
+                                break;
+                            case BOTTOM:
+                                actionState.Land();
+                                actionState.Jump();
+                                break;
+                            case LEFT:
+                                this.Damage();
+                                this.actionState.Idle();
+                                break;
+                            case RIGHT:
+                                this.Damage();
+                                this.actionState.Idle();
                                 break;
                         }
                     }
