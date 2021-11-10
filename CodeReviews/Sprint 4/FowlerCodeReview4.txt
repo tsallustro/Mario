@@ -10,9 +10,17 @@ Name of file being reviewed: SoundManager.cs
 Author of file being reviewed: Tony Sallustro
 
 Comments on Code Quality:
-	
+	This class is about as simple as one could expect, but it's still a bit difficult to understand
+	due to the nature of the problem the class is solving. I tried to modify it a little to tweak the
+	behavior of sound effects but I had a lot of trouble getting things to work properly. The sound effect
+	dictionary is smart and makes it easy to add, modify, and remove sound effects. Also, the methods are
+	short and the logic itself is easy to understand. I think what's tripping me up is the MediaPlayer class.
 
 Minutes Taken to Review: 15 minutes
 
 Hypothetical Change:
-	
+	A hypothetical change we might make in the future is the selective muting of certain sound effects but 
+	not others. Currently, I don't think this file would easily support this change. The PlaySound() method 
+	is called in many different classes, so this could be done individually in each separate file when needed.
+	To better support this hypothetical change, a second dictionary could be created mapping each GameSound to
+	a boolean value that determines whether a GameSound is muted or not.
