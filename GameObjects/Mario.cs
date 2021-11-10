@@ -17,7 +17,6 @@ namespace GameObjects
         private readonly int numberOfSpritesOnSheet = 15;
 
         private int livesRemaining = 3;
-       
         public bool hasWarped { get; set; } = false;
 
         const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
@@ -278,11 +277,17 @@ namespace GameObjects
                             break;
                     }
                 }
-            } 
+            }
             else if (Collidee is WarpPipe pipe)
             {
                 HandleBlockCollision(side, pipe);
-            } 
+            }
+            else if (Collidee is Piranha pirahna && !pirahna.IsDead())
+            {
+                this.Damage();
+                this.actionState.Idle();
+
+            }
             else if (Collidee is Goomba goomba)
             {
                 if (EnemyCollidedWith == null || (EnemyCollidedWith != null && goomba != EnemyCollidedWith))

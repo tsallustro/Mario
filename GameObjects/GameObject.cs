@@ -194,8 +194,18 @@ namespace GameObjects
 
         public void UnPipe()
         {
-            this.Position = new Vector2(this.InitialPosition.X, this.InitialPosition.Y - 32);
+            this.ResetObject();
             this.IsPiped = false;
+
+
+            if (this is Item)
+            {
+                this.Position = new Vector2(this.InitialPosition.X + 8, this.InitialPosition.Y - 17);
+            } else if (this is Piranha) {
+                this.Position = new Vector2(this.Position.X-2, this.Position.Y - 34);
+
+            }
+
         }
     }
 }

@@ -69,6 +69,8 @@ namespace GameObjects
             isEmergingFromBlock = false;
             isFinishedEmerging = false;
             lastY = resetState.pos.Y;
+
+            MakeVisibleAndEmerge();
         }
 
             public IItemState GetItemState()
@@ -84,10 +86,6 @@ namespace GameObjects
         public bool GetVisibility()
         {
             return isVisible;
-        }
-        public void SetIsPiped(bool isPiped)
-        {
-            this.IsPiped = isPiped;
         }
 
         public void SetVisibility(bool isVisible)
@@ -130,6 +128,7 @@ namespace GameObjects
                     toPlay = SoundManager.GameSound.POWER_UP_COLLECTED;
                 SoundManager.Instance.PlaySound(toPlay);
 
+                this.SetIsPiped(true);
                 this.Position = this.initialPosition;
                 this.isVisible = false;
                 this.isFinishedEmerging = false;

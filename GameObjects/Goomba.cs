@@ -57,13 +57,12 @@ namespace GameObjects
             this.Velocity = resetState.vel;
             this.Acceleration = new Vector2(0, gravityAcceleration);
 
-            Sprite = spriteFactory.CreateIdleGoomba(resetState.pos);
+            Sprite = spriteFactory.CreateMovingGoomba(resetState.pos);
+            goombaState = new MovingGoombaState(this);
+            timeStomped = 0;
             AABB = (new Rectangle((int)resetState.pos.X + (boundaryAdjustment / 2), (int)resetState.pos.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
-            goombaState = new IdleGoombaState(this);
 
-            timeStomped = 0;
-            introduced = false;
         }
 
         //Get Goomba State
@@ -86,7 +85,7 @@ namespace GameObjects
         {
             if (IsPiped)        // if goomba is a piped goomba, then we dont want to remove him  
             {
-                this.Position = this.InitialPosition;
+                this.Position = resetState.pos;
                 return;
             }
             if (!(goombaState is StompedGoombaState) && !(goombaState is DeadGoombaState)) 
@@ -151,7 +150,7 @@ namespace GameObjects
                 } else if (side == BOTTOM)
                 {
                     this.SetYVelocity(0);
-                    this.SetYAcceleration(0);
+                    this.SetYAcceleration(gravityAcceleration);
                 }
             }
             else if (Collidee is Mario mario)
@@ -164,7 +163,7 @@ namespace GameObjects
             else if (Collidee is KoopaTroopa koopaTroopa && koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState)
             {
                 this.Damage();
-            } 
+            }
         }
 
         //Update all of Goomba's members
@@ -177,7 +176,7 @@ namespace GameObjects
 
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
 
-            if (goombaState is StompedGoombaState || goombaState is DeadGoombaState)
+            if (!this.Piped && (goombaState is StompedGoombaState || goombaState is DeadGoombaState))
             {
                 timeStomped += timeElapsed;
 

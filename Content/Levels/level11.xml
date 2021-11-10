@@ -1094,11 +1094,11 @@
 			<row>26</row>
 			<column>29</column>
 		</pipe>
-    <pipe obj="goomba">
+    <pipe obj="fire">
 			<row>25</row>
 			<column>39</column>
 		</pipe>
-		<pipe>
+		<pipe obj="piranha">
 			<row>24</row>
 			<column>47</column>
 		</pipe>

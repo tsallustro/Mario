@@ -154,9 +154,9 @@ namespace LevelParser
                             case "goomba":
                                 hiddenObj = new Goomba(objPos, new Vector2(0, 0), new Vector2(0, 0), list, camera);
                                 break;
-                            case "paranha":
+                            case "piranha":
                                 objPos.Y -= 8;
-                                //hiddenObj = new Paranha(objPos, camera);
+                                hiddenObj = new Piranha(objPos, new Vector2(0, 0), new Vector2(0, 0));
                                 break;
                             case "mushroom":
                                 hiddenObj = new SuperMushroom(new Vector2(objPos.X, objPos.Y), itemSprites, mario);

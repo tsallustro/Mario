@@ -54,6 +54,7 @@ namespace Game1
         //Sprite factories
         private MarioSpriteFactory marioSpriteFactory;
         private GoombaSpriteFactory goombaSpriteFactory;
+        private PiranhaSpriteFactory piranhaSpriteFactory;
         private ItemSpriteFactory itemSpriteFactory;
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
@@ -164,6 +165,7 @@ namespace Game1
 
             marioSpriteFactory = MarioSpriteFactory.Instance;
             goombaSpriteFactory = GoombaSpriteFactory.Instance;
+            piranhaSpriteFactory = PiranhaSpriteFactory.Instance;
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
             fireBallSpriteFactory = FireBallSpriteFactory.Instance;
@@ -258,6 +260,7 @@ namespace Game1
 
             marioSpriteFactory.LoadTextures(this);
             goombaSpriteFactory.LoadTextures(this);
+            piranhaSpriteFactory.LoadTextures(this);
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             fireBallSpriteFactory.LoadTextures(this);

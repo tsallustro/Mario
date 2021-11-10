@@ -124,7 +124,7 @@ namespace GameObjects
                 {
                     // Do Nothing
                 }
-                else if (Collidee is Goomba || Collidee is KoopaTroopa || Collidee is RedKoopaTroopa)
+                else if (Collidee is Goomba || Collidee is KoopaTroopa || Collidee is RedKoopaTroopa || Collidee is Piranha)
                 {   // for collision on enemies order matters, so enemy's dont collide with fireball (it is handled here instead)
                     if (((IEnemy)Collidee).IsDead())    // short on dead enemies
                     {

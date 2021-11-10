@@ -53,13 +53,26 @@ namespace GameObjects
 
         public void revealObject()
         {
-            float camPos = 400 + camera.Position.X;
-            // This controls whether mario is close enough to reveal an item or enemy (between 150 & 50px away)
-            if ((Math.Abs(this.Position.X - camPos) < 150 && Math.Abs(this.Position.X - camPos) > 50))   
+            float distance = Math.Abs(this.Position.X - (400 + camera.Position.X));
+            // This controls whether mario is close enough to reveal an item or enemy
+
+            if (pipedObject is IEnemy)
             {
-                System.Diagnostics.Debug.WriteLine("OBJECT REVEALING FROM PIPE");
-                respawnTimer = 0;
-                pipedObject.UnPipe();
+                if (distance < 200 && distance > 60)
+                {
+                    System.Diagnostics.Debug.WriteLine("ENEMY REVEALING FROM PIPE");
+                    System.Diagnostics.Debug.WriteLine(distance);
+                    respawnTimer = 0;
+                    pipedObject.UnPipe();
+                }
+            } else {
+                if (distance < 50)
+                {
+                    System.Diagnostics.Debug.WriteLine("OBJECT REVEALING FROM PIPE");
+                    System.Diagnostics.Debug.WriteLine(distance);
+                    respawnTimer = 0;
+                    pipedObject.UnPipe();
+                }
             }
         }
 
@@ -84,6 +97,7 @@ namespace GameObjects
             
             if (respawnTimer < 5)                                       // If object is not revealable and the respawn timer is below 5s, count up!
             {
+                pipedObject.SetIsPiped(true);
                 respawnTimer += GameTime.ElapsedGameTime.TotalSeconds;
             } else {                                                    // if the object is revealable and the respawn timer is up, then call reveal
                 this.revealObject();
