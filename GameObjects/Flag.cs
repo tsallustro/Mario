@@ -16,9 +16,8 @@ namespace GameObjects
         private int end = 0;
         private bool isColliding = false;
         private float timer = 0;
-        private float timeLimit = 50f * 0.016666667f;
+        private float timeForFlagToDescend = 50f * 0.016666667f;
         private bool isDown = false;
-        private bool isDescending = false;
 
         public Flag(Vector2 position, Vector2 velocity, Vector2 acceleration) : base(position, velocity, acceleration)
         {
@@ -46,24 +45,18 @@ namespace GameObjects
 
         public override void Update(GameTime GameTime)
         {
-            timer += (float)GameTime.ElapsedGameTime.TotalSeconds;
-
-            if (isColliding)
+            if (isColliding && !isDown)
             {
-                if (timer >= timeLimit)
+                timer += (float)GameTime.ElapsedGameTime.TotalSeconds;
+                Sprite = spriteFactory.CreateEndingFlag(GetPosition());
+
+                if (timer >= timeForFlagToDescend)
                 {
-                    Sprite = spriteFactory.CreateFlag(GetPosition());
                     isColliding = false;
                     isDown = true;
-                } else if (!isDescending)
-                {
-                    isDescending = true;
-                    Sprite = spriteFactory.CreateEndingFlag(GetPosition());
                 }
-            } else
-            {
-                Sprite = spriteFactory.CreateFlag(GetPosition());
             }
+            else if (!isDown) Sprite = spriteFactory.CreateFlag(GetPosition());
 
             Sprite.Update();
         }
@@ -73,6 +66,9 @@ namespace GameObjects
             if (Collidee is Mario && !isDown)
             {
                 isColliding = true;
+            } else
+            {
+                isColliding = false;
             }
         }
 
