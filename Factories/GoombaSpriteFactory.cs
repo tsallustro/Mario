@@ -69,7 +69,7 @@ namespace Factories
 		{
 			if (movingGoomba == null)
 			{
-				movingGoomba = new Sprite(false, true, location, goombaSprites, 1, 3, 0, 1);
+				movingGoomba = new Sprite(false, true, location, goombaSprites, 1, 3, 0, 1, 20);
 				return movingGoomba;
 			}
 			else return movingGoomba;

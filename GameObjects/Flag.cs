@@ -16,7 +16,7 @@ namespace GameObjects
         private int end = 0;
         private bool isColliding = false;
         private float timer = 0;
-        private float timeForFlagToDescend = 50f * 0.016666667f;
+        private float timeForFlagToDescend = 50f * 0.016666667777f;
         private bool isDown = false;
 
         public Flag(Vector2 position, Vector2 velocity, Vector2 acceleration) : base(position, velocity, acceleration)
@@ -50,13 +50,14 @@ namespace GameObjects
                 timer += (float)GameTime.ElapsedGameTime.TotalSeconds;
                 Sprite = spriteFactory.CreateEndingFlag(GetPosition());
 
-                if (timer >= timeForFlagToDescend)
+                if (timer > timeForFlagToDescend)
                 {
                     isColliding = false;
                     isDown = true;
                 }
             }
             else if (!isDown) Sprite = spriteFactory.CreateFlag(GetPosition());
+            else Sprite = spriteFactory.CreateFinalFlag(GetPosition());
 
             Sprite.Update();
         }
