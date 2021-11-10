@@ -35,7 +35,7 @@ namespace Factories
 		{
 			flagSprites = game.Content.Load<Texture2D>("Flagx50");
 		}
-		public ISprite Createflag(Vector2 location)
+		public ISprite CreateFlag(Vector2 location)
 		{
 			if(flag == null)
             {

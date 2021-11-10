@@ -58,6 +58,7 @@ namespace Game1
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
         private FireBallSpriteFactory fireBallSpriteFactory;
+        private FlagSpriteFactory flagSpriteFactory;
 
         //For level parser
         private Texture2D blockSprites;
@@ -172,6 +173,7 @@ namespace Game1
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
             fireBallSpriteFactory = FireBallSpriteFactory.Instance;
+            flagSpriteFactory = FlagSpriteFactory.Instance;
 
             camera = new Camera(GraphicsDevice.Viewport);
             camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
@@ -266,6 +268,7 @@ namespace Game1
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             fireBallSpriteFactory.LoadTextures(this);
+            flagSpriteFactory.LoadTextures(this);
 
             coinsIcon = new Sprite(false, true, new Vector2(225, 54), Content.Load<Texture2D>("Items"), 1, 9, 7, 8);
             livesIcon = new Sprite(false, true, new Vector2(474, 54), Content.Load<Texture2D>("standardMario"), 1, 15, 0, 0);
