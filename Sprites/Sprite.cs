@@ -24,6 +24,7 @@ namespace Sprites
         public int FinalFrame { get; set; }
         //Timer to slow down animation
         public int timer = 0;
+        public int timePerFrame = 10;
 
         public Sprite(bool collided, bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns, int initialFrame, int finalFrame)
         {
@@ -36,6 +37,20 @@ namespace Sprites
             currentFrame = initialFrame;
             InitialFrame = initialFrame;
             FinalFrame = finalFrame;
+        }
+
+        public Sprite(bool collided, bool IsVisible, Vector2 Location, Texture2D Texture, int Rows, int Columns, int initialFrame, int finalFrame, int timePerFrame)
+        {
+            isCollided = collided;
+            isVisible = IsVisible;
+            location = Location;
+            texture = Texture;
+            rows = Rows;
+            columns = Columns;
+            currentFrame = initialFrame;
+            InitialFrame = initialFrame;
+            FinalFrame = finalFrame;
+            this.timePerFrame = timePerFrame;
         }
 
         public void Update()
@@ -51,7 +66,7 @@ namespace Sprites
         // Sets Frame Animation. @param int initialFrame int finalFrame
         public void Animation()
         {
-            if (timer > 10)
+            if (timer > timePerFrame)
             {
                 currentFrame++;
                 if (currentFrame == FinalFrame + 1)
