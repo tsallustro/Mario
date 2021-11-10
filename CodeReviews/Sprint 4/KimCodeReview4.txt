@@ -1,0 +1,23 @@
+﻿Author: Tae Kim
+
+Date: 11/09
+
+Sprint #: 4
+
+File being Reviewed: Flag.cs
+
+Author of the file: Multiple authors
+
+Code Quality: It's simple and clean, but there are some unnecessary methods with no functionality that needs to 
+	be cleaned. When playing the game, there was one element of the flag that was missing. Depending on where
+	Mario lands on the flag, flag falls down quicker. At the moment, flag falls at the constant rate, which can
+	be improved on later date. I mentioned that this class is simple. But maybe it is too simple. Some functionalities
+	such as collecting different amount of points based on where Mario lands on the flag are all put into Mario class.
+	Since it also involves flag, we could have made them flag class's job to keep track of that not Mario.
+
+Number of minutes taken to complete the review: 15
+
+Hypothetical change: A simple change is to get rid of the methods that are not being used and bring some work done by
+	another class that involves flags. Flag class is simple and does its job. But instead of making another class do
+	20 different job, we could bring few of them and let other class do the work. We could also improve it by having
+	a method to change the rate of flag falling based on where Mario lands.
