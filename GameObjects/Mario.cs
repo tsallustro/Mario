@@ -242,7 +242,23 @@ namespace GameObjects
 
         public override void Collision(int side, GameObject Collidee)
         {
-            if (Collidee is Item item && item.CanBePickedUp())
+            if (Collidee is Block block)
+            {
+                if (!(block.GetBlockState() is HiddenBlockState))
+                {
+                    HandleBlockCollision(side, block);
+                }
+                else
+                {
+                    switch (side)
+                    {
+                        case TOP:
+                            if (Velocity.Y < 0) this.actionState.Fall();
+                            break;
+                    }
+                }
+            }
+            else if (Collidee is Item item && item.CanBePickedUp())
             {
                 if (item is SuperMushroom)
                 {
@@ -265,21 +281,6 @@ namespace GameObjects
                 }
                 
             }
-            else if (Collidee is Block block)
-            {
-                if (!(block.GetBlockState() is HiddenBlockState))
-                {
-                    HandleBlockCollision(side, block);
-                } else
-                {
-                    switch(side)
-                    {
-                        case TOP:
-                            if (Velocity.Y < 0) this.actionState.Fall();
-                            break;
-                    }
-                }
-            } 
             else if (Collidee is WarpPipe pipe)
             {
                 HandleBlockCollision(side, pipe);
