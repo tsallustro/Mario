@@ -23,7 +23,7 @@ namespace States
         public void Move()
         {
             goomba.SetGoombaState(new MovingGoombaState(goomba));
-            goomba.SetXVelocity((float)-50);
+            goomba.SetXVelocity((float)-40);
         }
         public void StayIdle()
         {
