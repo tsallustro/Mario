@@ -59,6 +59,7 @@ namespace Game1
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
         private FireBallSpriteFactory fireBallSpriteFactory;
+        private FlagSpriteFactory flagSpriteFactory;
 
         //For level parser
         private Texture2D blockSprites;
@@ -79,10 +80,13 @@ namespace Game1
 
         //Checkpoints
         private Vector2 checkPoint = new Vector2(0,400);
-        int passed = 0;
+        private int lastCheckpointPassed = 0;
+        private Vector2 firstCheckPointPos = new Vector2(1200, 400);
+        private Vector2 secondCheckPointPos = new Vector2(2400, 400);
 
         private Mario mario;
         private int coinsCollected = 0;
+
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -101,21 +105,27 @@ namespace Game1
             secondsRemaining = timeLimit;
             coinsCollected = 0;
             playedWarningSound = false;
+
+            camera = new Camera(GraphicsDevice.Viewport);
+            camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+            background.SetCamera(camera);
+
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
-            
             mario = (Mario)objects[0];
 
             InitializeCommands();
-            checkPoint = mario.GetPosition();
+            if (lastCheckpointPassed == 1) checkPoint = firstCheckPointPos;
+            else if (lastCheckpointPassed == 2) checkPoint = secondCheckPointPos;
+
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
+
         public void ResetCheckPoint(Vector2 position)
         {
             ResetObjects();
             mario.SetPosition(position);
         }
-
 
         public void TogglePause()
         {
@@ -169,6 +179,7 @@ namespace Game1
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
             fireBallSpriteFactory = FireBallSpriteFactory.Instance;
+            flagSpriteFactory = FlagSpriteFactory.Instance;
 
             camera = new Camera(GraphicsDevice.Viewport);
             camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
@@ -264,6 +275,7 @@ namespace Game1
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             fireBallSpriteFactory.LoadTextures(this);
+            flagSpriteFactory.LoadTextures(this);
 
             coinsIcon = new Sprite(false, true, new Vector2(225, 54), Content.Load<Texture2D>("Items"), 1, 9, 7, 8);
             livesIcon = new Sprite(false, true, new Vector2(474, 54), Content.Load<Texture2D>("standardMario"), 1, 15, 0, 0);
@@ -286,14 +298,14 @@ namespace Game1
             SoundManager.Instance.MapSound(SoundManager.GameSound.BUMP, Content.Load<SoundEffect>("sounds/bump"));
             SoundManager.Instance.MapSound(SoundManager.GameSound.BRICK_BREAK, Content.Load<SoundEffect>("sounds/brick_break"));
             SoundManager.Instance.MapSound(SoundManager.GameSound.PIPE_TRAVEL, Content.Load<SoundEffect>("sounds/pipe"));
- 
             SoundManager.Instance.MapSound(SoundManager.GameSound.GAME_OVER, Content.Load<SoundEffect>("sounds/game_over"));
             SoundManager.Instance.MapSound(SoundManager.GameSound.STOMP, Content.Load<SoundEffect>("sounds/loud_stomp"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.LEVEL_CLEAR, Content.Load<SoundEffect>("sounds/level_clear"));
             SoundManager.Instance.SetBackgroundMusic(Content.Load<Song>("soundtrack/mainOverworld"), Content.Load<Song>("soundtrack/overworld_fast"));
+
             SoundManager.Instance.StartMusic();
 
             // Load from Level file
-
             levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
 
@@ -383,7 +395,7 @@ namespace Game1
                 SetCommandsForGameOver();
             }
 
-            setCheckPoint();
+            SetCheckPoint();
 
             if (mario.GetPowerState() is DeadMario && mario.GetLivesRemaining() > 0)
             {
@@ -395,16 +407,20 @@ namespace Game1
             coinsIcon.Update();
             base.Update(gameTime);
         }
-        public void setCheckPoint()
+        public void SetCheckPoint()
         {
-            if(mario.GetPosition().X > 1200 && passed == 0)
+            if(mario.GetPosition().X > firstCheckPointPos.X && lastCheckpointPassed == 0)
             {
-                checkPoint = new Vector2(1200, 400);
-                passed = 1;
-            } else if (mario.GetPosition().X >2400 && passed == 1)
+                checkPoint = firstCheckPointPos;
+                lastCheckpointPassed = 1;
+            } else if (mario.GetPosition().X > secondCheckPointPos.X && lastCheckpointPassed == 1)
             {
-                checkPoint = new Vector2(2400, 400);
-                passed = 2;
+                checkPoint = secondCheckPointPos;
+                lastCheckpointPassed = 2;
+            } else if (mario.GetPosition().X < firstCheckPointPos.X)
+            {
+                checkPoint = new Vector2(64, 400);
+                lastCheckpointPassed = 0;
             }
         }
 

@@ -1198,5 +1198,9 @@
 			<row>27</row>
 			<column>108</column>
 		</enemy>
+		<enemy type="koopa">
+			<row>27</row>
+			<column>28</column>
+		</enemy>
 	</enemies>
 </level>

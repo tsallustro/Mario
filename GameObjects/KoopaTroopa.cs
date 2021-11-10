@@ -174,9 +174,9 @@ namespace GameObjects
                 else if (side == TOP)
                 {
                     Stomped();
-                } else if (koopaTroopaState is MovingShelledKoopaTroopaState)
+                } else if (koopaTroopaState is MovingShelledKoopaTroopaState && Math.Abs(this.Velocity.X) > 0)
                 {
-                    mario.Damage();
+                    //mario.Damage();
                 }
             }
             else if (Collidee is KoopaTroopa koopa) //If koopa is also shelled and kicked, then it only changes direction when it hits another kicked koopa. If it's in any other state, another kicked koopa kills it.

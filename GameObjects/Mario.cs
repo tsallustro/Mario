@@ -1,6 +1,7 @@
 ﻿using Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sound;
 using Sprites;
 using States;
 using System.Collections.Generic;
@@ -240,7 +241,23 @@ namespace GameObjects
 
         public override void Collision(int side, GameObject Collidee)
         {
-            if (Collidee is Item item && item.CanBePickedUp())
+            if (Collidee is Block block)
+            {
+                if (!(block.GetBlockState() is HiddenBlockState))
+                {
+                    HandleBlockCollision(side, block);
+                }
+                else
+                {
+                    switch (side)
+                    {
+                        case TOP:
+                            if (Velocity.Y < 0) this.actionState.Fall();
+                            break;
+                    }
+                }
+            }
+            else if (Collidee is Item item && item.CanBePickedUp())
             {
                 if (item is SuperMushroom)
                 {
@@ -262,21 +279,6 @@ namespace GameObjects
                     score.IncreaseScore(1000);
                 }
                 
-            }
-            else if (Collidee is Block block)
-            {
-                if (!(block.GetBlockState() is HiddenBlockState))
-                {
-                    HandleBlockCollision(side, block);
-                } else
-                {
-                    switch(side)
-                    {
-                        case TOP:
-                            if (Velocity.Y < 0) this.actionState.Fall();
-                            break;
-                    }
-                }
             }
             else if (Collidee is WarpPipe pipe)
             {
@@ -351,7 +353,7 @@ namespace GameObjects
                                 break;
                         }
                     }
-                    else if (!(koopaTroopa.GetKoopaTroopaState() is MovingGoombaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState))
+                    else if (!(koopaTroopa.GetKoopaTroopaState() is MovingKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is MovingShelledKoopaTroopaState))
                     {
                         switch (side)
                         {
@@ -370,6 +372,26 @@ namespace GameObjects
                             case RIGHT:
                                 //Do Nothing. This will kick the shell, but won't affect Mario
                                 Position = new Vector2(Position.X - 1, Position.Y);
+                                break;
+                        }
+                    } else if (!(koopaTroopa.GetKoopaTroopaState() is MovingKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is DeadKoopaTroopaState) && !(koopaTroopa.GetKoopaTroopaState() is StompedKoopaTroopaState))
+                    {
+                        switch (side)
+                        {
+                            case TOP:
+                                //Does Mario gets damaged when he hits his head on Koopatroopa shell when it's not moving?
+                                break;
+                            case BOTTOM:
+                                actionState.Land();
+                                actionState.Jump();
+                                break;
+                            case LEFT:
+                                this.Damage();
+                                this.actionState.Idle();
+                                break;
+                            case RIGHT:
+                                this.Damage();
+                                this.actionState.Idle();
                                 break;
                         }
                     }
@@ -407,8 +429,10 @@ namespace GameObjects
                         IncrementLivesRemaining();
                     }
                     score.IncreaseScore(flagBonus);
+                    SoundManager.Instance.PlaySound(SoundManager.GameSound.LEVEL_CLEAR);
                 }
                 WinningStateReached = true;
+                
             }
         }
     
@@ -505,13 +529,14 @@ namespace GameObjects
             {
                 if (BlockMarioIsOn is WarpPipe pipe && pipe.CanWarp() && 
                     (actionState is IdleState || actionState is RunningState || actionState is CrouchingState) &&
-                    GetPosition().X < 4000)
+                    GetPosition().X < 2500)
                 {
                     // Warp to secret area!
                     hasWarped = true;
                     maxCoords = new Point(5000, maxCoords.Y);
                     SetPosition(pipe.GetWarpPosition());
                     actionState = new FallingState(this, actionState.GetDirection());
+                    SoundManager.Instance.PlaySound(SoundManager.GameSound.PIPE_TRAVEL);
                 } else if (BlockMarioIsOn is WarpPipe returnPipe && returnPipe.CanWarp() &&
                     (actionState is IdleState || actionState is RunningState || actionState is CrouchingState) &&
                     GetPosition().X >= 4000)
@@ -522,6 +547,7 @@ namespace GameObjects
                     
                     actionState = new FallingState(this, actionState.GetDirection());
                     SetYVelocity(-120); // Launch out of pipe upwards!
+                    SoundManager.Instance.PlaySound(SoundManager.GameSound.PIPE_TRAVEL);
                 }
                 else actionState.Crouch();
             }

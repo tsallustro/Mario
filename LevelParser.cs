@@ -95,7 +95,7 @@ namespace LevelParser
                 X = 16 * Int32.Parse(castleElement.Element("column").Value)
             };
 
-            Flag flag = new Flag(flagPos, new Vector2(0, 0), new Vector2(0, 0), new Sprite(false, true, flagPos, flagSprite, 1, 50, 0, 0));
+            Flag flag = new Flag(flagPos, new Vector2(0, 0), new Vector2(0, 0));
             Castle castle = new Castle(castlePos, new Vector2(0, 0), new Vector2(0, 0));
 
             castle.Sprite = new Sprite(false, true, castlePos, castleSprite, 1, 1, 0, 0);

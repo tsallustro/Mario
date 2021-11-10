@@ -16,6 +16,7 @@ namespace Factories
 
 		private ISprite flag;
 		private ISprite endingFlag;
+		private ISprite lastFlag;
 
 		private int i;
 
@@ -35,7 +36,7 @@ namespace Factories
 		{
 			flagSprites = game.Content.Load<Texture2D>("Flagx50");
 		}
-		public ISprite Createflag(Vector2 location)
+		public ISprite CreateFlag(Vector2 location)
 		{
 			if(flag == null)
             {
@@ -44,15 +45,26 @@ namespace Factories
 			}
 			else return flag;
 		}
+
 		public ISprite CreateEndingFlag(Vector2 location)
 		{
 			if (endingFlag == null)
 			{
-				endingFlag = new Sprite(false, true, location, flagSprites, 1, 50, 0, 49);
+				endingFlag = new Sprite(false, true, location, flagSprites, 1, 50, 0, 49, 1);
 				return endingFlag;
 			}
 			else return endingFlag;
 		}
+
+		public ISprite CreateFinalFlag(Vector2 location)
+        {
+			if (lastFlag == null)
+			{
+				lastFlag = new Sprite(false, true, location, flagSprites, 1, 50, 49, 49);
+				return lastFlag;
+			}
+			else return lastFlag;
+        }
 
 	}
 }
