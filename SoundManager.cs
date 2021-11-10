@@ -21,7 +21,7 @@ namespace Sound
         }
         public enum GameSound
         {
-            STANDARD_JUMP, SUPER_JUMP, STOMP, DEATH, COIN, POWER_UP_APPEAR, POWER_UP_COLLECTED, ONE_UP_COLLECTED, BUMP, BRICK_BREAK, PIPE_TRAVEL, GAME_OVER
+            STANDARD_JUMP, SUPER_JUMP, STOMP, DEATH, COIN, POWER_UP_APPEAR, POWER_UP_COLLECTED, ONE_UP_COLLECTED, BUMP, BRICK_BREAK, PIPE_TRAVEL, GAME_OVER, LEVEL_CLEAR
         }
 
         private Dictionary<GameSound, SoundEffect> effects;
@@ -45,7 +45,7 @@ namespace Sound
             SoundEffect toPlay;
             if(!(isMuted || isPaused)&& effects.TryGetValue(gameSound, out toPlay))
             {
-                if (gameSound == GameSound.DEATH || gameSound == GameSound.GAME_OVER) MediaPlayer.Stop();
+                if (gameSound == GameSound.DEATH || gameSound == GameSound.GAME_OVER || gameSound == GameSound.LEVEL_CLEAR) MediaPlayer.Stop();
                 toPlay.CreateInstance().Play();
                 
             }

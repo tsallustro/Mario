@@ -423,8 +423,10 @@ namespace GameObjects
                         IncrementLivesRemaining();
                     }
                     score.IncreaseScore(flagBonus);
+                    SoundManager.Instance.PlaySound(SoundManager.GameSound.LEVEL_CLEAR);
                 }
                 WinningStateReached = true;
+                
             }
         }
     
