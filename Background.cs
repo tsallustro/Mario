@@ -49,6 +49,12 @@ namespace View
             //Background sprite height = 40, Block height = 16
             this.backgroundYPos = graphicsDevice.Viewport.Height - 40 - 32;
         }
+
+        public void SetCamera(Camera camera)
+        {
+            this.camera = camera;
+        }
+
         public void LoadContent()
         {
             hillSmallSprite = game.Content.Load<Texture2D>("hillSmall");

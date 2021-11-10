@@ -101,5 +101,10 @@ namespace GameObjects
             else
                 Collidee.SetXVelocity(0);*/
         }
+
+        public override void ResetObject()
+        {
+            // Do nothing
+        }
     }
 }
