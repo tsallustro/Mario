@@ -414,6 +414,10 @@ namespace Game1
             {
                 checkPoint = secondCheckPointPos;
                 lastCheckpointPassed = 2;
+            } else if (mario.GetPosition().X < firstCheckPointPos.X)
+            {
+                checkPoint = new Vector2(64, 400);
+                lastCheckpointPassed = 0;
             }
         }
 
