@@ -1,0 +1,23 @@
+Author: Maxwell Ortwig
+
+Date: November 9th, 2021
+
+Sprint #: 4
+
+File Reviewed: SoundManager.cs
+
+Author of File Reviewed: Tony Sallustro
+
+Code Quality: This code is great! It has an extremely low dependency on other
+	parts of code in this project, actually i dont think it has ANY! The code 
+	is also open to be expanded upon in the future, as its not restricting in 
+	any way and it's easy to add new sound effects.
+	
+
+Time Length of Review: 15 min
+
+Hypothetical Change: Something that can be changed is give the ability to 
+	change the mapsound. This could be used in case there was a need to change 
+	the music without changing the map
+	
+	
