@@ -93,33 +93,13 @@ namespace View
             spriteBatch.Draw((Texture2D)renderTarget1, Vector2.Zero, new Rectangle(0, 0, (int)VirtualScreen.X, (int)VirtualScreen.Y), Color.White);
             spriteBatch.End();
 
-            //temp Hill
-            parallax = new Vector2(0.7f);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
-            spriteBatch.Draw(hillSmallSprite, new Vector2(220, backgroundYPos), Color.White);
-            spriteBatch.Draw(hillBigSprite, new Vector2(600, backgroundYPos), Color.White);
-            spriteBatch.Draw(hillSmallSprite, new Vector2(650, backgroundYPos), Color.White);
-            spriteBatch.Draw(hillBigSprite, new Vector2(1300, backgroundYPos), Color.White);
-            spriteBatch.End();
-
-            //temp Bush
-            parallax = new Vector2(0.8f);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
-            spriteBatch.Draw(bushOne, new Vector2(30, backgroundYPos), Color.White);
-            spriteBatch.Draw(bushTwo, new Vector2(250, backgroundYPos), Color.White);
-            spriteBatch.Draw(bushTwo, new Vector2(580, backgroundYPos), Color.White);
-            spriteBatch.Draw(bushThree, new Vector2(360, backgroundYPos), Color.White);
-            spriteBatch.Draw(bushOne, new Vector2(670, backgroundYPos), Color.White);
-            spriteBatch.Draw(bushTwo, new Vector2(1320, backgroundYPos), Color.White);
-            spriteBatch.End();
-            /*
             //Hills
             if (renderTarget2 == null)
             {
                 renderTarget2 = new RenderTarget2D(graphicsDevice, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
                 graphicsDevice.SetRenderTarget(renderTarget2);
                 spriteBatch.Begin();
-                graphicsDevice.Clear(Color.CornflowerBlue);
+                graphicsDevice.Clear(Color.Transparent);
                 spriteBatch.Draw(hillSmallSprite, new Vector2(220, backgroundYPos), Color.White);
                 spriteBatch.Draw(hillBigSprite, new Vector2(600, backgroundYPos), Color.White);
                 spriteBatch.Draw(hillSmallSprite, new Vector2(650, backgroundYPos), Color.White);
@@ -131,14 +111,14 @@ namespace View
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, camera.GetViewMatrix(parallax));
             spriteBatch.Draw((Texture2D)renderTarget2, Vector2.Zero, new Rectangle(0, 0, (int)VirtualScreen.X, (int)VirtualScreen.Y), Color.White);
             spriteBatch.End();
-            /*
+            
             //Bushes
             if (renderTarget3 == null)
             {
                 renderTarget3 = new RenderTarget2D(graphicsDevice, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
                 graphicsDevice.SetRenderTarget(renderTarget3);
                 spriteBatch.Begin();
-                graphicsDevice.Clear(Color.CornflowerBlue);
+                graphicsDevice.Clear(Color.Transparent);
                 spriteBatch.Draw(bushOne, new Vector2(30, backgroundYPos), Color.White);
                 spriteBatch.Draw(bushTwo, new Vector2(250, backgroundYPos), Color.White);
                 spriteBatch.Draw(bushTwo, new Vector2(580, backgroundYPos), Color.White);
@@ -152,7 +132,7 @@ namespace View
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, camera.GetViewMatrix(parallax));
             spriteBatch.Draw((Texture2D)renderTarget3, Vector2.Zero, new Rectangle(0, 0, (int)VirtualScreen.X, (int)VirtualScreen.Y), Color.White);
             spriteBatch.End();
-            */
+            
         }
     }
 }
