@@ -44,6 +44,7 @@ namespace Factories
 			}
 			else return flag;
 		}
+
 		public ISprite CreateEndingFlag(Vector2 location)
 		{
 			if (endingFlag == null)
