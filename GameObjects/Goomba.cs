@@ -121,13 +121,15 @@ namespace GameObjects
                 case LEFT:
                     if (!(block.GetBlockState() is HiddenBlockState))
                     {
-                        this.SetXVelocity(this.GetVelocity().X * -1);
+                        SetXVelocity(-GetVelocity().X);
+                        SetXAcceleration(-Acceleration.X);
                     }
                     break;
                 case RIGHT:
                     if (!(block.GetBlockState() is HiddenBlockState))
                     {
-                        this.SetXVelocity(this.GetVelocity().X * -1);
+                        SetXVelocity(-GetVelocity().X);
+                        SetXAcceleration(-Acceleration.X);
                     }
                     break;
             }
@@ -147,11 +149,12 @@ namespace GameObjects
             {
                 if (side == LEFT || side == RIGHT)
                 {
-                    this.SetXVelocity(this.GetVelocity().X * -1);
+                    SetXVelocity(GetVelocity().X * -1);
+                    SetXAcceleration(-Acceleration.X);
                 } else if (side == BOTTOM)
                 {
-                    this.SetYVelocity(0);
-                    this.SetYAcceleration(0);
+                    SetYVelocity(0);
+                    SetYAcceleration(0);
                 }
             }
             else if (Collidee is Mario mario)
