@@ -10,7 +10,7 @@ Author of file being reviewed: Jesse Fowler
 
 Comments on Code Quality: 
 	
-	This class is pretty straightforward (as it should be). The one thing I don't entirely understand is the difference between CreateFlag() and CreateEndingFlag(). 
+	This class is pretty straightforward (as it should be). The one thing I don't entirely understand is the difference between the three different factory methods. 
 	By the looks of it, it seems that the former returns an unanimating Sprite and the latter returns an animating one. Sprites only change frame when their Update() method
 	is called, so why not just set up the logic of the flag to determine whether it should animate or not, as opposed to separating the flag and having to worry about changing the actual
 	Sprite object when Mario collides with it. 
@@ -19,5 +19,5 @@ Minutes Taken to Review: 15 minutes
 
 Hypothetical Change: 
 
-	Have one method that returns a flag Sprite that includes all of the flag's animation frames. This would require alterations in the Flag class to start animation when Mario collides
-	and finish the animation when it hits the final frame. 				
+	Have one method that returns a flag Sprite that includes all of the flag's animation frames. This would require alterations in the Flag class such that the Flag
+	starts animation when Mario collides and finish the animation when it hits the final frame. 				
