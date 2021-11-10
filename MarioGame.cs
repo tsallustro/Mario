@@ -291,10 +291,11 @@ namespace Game1
             SoundManager.Instance.MapSound(SoundManager.GameSound.BUMP, Content.Load<SoundEffect>("sounds/bump"));
             SoundManager.Instance.MapSound(SoundManager.GameSound.BRICK_BREAK, Content.Load<SoundEffect>("sounds/brick_break"));
             SoundManager.Instance.MapSound(SoundManager.GameSound.PIPE_TRAVEL, Content.Load<SoundEffect>("sounds/pipe"));
- 
             SoundManager.Instance.MapSound(SoundManager.GameSound.GAME_OVER, Content.Load<SoundEffect>("sounds/game_over"));
             SoundManager.Instance.MapSound(SoundManager.GameSound.STOMP, Content.Load<SoundEffect>("sounds/loud_stomp"));
+            SoundManager.Instance.MapSound(SoundManager.GameSound.LEVEL_CLEAR, Content.Load<SoundEffect>("sounds/level_clear"));
             SoundManager.Instance.SetBackgroundMusic(Content.Load<Song>("soundtrack/mainOverworld"), Content.Load<Song>("soundtrack/overworld_fast"));
+
             SoundManager.Instance.StartMusic();
 
             // Load from Level file
