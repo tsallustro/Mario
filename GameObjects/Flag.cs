@@ -16,7 +16,7 @@ namespace GameObjects
         private int end = 0;
         private bool isColliding = false;
         private float timer = 0;
-        private float timeForFlagToDescend = 50f * 0.016666667777f;
+        private float timeForFlagToDescend = 85f * 0.016667f; // This is based on nothing but experimentation...
         private bool isDown = false;
 
         public Flag(Vector2 position, Vector2 velocity, Vector2 acceleration) : base(position, velocity, acceleration)
