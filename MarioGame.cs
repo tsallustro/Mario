@@ -79,10 +79,11 @@ namespace Game1
 
         //Checkpoints
         private Vector2 checkPoint = new Vector2(0,400);
-        int passed = 0;
+        int lastCheckpointPassed = 0;
 
         private Mario mario;
         private int coinsCollected = 0;
+
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -107,7 +108,6 @@ namespace Game1
             background.SetCamera(camera);
 
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
-            
             mario = (Mario)objects[0];
 
             InitializeCommands();
@@ -115,12 +115,12 @@ namespace Game1
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
+
         public void ResetCheckPoint(Vector2 position)
         {
             ResetObjects();
             mario.SetPosition(position);
         }
-
 
         public void TogglePause()
         {
@@ -388,7 +388,7 @@ namespace Game1
                 SetCommandsForGameOver();
             }
 
-            setCheckPoint();
+            SetCheckPoint();
 
             if (mario.GetPowerState() is DeadMario && mario.GetLivesRemaining() > 0)
             {
@@ -400,16 +400,16 @@ namespace Game1
             coinsIcon.Update();
             base.Update(gameTime);
         }
-        public void setCheckPoint()
+        public void SetCheckPoint()
         {
-            if(mario.GetPosition().X > 1200 && passed == 0)
+            if(mario.GetPosition().X > 1200 && lastCheckpointPassed == 0)
             {
                 checkPoint = new Vector2(1200, 400);
-                passed = 1;
-            } else if (mario.GetPosition().X >2400 && passed == 1)
+                lastCheckpointPassed = 1;
+            } else if (mario.GetPosition().X >2400 && lastCheckpointPassed == 1)
             {
                 checkPoint = new Vector2(2400, 400);
-                passed = 2;
+                lastCheckpointPassed = 2;
             }
         }
 

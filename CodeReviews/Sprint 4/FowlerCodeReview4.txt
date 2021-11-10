@@ -12,7 +12,7 @@ Author of file being reviewed: Tony Sallustro
 Comments on Code Quality:
 	
 
-Minutes Taken to Review: 20 minutes
+Minutes Taken to Review: 15 minutes
 
 Hypothetical Change:
 	
