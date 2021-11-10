@@ -323,6 +323,12 @@
 /processorParam:Quality=Best
 /build:sounds/game_over.wav
 
+#begin sounds/level_clear.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/level_clear.wav
+
 #begin sounds/loud_stomp.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
