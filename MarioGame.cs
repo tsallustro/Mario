@@ -79,7 +79,9 @@ namespace Game1
 
         //Checkpoints
         private Vector2 checkPoint = new Vector2(0,400);
-        int lastCheckpointPassed = 0;
+        private int lastCheckpointPassed = 0;
+        private Vector2 firstCheckPointPos = new Vector2(1200, 400);
+        private Vector2 secondCheckPointPos = new Vector2(2400, 400);
 
         private Mario mario;
         private int coinsCollected = 0;
@@ -111,7 +113,9 @@ namespace Game1
             mario = (Mario)objects[0];
 
             InitializeCommands();
-            checkPoint = mario.GetPosition();
+            if (lastCheckpointPassed == 1) checkPoint = firstCheckPointPos;
+            else if (lastCheckpointPassed == 2) checkPoint = secondCheckPointPos;
+
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
@@ -402,13 +406,13 @@ namespace Game1
         }
         public void SetCheckPoint()
         {
-            if(mario.GetPosition().X > 1200 && lastCheckpointPassed == 0)
+            if(mario.GetPosition().X > firstCheckPointPos.X && lastCheckpointPassed == 0)
             {
-                checkPoint = new Vector2(1200, 400);
+                checkPoint = firstCheckPointPos;
                 lastCheckpointPassed = 1;
-            } else if (mario.GetPosition().X >2400 && lastCheckpointPassed == 1)
+            } else if (mario.GetPosition().X > secondCheckPointPos.X && lastCheckpointPassed == 1)
             {
-                checkPoint = new Vector2(2400, 400);
+                checkPoint = secondCheckPointPos;
                 lastCheckpointPassed = 2;
             }
         }
