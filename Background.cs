@@ -135,4 +135,73 @@ namespace View
             
         }
     }
+    class BackgroundTwo
+    {
+        //Background textures
+        private Texture2D cloudOne;
+        private Texture2D cloudTwo;
+        private Texture2D cloudThree;
+
+        private GraphicsDevice graphicsDevice;
+        private SpriteBatch spriteBatch;
+        private MarioGame game;
+        private GameObject mario;
+
+        private Camera camera;
+        private RenderTarget2D renderTarget1 = null;
+        static Vector2 VirtualScreen = new Vector2(1400, 800);
+
+        //Y location of background bushes and hills.
+        private float backgroundYPos;
+
+        public BackgroundTwo(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, MarioGame game, GameObject mario, Camera camera)
+        {
+            this.graphicsDevice = graphicsDevice;
+            this.spriteBatch = spriteBatch;
+            this.game = game;
+            this.mario = mario;
+            this.camera = camera;
+            //Background sprite height = 40, Block height = 16
+            this.backgroundYPos = graphicsDevice.Viewport.Height - 40 - 32;
+        }
+
+        public void SetCamera(Camera camera)
+        {
+            this.camera = camera;
+        }
+
+        public void LoadContent()
+        {
+            cloudOne = game.Content.Load<Texture2D>("cloud1");
+            cloudTwo = game.Content.Load<Texture2D>("cloud2");
+            cloudThree = game.Content.Load<Texture2D>("cloud3");
+        }
+        public void Update()
+        {
+            camera.LookAt(new Vector2(0, mario.GetPosition().Y));
+        }
+
+        public void Draw()
+        {
+            //Clouds
+            if (renderTarget1 == null)
+            {
+                renderTarget1 = new RenderTarget2D(graphicsDevice, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
+                graphicsDevice.SetRenderTarget(renderTarget1);
+                spriteBatch.Begin();
+                graphicsDevice.Clear(Color.CornflowerBlue);
+                spriteBatch.Draw(cloudThree, new Vector2(50, 220), Color.White);
+                spriteBatch.Draw(cloudThree, new Vector2(300, 100), Color.White);
+                spriteBatch.Draw(cloudTwo, new Vector2(200, 300), Color.White);
+                spriteBatch.Draw(cloudTwo, new Vector2(600, 150), Color.White);
+                spriteBatch.Draw(cloudOne, new Vector2(340, 110), Color.White);
+                spriteBatch.End();
+                graphicsDevice.SetRenderTarget(null);
+            }
+            Vector2 parallax = new Vector2(0.2f);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, camera.GetViewMatrix(parallax));
+            spriteBatch.Draw((Texture2D)renderTarget1, Vector2.Zero, new Rectangle(0, 0, (int)VirtualScreen.X, (int)VirtualScreen.Y), Color.White);
+            spriteBatch.End();
+        }
+    }
 }
