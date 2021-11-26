@@ -252,6 +252,10 @@
 					<column>11</column>
 				</brickBlock>
 				<brickBlock>
+					<row>29</row>
+					<column>12</column>
+				</brickBlock>
+				<brickBlock>
 					<row>24</row>
 					<column>8</column>
 				</brickBlock>
@@ -302,6 +306,22 @@
 				<brickBlock>
 					<row>13</row>
 					<column>31</column>
+				</brickBlock>
+				<brickBlock>
+					<row>8</row>
+					<column>33</column>
+				</brickBlock>
+				<brickBlock>
+					<row>8</row>
+					<column>34</column>
+				</brickBlock>
+				<brickBlock>
+					<row>8</row>
+					<column>35</column>
+				</brickBlock>
+				<brickBlock>
+					<row>8</row>
+					<column>36</column>
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
@@ -367,6 +387,38 @@
 					<row>16</row>
 					<column>37</column>
 				</stairBlock>
+				<stairBlock>
+					<row>4</row>
+					<column>39</column>
+				</stairBlock>
+				<stairBlock>
+					<row>4</row>
+					<column>40</column>
+				</stairBlock>
+				<stairBlock>
+					<row>4</row>
+					<column>41</column>
+				</stairBlock>
+				<stairBlock>
+					<row>3</row>
+					<column>34</column>
+				</stairBlock>
+				<stairBlock>
+					<row>3</row>
+					<column>33</column>
+				</stairBlock>
+				<stairBlock>
+					<row>3</row>
+					<column>32</column>
+				</stairBlock>
+				<stairBlock>
+					<row>3</row>
+					<column>31</column>
+				</stairBlock>
+				<stairBlock>
+					<row>3</row>
+					<column>30</column>
+				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
 			</hiddenBlocks>
@@ -407,12 +459,88 @@
 				</brickBlock>
 				<brickBlock>
 					<row>4</row>
+					<column>18</column>
+				</brickBlock>
+				<brickBlock>
+					<row>4</row>
+					<column>17</column>
+				</brickBlock>
+				<brickBlock>
+					<row>3</row>
+					<column>25</column>
+				</brickBlock>
+				<brickBlock>
+					<row>28</row>
 					<column>20</column>
+				</brickBlock>
+				<brickBlock>
+					<row>28</row>
+					<column>21</column>
+				</brickBlock>
+				<brickBlock>
+					<row>28</row>
+					<column>19</column>
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
+				<questionBlock item="mushroom"> <!-- Should be new power-up! -->
+					<row>1</row>
+					<column>11</column>
+				</questionBlock>
 			</questionBlocks>
 			<stairBlocks>
+				<stairBlock>
+					<row>3</row>
+					<column>9</column>
+				</stairBlock>
+				<stairBlock>
+					<row>3</row>
+					<column>8</column>
+				</stairBlock>
+				<stairBlock>
+					<row>7</row>
+					<column>14</column>
+				</stairBlock>
+				<stairBlock>
+					<row>7</row>
+					<column>13</column>
+				</stairBlock>
+				<stairBlock>
+					<row>6</row>
+					<column>13</column>
+				</stairBlock>
+				<stairBlock>
+					<row>6</row>
+					<column>12</column>
+				</stairBlock>
+				<stairBlock>
+					<row>6</row>
+					<column>11</column>
+				</stairBlock>
+				<stairBlock>
+					<row>6</row>
+					<column>10</column>
+				</stairBlock>
+				<stairBlock>
+					<row>26</row>
+					<column>37</column>
+				</stairBlock>
+				<stairBlock>
+					<row>26</row>
+					<column>38</column>
+				</stairBlock>
+				<stairBlock>
+					<row>26</row>
+					<column>39</column>
+				</stairBlock>
+				<stairBlock>
+					<row>26</row>
+					<column>40</column>
+				</stairBlock>
+				<stairBlock>
+					<row>26</row>
+					<column>41</column>
+				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
 			</hiddenBlocks>
