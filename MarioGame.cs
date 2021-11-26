@@ -38,6 +38,7 @@ namespace Game1
         private int cameraAdjustment = 0; // Used to increase limit for vertical camera movement
         private ActiveChunkContainer chunks;
         private ChunkParser chunkParser;
+        private int marioHeightToLoadNextChunk = 300;
         private readonly int numberOfChunksInLevelDefinition = 3;
 
         private bool playedWarningSound = false;
@@ -327,7 +328,9 @@ namespace Game1
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
 
             AddNewChunk(1);
-            AddRandomNewChunk();
+            //AddRandomNewChunk();
+
+            System.Diagnostics.Debug.WriteLine(cameraAdjustment);
 
             InitializeCommands();
             
@@ -350,6 +353,7 @@ namespace Game1
             Random random = new Random();
             chunks.AddChunk(chunkParser.ParseChunk(random.Next(2, numberOfChunksInLevelDefinition + 1)));
             cameraAdjustment += 480;
+            marioHeightToLoadNextChunk -= 480;
         }
 
         protected override void Update(GameTime gameTime)
@@ -362,6 +366,8 @@ namespace Game1
             {
                 if (!paused)
                 {
+                    if (mario.GetPosition().Y <= marioHeightToLoadNextChunk) AddRandomNewChunk();
+
                     if (!mario.WinningStateReached) EnableAllCommands();
                     else SetCommandsForWinningState();
 
