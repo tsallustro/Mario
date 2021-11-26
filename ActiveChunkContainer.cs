@@ -30,9 +30,11 @@ namespace ChunkContainer
             foreach (IGameObject obj in removedChunk.GetObjects())
             {
                 obj.SetQueuedForDeletion(true);
+                objects.Remove(obj);
             }
         }
 
+        // Only use this method to add Mario to list
         public void AddObject(IGameObject obj)
         {
             objects.Add(obj);
