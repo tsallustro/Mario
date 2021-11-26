@@ -499,7 +499,6 @@ namespace ChunkReader
                     {
                         for (int i = 0; i < numcoins; i++)
                         {
-                            System.Diagnostics.Debug.WriteLine("Adding coin " + i);
                             items.Add(GetItemOfType("coin", brickBlockPos, itemSprites, mario));
                         }
                     }
