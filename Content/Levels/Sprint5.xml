@@ -16,8 +16,8 @@
 		<chunk id="1">
 			<floorBlocks>
 				<rows>
-					<row num="28">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50</row>
-					<row num="29">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50</row>
+					<row num="28">-2,-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51</row>
+					<row num="29">-2,-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51</row>
 				</rows>
 			</floorBlocks>
 			<brickBlocks>
@@ -83,12 +83,36 @@
 					<row>24</row>
 					<column>9</column>
 				</questionBlock>
-				<questionBlock item="mushroom">
+				<questionBlock item="mushroom"> <!-- This block should contain the new power-up! -->
 					<row>14</row>
 					<column>32</column>
 				</questionBlock>
 			</questionBlocks>
 			<stairBlocks>
+				<stairBlock>
+					<row>24</row>
+					<column>16</column>
+				</stairBlock>
+				<stairBlock>
+					<row>24</row>
+					<column>17</column>
+				</stairBlock>
+				<stairBlock>
+					<row>24</row>
+					<column>18</column>
+				</stairBlock>
+				<stairBlock>
+					<row>21</row>
+					<column>22</column>
+				</stairBlock>
+				<stairBlock>
+					<row>21</row>
+					<column>23</column>
+				</stairBlock>
+				<stairBlock>
+					<row>21</row>
+					<column>24</column>
+				</stairBlock>
 				<stairBlock>
 					<row>27</row>
 					<column>25</column>
@@ -102,6 +126,10 @@
 					<column>26</column>
 				</stairBlock>
 				<stairBlock>
+					<row>26</row>
+					<column>28</column>
+				</stairBlock>
+				<stairBlock>
 					<row>27</row>
 					<column>27</column>
 				</stairBlock>
@@ -113,8 +141,76 @@
 					<row>25</row>
 					<column>27</column>
 				</stairBlock>
+				<stairBlock>
+					<row>25</row>
+					<column>28</column>
+				</stairBlock>
+				<stairBlock>
+					<row>14</row>
+					<column>33</column>
+				</stairBlock>
+				<stairBlock>
+					<row>14</row>
+					<column>34</column>
+				</stairBlock>
+				<stairBlock>
+					<row>14</row>
+					<column>35</column>
+				</stairBlock>
+				<stairBlock>
+					<row>10</row>
+					<column>39</column>
+				</stairBlock>
+				<stairBlock>
+					<row>10</row>
+					<column>40</column>
+				</stairBlock>
+				<stairBlock>
+					<row>10</row>
+					<column>41</column>
+				</stairBlock>
+				<stairBlock>
+					<row>10</row>
+					<column>42</column>
+				</stairBlock>
+				<stairBlock>
+					<row>6</row>
+					<column>34</column>
+				</stairBlock>
+				<stairBlock>
+					<row>5</row>
+					<column>33</column>
+				</stairBlock>
+				<stairBlock>
+					<row>4</row>
+					<column>32</column>
+				</stairBlock>
+				<stairBlock>
+					<row>4</row>
+					<column>31</column>
+				</stairBlock>
+				<stairBlock>
+					<row>1</row>
+					<column>26</column>
+				</stairBlock>
+				<stairBlock>
+					<row>1</row>
+					<column>25</column>
+				</stairBlock>
+				<stairBlock>
+					<row>1</row>
+					<column>24</column>
+				</stairBlock>
+				<stairBlock>
+					<row>1</row>
+					<column>23</column>
+				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
+				<stairBlock item="oneUp">
+					<row>19</row>
+					<column>17</column>
+				</stairBlock>
 			</hiddenBlocks>
 			<items>
 			</items>

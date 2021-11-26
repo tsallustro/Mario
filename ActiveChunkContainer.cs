@@ -9,7 +9,7 @@ namespace ChunkContainer
     class ActiveChunkContainer
     {
         Queue<Chunk> activeChunks;
-        List<IGameObject> objects;
+        List<IGameObject> objects; // This is the list of objects we update and draw in MarioGame
 
         public ActiveChunkContainer()
         {
