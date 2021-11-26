@@ -35,10 +35,10 @@ namespace Game1
         private double secondsRemaining = 400;
         
         /* Increase cameraAdjustment by 480 for each chunk that is added */
-        private int cameraAdjustment = 480; // Used to increase limit for vertical camera movement
-        private int chunkBaseHeight = 480;
+        private int cameraAdjustment = 0; // Used to increase limit for vertical camera movement
         private ActiveChunkContainer chunks;
         private ChunkParser chunkParser;
+        private readonly int numberOfChunksInLevelDefinition = 3;
 
         private bool playedWarningSound = false;
         private Point maxCoords; 
@@ -321,16 +321,13 @@ namespace Game1
 
             // Load from Level file
             levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
-
-
             chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites, 0);
             
-            mario = chunkParser.ParseMario();   // For chunk loading
+            mario = chunkParser.ParseMario();
+            chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
 
-            chunks.AddObject(mario);
-            chunks.AddChunk(chunkParser.ParseChunk(1));
-            chunks.AddChunk(chunkParser.ParseChunk(2));
-
+            AddNewChunk(1);
+            AddRandomNewChunk();
 
             InitializeCommands();
             
@@ -340,6 +337,19 @@ namespace Game1
             //Background Music
             
             
+        }
+
+        private void AddNewChunk(int chunkId)
+        {
+            chunks.AddChunk(chunkParser.ParseChunk(chunkId));
+            cameraAdjustment += 480;
+        }
+
+        private void AddRandomNewChunk()
+        {
+            Random random = new Random();
+            chunks.AddChunk(chunkParser.ParseChunk(random.Next(2, numberOfChunksInLevelDefinition + 1)));
+            cameraAdjustment += 480;
         }
 
         protected override void Update(GameTime gameTime)
