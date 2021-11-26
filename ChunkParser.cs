@@ -52,12 +52,48 @@ namespace ChunkReader
             compatibleChunks = new Dictionary<Chunk, List<Chunk>>();
         }
 
+        public void ParseAllChunks()
+        {
+            IEnumerable<XElement> chunks = level.Element("chunks").Elements();
+
+            foreach (XElement chunk in chunks)
+            {
+                if (chunk.HasAttributes)
+                {
+                    List<IGameObject> objects = new List<IGameObject>();
+                    XAttribute id = chunk.Attribute("id");
+
+                    ParseWarpPipes(chunk, objects);
+                    ParseFloorBlocks(chunk, objects);
+                    ParseBrickBlocks(chunk, objects);
+                    ParseQuestionBlocks(chunk, objects);
+                    ParseHiddenBlocks(chunk, objects);
+                    ParseItems(chunk, objects);
+                    ParseStairBlocks(chunk, objects);
+                    ParseEnemies(chunk, objects);
+                    ParseFireballs(objects);
+
+                    /*
+                     *  Note: Currently, using this method will result in all chunks being at the same
+                     *  height. Need to find a way to get them at different heights.
+                     */
+
+                    chunkMap.Add(int.Parse(id.Value), new Chunk(objects));
+                }
+            }
+        }
+
+        public void DetermineCompatibleChunks()
+        {
+
+        }
+
         public Chunk ParseChunk(int chunkId)
         {
             List<IGameObject> objects = new List<IGameObject>();
             IEnumerable<XElement> chunks = level.Element("chunks").Elements();
 
-            System.Diagnostics.Debug.WriteLine("chunk id: " + chunkId);
+            System.Diagnostics.Debug.WriteLine("Loaded chunk with id " + chunkId + ".");
 
             foreach (XElement chunk in chunks)
             {
