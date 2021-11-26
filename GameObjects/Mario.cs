@@ -439,16 +439,16 @@ namespace GameObjects
 
         private void CheckAndHandleIfAtScreenBoundary()
         {
+            float halfSpriteWidth = Sprite.texture.Width / numberOfSpritesOnSheet / 2;
+
             //This prevents Mario from going outside the screen
-            if (newPosition.X > maxCoords.X)
+            if (newPosition.X > maxCoords.X + halfSpriteWidth)
             {
-                this.SetXVelocity(0);
-                this.SetXAcceleration(0);
+                newPosition = new Vector2(-halfSpriteWidth, Position.Y);
             }
-            else if (newPosition.X < 0)
+            else if (newPosition.X < -halfSpriteWidth)
             {
-                this.SetXVelocity(0);
-                this.SetXAcceleration(0);
+                newPosition = new Vector2(maxCoords.X + halfSpriteWidth, Position.Y);
             }
 
             if (newPosition.Y > maxCoords.Y)
