@@ -34,8 +34,9 @@ namespace Game1
         private readonly double timeLimit = 400;
         private double secondsRemaining = 400;
         
-        /* Increase heightAdjustment by 480 for each chunk that is added */
-        private int heightAdjustment = 480; // Used to increase limit for vertical camera movement
+        /* Increase cameraAdjustment by 480 for each chunk that is added */
+        private int cameraAdjustment = 480; // Used to increase limit for vertical camera movement
+        private int chunkBaseHeight = 480;
         private ActiveChunkContainer chunks;
         private ChunkParser chunkParser;
 
@@ -116,7 +117,7 @@ namespace Game1
             playedWarningSound = false;
 
             camera = new Camera(GraphicsDevice.Viewport);
-            camera.Limits = new Rectangle(0, -heightAdjustment, levelWidth, levelHeight + heightAdjustment);
+            camera.Limits = new Rectangle(0, -cameraAdjustment, levelWidth, levelHeight + cameraAdjustment);
             background.SetCamera(camera);
 
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
@@ -193,7 +194,7 @@ namespace Game1
             flagSpriteFactory = FlagSpriteFactory.Instance;
 
             camera = new Camera(GraphicsDevice.Viewport);
-            camera.Limits = new Rectangle(0, -heightAdjustment, levelWidth, levelHeight + heightAdjustment);
+            camera.Limits = new Rectangle(0, -cameraAdjustment, levelWidth, levelHeight + cameraAdjustment);
             maxCoords = new Point(levelWidth, levelHeight);
             objects = new List<IGameObject>();
             chunks = new ActiveChunkContainer();
@@ -322,12 +323,13 @@ namespace Game1
             levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
 
 
-            chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites);
+            chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites, 0);
             
             mario = chunkParser.ParseMario();   // For chunk loading
 
             chunks.AddObject(mario);
             chunks.AddChunk(chunkParser.ParseChunk(1));
+            chunks.AddChunk(chunkParser.ParseChunk(2));
 
 
             InitializeCommands();
@@ -359,7 +361,7 @@ namespace Game1
                         maxCoords = new Point(levelWidth + 3000, levelHeight);
                     } else
                     {
-                        camera.Limits = new Rectangle(0, -heightAdjustment, levelWidth, levelHeight + heightAdjustment);
+                        camera.Limits = new Rectangle(0, -cameraAdjustment, levelWidth, levelHeight + cameraAdjustment);
                         maxCoords = new Point(levelWidth, levelHeight);
                     }
 

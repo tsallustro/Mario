@@ -26,27 +26,12 @@ namespace ChunkReader
         Texture2D blockSprites;
         Texture2D pipeSprite;
         Texture2D itemSprites;
+        int baseHeight;
+
         Mario mario;
 
-        public ChunkParser(string levelPath, GraphicsDeviceManager graphics, Point maxCoords, Camera camera, Texture2D blockSprites, Texture2D pipeSprite, Texture2D itemSprites)
+        public ChunkParser(string levelPath, GraphicsDeviceManager graphics, Point maxCoords, Camera camera, Texture2D blockSprites, Texture2D pipeSprite, Texture2D itemSprites, int baseHeight)
         {
-            /*try
-            {
-                level = XElement.Load(levelPath);
-                this.graphics = graphics;
-                this.maxCoords = maxCoords;
-                this.camera = camera;
-                this.blockSprites = blockSprites;
-                this.pipeSprite = pipeSprite;
-                this.itemSprites = itemSprites;
-                System.Diagnostics.Debug.WriteLine("loaded level");
-            }
-            catch (IOException e)
-            {
-                // Failed to load the level.
-                Console.Error.WriteLine("IO ERROR: Failed to load from file " + levelPath);
-                Console.Error.WriteLine(e.Message);
-            }*/
             level = XElement.Load(levelPath);
             this.graphics = graphics;
             this.maxCoords = maxCoords;
@@ -54,7 +39,7 @@ namespace ChunkReader
             this.blockSprites = blockSprites;
             this.pipeSprite = pipeSprite;
             this.itemSprites = itemSprites;
-            System.Diagnostics.Debug.WriteLine("loaded level");
+            this.baseHeight = baseHeight;
         }
 
         public Chunk ParseChunk(int chunkId)
@@ -62,11 +47,14 @@ namespace ChunkReader
             List<IGameObject> objects = new List<IGameObject>();
             IEnumerable<XElement> chunks = level.Element("chunks").Elements();
 
+            System.Diagnostics.Debug.WriteLine("chunk id: " + chunkId);
+
             foreach (XElement chunk in chunks)
             {
                 if (chunk.HasAttributes)
                 {
                     XAttribute id = chunk.Attribute("id");
+
 
                     if (id != null && int.Parse(id.Value) == chunkId)
                     {
@@ -83,6 +71,8 @@ namespace ChunkReader
                 }
             }
 
+            baseHeight -= 480; // Decrement base height for each added chunk
+
             return new Chunk(objects);
         }
 
@@ -90,8 +80,8 @@ namespace ChunkReader
         {
             Vector2 marioPos = new Vector2
             {
-                X = 16 * Int32.Parse(level.Element("mario").Element("column").Value),
-                Y = 16 * Int32.Parse(level.Element("mario").Element("row").Value)
+                X = 16 * int.Parse(level.Element("mario").Element("column").Value),
+                Y = 16 * int.Parse(level.Element("mario").Element("row").Value)
             };
 
             mario = new Mario(marioPos, new Vector2(0, 0), new Vector2(0, 0), graphics, maxCoords);
@@ -162,7 +152,7 @@ namespace ChunkReader
                             Vector2 objPos = new Vector2
                             {
                                 Y = 16 * int.Parse(pipe.Element("row").Value),
-                                X = 16 * int.Parse(pipe.Element("column").Value)
+                                X = 16 * int.Parse(pipe.Element("column").Value) + baseHeight
                             };
                             System.Diagnostics.Debug.WriteLine("Object: " + objAttribute.Value + " In pipe!");
 
@@ -203,7 +193,7 @@ namespace ChunkReader
                     //Still need to add coins to block
                     Vector2 pipePos = new Vector2
                     {
-                        Y = 16 * int.Parse(pipe.Element("row").Value),
+                        Y = 16 * int.Parse(pipe.Element("row").Value) + baseHeight,
                         X = 16 * int.Parse(pipe.Element("column").Value)
                     };
 
@@ -241,8 +231,10 @@ namespace ChunkReader
                         Vector2 floorBlockPos = new Vector2
                         {
                             X = 16 * int.Parse(column),
-                            Y = 16 * int.Parse(floor.Attribute("num").Value)
+                            Y = 16 * int.Parse(floor.Attribute("num").Value) + baseHeight
                         };
+
+                        System.Diagnostics.Debug.WriteLine("Floor block y: " + floorBlockPos.Y);
 
                         Block tempFloor = new Block(floorBlockPos, blockSprites, mario);
                         tempFloor.SetBlockState(new FloorBlockState(tempFloor));
@@ -265,7 +257,7 @@ namespace ChunkReader
                 Vector2 enemyPos = new Vector2
                 {
                     X = 16 * int.Parse(enemy.Element("column").Value),
-                    Y = 16 * int.Parse(enemy.Element("row").Value)
+                    Y = 16 * int.Parse(enemy.Element("row").Value) + baseHeight
                 };
                 IEnemy tempEnemy;
                 switch (enemyType)
@@ -305,7 +297,7 @@ namespace ChunkReader
                 //Still need to add coins to block
                 Vector2 itemPos = new Vector2
                 {
-                    Y = 16 * int.Parse(item.Element("row").Value),
+                    Y = 16 * int.Parse(item.Element("row").Value) + baseHeight,
                     X = 16 * int.Parse(item.Element("column").Value)
                 };
 
@@ -323,7 +315,7 @@ namespace ChunkReader
                 //Still need to add coins to block
                 Vector2 stairBlockPos = new Vector2
                 {
-                    Y = 16 * int.Parse(stair.Element("row").Value),
+                    Y = 16 * int.Parse(stair.Element("row").Value) + baseHeight,
                     X = 16 * int.Parse(stair.Element("column").Value)
                 };
                 Block tempStair = new Block(stairBlockPos, blockSprites, mario);
@@ -341,7 +333,7 @@ namespace ChunkReader
                 //Still need to add coins to block
                 Vector2 hiddenBlockPos = new Vector2
                 {
-                    Y = 16 * int.Parse(hidden.Element("row").Value),
+                    Y = 16 * int.Parse(hidden.Element("row").Value) + baseHeight,
                     X = 16 * int.Parse(hidden.Element("column").Value)
                 };
 
@@ -385,7 +377,7 @@ namespace ChunkReader
             {
                 Vector2 questionBlockPos = new Vector2
                 {
-                    Y = 16 * int.Parse(question.Element("row").Value),
+                    Y = 16 * int.Parse(question.Element("row").Value) + baseHeight,
                     X = 16 * int.Parse(question.Element("column").Value)
                 };
 
@@ -439,7 +431,7 @@ namespace ChunkReader
             {
                 Vector2 brickBlockPos = new Vector2
                 {
-                    Y = 16 * int.Parse(brick.Element("row").Value),
+                    Y = 16 * int.Parse(brick.Element("row").Value) + baseHeight,
                     X = 16 * int.Parse(brick.Element("column").Value)
                 };
 
