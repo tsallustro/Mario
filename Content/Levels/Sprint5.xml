@@ -9,33 +9,153 @@
 		<row>27</row>
 		<column>4</column>
 	</mario>
-
+	
+	<!-- Row must be between 0 and 29 -->
 	<chunks>
+		<!-- Every chunks needs every outer element! (brickBlocks, enemies, etc.) -->
 		<chunk id="1">
 			<floorBlocks>
 				<rows>
-					<row num="28">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18</row>
-					<row num="29">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18</row>
+					<row num="28">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50</row>
+					<row num="29">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50</row>
 				</rows>
 			</floorBlocks>
+			<brickBlocks>
+				<brickBlock>
+					<row>24</row>
+					<column>8</column>
+				</brickBlock>
+				<brickBlock>
+					<row>20</row>
+					<column>9</column>
+				</brickBlock>
+				<brickBlock>
+					<row>16</row>
+					<column>10</column>
+				</brickBlock>
+				<brickBlock>
+					<row>12</row>
+					<column>11</column>
+				</brickBlock>
+				<brickBlock>
+					<row>8</row>
+					<column>12</column>
+				</brickBlock>
+				<brickBlock>
+					<row>4</row>
+					<column>13</column>
+				</brickBlock>
+			</brickBlocks>
+			<questionBlocks>
+			</questionBlocks>
+			<stairBlocks>
+			</stairBlocks>
+			<hiddenBlocks>
+			</hiddenBlocks>
+			<items>
+			</items>
+			<warpPipes>
+			</warpPipes>
+			<enemies>
+			</enemies>
+		</chunk>
+		<chunk id="2">
+			<floorBlocks>
+				<rows>
+					<row num="28"></row>
+				</rows>
+			</floorBlocks>
+			<brickBlocks>
+				<brickBlock>
+					<row>29</row>
+					<column>11</column>
+				</brickBlock>
+				<brickBlock>
+					<row>24</row>
+					<column>8</column>
+				</brickBlock>
+				<brickBlock>
+					<row>20</row>
+					<column>9</column>
+				</brickBlock>
+				<brickBlock>
+					<row>16</row>
+					<column>10</column>
+				</brickBlock>
+				<brickBlock>
+					<row>12</row>
+					<column>11</column>
+				</brickBlock>
+				<brickBlock>
+					<row>8</row>
+					<column>12</column>
+				</brickBlock>
+				<brickBlock>
+					<row>4</row>
+					<column>13</column>
+				</brickBlock>
+			</brickBlocks>
+			<questionBlocks>
+			</questionBlocks>
+			<stairBlocks>
+			</stairBlocks>
+			<hiddenBlocks>
+			</hiddenBlocks>
+			<items>
+			</items>
+			<warpPipes>
+			</warpPipes>
+			<enemies>
+			</enemies>
+		</chunk>
+		<chunk id="3">
+			<floorBlocks>
+				<rows>
+					<row num="28"></row>
+				</rows>
+			</floorBlocks>
+			<brickBlocks>
+				<brickBlock>
+					<row>29</row>
+					<column>14</column>
+				</brickBlock>
+				<brickBlock>
+					<row>24</row>
+					<column>15</column>
+				</brickBlock>
+				<brickBlock>
+					<row>20</row>
+					<column>16</column>
+				</brickBlock>
+				<brickBlock>
+					<row>16</row>
+					<column>17</column>
+				</brickBlock>
+				<brickBlock>
+					<row>12</row>
+					<column>18</column>
+				</brickBlock>
+				<brickBlock>
+					<row>8</row>
+					<column>19</column>
+				</brickBlock>
+				<brickBlock>
+					<row>4</row>
+					<column>20</column>
+				</brickBlock>
+			</brickBlocks>
+			<questionBlocks>
+			</questionBlocks>
+			<stairBlocks>
+			</stairBlocks>
+			<hiddenBlocks>
+			</hiddenBlocks>
+			<items>
+			</items>
+			<warpPipes>
+			</warpPipes>
+			<enemies>
+			</enemies>
 		</chunk>
 	</chunks>
-	
-	<floorBlocks>
-	</floorBlocks>
-	<brickBlocks>
-	</brickBlocks>
-	<questionBlocks>
-	</questionBlocks>
-	<stairBlocks>
-	</stairBlocks>
-	<hiddenBlocks>
-	</hiddenBlocks>
-	<items>
-	</items>
-	<warpPipes>
-	</warpPipes>
-	<enemies>
-	</enemies>
-	
 </level>
