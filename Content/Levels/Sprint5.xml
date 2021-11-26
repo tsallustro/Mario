@@ -1,0 +1,41 @@
+﻿<?xml version="1.0"?>
+<!--ALLOWED ITEMS: "mushroom", "fire", "star", "oneUp", "coin"-->
+<!--ALLOWED ENEMIES: "goomba", "koopa", "redKoopa"-->
+<!--COINS ARE NOTATED IN BRICK BLOCKS BY <row>1@2</row> i.e. COLUMN ONE OF THIS ROW HAS 2 COINS-->
+
+
+<level number="1-1">
+	<mario>
+		<row>27</row>
+		<column>4</column>
+	</mario>
+
+	<chunks>
+		<chunk id="1">
+			<floorBlocks>
+				<rows>
+					<row num="28">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18</row>
+					<row num="29">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18</row>
+				</rows>
+			</floorBlocks>
+		</chunk>
+	</chunks>
+	
+	<floorBlocks>
+	</floorBlocks>
+	<brickBlocks>
+	</brickBlocks>
+	<questionBlocks>
+	</questionBlocks>
+	<stairBlocks>
+	</stairBlocks>
+	<hiddenBlocks>
+	</hiddenBlocks>
+	<items>
+	</items>
+	<warpPipes>
+	</warpPipes>
+	<enemies>
+	</enemies>
+	
+</level>

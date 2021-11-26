@@ -66,9 +66,10 @@ namespace View
             bushTwo = game.Content.Load<Texture2D>("bush2");
             bushThree = game.Content.Load<Texture2D>("bush3");
         }
+
         public void Update()
         {
-            camera.LookAt(new Vector2(mario.GetPosition().X, 0));
+            camera.LookAt(new Vector2(mario.GetPosition().X, mario.GetPosition().Y));
         }
 
         public void Draw()
@@ -178,7 +179,7 @@ namespace View
         }
         public void Update()
         {
-            camera.LookAt(new Vector2(0, mario.GetPosition().Y));
+            camera.LookAt(new Vector2(mario.GetPosition().X, mario.GetPosition().Y));
         }
 
         public void Draw()

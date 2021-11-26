@@ -30,6 +30,9 @@ namespace Game1
         private readonly string levelToLoad = "level11";
         private readonly double timeLimit = 400;
         private double secondsRemaining = 400;
+
+        private int heightAdjustment = 1000; // Used to increase limit for vertical camera movement
+
         private bool playedWarningSound = false;
         private Point maxCoords; 
         private List<IGameObject> objects;
@@ -107,7 +110,7 @@ namespace Game1
             playedWarningSound = false;
 
             camera = new Camera(GraphicsDevice.Viewport);
-            camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+            camera.Limits = new Rectangle(0, -heightAdjustment, levelWidth, levelHeight + heightAdjustment);
             background.SetCamera(camera);
 
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
@@ -182,7 +185,7 @@ namespace Game1
             flagSpriteFactory = FlagSpriteFactory.Instance;
 
             camera = new Camera(GraphicsDevice.Viewport);
-            camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+            camera.Limits = new Rectangle(0, -heightAdjustment, levelWidth, levelHeight + heightAdjustment);
             maxCoords = new Point(levelWidth, levelHeight);
 
             this.Window.Title = "Cornet Mario Game";
@@ -339,7 +342,7 @@ namespace Game1
                         maxCoords = new Point(levelWidth + 3000, levelHeight);
                     } else
                     {
-                        camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+                        camera.Limits = new Rectangle(0, -heightAdjustment, levelWidth, levelHeight + heightAdjustment);
                         maxCoords = new Point(levelWidth, levelHeight);
                     }
 
