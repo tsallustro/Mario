@@ -21,6 +21,7 @@ using Cameras;
 using Microsoft.Xna.Framework.Media;
 using Sound;
 using Chunks;
+using ChunkContainer;
 using Microsoft.Xna.Framework.Audio;
 
 namespace Game1
@@ -35,7 +36,7 @@ namespace Game1
         
         /* Increase heightAdjustment by 480 for each chunk that is added */
         private int heightAdjustment = 480; // Used to increase limit for vertical camera movement
-        private Queue<Chunk> currentChunks;
+        private ActiveChunkContainer chunks;
         private ChunkParser chunkParser;
 
         private bool playedWarningSound = false;
@@ -195,7 +196,7 @@ namespace Game1
             camera.Limits = new Rectangle(0, -heightAdjustment, levelWidth, levelHeight + heightAdjustment);
             maxCoords = new Point(levelWidth, levelHeight);
             objects = new List<IGameObject>();
-            currentChunks = new Queue<Chunk>();
+            chunks = new ActiveChunkContainer();
 
             this.Window.Title = "Cornet Mario Game";
             
@@ -219,7 +220,7 @@ namespace Game1
             ICommand dead = new DeadMarioCommand(mario);
             ICommand mute = new MuteCommand(this);
             ICommand reset = new LevelResetCommand(this);
-            ICommand borderVis = new BorderVisibleCommand(objects);
+            ICommand borderVis = new BorderVisibleCommand(chunks.GetObjects());
             ICommand pause = new PauseGameCommand(this);
 
             commands.Add(moveLeft);
@@ -324,11 +325,9 @@ namespace Game1
             chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites);
             
             mario = chunkParser.ParseMario();   // For chunk loading
-            objects.Add(mario);                 // For chunk loading
 
-            Chunk temp = chunkParser.ParseChunk(1);
-            objects.AddRange(temp.GetObjects());
-            currentChunks.Enqueue(temp);
+            chunks.AddObject(mario);
+            chunks.AddChunk(chunkParser.ParseChunk(1));
 
 
             InitializeCommands();
@@ -379,14 +378,14 @@ namespace Game1
                     }
 
                     // Make sure to put update collisiondetection before object update
-                    collisionHandler.Update(gameTime, objects);
+                    collisionHandler.Update(gameTime, chunks.GetObjects());
 
-                    foreach (var obj in objects)
+                    foreach (var obj in chunks.GetObjects())
                     {
                         if (!(obj is IEnemy)) obj.Update(gameTime);
                     }
 
-                    foreach (var obj in objects)
+                    foreach (var obj in chunks.GetObjects())
                     {
                         if (obj is IEnemy) obj.Update(gameTime);
                     }
@@ -394,7 +393,7 @@ namespace Game1
                     background.Update();
 
                     //Removed all items that are queued for deletion
-                    objects.RemoveAll(delegate (IGameObject obj)
+                    chunks.GetObjects().RemoveAll(delegate (IGameObject obj)
                     {
                         if (obj.isQueuedForDeletion() && obj is Coin) CoinCollected();
                         return obj.isQueuedForDeletion();
@@ -458,7 +457,7 @@ namespace Game1
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
 
             // call draw methods from each sprite and pass in sprite batch
-            foreach (var obj in objects)
+            foreach (var obj in chunks.GetObjects())
             {
                 obj.Draw(spriteBatch);
             }
