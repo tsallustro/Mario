@@ -26,6 +26,7 @@ namespace ChunkReader
         Texture2D blockSprites;
         Texture2D pipeSprite;
         Texture2D itemSprites;
+        Mario mario;
 
         public ChunkParser(string levelPath, GraphicsDeviceManager graphics, Point maxCoords, Camera camera, Texture2D blockSprites, Texture2D pipeSprite, Texture2D itemSprites)
         {
@@ -48,40 +49,45 @@ namespace ChunkReader
             this.itemSprites = itemSprites;
         }
 
-        public static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites, Point maxCoords, Texture2D pipeSprite, Texture2D itemSprites, Texture2D flagSprite, Texture2D castleSprite, Camera camera)
-        {
-            //Parse Warp Pipes
-            /*ParseWarpPipes(list, level, pipeSprite, camera, mario, itemSprites);
-
-            //Parse floor blocks
-            ParseFloorBlocks(blockSprites, list, level, mario);
-
-            //Parse brick blocks
-            ParseBrickBlocks(blockSprites, list, level, mario, itemSprites);
-
-            //Parse question blocks
-            ParseQuestionBlocks(blockSprites, list, level, mario, itemSprites);
-
-            //Parse hidden blocks
-            ParseHiddenBlocks(blockSprites, list, level, mario, itemSprites);
-
-            //Parse items
-            ParseItems(list, level, itemSprites, mario);
-
-            //Parse Stairs
-            ParseStairBlocks(blockSprites, list, level, mario);*/
-
-            //Parse Enemies
-            //ParseEnemies(list, level, camera);
-
-            // ParseEnd(list, level, flagSprite, castleSprite);
-
-            return new List<IGameObject>();
-        }
-
         public Chunk ParseChunk(int chunkId)
         {
-            return new Chunk();
+            List<IGameObject> objects = new List<IGameObject>();
+            IEnumerable<XElement> chunks = level.Element("chunks").Elements();
+
+            foreach (XElement chunk in chunks)
+            {
+                if (chunk.HasAttributes)
+                {
+                    XAttribute id = chunk.Attribute("id");
+
+                    if (id != null && int.Parse(id.Value) == chunkId)
+                    {
+                        ParseWarpPipes(chunk, objects);
+                        ParseFloorBlocks(chunk, objects);
+                        ParseBrickBlocks(chunk, objects);
+                        ParseQuestionBlocks(chunk, objects);
+                        ParseHiddenBlocks(chunk, objects);
+                        ParseItems(chunk, objects);
+                        ParseStairBlocks(chunk, objects);
+                        ParseEnemies(chunk, objects);
+                    }
+                }
+            }
+
+            return new Chunk(objects);
+        }
+
+        public Mario ParseMario()
+        {
+            Vector2 marioPos = new Vector2
+            {
+                X = 16 * Int32.Parse(level.Element("mario").Element("column").Value),
+                Y = 16 * Int32.Parse(level.Element("mario").Element("row").Value)
+            };
+
+            mario = new Mario(marioPos, new Vector2(0, 0), new Vector2(0, 0), graphics, maxCoords);
+
+            return mario;
         }
 
         private static bool ParseBool(String boolString)
@@ -89,9 +95,9 @@ namespace ChunkReader
             return boolString == "true";
         }
 
-        private static void ParseWarpPipes(List<IGameObject> list, XElement level, Texture2D pipeSprite, Camera camera, Mario mario, Texture2D itemSprites)
+        private void ParseWarpPipes(XElement chunk, List<IGameObject> list)
         {
-            IEnumerable<XElement> pipes = level.Element("warpPipes").Elements();
+            IEnumerable<XElement> pipes = chunk.Element("warpPipes").Elements();
             bool canWarp = false;
             IGameObject hiddenObj = null;
             WarpPipe pipeToAdd;
@@ -113,20 +119,20 @@ namespace ChunkReader
 
                     if (xPosAttribute != null)
                     {
-                        xPos = 16 * Int32.Parse(xPosAttribute.Value);
+                        xPos = 16 * int.Parse(xPosAttribute.Value);
                     }
 
                     if (yPosAttribute != null)
                     {
-                        yPos = 16 * Int32.Parse(yPosAttribute.Value);
+                        yPos = 16 * int.Parse(yPosAttribute.Value);
                     }
                     if (objAttribute != null)
                     {
 
                         Vector2 objPos = new Vector2
                         {
-                            Y = 16 * Int32.Parse(pipe.Element("row").Value),
-                            X = 16 * Int32.Parse(pipe.Element("column").Value)
+                            Y = 16 * int.Parse(pipe.Element("row").Value),
+                            X = 16 * int.Parse(pipe.Element("column").Value)
                         };
                         System.Diagnostics.Debug.WriteLine("Object: " + objAttribute.Value + " In pipe!");
 
@@ -167,8 +173,8 @@ namespace ChunkReader
                 //Still need to add coins to block
                 Vector2 pipePos = new Vector2
                 {
-                    Y = 16 * Int32.Parse(pipe.Element("row").Value),
-                    X = 16 * Int32.Parse(pipe.Element("column").Value)
+                    Y = 16 * int.Parse(pipe.Element("row").Value),
+                    X = 16 * int.Parse(pipe.Element("column").Value)
                 };
 
                 if (!canWarp) pipeToAdd = new WarpPipe(pipePos, new Vector2(0, 0), new Vector2(0, 0), camera);
@@ -182,13 +188,12 @@ namespace ChunkReader
 
                 pipeToAdd.Sprite = new Sprite(false, true, pipePos, pipeSprite, 1, 1, 0, 0);
                 list.Add(pipeToAdd);
-
             }
         }
-        private static void ParseFloorBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
-        {
-            IEnumerable<XElement> floorRows = level.Element("floorBlocks").Element("rows").Elements();
 
+        private void ParseFloorBlocks(XElement chunk, List<IGameObject> list)
+        {
+            IEnumerable<XElement> floorRows = chunk.Element("floorBlocks").Element("rows").Elements();
 
             //Handle each individual row
             foreach (XElement floor in floorRows)
@@ -203,7 +208,7 @@ namespace ChunkReader
                         string column = columnNumbers[i];
                         Vector2 floorBlockPos = new Vector2
                         {
-                            X = 16 * Int32.Parse(column),
+                            X = 16 * int.Parse(column),
                             Y = 16 * int.Parse(floor.Attribute("num").Value)
                         };
 
@@ -217,16 +222,18 @@ namespace ChunkReader
 
             }
         }
-        private static void ParseEnemies(List<IGameObject> list, XElement level, Camera camera)
+
+        private void ParseEnemies(XElement chunk, List<IGameObject> list)
         {
-            IEnumerable<XElement> enemies = level.Element("enemies").Elements();
+            IEnumerable<XElement> enemies = chunk.Element("enemies").Elements();
+
             foreach (XElement enemy in enemies)
             {
                 string enemyType = enemy.Attribute("type").Value;
                 Vector2 enemyPos = new Vector2
                 {
-                    X = 16 * Int32.Parse(enemy.Element("column").Value),
-                    Y = 16 * Int32.Parse(enemy.Element("row").Value)
+                    X = 16 * int.Parse(enemy.Element("column").Value),
+                    Y = 16 * int.Parse(enemy.Element("row").Value)
                 };
                 IEnemy tempEnemy;
                 switch (enemyType)
@@ -256,17 +263,18 @@ namespace ChunkReader
                 list.Add(tempEnemy);
             }
         }
-        private static void ParseItems(List<IGameObject> list, XElement level, Texture2D itemSprites, Mario mario)
+
+        private void ParseItems(XElement chunk, List<IGameObject> list)
         {
-            IEnumerable<XElement> items = level.Element("items").Elements();
+            IEnumerable<XElement> items = chunk.Element("items").Elements();
 
             foreach (XElement item in items)
             {
                 //Still need to add coins to block
                 Vector2 itemPos = new Vector2
                 {
-                    Y = 16 * Int32.Parse(item.Element("row").Value),
-                    X = 16 * Int32.Parse(item.Element("column").Value)
+                    Y = 16 * int.Parse(item.Element("row").Value),
+                    X = 16 * int.Parse(item.Element("column").Value)
                 };
 
                 IItem generatedItem = GetItemOfType(item.Attribute("type").Value, itemPos, itemSprites, mario);
@@ -275,16 +283,16 @@ namespace ChunkReader
             }
         }
 
-        private static void ParseStairBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
+        private void ParseStairBlocks(XElement chunk, List<IGameObject> list)
         {
-            IEnumerable<XElement> stairBlocks = level.Element("stairBlocks").Elements();
+            IEnumerable<XElement> stairBlocks = chunk.Element("stairBlocks").Elements();
             foreach (XElement stair in stairBlocks)
             {
                 //Still need to add coins to block
                 Vector2 stairBlockPos = new Vector2
                 {
-                    Y = 16 * Int32.Parse(stair.Element("row").Value),
-                    X = 16 * Int32.Parse(stair.Element("column").Value)
+                    Y = 16 * int.Parse(stair.Element("row").Value),
+                    X = 16 * int.Parse(stair.Element("column").Value)
                 };
                 Block tempStair = new Block(stairBlockPos, blockSprites, mario);
                 tempStair.SetBlockState(new StairBlockState(tempStair));
@@ -292,16 +300,17 @@ namespace ChunkReader
 
             }
         }
-        private static void ParseHiddenBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario, Texture2D itemSprites)
+
+        private void ParseHiddenBlocks(XElement chunk, List<IGameObject> list)
         {
-            IEnumerable<XElement> hiddenBlocks = level.Element("hiddenBlocks").Elements();
+            IEnumerable<XElement> hiddenBlocks = chunk.Element("hiddenBlocks").Elements();
             foreach (XElement hidden in hiddenBlocks)
             {
                 //Still need to add coins to block
                 Vector2 hiddenBlockPos = new Vector2
                 {
-                    Y = 16 * Int32.Parse(hidden.Element("row").Value),
-                    X = 16 * Int32.Parse(hidden.Element("column").Value)
+                    Y = 16 * int.Parse(hidden.Element("row").Value),
+                    X = 16 * int.Parse(hidden.Element("column").Value)
                 };
 
                 List<IItem> items = new List<IItem>();
@@ -336,16 +345,16 @@ namespace ChunkReader
             }
         }
 
-        private static void ParseQuestionBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario, Texture2D itemSprites)
+        private void ParseQuestionBlocks(XElement chunk, List<IGameObject> list)
         {
-            IEnumerable<XElement> questionBlocks = level.Element("questionBlocks").Elements();
+            IEnumerable<XElement> questionBlocks = chunk.Element("questionBlocks").Elements();
 
             foreach (XElement question in questionBlocks)
             {
                 Vector2 questionBlockPos = new Vector2
                 {
-                    Y = 16 * Int32.Parse(question.Element("row").Value),
-                    X = 16 * Int32.Parse(question.Element("column").Value)
+                    Y = 16 * int.Parse(question.Element("row").Value),
+                    X = 16 * int.Parse(question.Element("column").Value)
                 };
 
                 List<IItem> items = new List<IItem>();
@@ -390,16 +399,16 @@ namespace ChunkReader
             return item;
         }
 
-        private static void ParseBrickBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario, Texture2D itemSprites)
+        private void ParseBrickBlocks(XElement chunk, List<IGameObject> list)
         {
-            IEnumerable<XElement> brickBlocks = level.Element("brickBlocks").Elements();
+            IEnumerable<XElement> brickBlocks = chunk.Element("brickBlocks").Elements();
 
             foreach (XElement brick in brickBlocks)
             {
                 Vector2 brickBlockPos = new Vector2
                 {
-                    Y = 16 * Int32.Parse(brick.Element("row").Value),
-                    X = 16 * Int32.Parse(brick.Element("column").Value)
+                    Y = 16 * int.Parse(brick.Element("row").Value),
+                    X = 16 * int.Parse(brick.Element("column").Value)
                 };
 
                 List<IItem> items = new List<IItem>();
@@ -431,17 +440,6 @@ namespace ChunkReader
                 list.AddRange(items);
                 list.Add(tempBrick);
             }
-        }
-
-        public Mario ParseMario()
-        {
-            Vector2 marioPos = new Vector2
-            {
-                X = 16 * Int32.Parse(level.Element("mario").Element("column").Value),
-                Y = 16 * Int32.Parse(level.Element("mario").Element("row").Value)
-            };
-
-            return new Mario(marioPos, new Vector2(0, 0), new Vector2(0, 0), graphics, maxCoords);
         }
     }
 }
