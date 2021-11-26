@@ -75,6 +75,8 @@ namespace LevelParser
 
             ParseEnd(list, level, flagSprite, castleSprite);
 
+            list.Remove(mario);
+
             return list;
         }
 
