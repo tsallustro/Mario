@@ -16,14 +16,18 @@
 		<chunk id="1">
 			<floorBlocks>
 				<rows>
-					<row num="28">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50</row>
-					<row num="29">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50</row>
+					<row num="28">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50</row>
+					<row num="29">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50</row>
 				</rows>
 			</floorBlocks>
 			<brickBlocks>
 				<brickBlock>
 					<row>24</row>
 					<column>8</column>
+				</brickBlock>
+				<brickBlock coinCount="2">
+					<row>24</row>
+					<column>10</column>
 				</brickBlock>
 				<brickBlock>
 					<row>20</row>
@@ -47,8 +51,36 @@
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
+				<questionBlock>
+					<row>24</row>
+					<column>9</column>
+				</questionBlock>
 			</questionBlocks>
 			<stairBlocks>
+				<stairBlock>
+					<row>27</row>
+					<column>25</column>
+				</stairBlock>
+				<stairBlock>
+					<row>27</row>
+					<column>26</column>
+				</stairBlock>
+				<stairBlock>
+					<row>26</row>
+					<column>26</column>
+				</stairBlock>
+				<stairBlock>
+					<row>27</row>
+					<column>27</column>
+				</stairBlock>
+				<stairBlock>
+					<row>26</row>
+					<column>27</column>
+				</stairBlock>
+				<stairBlock>
+					<row>25</row>
+					<column>27</column>
+				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
 			</hiddenBlocks>

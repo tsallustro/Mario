@@ -359,6 +359,7 @@ namespace Game1
                 randomChunkId = random.Next(2, numberOfChunksInLevelDefinition + 1);
             }
 
+            previousChunkId = randomChunkId;
             chunks.AddChunk(chunkParser.ParseChunk(randomChunkId));
             cameraAdjustment += 480;
             marioHeightToLoadNextChunk -= 480;
