@@ -122,14 +122,19 @@ namespace Game1
             camera.Limits = new Rectangle(0, -cameraAdjustment, levelWidth, levelHeight + cameraAdjustment);
             background.SetCamera(camera);
 
-            //objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
-            
-            mario = chunkParser.ParseMario();   // For chunk loading
-            objects.Add(mario);                 // For chunk loading
+            chunks = new ActiveChunkContainer();
+            chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites, 0);
+
+            cameraAdjustment = 0;
+            marioHeightToLoadNextChunk = 300;
+            previousChunkId = 1;
+
+            mario = chunkParser.ParseMario();
+            chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
+
+            AddNewChunk(1);
 
             InitializeCommands();
-            if (lastCheckpointPassed == 1) checkPoint = firstCheckPointPos;
-            else if (lastCheckpointPassed == 2) checkPoint = secondCheckPointPos;
 
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();

@@ -21,12 +21,20 @@ namespace ChunkReader
     {
         private XElement level;
         private GraphicsDeviceManager graphics;
-        Point maxCoords;
-        Camera camera;
-        Texture2D blockSprites;
-        Texture2D pipeSprite;
-        Texture2D itemSprites;
-        int baseHeight;
+        private Point maxCoords;
+        private Camera camera;
+        private Texture2D blockSprites;
+        private Texture2D pipeSprite;
+        private Texture2D itemSprites;
+        private int baseHeight;
+
+        /*
+         *  TODO - At beginning of game, parse all chunks and store them in chunkMap, mapped
+         *  via their ID. We can then use this to calculate the compatible chunks for each
+         *  chunk, which we store in compatible chunks.
+         */
+        private Dictionary<int, Chunk> chunkMap;
+        private Dictionary<Chunk, List<Chunk>> compatibleChunks;
 
         Mario mario;
 
@@ -40,6 +48,44 @@ namespace ChunkReader
             this.pipeSprite = pipeSprite;
             this.itemSprites = itemSprites;
             this.baseHeight = baseHeight;
+            chunkMap = new Dictionary<int, Chunk>();
+            compatibleChunks = new Dictionary<Chunk, List<Chunk>>();
+        }
+
+        public void ParseAllChunks()
+        {
+            IEnumerable<XElement> chunks = level.Element("chunks").Elements();
+
+            foreach (XElement chunk in chunks)
+            {
+                if (chunk.HasAttributes)
+                {
+                    List<IGameObject> objects = new List<IGameObject>();
+                    XAttribute id = chunk.Attribute("id");
+
+                    ParseWarpPipes(chunk, objects);
+                    ParseFloorBlocks(chunk, objects);
+                    ParseBrickBlocks(chunk, objects);
+                    ParseQuestionBlocks(chunk, objects);
+                    ParseHiddenBlocks(chunk, objects);
+                    ParseItems(chunk, objects);
+                    ParseStairBlocks(chunk, objects);
+                    ParseEnemies(chunk, objects);
+                    ParseFireballs(objects);
+
+                    /*
+                     *  Note: Currently, using this method will result in all chunks being at the same
+                     *  height. Need to find a way to get them at different heights.
+                     */
+
+                    chunkMap.Add(int.Parse(id.Value), new Chunk(objects));
+                }
+            }
+        }
+
+        public void DetermineCompatibleChunks()
+        {
+
         }
 
         public Chunk ParseChunk(int chunkId)
@@ -47,7 +93,7 @@ namespace ChunkReader
             List<IGameObject> objects = new List<IGameObject>();
             IEnumerable<XElement> chunks = level.Element("chunks").Elements();
 
-            System.Diagnostics.Debug.WriteLine("chunk id: " + chunkId);
+            System.Diagnostics.Debug.WriteLine("Loaded chunk with id " + chunkId + ".");
 
             foreach (XElement chunk in chunks)
             {
@@ -215,35 +261,36 @@ namespace ChunkReader
 
         private void ParseFloorBlocks(XElement chunk, List<IGameObject> list)
         {
-            IEnumerable<XElement> floorRows = chunk.Element("floorBlocks").Element("rows").Elements();
-
-            //Handle each individual row
-            foreach (XElement floor in floorRows)
+            if (chunk.Element("floorBlocks").HasElements)
             {
+                IEnumerable<XElement> floorRows = chunk.Element("floorBlocks").Element("rows").Elements();
 
-                string[] columnNumbers = floor.Value.Split(',');
-                //Handle each column in the row
-                if (columnNumbers.Length > 1)
+                //Handle each individual row
+                foreach (XElement floor in floorRows)
                 {
-                    for (int i = 0; i < columnNumbers.Length; i++)
+
+                    string[] columnNumbers = floor.Value.Split(',');
+                    //Handle each column in the row
+                    if (columnNumbers.Length > 1)
                     {
-                        string column = columnNumbers[i];
-                        Vector2 floorBlockPos = new Vector2
+                        for (int i = 0; i < columnNumbers.Length; i++)
                         {
-                            X = 16 * int.Parse(column),
-                            Y = 16 * int.Parse(floor.Attribute("num").Value) + baseHeight
-                        };
+                            string column = columnNumbers[i];
+                            Vector2 floorBlockPos = new Vector2
+                            {
+                                X = 16 * int.Parse(column),
+                                Y = 16 * int.Parse(floor.Attribute("num").Value) + baseHeight
+                            };
 
-                        System.Diagnostics.Debug.WriteLine("Floor block y: " + floorBlockPos.Y);
+                            System.Diagnostics.Debug.WriteLine("Floor block y: " + floorBlockPos.Y);
 
-                        Block tempFloor = new Block(floorBlockPos, blockSprites, mario);
-                        tempFloor.SetBlockState(new FloorBlockState(tempFloor));
-                        list.Add(tempFloor);
+                            Block tempFloor = new Block(floorBlockPos, blockSprites, mario);
+                            tempFloor.SetBlockState(new FloorBlockState(tempFloor));
+                            list.Add(tempFloor);
 
+                        }
                     }
                 }
-
-
             }
         }
 
@@ -452,7 +499,6 @@ namespace ChunkReader
                     {
                         for (int i = 0; i < numcoins; i++)
                         {
-                            System.Diagnostics.Debug.WriteLine("Adding coin " + i);
                             items.Add(GetItemOfType("coin", brickBlockPos, itemSprites, mario));
                         }
                     }
