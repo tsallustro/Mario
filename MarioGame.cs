@@ -29,7 +29,7 @@ namespace Game1
     {
         private readonly int levelWidth = 3500;
         private readonly int levelHeight = 480;
-        private readonly string levelToLoad = "level11";
+        private readonly string levelToLoad = "Sprint5";
         private readonly double timeLimit = 400;
         private double secondsRemaining = 400;
         
@@ -194,6 +194,8 @@ namespace Game1
             camera = new Camera(GraphicsDevice.Viewport);
             camera.Limits = new Rectangle(0, -heightAdjustment, levelWidth, levelHeight + heightAdjustment);
             maxCoords = new Point(levelWidth, levelHeight);
+            objects = new List<IGameObject>();
+            currentChunks = new Queue<Chunk>();
 
             this.Window.Title = "Cornet Mario Game";
             
@@ -209,7 +211,7 @@ namespace Game1
             ICommand moveRight = new MoveRightCommand(mario);
             ICommand jump = new JumpCommand(mario);
             ICommand crouch = new CrouchCommand(mario);
-            ICommand throwFireBall = new throwFireballCommand((FireBall)objects[1]);
+            //ICommand throwFireBall = new throwFireballCommand((FireBall)objects[1]);
             ICommand quit = new QuitCommand(this);
             ICommand standard = new StandardMarioCommand(mario);
             ICommand super = new SuperMarioCommand(mario);
@@ -224,7 +226,7 @@ namespace Game1
             commands.Add(moveRight);
             commands.Add(jump);
             commands.Add(crouch);
-            commands.Add(throwFireBall);
+            //commands.Add(throwFireBall);
             commands.Add(quit);
             commands.Add(standard);
             commands.Add(super);
@@ -246,7 +248,7 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.W, jump);
             keyboardController.AddMapping((int)Keys.Down, crouch);
             keyboardController.AddMapping((int)Keys.S, crouch);
-            keyboardController.AddMapping((int)Keys.Space, throwFireBall);
+            //keyboardController.AddMapping((int)Keys.Space, throwFireBall);
 
             // Power-up commands
             keyboardController.AddMapping((int)Keys.Y, standard);
@@ -259,7 +261,7 @@ namespace Game1
             gamepadController.AddMapping((int)Buttons.DPadRight, moveRight);
             gamepadController.AddMapping((int)Buttons.A, jump);
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
-            gamepadController.AddMapping((int)Buttons.B, throwFireBall);
+            //gamepadController.AddMapping((int)Buttons.B, throwFireBall);
 
             //Music Background Mute
             keyboardController.AddMapping((int)Keys.M, mute);
@@ -317,18 +319,17 @@ namespace Game1
 
             // Load from Level file
             levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
 
 
             chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites);
             
-            
             mario = chunkParser.ParseMario();   // For chunk loading
             objects.Add(mario);                 // For chunk loading
 
-            //mario = (Mario) objects[0];       // For normal level 1-1
+            Chunk temp = chunkParser.ParseChunk(1);
+            objects.AddRange(temp.GetObjects());
+            currentChunks.Enqueue(temp);
 
-            System.Diagnostics.Debug.WriteLine(mario);
 
             InitializeCommands();
             

@@ -30,23 +30,31 @@ namespace ChunkReader
 
         public ChunkParser(string levelPath, GraphicsDeviceManager graphics, Point maxCoords, Camera camera, Texture2D blockSprites, Texture2D pipeSprite, Texture2D itemSprites)
         {
-            try
+            /*try
             {
                 level = XElement.Load(levelPath);
+                this.graphics = graphics;
+                this.maxCoords = maxCoords;
+                this.camera = camera;
+                this.blockSprites = blockSprites;
+                this.pipeSprite = pipeSprite;
+                this.itemSprites = itemSprites;
+                System.Diagnostics.Debug.WriteLine("loaded level");
             }
             catch (IOException e)
             {
-                // Failed to load the level, return an empty list.
+                // Failed to load the level.
                 Console.Error.WriteLine("IO ERROR: Failed to load from file " + levelPath);
                 Console.Error.WriteLine(e.Message);
-            }
-
+            }*/
+            level = XElement.Load(levelPath);
             this.graphics = graphics;
             this.maxCoords = maxCoords;
             this.camera = camera;
             this.blockSprites = blockSprites;
             this.pipeSprite = pipeSprite;
             this.itemSprites = itemSprites;
+            System.Diagnostics.Debug.WriteLine("loaded level");
         }
 
         public Chunk ParseChunk(int chunkId)
@@ -70,6 +78,7 @@ namespace ChunkReader
                         ParseItems(chunk, objects);
                         ParseStairBlocks(chunk, objects);
                         ParseEnemies(chunk, objects);
+                        ParseFireballs(objects);
                     }
                 }
             }
@@ -90,6 +99,25 @@ namespace ChunkReader
             return mario;
         }
 
+        private void ParseFireballs(List<IGameObject> list)
+        {
+            //Add Fireballs to list. Must Be added second & onward in list
+            int numOfFireBalls = 2;
+
+            for (int i = 1; i <= numOfFireBalls; i++)           // add fireballs to object list
+            {
+                FireBall fireball = new FireBall(true, mario);
+                list.Add(fireball);
+            }
+
+            int listIndex = list.Count;
+
+            for (int i = listIndex - 2; i < listIndex - 1; i++)         // Add reference to next fireball to all fireballs in list but last
+            {
+                ((FireBall)list[i]).setNextFireBall((FireBall)list[i + 1]);
+            }
+        }
+
         private static bool ParseBool(String boolString)
         {
             return boolString == "true";
@@ -97,98 +125,102 @@ namespace ChunkReader
 
         private void ParseWarpPipes(XElement chunk, List<IGameObject> list)
         {
-            IEnumerable<XElement> pipes = chunk.Element("warpPipes").Elements();
-            bool canWarp = false;
-            IGameObject hiddenObj = null;
-            WarpPipe pipeToAdd;
-            int xPos = 0, yPos = 0;
-
-            foreach (XElement pipe in pipes)
+            if (chunk.Element("warpPipes").HasElements)
             {
-                if (pipe.HasAttributes)
+                IEnumerable<XElement> pipes = chunk.Element("warpPipes").Elements();
+                bool canWarp = false;
+                IGameObject hiddenObj = null;
+                WarpPipe pipeToAdd;
+                int xPos = 0, yPos = 0;
+
+                foreach (XElement pipe in pipes)
                 {
-                    XAttribute warpAttribute = pipe.Attribute("canWarp");
-                    XAttribute xPosAttribute = pipe.Attribute("xPos");
-                    XAttribute yPosAttribute = pipe.Attribute("yPos");
-                    XAttribute objAttribute = pipe.Attribute("obj");
-
-                    if (warpAttribute != null)
+                    if (pipe.HasAttributes)
                     {
-                        canWarp = ParseBool(warpAttribute.Value);
-                    }
+                        XAttribute warpAttribute = pipe.Attribute("canWarp");
+                        XAttribute xPosAttribute = pipe.Attribute("xPos");
+                        XAttribute yPosAttribute = pipe.Attribute("yPos");
+                        XAttribute objAttribute = pipe.Attribute("obj");
 
-                    if (xPosAttribute != null)
-                    {
-                        xPos = 16 * int.Parse(xPosAttribute.Value);
-                    }
-
-                    if (yPosAttribute != null)
-                    {
-                        yPos = 16 * int.Parse(yPosAttribute.Value);
-                    }
-                    if (objAttribute != null)
-                    {
-
-                        Vector2 objPos = new Vector2
+                        if (warpAttribute != null)
                         {
-                            Y = 16 * int.Parse(pipe.Element("row").Value),
-                            X = 16 * int.Parse(pipe.Element("column").Value)
-                        };
-                        System.Diagnostics.Debug.WriteLine("Object: " + objAttribute.Value + " In pipe!");
-
-                        switch (objAttribute.Value)
-                        {
-                            case "goomba":
-                                hiddenObj = new Goomba(objPos, new Vector2(0, 0), new Vector2(0, 0), list, camera);
-                                break;
-                            case "piranha":
-                                objPos.Y -= 8;
-                                hiddenObj = new Piranha(objPos, new Vector2(0, 0), new Vector2(0, 0));
-                                break;
-                            case "mushroom":
-                                hiddenObj = new SuperMushroom(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
-                                break;
-                            case "fire":
-                                hiddenObj = new FireFlower(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
-                                break;
-                            case "star":
-                                hiddenObj = new Star(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
-                                break;
-                            case "oneUp":
-                                hiddenObj = new OneUpMushroom(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
-                                break;
-                            case "coin":
-                                hiddenObj = new Coin(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
-                                break;
-                            default:
-                                //default to goomba on invalid type
-                                hiddenObj = new Goomba(objPos, new Vector2(0, 0), new Vector2(0, 0), list, camera);
-                                break;
+                            canWarp = ParseBool(warpAttribute.Value);
                         }
 
-                        list.Add(hiddenObj);
+                        if (xPosAttribute != null)
+                        {
+                            xPos = 16 * int.Parse(xPosAttribute.Value);
+                        }
+
+                        if (yPosAttribute != null)
+                        {
+                            yPos = 16 * int.Parse(yPosAttribute.Value);
+                        }
+                        if (objAttribute != null)
+                        {
+
+                            Vector2 objPos = new Vector2
+                            {
+                                Y = 16 * int.Parse(pipe.Element("row").Value),
+                                X = 16 * int.Parse(pipe.Element("column").Value)
+                            };
+                            System.Diagnostics.Debug.WriteLine("Object: " + objAttribute.Value + " In pipe!");
+
+                            switch (objAttribute.Value)
+                            {
+                                case "goomba":
+                                    hiddenObj = new Goomba(objPos, new Vector2(0, 0), new Vector2(0, 0), list, camera);
+                                    break;
+                                case "piranha":
+                                    objPos.Y -= 8;
+                                    hiddenObj = new Piranha(objPos, new Vector2(0, 0), new Vector2(0, 0));
+                                    break;
+                                case "mushroom":
+                                    hiddenObj = new SuperMushroom(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
+                                    break;
+                                case "fire":
+                                    hiddenObj = new FireFlower(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
+                                    break;
+                                case "star":
+                                    hiddenObj = new Star(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
+                                    break;
+                                case "oneUp":
+                                    hiddenObj = new OneUpMushroom(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
+                                    break;
+                                case "coin":
+                                    hiddenObj = new Coin(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
+                                    break;
+                                default:
+                                    //default to goomba on invalid type
+                                    hiddenObj = new Goomba(objPos, new Vector2(0, 0), new Vector2(0, 0), list, camera);
+                                    break;
+                            }
+
+                            list.Add(hiddenObj);
+                        }
                     }
+
+                    //Still need to add coins to block
+                    Vector2 pipePos = new Vector2
+                    {
+                        Y = 16 * int.Parse(pipe.Element("row").Value),
+                        X = 16 * int.Parse(pipe.Element("column").Value)
+                    };
+
+                    if (!canWarp) pipeToAdd = new WarpPipe(pipePos, new Vector2(0, 0), new Vector2(0, 0), camera);
+                    else pipeToAdd = new WarpPipe(pipePos, new Vector2(0, 0), new Vector2(0, 0), true, new Vector2(xPos, yPos), camera);
+
+                    if (hiddenObj != null)
+                    {
+                        hiddenObj.SetIsPiped(true);
+                        pipeToAdd.setPipedObject(hiddenObj);
+                    }
+
+                    pipeToAdd.Sprite = new Sprite(false, true, pipePos, pipeSprite, 1, 1, 0, 0);
+                    list.Add(pipeToAdd);
                 }
-
-                //Still need to add coins to block
-                Vector2 pipePos = new Vector2
-                {
-                    Y = 16 * int.Parse(pipe.Element("row").Value),
-                    X = 16 * int.Parse(pipe.Element("column").Value)
-                };
-
-                if (!canWarp) pipeToAdd = new WarpPipe(pipePos, new Vector2(0, 0), new Vector2(0, 0), camera);
-                else pipeToAdd = new WarpPipe(pipePos, new Vector2(0, 0), new Vector2(0, 0), true, new Vector2(xPos, yPos), camera);
-
-                if (hiddenObj != null)
-                {
-                    hiddenObj.SetIsPiped(true);
-                    pipeToAdd.setPipedObject(hiddenObj);
-                }
-
-                pipeToAdd.Sprite = new Sprite(false, true, pipePos, pipeSprite, 1, 1, 0, 0);
-                list.Add(pipeToAdd);
             }
+            
         }
 
         private void ParseFloorBlocks(XElement chunk, List<IGameObject> list)
