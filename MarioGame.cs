@@ -28,7 +28,7 @@ namespace Game1
 {
     public class MarioGame : Game
     {
-        private readonly int levelWidth = 3500;
+        private readonly int levelWidth = 800;
         private readonly int levelHeight = 480;
         private readonly string levelToLoad = "Sprint5";
         private readonly double timeLimit = 400;
