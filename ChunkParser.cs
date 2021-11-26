@@ -21,12 +21,20 @@ namespace ChunkReader
     {
         private XElement level;
         private GraphicsDeviceManager graphics;
-        Point maxCoords;
-        Camera camera;
-        Texture2D blockSprites;
-        Texture2D pipeSprite;
-        Texture2D itemSprites;
-        int baseHeight;
+        private Point maxCoords;
+        private Camera camera;
+        private Texture2D blockSprites;
+        private Texture2D pipeSprite;
+        private Texture2D itemSprites;
+        private int baseHeight;
+
+        /*
+         *  TODO - At beginning of game, parse all chunks and store them in chunkMap, mapped
+         *  via their ID. We can then use this to calculate the compatible chunks for each
+         *  chunk, which we store in compatible chunks.
+         */
+        private Dictionary<int, Chunk> chunkMap;
+        private Dictionary<Chunk, List<Chunk>> compatibleChunks;
 
         Mario mario;
 
@@ -40,6 +48,8 @@ namespace ChunkReader
             this.pipeSprite = pipeSprite;
             this.itemSprites = itemSprites;
             this.baseHeight = baseHeight;
+            chunkMap = new Dictionary<int, Chunk>();
+            compatibleChunks = new Dictionary<Chunk, List<Chunk>>();
         }
 
         public Chunk ParseChunk(int chunkId)

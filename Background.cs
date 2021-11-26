@@ -69,6 +69,7 @@ namespace View
 
         public void Update()
         {
+            // TODO - Camera should move upward slowly unless Mario is halfway up or higher
             camera.LookAt(new Vector2(mario.GetPosition().X, mario.GetPosition().Y));
         }
 
