@@ -443,10 +443,12 @@ namespace GameObjects
             if (newPosition.X > maxCoords.X)
             {
                 this.SetXVelocity(0);
+                this.SetXAcceleration(0);
             }
             else if (newPosition.X < 0)
             {
                 this.SetXVelocity(0);
+                this.SetXAcceleration(0);
             }
 
             if (newPosition.Y > maxCoords.Y)
