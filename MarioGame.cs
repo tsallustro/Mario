@@ -40,6 +40,7 @@ namespace Game1
         private ChunkParser chunkParser;
         private int marioHeightToLoadNextChunk = 300;
         private readonly int numberOfChunksInLevelDefinition = 3;
+        private int previousChunkId = 1;
 
         private bool playedWarningSound = false;
         private Point maxCoords; 
@@ -351,7 +352,14 @@ namespace Game1
         private void AddRandomNewChunk()
         {
             Random random = new Random();
-            chunks.AddChunk(chunkParser.ParseChunk(random.Next(2, numberOfChunksInLevelDefinition + 1)));
+            int randomChunkId = random.Next(2, numberOfChunksInLevelDefinition + 1);
+
+            while (randomChunkId == previousChunkId)
+            {
+                randomChunkId = random.Next(2, numberOfChunksInLevelDefinition + 1);
+            }
+
+            chunks.AddChunk(chunkParser.ParseChunk(randomChunkId));
             cameraAdjustment += 480;
             marioHeightToLoadNextChunk -= 480;
         }
