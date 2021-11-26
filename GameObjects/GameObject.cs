@@ -19,7 +19,7 @@ namespace GameObjects
         public ISprite Sprite { get; set; }
         protected Rectangle AABB { get; set; }
         public bool BorderIsVisible { get; set; } = false;
-        protected bool queuedForDeletion = false;
+        public bool queuedForDeletion = false;
         private Vector2 AABBCollisionExtension { get; set; }
         protected bool Piped { get; set; }
         protected bool IsPiped { get; set; }
@@ -184,6 +184,11 @@ namespace GameObjects
         public bool isQueuedForDeletion()
         {
             return queuedForDeletion;
+        }
+
+        public void SetQueuedForDeletion(bool isQueuedForDeletion)
+        {
+            this.queuedForDeletion = isQueuedForDeletion;
         }
 
 
