@@ -15,10 +15,12 @@ using System;
 using Sprites;
 using Collisions;
 using LevelParser;
+using ChunkReader;
 using View;
 using Cameras;
 using Microsoft.Xna.Framework.Media;
 using Sound;
+using Chunks;
 using Microsoft.Xna.Framework.Audio;
 
 namespace Game1
@@ -30,8 +32,11 @@ namespace Game1
         private readonly string levelToLoad = "level11";
         private readonly double timeLimit = 400;
         private double secondsRemaining = 400;
-
-        private int heightAdjustment = 1000; // Used to increase limit for vertical camera movement
+        
+        /* Increase heightAdjustment by 480 for each chunk that is added */
+        private int heightAdjustment = 480; // Used to increase limit for vertical camera movement
+        private Queue<Chunk> currentChunks;
+        private ChunkParser chunkParser;
 
         private bool playedWarningSound = false;
         private Point maxCoords; 
@@ -114,7 +119,9 @@ namespace Game1
             background.SetCamera(camera);
 
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
-            mario = (Mario)objects[0];
+            
+            mario = chunkParser.ParseMario();   // For chunk loading
+            objects.Add(mario);                 // For chunk loading
 
             InitializeCommands();
             if (lastCheckpointPassed == 1) checkPoint = firstCheckPointPos;
@@ -312,7 +319,17 @@ namespace Game1
             levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
             objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
 
-            mario = (Mario) objects[0];
+
+            chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites);
+            
+            
+            mario = chunkParser.ParseMario();   // For chunk loading
+            objects.Add(mario);                 // For chunk loading
+
+            //mario = (Mario) objects[0];       // For normal level 1-1
+
+            System.Diagnostics.Debug.WriteLine(mario);
+
             InitializeCommands();
             
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);

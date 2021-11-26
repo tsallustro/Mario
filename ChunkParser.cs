@@ -13,23 +13,33 @@ using System.IO;
 using System.Diagnostics;
 using Sprites;
 using Cameras;
+using Chunks;
 
-namespace ChunkParser
+namespace ChunkReader
 {
     class ChunkParser
     {
-        private string levelPath;
+        private XElement level;
         private GraphicsDeviceManager graphics;
         Point maxCoords;
         Camera camera;
         Texture2D blockSprites;
         Texture2D pipeSprite;
         Texture2D itemSprites;
-        Mario mario;
 
         public ChunkParser(string levelPath, GraphicsDeviceManager graphics, Point maxCoords, Camera camera, Texture2D blockSprites, Texture2D pipeSprite, Texture2D itemSprites)
         {
-            this.levelPath = levelPath;
+            try
+            {
+                level = XElement.Load(levelPath);
+            }
+            catch (IOException e)
+            {
+                // Failed to load the level, return an empty list.
+                Console.Error.WriteLine("IO ERROR: Failed to load from file " + levelPath);
+                Console.Error.WriteLine(e.Message);
+            }
+
             this.graphics = graphics;
             this.maxCoords = maxCoords;
             this.camera = camera;
@@ -38,49 +48,10 @@ namespace ChunkParser
             this.itemSprites = itemSprites;
         }
 
-        /*public void ParseMario()
-        {
-            mario = ParseMario(graphics, list, level, maxCoords);
-        }
-
-        public List<IGameObject> ParseChunk(int chunkId, List<IGameObject> list, XElement level, Texture2D pipeSprite, Camera camera, Mario mario, Texture2D itemSprites)
-        {
-
-        }*/
-
         public static List<IGameObject> ParseLevel(string levelPath, GraphicsDeviceManager g, Texture2D blockSprites, Point maxCoords, Texture2D pipeSprite, Texture2D itemSprites, Texture2D flagSprite, Texture2D castleSprite, Camera camera)
         {
-            List<IGameObject> list = new List<IGameObject>();
-            XElement level;
-
-            try
-            {
-                level = XElement.Load(levelPath);
-            }
-            catch (IOException e)
-            {
-                //Failed to load the level, return an empty list.
-                Console.Error.WriteLine("IO ERROR: Failed to load from file " + levelPath);
-                Console.Error.WriteLine(e.Message);
-                return list;
-            }
-            //Mario MUST be parsed first, so that he is the first object in the list.
-            Mario mario = ParseMario(g, list, level, maxCoords);
-
-            //Add Fireballs to list. Must Be added second & onward in list
-            int numOfFireBalls = 2;
-            for (int i = 1; i <= numOfFireBalls; i++)           // add fireballs to object list
-            {
-                FireBall fireball = new FireBall(true, mario);
-                list.Add(fireball);
-            }
-            for (int i = 1; i <= numOfFireBalls - 1; i++)         // Add reference to next fireball to all fireballs in list but last
-            {
-                ((FireBall)list[i]).setNextFireBall((FireBall)list[i + 1]);
-            }
-
             //Parse Warp Pipes
-            ParseWarpPipes(list, level, pipeSprite, camera, mario, itemSprites);
+            /*ParseWarpPipes(list, level, pipeSprite, camera, mario, itemSprites);
 
             //Parse floor blocks
             ParseFloorBlocks(blockSprites, list, level, mario);
@@ -98,45 +69,19 @@ namespace ChunkParser
             ParseItems(list, level, itemSprites, mario);
 
             //Parse Stairs
-            ParseStairBlocks(blockSprites, list, level, mario);
+            ParseStairBlocks(blockSprites, list, level, mario);*/
 
             //Parse Enemies
-            ParseEnemies(list, level, camera);
+            //ParseEnemies(list, level, camera);
 
             // ParseEnd(list, level, flagSprite, castleSprite);
 
-            return list;
+            return new List<IGameObject>();
         }
 
-        private static void ParseChunk(int chunkId, List<IGameObject> list, XElement level, Texture2D pipeSprite, Camera camera, Mario mario, Texture2D itemSprites)
+        public Chunk ParseChunk(int chunkId)
         {
-
-        }
-
-        private static void ParseEnd(List<IGameObject> list, XElement level, Texture2D flagSprite, Texture2D castleSprite)
-        {
-
-            XElement flagElement = level.Element("endElements").Element("flag");
-            XElement castleElement = level.Element("endElements").Element("castle");
-
-            Vector2 flagPos = new Vector2
-            {
-                Y = 16 * Int32.Parse(flagElement.Element("row").Value),
-                X = 16 * Int32.Parse(flagElement.Element("column").Value)
-            };
-            Vector2 castlePos = new Vector2
-            {
-                Y = 16 * Int32.Parse(castleElement.Element("row").Value),
-                X = 16 * Int32.Parse(castleElement.Element("column").Value)
-            };
-
-            Flag flag = new Flag(flagPos, new Vector2(0, 0), new Vector2(0, 0));
-            Castle castle = new Castle(castlePos, new Vector2(0, 0), new Vector2(0, 0));
-
-            castle.Sprite = new Sprite(false, true, castlePos, castleSprite, 1, 1, 0, 0);
-
-            list.Add(flag);
-            list.Add(castle);
+            return new Chunk();
         }
 
         private static bool ParseBool(String boolString)
@@ -488,17 +433,15 @@ namespace ChunkParser
             }
         }
 
-        private static Mario ParseMario(GraphicsDeviceManager g, List<IGameObject> list, XElement level, Point maxCoords)
+        public Mario ParseMario()
         {
-
             Vector2 marioPos = new Vector2
             {
                 X = 16 * Int32.Parse(level.Element("mario").Element("column").Value),
                 Y = 16 * Int32.Parse(level.Element("mario").Element("row").Value)
             };
-            Mario mario = new Mario(marioPos, new Vector2(0, 0), new Vector2(0, 0), g, maxCoords);
-            list.Add(mario);
-            return mario;
+
+            return new Mario(marioPos, new Vector2(0, 0), new Vector2(0, 0), graphics, maxCoords);
         }
     }
 }
