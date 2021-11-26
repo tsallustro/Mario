@@ -13,7 +13,6 @@ namespace GameObjects
 {
     public class Bowser : GameObject, IEnemy
     {
-        private readonly float gravityAcceleration = 275;
         private readonly int boundaryAdjustment = 4;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
@@ -35,7 +34,9 @@ namespace GameObjects
         public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs, Camera camera)
             : base(position, velocity, acceleration)
         {
-
+            //Initial position is placed top right
+            Position = position;
+            this.camera = camera;
         }
         // reset goomba to default state using initial data
         public override void ResetObject()
@@ -62,22 +63,22 @@ namespace GameObjects
         }
         public override void Damage()
         {
-            
-            
+            TempInvincible();
         }
         
 
         //Handle Collision with Block
         private void HandleBlockCollision(int side, Block block)
         {
-          
-
+          //Do nothing. Bowser doesn't collide with blocks.
         }
 
         //Handles Collision with other Objects
         public override void Collision(int side, GameObject Collidee)
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
+            //When hit by Mario attack get damaged.
 
         }
 
@@ -93,10 +94,84 @@ namespace GameObjects
 
         }
 
-        //Change Goomba state to stomped mode
-        public void Stomped()
+        //Bowser position is fixed relative to the position of camera
+        public void MoveAlongWithCamera(GameTime gameTime)
+        {
+            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float yOffset = Position.Y - camera.Position.Y;
+            float xOffset = Position.X - camera.Position.X;
+
+            Position = new Vector2(Position.X + xOffset, Position.Y + yOffset);
+
+        }
+        
+        //Bowser should be temporarily invincible when damaged.
+        public void TempInvincible()
         {
 
+        }
+        
+        //Move Bowser toward left until it reaches certain x position
+        public void MoveLeft()
+        {
+            if (Position.X > 10)
+            {
+                SetXVelocity(-20);
+                //Change bowser state to Moving bowser
+            } else
+            {
+                SetXVelocity(0);
+                //Set sprite to look towards right
+            }
+        }
+        //Move Bowser toward right until it reaches certain x position
+        public void MoveRight()
+        {
+            if (Position.X < 780)
+            {
+                SetXVelocity(20);
+                //Change bowser state to Moving bowser
+            }
+            else
+            {
+                SetXVelocity(0);
+                //Set sprite to look towards left
+            }
+        }
+        //Move bowser towards up until it reaches ceratin height relative to camera position
+        public void MoveUp()
+        {
+            if (Position.Y - camera.Position.Y > -200)
+            {
+                SetYVelocity(20);
+            }
+            else
+            {
+                SetYVelocity(0);
+            }
+        }
+        //Move bowser towards down until it reaches ceratin height relative to camera position
+        public void MoveDown()
+        {
+            if (Position.Y - camera.Position.Y < 200)
+            {
+                SetYVelocity(20);
+            }
+            else
+            {
+                SetYVelocity(0);
+            }
+        }
+
+        public void FireMissile()
+        {
+            //Shoot fire
+        }
+
+
+        public void Stomped()
+        {
+            //Do nothing. Bowser isn't affected by stomping
         }
 
         //Change Goomba state to moving mode
