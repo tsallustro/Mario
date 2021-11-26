@@ -49,11 +49,43 @@
 					<row>4</row>
 					<column>13</column>
 				</brickBlock>
+				<brickBlock>
+					<row>20</row>
+					<column>30</column>
+				</brickBlock>
+				<brickBlock>
+					<row>20</row>
+					<column>31</column>
+				</brickBlock>
+				<brickBlock>
+					<row>20</row>
+					<column>32</column>
+				</brickBlock>
+				<brickBlock>
+					<row>16</row>
+					<column>27</column>
+				</brickBlock>
+				<brickBlock>
+					<row>16</row>
+					<column>26</column>
+				</brickBlock>
+				<brickBlock>
+					<row>16</row>
+					<column>25</column>
+				</brickBlock>
+				<brickBlock>
+					<row>16</row>
+					<column>24</column>
+				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
 				<questionBlock>
 					<row>24</row>
 					<column>9</column>
+				</questionBlock>
+				<questionBlock item="mushroom">
+					<row>14</row>
+					<column>32</column>
 				</questionBlock>
 			</questionBlocks>
 			<stairBlocks>

@@ -122,7 +122,7 @@ namespace Game1
             camera.Limits = new Rectangle(0, -cameraAdjustment, levelWidth, levelHeight + cameraAdjustment);
             background.SetCamera(camera);
 
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
+            //objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
             
             mario = chunkParser.ParseMario();   // For chunk loading
             objects.Add(mario);                 // For chunk loading
@@ -329,18 +329,11 @@ namespace Game1
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
 
             AddNewChunk(1);
-            //AddRandomNewChunk();
-
-            System.Diagnostics.Debug.WriteLine(cameraAdjustment);
 
             InitializeCommands();
             
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
-
-            //Background Music
-            
-            
         }
 
         private void AddNewChunk(int chunkId)
