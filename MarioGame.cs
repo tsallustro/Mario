@@ -39,7 +39,7 @@ namespace Game1
         private ActiveChunkContainer chunks;
         private ChunkParser chunkParser;
         private int marioHeightToLoadNextChunk = 300;
-        private readonly int numberOfChunksInLevelDefinition = 3;
+        private readonly int numberOfChunksInLevelDefinition = 4;
         private int previousChunkId = 1;
 
         private bool playedWarningSound = false;

@@ -46,8 +46,32 @@
 					<column>12</column>
 				</brickBlock>
 				<brickBlock>
+					<row>9</row>
+					<column>22</column>
+				</brickBlock>
+				<brickBlock>
+					<row>9</row>
+					<column>23</column>
+				</brickBlock>
+				<brickBlock>
+					<row>9</row>
+					<column>24</column>
+				</brickBlock>
+				<brickBlock>
+					<row>9</row>
+					<column>25</column>
+				</brickBlock>
+				<brickBlock>
 					<row>4</row>
 					<column>13</column>
+				</brickBlock>
+				<brickBlock>
+					<row>3</row>
+					<column>16</column>
+				</brickBlock>
+				<brickBlock>
+					<row>3</row>
+					<column>17</column>
 				</brickBlock>
 				<brickBlock>
 					<row>20</row>
@@ -90,6 +114,18 @@
 				</questionBlock>
 			</questionBlocks>
 			<stairBlocks>
+				<stairBlock>
+					<row>13</row>
+					<column>18</column>
+				</stairBlock>
+				<stairBlock>
+					<row>13</row>
+					<column>17</column>
+				</stairBlock>
+				<stairBlock>
+					<row>13</row>
+					<column>16</column>
+				</stairBlock>
 				<stairBlock>
 					<row>24</row>
 					<column>16</column>
@@ -703,6 +739,68 @@
 					<row>15</row>
 					<column>25</column>
 				</hiddenBlock>
+			</hiddenBlocks>
+			<items>
+			</items>
+			<warpPipes>
+			</warpPipes>
+			<enemies>
+			</enemies>
+		</chunk>
+		<chunk id="4">
+			<floorBlocks>
+			</floorBlocks>
+			<brickBlocks>
+				<brickBlock>
+					<row>29</row>
+					<column>6</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>7</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>8</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>9</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>10</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>11</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>12</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>13</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>14</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>15</column>
+				</brickBlock>
+			</brickBlocks>
+			<questionBlocks>
+				<questionBlock item="mushroom"> <!-- Should be new power-up! -->
+					<row>29</row>
+					<column>12</column>
+				</questionBlock>
+			</questionBlocks>
+			<stairBlocks>
+			</stairBlocks>
+			<hiddenBlocks>
 			</hiddenBlocks>
 			<items>
 			</items>
