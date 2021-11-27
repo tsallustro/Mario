@@ -11,7 +11,7 @@ using Sound;
 
 namespace GameObjects
 {
-    public class Bowser : GameObject, IEnemy
+    public class Bowser : GameObject, IBoss
     {
         private readonly int boundaryAdjustment = 4;
         /* 
@@ -24,8 +24,8 @@ namespace GameObjects
         private readonly double deathTimer = 1.5; // Timer for stomped Goomba disappearing
         private double timeStomped = 0;
 
-        private IEnemyState bowserState;
-        private GoombaSpriteFactory spriteFactory;
+        private IBossState bowserState;
+        //private GoombaSpriteFactory spriteFactory;
         private bool introduced = false;
         Vector2 newPosition;
         List<IGameObject> objects;
@@ -45,16 +45,16 @@ namespace GameObjects
 
         }
 
-        //Get Goomba State
-        public IEnemyState GetBowserState()
+        //Get Bowser State
+        public IBossState GetBowserState()
         {
             return this.bowserState;
         }
 
-        //Set Goomba State
-        public void SetBowserState(IEnemyState goombaState)
+        //Set Bowser State
+        public void SetBowserState(IBossState bowserState)
         {
-            //this.goombaState = goombaState;
+            this.bowserState = bowserState;
         }
 
         public override void Halt()
@@ -66,7 +66,6 @@ namespace GameObjects
             TempInvincible();
         }
         
-
         //Handle Collision with Block
         private void HandleBlockCollision(int side, Block block)
         {
@@ -108,7 +107,7 @@ namespace GameObjects
         //Bowser should be temporarily invincible when damaged.
         public void TempInvincible()
         {
-
+            bowserState.Damage();
         }
         
         //Move Bowser toward left until it reaches certain x position
@@ -122,6 +121,7 @@ namespace GameObjects
             {
                 SetXVelocity(0);
                 //Set sprite to look towards right
+                bowserState.FaceRight();
             }
         }
         //Move Bowser toward right until it reaches certain x position
@@ -136,6 +136,7 @@ namespace GameObjects
             {
                 SetXVelocity(0);
                 //Set sprite to look towards left
+                bowserState.FaceLeft();
             }
         }
         //Move bowser towards up until it reaches ceratin height relative to camera position
@@ -163,27 +164,9 @@ namespace GameObjects
             }
         }
 
-        public void FireMissile()
+        public void Attack ()
         {
             //Shoot fire
-        }
-
-
-        public void Stomped()
-        {
-            //Do nothing. Bowser isn't affected by stomping
-        }
-
-        //Change Goomba state to moving mode
-        public void Move()
-        {
-
-        }
-
-        //Change Goomba state to idle mode
-        public void StayIdle()
-        {
-
         }
 
         public bool IsDead()

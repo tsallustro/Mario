@@ -6,145 +6,102 @@ using Sound;
 
 namespace States
 {
-    public class IdleBowserState : IEnemyState
+    public class IdleBowserState : IBossState
     {
         private Bowser bowser;
+        private bool left;
 
-        public IdleBowserState(Bowser bowser)
+        public IdleBowserState(Bowser bowser, bool left)
         {
             this.bowser = bowser;
+            this.left = left;
         }
-
-        public void Stomped()
+        public void FaceLeft()
         {
+            this.left = true;
         }
-        public void Move()
+        public void FaceRight()
         {
+            this.left = false;
         }
-        public void StayIdle()
-        {
-            //Do Nothing.
-        }
-        public void Enter()
+        public void Damage()
         {
 
         }
-        public void Exit()
-        {
-
-        }
-        public void Kicked(float sspeed)
-        {
-            //Do Nothing
-        }
+        
     }
-    public class MovingBowserState : IEnemyState
+    public class MovingBowserState : IBossState
     {
         private Bowser bowser;
+        private bool left;
 
-        public MovingBowserState(Bowser bowser)
+        public MovingBowserState(Bowser bowser, bool left)
         {
             this.bowser = bowser;
+            this.left = left;
         }
-
-        public void Stomped()
+        public void FaceLeft()
+        {
+            this.left = true;
+        }
+        public void FaceRight()
+        {
+            this.left = false;
+        }
+        public void Damage()
         {
 
         }
-        public void Move()
-        {
-            //Do Nothing. Goomba is already moving.
-        }
-        public void StayIdle()
-        {
 
-        }
-
-        public void Enter()
-        {
-
-        }
-        public void Exit()
-        {
-
-        }
-        public void Kicked(float sspeed)
-        {
-            //Do Nothing
-        }
     }
 
-    public class DamagedBowserState : IEnemyState
+    public class DamagedBowserState : IBossState
     {
         private Bowser bowser;
+        private bool left;
 
-        public DamagedBowserState(Bowser bowser)
+        public DamagedBowserState(Bowser bowser, bool left)
         {
             this.bowser = bowser;
-            
+            this.left = left;
         }
-
-        public void Stomped()
+        public void FaceLeft()
         {
-            //Do nothing.
+            this.left = true;
         }
-        public void Move()
+        public void FaceRight()
         {
-            //Do nothing. It can't move while Stomped.
+            this.left = false;
         }
-        public void StayIdle()
-        {
-            //Do Nothing.
-        }
-
-        public void Enter()
+        public void Damage()
         {
 
         }
-        public void Exit()
-        {
 
-        }
-        public void Kicked(float sspeed)
-        {
-            //Do Nothing
-        }
     }
-    //Once dead, Goomba's gone
-    public class DeadBowserState : IEnemyState
+    public class DeadBowserState : IBossState
     {
         private Bowser bowser;
+        private bool left;
 
-        public DeadBowserState(Bowser bowser)
+        public DeadBowserState(Bowser bowser, bool left)
         {
             this.bowser = bowser;
+            this.left = left;
         }
-
-        public void Stomped()
+        public void FaceLeft()
         {
-            //Do nothing.
+            this.left = true;
         }
-        public void Move()
+        public void FaceRight()
         {
-            //Do nothing. It's dead.
+            this.left = false;
         }
-        public void StayIdle()
-        {
-            //Do Nothing.
-        }
-
-        public void Enter()
+        public void Damage()
         {
 
         }
-        public void Exit()
-        {
 
-        }
-        public void Kicked(float sspeed)
-        {
-            //Do Nothing
-        }
     }
   
   
