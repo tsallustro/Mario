@@ -46,8 +46,32 @@
 					<column>12</column>
 				</brickBlock>
 				<brickBlock>
+					<row>9</row>
+					<column>22</column>
+				</brickBlock>
+				<brickBlock>
+					<row>9</row>
+					<column>23</column>
+				</brickBlock>
+				<brickBlock>
+					<row>9</row>
+					<column>24</column>
+				</brickBlock>
+				<brickBlock>
+					<row>9</row>
+					<column>25</column>
+				</brickBlock>
+				<brickBlock>
 					<row>4</row>
 					<column>13</column>
+				</brickBlock>
+				<brickBlock>
+					<row>3</row>
+					<column>16</column>
+				</brickBlock>
+				<brickBlock>
+					<row>3</row>
+					<column>17</column>
 				</brickBlock>
 				<brickBlock>
 					<row>20</row>
@@ -90,6 +114,18 @@
 				</questionBlock>
 			</questionBlocks>
 			<stairBlocks>
+				<stairBlock>
+					<row>13</row>
+					<column>18</column>
+				</stairBlock>
+				<stairBlock>
+					<row>13</row>
+					<column>17</column>
+				</stairBlock>
+				<stairBlock>
+					<row>13</row>
+					<column>16</column>
+				</stairBlock>
 				<stairBlock>
 					<row>24</row>
 					<column>16</column>
@@ -481,11 +517,71 @@
 					<row>28</row>
 					<column>19</column>
 				</brickBlock>
+				<brickBlock>
+					<row>12</row>
+					<column>29</column>
+				</brickBlock>
+				<brickBlock>
+					<row>12</row>
+					<column>30</column>
+				</brickBlock>
+				<brickBlock>
+					<row>12</row>
+					<column>31</column>
+				</brickBlock>
+				<brickBlock>
+					<row>16</row>
+					<column>31</column>
+				</brickBlock>
+				<brickBlock>
+					<row>16</row>
+					<column>32</column>
+				</brickBlock>
+				<brickBlock>
+					<row>16</row>
+					<column>33</column>
+				</brickBlock>
+				<brickBlock coinCount="3">
+					<row>16</row>
+					<column>34</column>
+				</brickBlock>
+				<brickBlock coinCount="3">
+					<row>12</row>
+					<column>34</column>
+				</brickBlock>
+				<brickBlock>
+					<row>12</row>
+					<column>35</column>
+				</brickBlock>
+				<brickBlock >
+					<row>12</row>
+					<column>36</column>
+				</brickBlock>
+				<brickBlock>
+					<row>21</row>
+					<column>34</column>
+				</brickBlock>
+				<brickBlock>
+					<row>21</row>
+					<column>35</column>
+				</brickBlock>
+				<brickBlock>
+					<row>21</row>
+					<column>39</column>
+				</brickBlock>
+				<brickBlock>
+					<row>21</row>
+					<column>40</column>
+				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
 				<questionBlock item="mushroom"> <!-- Should be new power-up! -->
 					<row>1</row>
 					<column>11</column>
+				</questionBlock>
+				<questionBlock item="fire">
+					<row>21</row>
+					<column>41</column>
 				</questionBlock>
 			</questionBlocks>
 			<stairBlocks>
@@ -522,6 +618,14 @@
 					<column>10</column>
 				</stairBlock>
 				<stairBlock>
+					<row>29</row>
+					<column>32</column>
+				</stairBlock>
+				<stairBlock>
+					<row>29</row>
+					<column>33</column>
+				</stairBlock>
+				<stairBlock>
 					<row>26</row>
 					<column>37</column>
 				</stairBlock>
@@ -541,6 +645,160 @@
 					<row>26</row>
 					<column>41</column>
 				</stairBlock>
+				<stairBlock>
+					<row>24</row>
+					<column>23</column>
+				</stairBlock>
+				<stairBlock>
+					<row>24</row>
+					<column>24</column>
+				</stairBlock>
+				<stairBlock>
+					<row>23</row>
+					<column>24</column>
+				</stairBlock>
+				<stairBlock>
+					<row>23</row>
+					<column>25</column>
+				</stairBlock>
+				<stairBlock>
+					<row>22</row>
+					<column>25</column>
+				</stairBlock>
+				<stairBlock>
+					<row>22</row>
+					<column>26</column>
+				</stairBlock>
+				<stairBlock>
+					<row>21</row>
+					<column>26</column>
+				</stairBlock>
+				<stairBlock>
+					<row>21</row>
+					<column>27</column>
+				</stairBlock>
+				<stairBlock>
+					<row>20</row>
+					<column>27</column>
+				</stairBlock>
+				<stairBlock>
+					<row>13</row>
+					<column>22</column>
+				</stairBlock>
+				<stairBlock>
+					<row>13</row>
+					<column>23</column>
+				</stairBlock>
+				<stairBlock>
+					<row>7</row>
+					<column>36</column>
+				</stairBlock>
+				<stairBlock>
+					<row>7</row>
+					<column>37</column>
+				</stairBlock>
+				<stairBlock>
+					<row>7</row>
+					<column>38</column>
+				</stairBlock>
+				<stairBlock>
+					<row>4</row>
+					<column>41</column>
+				</stairBlock>
+				<stairBlock>
+					<row>4</row>
+					<column>42</column>
+				</stairBlock>
+				<stairBlock>
+					<row>3</row>
+					<column>42</column>
+				</stairBlock>
+				<stairBlock>
+					<row>3</row>
+					<column>43</column>
+				</stairBlock>
+				<stairBlock>
+					<row>2</row>
+					<column>43</column>
+				</stairBlock>
+				<stairBlock>
+					<row>2</row>
+					<column>44</column>
+				</stairBlock>
+				<stairBlock>
+					<row>1</row>
+					<column>44</column>
+				</stairBlock>
+				<stairBlock>
+					<row>1</row>
+					<column>45</column>
+				</stairBlock>
+			</stairBlocks>
+			<hiddenBlocks>
+				<hiddenBlock item="mushroom">
+					<row>15</row>
+					<column>25</column>
+				</hiddenBlock>
+			</hiddenBlocks>
+			<items>
+			</items>
+			<warpPipes>
+			</warpPipes>
+			<enemies>
+			</enemies>
+		</chunk>
+		<chunk id="4">
+			<floorBlocks>
+			</floorBlocks>
+			<brickBlocks>
+				<brickBlock>
+					<row>29</row>
+					<column>6</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>7</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>8</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>9</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>10</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>11</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>12</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>13</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>14</column>
+				</brickBlock>
+				<brickBlock>
+					<row>29</row>
+					<column>15</column>
+				</brickBlock>
+			</brickBlocks>
+			<questionBlocks>
+				<questionBlock item="mushroom"> <!-- Should be new power-up! -->
+					<row>29</row>
+					<column>12</column>
+				</questionBlock>
+			</questionBlocks>
+			<stairBlocks>
 			</stairBlocks>
 			<hiddenBlocks>
 			</hiddenBlocks>
