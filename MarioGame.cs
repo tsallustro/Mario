@@ -352,6 +352,8 @@ namespace Game1
             Random random = new Random();
             int randomChunkId = random.Next(2, numberOfChunksInLevelDefinition + 1);
 
+            // TODO - uncomment this and change 4s to 2s after testing
+
             while (randomChunkId == previousChunkId)
             {
                 randomChunkId = random.Next(2, numberOfChunksInLevelDefinition + 1);
