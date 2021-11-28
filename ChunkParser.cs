@@ -88,9 +88,15 @@ namespace ChunkReader
 
         public void DetermineCompatibleChunks()
         {
+            // For each chunk in list (change Dictionary to List) = i
             for (int i = 0; i < numberOfChunks; i++)
             {
-
+                // foreach Chunk that is not the one we are already looking at = j
+                    // Calculate height difference of i high and j low, ensure it's within 5 (or whatever max jump is)
+                    // foreach value of 1 in highestRowArray of i
+                        // Check for >= 2 wide gap in lowestRowArray of chunk j around each value of 1 in i's highestRowArray
+                        /// If there is suitable gap, ensure that there is a block that can be reached in j's lowestRowArray
+                        /// from the current block in i's highestRowArray
             }
         }
 
@@ -100,6 +106,7 @@ namespace ChunkReader
             IEnumerable<XElement> chunks = level.Element("chunks").Elements();
             List<XElement> allBlocks = new List<XElement>();
 
+            // Must iterate over chunks to find chunk with correct ID
             foreach (XElement chunk in chunks)
             {
                 if (chunk.HasAttributes)
