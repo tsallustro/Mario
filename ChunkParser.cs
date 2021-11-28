@@ -130,33 +130,51 @@ namespace ChunkReader
 
             baseHeight -= 480; // Decrement base height for each added chunk
 
-            return new Chunk(objects, GetHighestRow(allBlocks), GetLowestRow(allBlocks));
+            if (chunkId != 1)
+                return new Chunk(objects);
+            else
+            {
+                System.Diagnostics.Debug.WriteLine(GetHighRows(allBlocks));
+                return new Chunk(objects, GetHighRows(allBlocks), GetLowRows(allBlocks));
+            }
         }
 
-        public int GetHighestRow(List<XElement> blocks)
+        public int[,] GetHighRows(List<XElement> blocks)
         {
-            int highestRow = 30;
+            int[,] highRows = new int[5, 50];
 
             foreach (XElement block in blocks)
             {
                 int Y = int.Parse(block.Element("row").Value);
-                if (Y < highestRow) highestRow = Y;
+
+                if (Y >= 0 && Y < 5)
+                {
+                    int X = int.Parse(block.Element("column").Value);
+                    if (X >= 0 && X < 49) highRows[Y, X] = 1;
+                }
             }
 
-            return highestRow;
+            return highRows;
         }
 
-        public int GetLowestRow(List<XElement> blocks)
+        public int[,] GetLowRows(List<XElement> blocks)
         {
-            int lowestRow = -1;
+            int[,] lowRows = new int[5, 50];
 
             foreach (XElement block in blocks)
             {
                 int Y = int.Parse(block.Element("row").Value);
-                if (Y > lowestRow) lowestRow = Y;
+
+                if (Y >= 25 && Y < 30)
+                {
+                    int X = int.Parse(block.Element("column").Value);
+                    Y -= 25; // Ensure Y is in range of array
+                    if (X >= 0 && X < 49) lowRows[Y, X] = 1;
+                }
+                
             }
 
-            return lowestRow;
+            return lowRows;
         }
 
         public Mario ParseMario()
