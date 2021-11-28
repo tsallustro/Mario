@@ -13,8 +13,6 @@ namespace Chunks
         private int[,] highRows;
         private int[,] lowRows;
 
-        private List<Chunk> compatibleChunks;
-
         public Chunk()
         {
             this.objects = new List<IGameObject>();
@@ -34,16 +32,6 @@ namespace Chunks
             this.objects = objects;
             this.highRows = highRows;
             this.lowRows = lowRows;
-        }
-
-        public void SetCompatibleChunks(List<Chunk> compatibleChunks)
-        {
-            this.compatibleChunks = compatibleChunks;
-        }
-
-        public List<Chunk> GetCompatibleChunks()
-        {
-            return compatibleChunks;
         }
  
         public int[,] GetHighRows()

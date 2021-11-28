@@ -33,6 +33,7 @@ namespace ChunkReader
          *  via their ID.
          */
         private Dictionary<int, Chunk> chunkMap;
+        private Dictionary<Chunk, List<Chunk>> compatibleChunks;
         private int numberOfChunks;
 
         Mario mario;
@@ -48,6 +49,7 @@ namespace ChunkReader
             this.itemSprites = itemSprites;
             this.baseHeight = baseHeight;
             chunkMap = new Dictionary<int, Chunk>();
+            compatibleChunks = new Dictionary<Chunk, List<Chunk>>();
             numberOfChunks = 0;
         }
 
@@ -81,28 +83,52 @@ namespace ChunkReader
             }
         }
 
+        // This is going to be ugly...
         public void DetermineCompatibleChunks()
         {
             // For each chunk in dictionary = i
-            for (int i = 0; i < numberOfChunks; i++)
+            for (int chunk = 1; chunk < numberOfChunks; chunk++)
             {
-                Chunk currentChunk = chunkMap[i];
+                Chunk currentChunk = chunkMap[chunk];
                 int[,] currentChunkHighRows = currentChunk.GetHighRows();
 
-                for (int j = 0; j < 5; j++) // For each row
+                for (int row = 0; row < 5; row++) // For each row
                 {
-                    for (int k = 0; k < 50; k++) // For each column
+                    for (int column = 0; column < 50; column++) // For each column
                     {
+                        int currentBlock = currentChunkHighRows[row, column];
+                        bool blockHasGapAbove = true;
+                        bool gapOnLeft = true;
+                        bool gapOnRight = true;
 
+                        // Check if there is a gap in current chunk above the current block to jump
+                        for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+                        {
+                            if (currentChunkHighRows[rowsAbove, column] == 1) 
+                                blockHasGapAbove = false;
+                        }
+
+                        // If blockHasGapAbove is still true here, there is 1-block gap directly above block
+                        // Now, we check if there is at least a 2-block gap to fit through
+                        for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+                        {
+                            if (column < 49 && currentChunkHighRows[rowsAbove, column + 1] == 1)
+                                gapOnRight = false;
+
+                            if (column > 0 && currentChunkHighRows[rowsAbove, column - 1] == 1)
+                                gapOnLeft = false;
+                        }
+
+                        // Check if there is a block to land on in all other chunks
+                        for (int nextChunk = 1; nextChunk < numberOfChunks; nextChunk++)
+                        {
+                            if (nextChunk != chunk) // Do not compare chunks to themselves, only other chunks
+                            {
+
+                            }
+                        }
                     }
                 }
-
-                // foreach Chunk that is not the one we are already looking at = j
-                    // Calculate height difference of i high and j low, ensure it's within 5 (or whatever max jump is)
-                    // foreach value of 1 in highestRowArray of i
-                        // Check for >= 2 wide gap in lowestRowArray of chunk j around each value of 1 in i's highestRowArray
-                        /// If there is suitable gap, ensure that there is a block that can be reached in j's lowestRowArray
-                        /// from the current block in i's highestRowArray
             }
         }
 
