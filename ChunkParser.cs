@@ -83,6 +83,33 @@ namespace ChunkReader
             }
         }
 
+        private bool CheckForGapAboveCurrentBlockInCurrentChunk(int[,] currentChunkHighRows, int row, int column)
+        {
+            bool blockHasGapAbove = true;
+            bool blockHasGapOnLeft = true;
+            bool blockHasGapOnRight = true;
+
+            // Check if there is a gap in current chunk above the current block to jump
+            for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+            {
+                if (currentChunkHighRows[rowsAbove, column] == 1)
+                    blockHasGapAbove = false;
+            }
+
+            // If blockHasGapAbove is still true here, there is 1-block gap directly above block
+            // Now, we check if there is at least a 2-block gap to fit through
+            for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+            {
+                if (column < 49 && currentChunkHighRows[rowsAbove, column + 1] == 1)
+                    blockHasGapOnRight = false;
+
+                if (column > 0 && currentChunkHighRows[rowsAbove, column - 1] == 1)
+                    blockHasGapOnLeft = false;
+            }
+
+            return blockHasGapAbove && (blockHasGapOnLeft || blockHasGapOnRight);
+        }
+
         // This is gonna be ugly...
         public void DetermineCompatibleChunks()
         {
@@ -90,39 +117,20 @@ namespace ChunkReader
             {
                 Chunk currentChunk = chunkMap[currentChunkIndex];
                 int[,] currentChunkHighRows = currentChunk.GetHighRows();
-                List<Chunk> compatibleChunks = new List<Chunk>();
+                List<Chunk> compatibleChunksForCurrentChunk = new List<Chunk>();
 
                 for (int row = 0; row < 5; row++) // For each row
                 {
                     for (int column = 0; column < 50; column++) // For each column
                     {
                         int currentBlock = currentChunkHighRows[row, column]; // 0 if no block, 1 if block
-                        bool blockHasGapAbove = true;
-                        bool gapOnLeft = true;
-                        bool gapOnRight = true;
 
                         if (currentBlock == 1) // Only check if there is a block
                         {
-                            // Check if there is a gap in current chunk above the current block to jump
-                            for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
-                            {
-                                if (currentChunkHighRows[rowsAbove, column] == 1)
-                                    blockHasGapAbove = false;
-                            }
-
-                            // If blockHasGapAbove is still true here, there is 1-block gap directly above block
-                            // Now, we check if there is at least a 2-block gap to fit through
-                            for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
-                            {
-                                if (column < 49 && currentChunkHighRows[rowsAbove, column + 1] == 1)
-                                    gapOnRight = false;
-
-                                if (column > 0 && currentChunkHighRows[rowsAbove, column - 1] == 1)
-                                    gapOnLeft = false;
-                            }
+                            bool isGapAboveBlock = CheckForGapAboveCurrentBlockInCurrentChunk(currentChunkHighRows, row, column);
 
                             // If there is a gap, check if there is a block to land on
-                            if (blockHasGapAbove && (gapOnRight || gapOnLeft))
+                            if (isGapAboveBlock)
                             {
                                 // Check if there is a block to land on in all other chunks
                                 for (int nextChunkIndex = 1; nextChunkIndex < numberOfChunks; nextChunkIndex++)
@@ -133,14 +141,29 @@ namespace ChunkReader
                                     {
                                         Chunk nextChunk = chunkMap[nextChunkIndex];
                                         int[,] nextChunkLowRows = nextChunk.GetLowRows();
-                                        
-                                        
+
+                                        for (int nextRow = 0; nextRow < 7; nextRow++)
+                                        {
+                                            if (nextRow >= (row + 2)) // If next row is reachable from current row
+                                            {
+                                                for (int nextColumn = 0; nextColumn < 50; nextColumn++)
+                                                {
+                                                    int currentBlockInNextChunk = nextChunkLowRows[nextRow, nextColumn]; // 0 if no block, 1 if block
+                                                
+
+                                                }
+                                            }
+                                        }
+
+                                        if (isCompatibleWithThisChunk) compatibleChunksForCurrentChunk.Add(nextChunk);
                                     }
                                 }
                             }
                         }
                     }
                 }
+
+                compatibleChunks.Add(currentChunk, compatibleChunksForCurrentChunk);
             }
         }
 
@@ -197,16 +220,16 @@ namespace ChunkReader
 
         public int[,] GetLowRows(List<XElement> blocks)
         {
-            int[,] lowRows = new int[5, 50];
+            int[,] lowRows = new int[7, 50];
 
             foreach (XElement block in blocks)
             {
                 int Y = int.Parse(block.Element("row").Value);
 
-                if (Y >= 25 && Y < 30)
+                if (Y >= 23 && Y < 30)
                 {
                     int X = int.Parse(block.Element("column").Value);
-                    Y -= 25; // Ensure Y is in range of array
+                    Y -= 23; // Ensure Y is in range of array
                     if (X >= 0 && X < 49) lowRows[Y, X] = 1;
                 }
                 
