@@ -30,11 +30,9 @@ namespace ChunkReader
 
         /*
          *  TODO - At beginning of game, parse all chunks and store them in chunkMap, mapped
-         *  via their ID. We can then use this to calculate the compatible chunks for each
-         *  chunk, which we store in compatible chunks.
+         *  via their ID.
          */
         private Dictionary<int, Chunk> chunkMap;
-        private Dictionary<Chunk, List<Chunk>> compatibleChunks;
         private int numberOfChunks;
 
         Mario mario;
@@ -50,37 +48,34 @@ namespace ChunkReader
             this.itemSprites = itemSprites;
             this.baseHeight = baseHeight;
             chunkMap = new Dictionary<int, Chunk>();
-            compatibleChunks = new Dictionary<Chunk, List<Chunk>>();
             numberOfChunks = 0;
         }
 
-        public void ParseAllChunks()
+        public void ParseAllChunksAndAddToDictionary()
         {
+            List<IGameObject> objects = new List<IGameObject>();
             IEnumerable<XElement> chunks = level.Element("chunks").Elements();
+            List<XElement> allBlocks = new List<XElement>();
 
+            // Must iterate over chunks to find chunk with correct ID
             foreach (XElement chunk in chunks)
             {
                 if (chunk.HasAttributes)
                 {
-                    List<IGameObject> objects = new List<IGameObject>();
                     XAttribute id = chunk.Attribute("id");
-
+                    
                     ParseWarpPipes(chunk, objects);
                     ParseFloorBlocks(chunk, objects);
-                    ParseBrickBlocks(chunk, objects);
-                    ParseQuestionBlocks(chunk, objects);
+                    allBlocks.AddRange(ParseBrickBlocks(chunk, objects));
+                    allBlocks.AddRange(ParseQuestionBlocks(chunk, objects));
                     ParseHiddenBlocks(chunk, objects);
                     ParseItems(chunk, objects);
-                    ParseStairBlocks(chunk, objects);
+                    allBlocks.AddRange(ParseStairBlocks(chunk, objects));
                     ParseEnemies(chunk, objects);
                     ParseFireballs(objects);
 
-                    /*
-                     *  Note: Currently, using this method will result in all chunks being at the same
-                     *  height. Need to find a way to get them at different heights.
-                     */
-
-                    chunkMap.Add(int.Parse(id.Value), new Chunk(objects));
+                    // After this method, chunkMap will contain all possible chunks
+                    chunkMap.Add(int.Parse(id.Value), new Chunk(objects, GetHighRows(allBlocks), GetLowRows(allBlocks)));
                     numberOfChunks++;
                 }
             }
@@ -88,9 +83,20 @@ namespace ChunkReader
 
         public void DetermineCompatibleChunks()
         {
-            // For each chunk in list (change Dictionary to List) = i
+            // For each chunk in dictionary = i
             for (int i = 0; i < numberOfChunks; i++)
             {
+                Chunk currentChunk = chunkMap[i];
+                int[,] currentChunkHighRows = currentChunk.GetHighRows();
+
+                for (int j = 0; j < 5; j++) // For each row
+                {
+                    for (int k = 0; k < 50; k++) // For each column
+                    {
+
+                    }
+                }
+
                 // foreach Chunk that is not the one we are already looking at = j
                     // Calculate height difference of i high and j low, ensure it's within 5 (or whatever max jump is)
                     // foreach value of 1 in highestRowArray of i
@@ -100,7 +106,7 @@ namespace ChunkReader
             }
         }
 
-        public Chunk ParseChunk(int chunkId)
+        public Chunk ParseChunk(int chunkId, int previousChunkId)
         {
             List<IGameObject> objects = new List<IGameObject>();
             IEnumerable<XElement> chunks = level.Element("chunks").Elements();
