@@ -83,48 +83,60 @@ namespace ChunkReader
             }
         }
 
-        // This is going to be ugly...
+        // This is gonna be ugly...
         public void DetermineCompatibleChunks()
         {
-            // For each chunk in dictionary = i
-            for (int chunk = 1; chunk < numberOfChunks; chunk++)
+            for (int currentChunkIndex = 1; currentChunkIndex < numberOfChunks; currentChunkIndex++)
             {
-                Chunk currentChunk = chunkMap[chunk];
+                Chunk currentChunk = chunkMap[currentChunkIndex];
                 int[,] currentChunkHighRows = currentChunk.GetHighRows();
+                List<Chunk> compatibleChunks = new List<Chunk>();
 
                 for (int row = 0; row < 5; row++) // For each row
                 {
                     for (int column = 0; column < 50; column++) // For each column
                     {
-                        int currentBlock = currentChunkHighRows[row, column];
+                        int currentBlock = currentChunkHighRows[row, column]; // 0 if no block, 1 if block
                         bool blockHasGapAbove = true;
                         bool gapOnLeft = true;
                         bool gapOnRight = true;
 
-                        // Check if there is a gap in current chunk above the current block to jump
-                        for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+                        if (currentBlock == 1) // Only check if there is a block
                         {
-                            if (currentChunkHighRows[rowsAbove, column] == 1) 
-                                blockHasGapAbove = false;
-                        }
-
-                        // If blockHasGapAbove is still true here, there is 1-block gap directly above block
-                        // Now, we check if there is at least a 2-block gap to fit through
-                        for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
-                        {
-                            if (column < 49 && currentChunkHighRows[rowsAbove, column + 1] == 1)
-                                gapOnRight = false;
-
-                            if (column > 0 && currentChunkHighRows[rowsAbove, column - 1] == 1)
-                                gapOnLeft = false;
-                        }
-
-                        // Check if there is a block to land on in all other chunks
-                        for (int nextChunk = 1; nextChunk < numberOfChunks; nextChunk++)
-                        {
-                            if (nextChunk != chunk) // Do not compare chunks to themselves, only other chunks
+                            // Check if there is a gap in current chunk above the current block to jump
+                            for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
                             {
+                                if (currentChunkHighRows[rowsAbove, column] == 1)
+                                    blockHasGapAbove = false;
+                            }
 
+                            // If blockHasGapAbove is still true here, there is 1-block gap directly above block
+                            // Now, we check if there is at least a 2-block gap to fit through
+                            for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+                            {
+                                if (column < 49 && currentChunkHighRows[rowsAbove, column + 1] == 1)
+                                    gapOnRight = false;
+
+                                if (column > 0 && currentChunkHighRows[rowsAbove, column - 1] == 1)
+                                    gapOnLeft = false;
+                            }
+
+                            // If there is a gap, check if there is a block to land on
+                            if (blockHasGapAbove && (gapOnRight || gapOnLeft))
+                            {
+                                // Check if there is a block to land on in all other chunks
+                                for (int nextChunkIndex = 1; nextChunkIndex < numberOfChunks; nextChunkIndex++)
+                                {
+                                    bool isCompatibleWithThisChunk = true;
+
+                                    if (nextChunkIndex != currentChunkIndex) // Do not compare chunks to themselves, only other chunks
+                                    {
+                                        Chunk nextChunk = chunkMap[nextChunkIndex];
+                                        int[,] nextChunkLowRows = nextChunk.GetLowRows();
+                                        
+                                        
+                                    }
+                                }
                             }
                         }
                     }
