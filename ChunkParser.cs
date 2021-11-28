@@ -30,8 +30,7 @@ namespace ChunkReader
 
         /*
          *  TODO - At beginning of game, parse all chunks and store them in chunkMap, mapped
-         *  via their ID. We can then use this to calculate the compatible chunks for each
-         *  chunk, which we store in compatible chunks.
+         *  via their ID.
          */
         private Dictionary<int, Chunk> chunkMap;
         private Dictionary<Chunk, List<Chunk>> compatibleChunks;
@@ -54,53 +53,86 @@ namespace ChunkReader
             numberOfChunks = 0;
         }
 
-        public void ParseAllChunks()
+        public void ParseAllChunksAndAddToDictionary()
         {
+            List<IGameObject> objects = new List<IGameObject>();
             IEnumerable<XElement> chunks = level.Element("chunks").Elements();
+            List<XElement> allBlocks = new List<XElement>();
 
+            // Must iterate over chunks to find chunk with correct ID
             foreach (XElement chunk in chunks)
             {
                 if (chunk.HasAttributes)
                 {
-                    List<IGameObject> objects = new List<IGameObject>();
                     XAttribute id = chunk.Attribute("id");
-
+                    
                     ParseWarpPipes(chunk, objects);
                     ParseFloorBlocks(chunk, objects);
-                    ParseBrickBlocks(chunk, objects);
-                    ParseQuestionBlocks(chunk, objects);
+                    allBlocks.AddRange(ParseBrickBlocks(chunk, objects));
+                    allBlocks.AddRange(ParseQuestionBlocks(chunk, objects));
                     ParseHiddenBlocks(chunk, objects);
                     ParseItems(chunk, objects);
-                    ParseStairBlocks(chunk, objects);
+                    allBlocks.AddRange(ParseStairBlocks(chunk, objects));
                     ParseEnemies(chunk, objects);
                     ParseFireballs(objects);
 
-                    /*
-                     *  Note: Currently, using this method will result in all chunks being at the same
-                     *  height. Need to find a way to get them at different heights.
-                     */
-
-                    chunkMap.Add(int.Parse(id.Value), new Chunk(objects));
+                    // After this method, chunkMap will contain all possible chunks
+                    chunkMap.Add(int.Parse(id.Value), new Chunk(objects, GetHighRows(allBlocks), GetLowRows(allBlocks)));
                     numberOfChunks++;
                 }
             }
         }
 
+        // This is going to be ugly...
         public void DetermineCompatibleChunks()
         {
-            // For each chunk in list (change Dictionary to List) = i
-            for (int i = 0; i < numberOfChunks; i++)
+            // For each chunk in dictionary = i
+            for (int chunk = 1; chunk < numberOfChunks; chunk++)
             {
-                // foreach Chunk that is not the one we are already looking at = j
-                    // Calculate height difference of i high and j low, ensure it's within 5 (or whatever max jump is)
-                    // foreach value of 1 in highestRowArray of i
-                        // Check for >= 2 wide gap in lowestRowArray of chunk j around each value of 1 in i's highestRowArray
-                        /// If there is suitable gap, ensure that there is a block that can be reached in j's lowestRowArray
-                        /// from the current block in i's highestRowArray
+                Chunk currentChunk = chunkMap[chunk];
+                int[,] currentChunkHighRows = currentChunk.GetHighRows();
+
+                for (int row = 0; row < 5; row++) // For each row
+                {
+                    for (int column = 0; column < 50; column++) // For each column
+                    {
+                        int currentBlock = currentChunkHighRows[row, column];
+                        bool blockHasGapAbove = true;
+                        bool gapOnLeft = true;
+                        bool gapOnRight = true;
+
+                        // Check if there is a gap in current chunk above the current block to jump
+                        for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+                        {
+                            if (currentChunkHighRows[rowsAbove, column] == 1) 
+                                blockHasGapAbove = false;
+                        }
+
+                        // If blockHasGapAbove is still true here, there is 1-block gap directly above block
+                        // Now, we check if there is at least a 2-block gap to fit through
+                        for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+                        {
+                            if (column < 49 && currentChunkHighRows[rowsAbove, column + 1] == 1)
+                                gapOnRight = false;
+
+                            if (column > 0 && currentChunkHighRows[rowsAbove, column - 1] == 1)
+                                gapOnLeft = false;
+                        }
+
+                        // Check if there is a block to land on in all other chunks
+                        for (int nextChunk = 1; nextChunk < numberOfChunks; nextChunk++)
+                        {
+                            if (nextChunk != chunk) // Do not compare chunks to themselves, only other chunks
+                            {
+
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        public Chunk ParseChunk(int chunkId)
+        public Chunk ParseChunk(int chunkId, int previousChunkId)
         {
             List<IGameObject> objects = new List<IGameObject>();
             IEnumerable<XElement> chunks = level.Element("chunks").Elements();

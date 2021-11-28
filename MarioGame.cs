@@ -40,7 +40,7 @@ namespace Game1
         private ChunkParser chunkParser;
         private int marioHeightToLoadNextChunk = 300;
         private readonly int numberOfChunksInLevelDefinition = 7;
-        private int previousChunkId = 1;
+        private int previousChunkId = 0;
 
         private bool playedWarningSound = false;
         private Point maxCoords; 
@@ -127,7 +127,7 @@ namespace Game1
 
             cameraAdjustment = 0;
             marioHeightToLoadNextChunk = 300;
-            previousChunkId = 1;
+            previousChunkId = 0;
 
             mario = chunkParser.ParseMario();
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
@@ -329,7 +329,11 @@ namespace Game1
             // Load from Level file
             levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
             chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites, 0);
-            
+
+            // Determine chunk compatibility
+            chunkParser.ParseAllChunksAndAddToDictionary();
+            chunkParser.DetermineCompatibleChunks();
+
             mario = chunkParser.ParseMario();
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
 
@@ -343,7 +347,8 @@ namespace Game1
 
         private void AddNewChunk(int chunkId)
         {
-            chunks.AddChunk(chunkParser.ParseChunk(chunkId));
+            chunks.AddChunk(chunkParser.ParseChunk(chunkId, previousChunkId));
+            previousChunkId = chunkId;
             cameraAdjustment += 480;
         }
 
@@ -360,7 +365,7 @@ namespace Game1
             }
 
             previousChunkId = randomChunkId;
-            chunks.AddChunk(chunkParser.ParseChunk(randomChunkId));
+            chunks.AddChunk(chunkParser.ParseChunk(randomChunkId, previousChunkId));
             cameraAdjustment += 480;
             marioHeightToLoadNextChunk -= 480;
         }
