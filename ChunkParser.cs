@@ -130,13 +130,7 @@ namespace ChunkReader
 
             baseHeight -= 480; // Decrement base height for each added chunk
 
-            if (chunkId != 1)
-                return new Chunk(objects);
-            else
-            {
-                System.Diagnostics.Debug.WriteLine(GetHighRows(allBlocks));
-                return new Chunk(objects, GetHighRows(allBlocks), GetLowRows(allBlocks));
-            }
+            return new Chunk(objects, GetHighRows(allBlocks), GetLowRows(allBlocks));
         }
 
         public int[,] GetHighRows(List<XElement> blocks)
