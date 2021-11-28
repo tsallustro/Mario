@@ -35,6 +35,7 @@ namespace ChunkReader
          */
         private Dictionary<int, Chunk> chunkMap;
         private Dictionary<Chunk, List<Chunk>> compatibleChunks;
+        private int numberOfChunks;
 
         Mario mario;
 
@@ -50,6 +51,7 @@ namespace ChunkReader
             this.baseHeight = baseHeight;
             chunkMap = new Dictionary<int, Chunk>();
             compatibleChunks = new Dictionary<Chunk, List<Chunk>>();
+            numberOfChunks = 0;
         }
 
         public void ParseAllChunks()
@@ -79,38 +81,40 @@ namespace ChunkReader
                      */
 
                     chunkMap.Add(int.Parse(id.Value), new Chunk(objects));
+                    numberOfChunks++;
                 }
             }
         }
 
         public void DetermineCompatibleChunks()
         {
+            for (int i = 0; i < numberOfChunks; i++)
+            {
 
+            }
         }
 
         public Chunk ParseChunk(int chunkId)
         {
             List<IGameObject> objects = new List<IGameObject>();
             IEnumerable<XElement> chunks = level.Element("chunks").Elements();
-
-            System.Diagnostics.Debug.WriteLine("Loaded chunk with id " + chunkId + ".");
+            List<XElement> allBlocks = new List<XElement>();
 
             foreach (XElement chunk in chunks)
             {
                 if (chunk.HasAttributes)
                 {
                     XAttribute id = chunk.Attribute("id");
-
-
+                    
                     if (id != null && int.Parse(id.Value) == chunkId)
                     {
                         ParseWarpPipes(chunk, objects);
                         ParseFloorBlocks(chunk, objects);
-                        ParseBrickBlocks(chunk, objects);
-                        ParseQuestionBlocks(chunk, objects);
+                        allBlocks.AddRange(ParseBrickBlocks(chunk, objects));
+                        allBlocks.AddRange(ParseQuestionBlocks(chunk, objects));
                         ParseHiddenBlocks(chunk, objects);
                         ParseItems(chunk, objects);
-                        ParseStairBlocks(chunk, objects);
+                        allBlocks.AddRange(ParseStairBlocks(chunk, objects));
                         ParseEnemies(chunk, objects);
                         ParseFireballs(objects);
                     }
@@ -119,7 +123,33 @@ namespace ChunkReader
 
             baseHeight -= 480; // Decrement base height for each added chunk
 
-            return new Chunk(objects);
+            return new Chunk(objects, GetHighestRow(allBlocks), GetLowestRow(allBlocks));
+        }
+
+        public int GetHighestRow(List<XElement> blocks)
+        {
+            int highestRow = 30;
+
+            foreach (XElement block in blocks)
+            {
+                int Y = int.Parse(block.Element("row").Value);
+                if (Y < highestRow) highestRow = Y;
+            }
+
+            return highestRow;
+        }
+
+        public int GetLowestRow(List<XElement> blocks)
+        {
+            int lowestRow = -1;
+
+            foreach (XElement block in blocks)
+            {
+                int Y = int.Parse(block.Element("row").Value);
+                if (Y > lowestRow) lowestRow = Y;
+            }
+
+            return lowestRow;
         }
 
         public Mario ParseMario()
@@ -282,8 +312,6 @@ namespace ChunkReader
                                 Y = 16 * int.Parse(floor.Attribute("num").Value) + baseHeight
                             };
 
-                            System.Diagnostics.Debug.WriteLine("Floor block y: " + floorBlockPos.Y);
-
                             Block tempFloor = new Block(floorBlockPos, blockSprites, mario);
                             tempFloor.SetBlockState(new FloorBlockState(tempFloor));
                             list.Add(tempFloor);
@@ -354,9 +382,10 @@ namespace ChunkReader
             }
         }
 
-        private void ParseStairBlocks(XElement chunk, List<IGameObject> list)
+        private IEnumerable<XElement> ParseStairBlocks(XElement chunk, List<IGameObject> list)
         {
             IEnumerable<XElement> stairBlocks = chunk.Element("stairBlocks").Elements();
+
             foreach (XElement stair in stairBlocks)
             {
                 //Still need to add coins to block
@@ -368,13 +397,15 @@ namespace ChunkReader
                 Block tempStair = new Block(stairBlockPos, blockSprites, mario);
                 tempStair.SetBlockState(new StairBlockState(tempStair));
                 list.Add(tempStair);
-
             }
+
+            return stairBlocks;
         }
 
         private void ParseHiddenBlocks(XElement chunk, List<IGameObject> list)
         {
             IEnumerable<XElement> hiddenBlocks = chunk.Element("hiddenBlocks").Elements();
+
             foreach (XElement hidden in hiddenBlocks)
             {
                 //Still need to add coins to block
@@ -416,7 +447,7 @@ namespace ChunkReader
             }
         }
 
-        private void ParseQuestionBlocks(XElement chunk, List<IGameObject> list)
+        private IEnumerable<XElement> ParseQuestionBlocks(XElement chunk, List<IGameObject> list)
         {
             IEnumerable<XElement> questionBlocks = chunk.Element("questionBlocks").Elements();
 
@@ -440,6 +471,8 @@ namespace ChunkReader
                 tempQuestion.SetBlockState(new QuestionBlockState(tempQuestion));
                 list.Add(tempQuestion);
             }
+
+            return questionBlocks;
         }
 
         private static IItem GetItemOfType(string itemType, Vector2 blockPos, Texture2D itemSprites, Mario mario)
@@ -470,7 +503,7 @@ namespace ChunkReader
             return item;
         }
 
-        private void ParseBrickBlocks(XElement chunk, List<IGameObject> list)
+        private IEnumerable<XElement> ParseBrickBlocks(XElement chunk, List<IGameObject> list)
         {
             IEnumerable<XElement> brickBlocks = chunk.Element("brickBlocks").Elements();
 
@@ -510,6 +543,8 @@ namespace ChunkReader
                 list.AddRange(items);
                 list.Add(tempBrick);
             }
+
+            return brickBlocks;
         }
     }
 }
