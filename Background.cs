@@ -153,6 +153,8 @@ namespace View
         private RenderTarget2D renderTarget1 = null;
         static Vector2 VirtualScreen = new Vector2(1400, 800);
 
+        private Vector2 savePoint;
+
         //Y location of background bushes and hills.
         private float backgroundYPos;
 
@@ -165,6 +167,7 @@ namespace View
             this.camera = camera;
             //Background sprite height = 40, Block height = 16
             this.backgroundYPos = graphicsDevice.Viewport.Height - 40 - 32;
+            savePoint = camera.Position;
         }
 
         public void SetCamera(Camera camera)
@@ -180,7 +183,14 @@ namespace View
         }
         public void Update()
         {
-            camera.LookAt(new Vector2(mario.GetPosition().X, mario.GetPosition().Y));
+            if (camera.Position.Y > mario.GetPosition().Y)
+            {
+                camera.LookAt(savePoint);
+            } else
+            {
+                camera.LookAt(new Vector2(0, mario.GetPosition().Y));
+                savePoint = camera.Position;
+            }
         }
 
         public void Draw()
