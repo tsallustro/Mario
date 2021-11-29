@@ -27,11 +27,6 @@ namespace ChunkReader
         private Texture2D pipeSprite;
         private Texture2D itemSprites;
         private int baseHeight;
-
-        /*
-         *  TODO - At beginning of game, parse all chunks and store them in chunkMap, mapped
-         *  via their ID.
-         */
         private Dictionary<int, Chunk> chunkMap;
         private Dictionary<int, List<int>> compatibleChunks;
         private int numberOfChunks;
@@ -83,7 +78,7 @@ namespace ChunkReader
             }
         }
 
-        private bool CheckForGapAboveCurrentBlockInCurrentChunk(int[,] currentChunkHighRows, int row, int column)
+        private bool GapIsAboveCurrentBlockInCurrentChunk(int[,] currentChunkHighRows, int row, int column)
         {
             bool blockHasGapAbove = true;
             bool blockHasGapOnLeft = true;
@@ -110,6 +105,69 @@ namespace ChunkReader
             return blockHasGapAbove && (blockHasGapOnLeft || blockHasGapOnRight);
         }
 
+        private bool NextChunkIsCompatible(int nextChunkIndex, int row, int column)
+        {
+            Chunk nextChunk = chunkMap[nextChunkIndex];
+            int[,] nextChunkLowRows = nextChunk.GetLowRows();
+            bool isCompatibleWithThisChunk = false;
+
+            for (int nextRow = 0; nextRow < 7; nextRow++)
+            {
+                if (nextRow >= (row + 3)) // If next row is reachable from current row
+                {
+                    int heightDifference = 7 + row - nextRow;
+                    int maximumDistance = 14 - (2 * heightDifference);
+
+                    for (int nextColumn = 0; nextColumn < 50; nextColumn++)
+                    {
+                        int currentBlockInNextChunk = nextChunkLowRows[nextRow, nextColumn]; // 0 if no block, 1 if block
+
+                        // If there is a block, check that the two columns above are clear for landing
+                        // Also check that block is within jumping distance
+                        // Don't need to check that nextRow >= 2 because it always will be here
+                        if (currentBlockInNextChunk == 1 && 
+                            nextChunkLowRows[nextRow - 1, nextColumn] == 0 &&
+                            nextChunkLowRows[nextRow - 2, nextColumn] == 0 &&
+                            Math.Abs(nextColumn - column) < maximumDistance)
+                        {
+                            // Check for walls between [row, column] and [nextRow, nextColumn]
+                            int startingColumn;
+                            int endingColumn;
+                            bool wallIsBlockingPath = false;
+
+                            // Determine start and end columns to ease loop logic
+                            if (column > nextColumn)
+                            {
+                                startingColumn = nextColumn;
+                                endingColumn = column;
+                            }
+                            else
+                            {
+                                startingColumn = column;
+                                endingColumn = nextColumn;
+                            }
+
+                            // Check for walls between jumping point and ending point
+                            for (int wallRow = nextRow - 1; wallRow > nextRow - 2; wallRow--)
+                            {
+                                for (int wallColumn = startingColumn; wallColumn < endingColumn; wallColumn++)
+                                {
+                                    if (nextChunkLowRows[wallRow, wallColumn] == 1)
+                                    {
+                                        wallIsBlockingPath = true;
+                                    }
+                                }
+                            }
+
+                            if (!wallIsBlockingPath) isCompatibleWithThisChunk = true;
+                        }
+                    }
+                }
+            }
+
+            return isCompatibleWithThisChunk;
+        }
+
         // This is gonna be ugly...
         public void DetermineCompatibleChunks()
         {
@@ -119,85 +177,17 @@ namespace ChunkReader
                 int[,] currentChunkHighRows = currentChunk.GetHighRows();
                 List<int> compatibleChunksForCurrentChunk = new List<int>();
 
-                for (int row = 0; row < 5; row++) // For each row
+                for (int row = 0; row < 5; row++)
                 {
-                    for (int column = 0; column < 50; column++) // For each column
+                    for (int column = 0; column < 50; column++)
                     {
-                        int currentBlock = currentChunkHighRows[row, column]; // 0 if no block, 1 if block
-
-                        if (currentBlock == 1) // Only check if there is a block
+                        if (currentChunkHighRows[row, column] == 1 && GapIsAboveCurrentBlockInCurrentChunk(currentChunkHighRows, row, column))
                         {
-                            bool isGapAboveBlock = CheckForGapAboveCurrentBlockInCurrentChunk(currentChunkHighRows, row, column);
-
-                            // If there is a gap, check if there is a block to land on
-                            if (isGapAboveBlock)
+                            // Check if there is a block to land on in all other chunks
+                            for (int nextChunkIndex = 1; nextChunkIndex < numberOfChunks; nextChunkIndex++)
                             {
-                                // Check if there is a block to land on in all other chunks
-                                for (int nextChunkIndex = 1; nextChunkIndex < numberOfChunks; nextChunkIndex++)
-                                {
-                                    if (nextChunkIndex != currentChunkIndex) // Do not compare chunks to themselves, only other chunks
-                                    {
-                                        Chunk nextChunk = chunkMap[nextChunkIndex];
-                                        int[,] nextChunkLowRows = nextChunk.GetLowRows();
-                                        bool isCompatibleWithThisChunk = false;
-
-                                        for (int nextRow = 0; nextRow < 7; nextRow++)
-                                        {
-                                            if (nextRow >= (row + 3)) // If next row is reachable from current row
-                                            {
-                                                int heightDifference = 7 + row - nextRow;
-                                                int maximumDistance = 15 - (2 * heightDifference);
-
-                                                for (int nextColumn = 0; nextColumn < 50; nextColumn++)
-                                                {
-                                                    int currentBlockInNextChunk = nextChunkLowRows[nextRow, nextColumn]; // 0 if no block, 1 if block
-
-                                                    // If there is a block, check that the two columns above are clear for landing
-                                                    // Also check that block is within jumping distance
-                                                    // Don't need to check that nextRow >= 2 because it always will be here
-                                                    if (currentBlockInNextChunk == 1 && 
-                                                        nextChunkLowRows[nextRow - 1, nextColumn] == 0 &&
-                                                        nextChunkLowRows[nextRow - 2, nextColumn] == 0 &&
-                                                        Math.Abs(nextColumn - column) < maximumDistance)
-                                                    {
-                                                        // Check for walls between [row, column] and [nextRow, nextColumn]
-                                                        int startingColumn;
-                                                        int endingColumn;
-
-                                                        if (column > nextColumn)
-                                                        {
-                                                            startingColumn = nextColumn;
-                                                            endingColumn = column;
-                                                        }
-                                                        else
-                                                        {
-                                                            startingColumn = column;
-                                                            endingColumn = nextColumn;
-                                                        }
-
-                                                        bool wallIsBlockingPath = false;
-
-                                                        // Check for walls between jumping point and ending point
-                                                        for (int wallRow = nextRow - 1; wallRow > nextRow - 2; wallRow--)
-                                                        {
-                                                            for (int wallColumn = startingColumn; wallColumn < endingColumn; wallColumn++)
-                                                            {
-                                                                if (nextChunkLowRows[wallRow, wallColumn] == 1)
-                                                                {
-                                                                    wallIsBlockingPath = true;
-                                                                }
-                                                            }
-                                                        }
-
-                                                        if (!wallIsBlockingPath) isCompatibleWithThisChunk = true;
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        if (isCompatibleWithThisChunk) compatibleChunksForCurrentChunk.Add(nextChunkIndex);
-                                    }
-                                }
+                                if (nextChunkIndex != currentChunkIndex && NextChunkIsCompatible(nextChunkIndex, row, column))
+                                    compatibleChunksForCurrentChunk.Add(nextChunkIndex);
                             }
                         }
                     }
