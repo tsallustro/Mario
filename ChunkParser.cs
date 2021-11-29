@@ -74,6 +74,7 @@ namespace ChunkReader
                     // After this method, chunkMap will contain all possible chunks
                     chunkMap.Add(int.Parse(id.Value), new Chunk(objects, GetHighRows(allBlocks), GetLowRows(allBlocks)));
                     numberOfChunks++;
+                    compatibleChunks[numberOfChunks] = new List<int>();
                 }
             }
         }
@@ -105,7 +106,7 @@ namespace ChunkReader
             return blockHasGapAbove && (blockHasGapOnLeft || blockHasGapOnRight);
         }
 
-        private bool NextChunkIsCompatible(int nextChunkIndex, int row, int column)
+        private bool NextChunkIsCompatibleAtBlock(int nextChunkIndex, int row, int column)
         {
             Chunk nextChunk = chunkMap[nextChunkIndex];
             int[,] nextChunkLowRows = nextChunk.GetLowRows();
@@ -171,12 +172,22 @@ namespace ChunkReader
         // This is gonna be ugly...
         public void DetermineCompatibleChunks()
         {
-            for (int currentChunkIndex = 1; currentChunkIndex < numberOfChunks; currentChunkIndex++)
+            // For each chunk, keep matrix of compatible blocks for each other chunk
+            Dictionary<int, Dictionary<int, bool[,]>> SolvableBlocksForEachChunk = new Dictionary<int, Dictionary<int, bool[,]>>();
+
+            for (int currentChunkIndex = 1; currentChunkIndex <= numberOfChunks; currentChunkIndex++)
             {
                 Chunk currentChunk = chunkMap[currentChunkIndex];
                 int[,] currentChunkHighRows = currentChunk.GetHighRows();
-                List<int> compatibleChunksForCurrentChunk = new List<int>();
 
+                // Initialize everything in SolvableBlocksForEachChunk
+                SolvableBlocksForEachChunk.Add(currentChunkIndex, new Dictionary<int, bool[,]>());
+                for (int nextIndex = 1; nextIndex <= numberOfChunks; nextIndex++)
+                {
+                    SolvableBlocksForEachChunk[currentChunkIndex].Add(nextIndex, new bool[5, 50]);
+                }
+
+                // Iterate over all blocks in current chunk's high rows
                 for (int row = 0; row < 5; row++)
                 {
                     for (int column = 0; column < 50; column++)
@@ -184,28 +195,55 @@ namespace ChunkReader
                         if (currentChunkHighRows[row, column] == 1 && GapIsAboveCurrentBlockInCurrentChunk(currentChunkHighRows, row, column))
                         {
                             // Check if there is a block to land on in all other chunks
-                            for (int nextChunkIndex = 1; nextChunkIndex < numberOfChunks; nextChunkIndex++)
+                            for (int nextChunkIndex = 1; nextChunkIndex <= numberOfChunks; nextChunkIndex++)
                             {
-                                if (nextChunkIndex != currentChunkIndex && NextChunkIsCompatible(nextChunkIndex, row, column))
-                                    compatibleChunksForCurrentChunk.Add(nextChunkIndex);
+                                // Construct matrix of all blocks that can reach blocks in nextChunk
+                                if (nextChunkIndex != currentChunkIndex)
+                                {
+                                    SolvableBlocksForEachChunk[currentChunkIndex][nextChunkIndex][row, column] = NextChunkIsCompatibleAtBlock(nextChunkIndex, row, column);
+                                } else
+                                {
+                                    SolvableBlocksForEachChunk[currentChunkIndex][nextChunkIndex][row, column] = false;
+                                }
                             }
                         }
                     }
                 }
-
-                compatibleChunks.Add(currentChunkIndex, compatibleChunksForCurrentChunk);
             }
 
-            // Debug statements only, can safely erase
-            for (int i = 1; i < numberOfChunks; i++)
+            // Check which chunks are compatible based on the content of the matrices
+            for (int currentChunkIndex = 1; currentChunkIndex <= numberOfChunks; currentChunkIndex++)
             {
-                for (int j = 1; j < 8; j++)
+                List<int> chunksThatAreCompatibleWithCurrentChunk = new List<int>();
+
+                for (int comparingChunkIndex = 1; comparingChunkIndex <= numberOfChunks; comparingChunkIndex++)
                 {
-                    Debug.WriteLine("Compatible chunk for chunk " + i + ": " + compatibleChunks[i][j]);
+                    bool chunksAreCompatible = false;
+
+                    // If any block in the currentChnk is true, that means we can reach the comparingChunk
+                    for (int row = 0; row < 5; row++)
+                    {
+                        for (int column = 0; column < 50; column++)
+                        {
+                            if (SolvableBlocksForEachChunk[currentChunkIndex][comparingChunkIndex][row, column])
+                            {
+                                chunksAreCompatible = true;
+                            }
+                        }
+                    }
+
+                    if (chunksAreCompatible) chunksThatAreCompatibleWithCurrentChunk.Add(comparingChunkIndex);
                 }
+
+                // Add list of compatible chunks for current chunk to dictionary
+                compatibleChunks[currentChunkIndex] = chunksThatAreCompatibleWithCurrentChunk;
             }
         }
 
+        /*
+         *  IMPORTANT NOTE: This may not return the expected chunk. If the requested chunk is not
+         *  compatible with the previous chunk, a random chunk that is compatible will be loaded instead.
+         */
         public Chunk ParseChunk(int chunkId, int previousChunkId)
         {
             List<IGameObject> objects = new List<IGameObject>();
@@ -221,7 +259,7 @@ namespace ChunkReader
                     {
                         Random rnd = new Random();
 
-                        while (!compatibleChunks[previousChunkId].Contains(chunkId))
+                        while (!compatibleChunks[previousChunkId].Contains(chunkId) && chunkId != previousChunkId)
                         {
                             chunkId = rnd.Next(2, numberOfChunks);
                         }

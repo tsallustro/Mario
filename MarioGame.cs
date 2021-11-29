@@ -39,7 +39,7 @@ namespace Game1
         private ActiveChunkContainer chunks;
         private ChunkParser chunkParser;
         private int marioHeightToLoadNextChunk = 300;
-        private readonly int numberOfChunksInLevelDefinition = 7;
+        private readonly int numberOfChunksInLevelDefinition = 8;
         private int previousChunkId = 0;
 
         private bool playedWarningSound = false;
@@ -361,7 +361,7 @@ namespace Game1
             Random random = new Random();
             int randomChunkId = random.Next(2, numberOfChunksInLevelDefinition + 1);
 
-            // TODO - uncomment this and change 7 above to 2 after testing
+            // TODO - uncomment this and change 8 above to 2 after testing
 
             while (randomChunkId == previousChunkId)
             {
