@@ -116,7 +116,7 @@ namespace ChunkReader
                 if (nextRow >= (row + 3)) // If next row is reachable from current row
                 {
                     int heightDifference = 7 + row - nextRow;
-                    int maximumDistance = 14 - (2 * heightDifference);
+                    int maximumDistance = 15 - (2 * heightDifference);
 
                     for (int nextColumn = 0; nextColumn < 50; nextColumn++)
                     {
