@@ -149,7 +149,7 @@ namespace ChunkReader
                             }
 
                             // Check for walls between jumping point and ending point
-                            for (int wallRow = nextRow - 1; wallRow > nextRow - 2; wallRow--)
+                            for (int wallRow = nextRow - 1; wallRow >= nextRow - 2; wallRow--)
                             {
                                 for (int wallColumn = startingColumn; wallColumn < endingColumn; wallColumn++)
                                 {
