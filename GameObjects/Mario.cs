@@ -208,11 +208,13 @@ namespace GameObjects
         //if Mario touches bottom boundary, Mario dies.
         private void HandleBoundaryCollision()
         {
-            if (this.AABB.Bottom > Graphics.GraphicsDevice.Viewport.Y + Graphics.GraphicsDevice.Viewport.Height)
+            System.Diagnostics.Debug.WriteLine("Maxcoords Y: " + maxCoords.Y);
+            System.Diagnostics.Debug.WriteLine("Mario Y: " + AABB.Bottom);
+            /*if (this.AABB.Bottom > Graphics.GraphicsDevice.Viewport.Y + Graphics.GraphicsDevice.Viewport.Height)
             {
                 SetLivesRemaining(0);
                 this.Damage();
-            }
+            }*/
         }
 
         private void HandleBlockCollision(int side, GameObject block)

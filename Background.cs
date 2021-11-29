@@ -6,6 +6,7 @@ using System.Text;
 using Game1;
 using GameObjects;
 using Sprites;
+using States;
 using Cameras;
 
 namespace View
@@ -26,7 +27,7 @@ namespace View
         private GraphicsDevice graphicsDevice;
         private SpriteBatch spriteBatch;
         private MarioGame game;
-        private GameObject mario;
+        private Mario mario;
 
         private Camera camera;
         private RenderTarget2D renderTarget1 = null;
@@ -42,7 +43,7 @@ namespace View
         //Y location of background bushes and hills.
         private float backgroundYPos;
 
-        public Background(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, MarioGame game, GameObject mario, Camera camera)
+        public Background(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, MarioGame game, Mario mario, Camera camera)
         {
             this.graphicsDevice = graphicsDevice;
             this.spriteBatch = spriteBatch;
@@ -79,6 +80,11 @@ namespace View
         }
         public void Update(GameTime gameTime)
         {
+            if (mario.GetPosition().Y > (camera.Position.Y + 480))
+            {
+                mario.SetPowerState(new DeadMario(mario));
+            }
+            
             //ScrollNormal();
             ScrollUp();
             //ScrollAuto(gameTime);
