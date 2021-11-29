@@ -56,6 +56,11 @@ namespace View
             
         }
 
+        public float GetBottomBoundary()
+        {
+            return graphicsDevice.Viewport.Y + graphicsDevice.Viewport.Height;
+        }
+
         public void SetCamera(Camera camera)
         {
             this.camera = camera;
