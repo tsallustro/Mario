@@ -230,6 +230,12 @@ namespace GameObjects
                 this.SetYAcceleration(gravityAccleration);
             }
 
+            if (AABB != null && BlockEnemyIsOn != null && BlockEnemyIsOn.GetAABB() != null &&
+                AABB.Intersects(BlockEnemyIsOn.GetAABB()))
+            {
+                Position = new Vector2(Position.X, Position.Y - 1);
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, koopaTroopaState);
 
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),

@@ -203,6 +203,12 @@ namespace GameObjects
                 this.SetYAcceleration(gravityAcceleration);
             }
 
+            if (AABB != null && BlockEnemyIsOn != null && BlockEnemyIsOn.GetAABB() != null &&
+                AABB.Intersects(BlockEnemyIsOn.GetAABB()))
+            {
+                Position = new Vector2(Position.X, Position.Y - 1);
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, goombaState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, (Sprite.texture.Height) - boundaryAdjustment));
