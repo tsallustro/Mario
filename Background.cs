@@ -210,7 +210,7 @@ namespace View
                 spriteBatch.End();
                 graphicsDevice.SetRenderTarget(null);
             }
-            Vector2 parallax = new Vector2(0.2f);
+            Vector2 parallax = new Vector2(0.7f);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, camera.GetViewMatrix(parallax));
             spriteBatch.Draw((Texture2D)renderTarget1, Vector2.Zero, new Rectangle(0, 0, (int)VirtualScreen.X, (int)VirtualScreen.Y), Color.White);
             spriteBatch.End();

@@ -86,7 +86,7 @@ namespace Game1
         private ISprite livesIcon;
 
         //Background textures
-        private Background background;
+        private BackgroundTwo background;
         private Camera camera;
         private Vector2 parallax;
 
@@ -140,7 +140,7 @@ namespace Game1
 
             InitializeCommands();
 
-            background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
+            background = new BackgroundTwo(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
 
@@ -345,7 +345,7 @@ namespace Game1
 
             InitializeCommands();
             
-            background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
+            background = new BackgroundTwo(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
 
