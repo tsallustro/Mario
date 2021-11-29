@@ -33,7 +33,7 @@ namespace ChunkReader
          *  via their ID.
          */
         private Dictionary<int, Chunk> chunkMap;
-        private Dictionary<Chunk, List<Chunk>> compatibleChunks;
+        private Dictionary<int, List<int>> compatibleChunks;
         private int numberOfChunks;
 
         Mario mario;
@@ -49,7 +49,7 @@ namespace ChunkReader
             this.itemSprites = itemSprites;
             this.baseHeight = baseHeight;
             chunkMap = new Dictionary<int, Chunk>();
-            compatibleChunks = new Dictionary<Chunk, List<Chunk>>();
+            compatibleChunks = new Dictionary<int, List<int>>();
             numberOfChunks = 0;
         }
 
@@ -117,7 +117,7 @@ namespace ChunkReader
             {
                 Chunk currentChunk = chunkMap[currentChunkIndex];
                 int[,] currentChunkHighRows = currentChunk.GetHighRows();
-                List<Chunk> compatibleChunksForCurrentChunk = new List<Chunk>();
+                List<int> compatibleChunksForCurrentChunk = new List<int>();
 
                 for (int row = 0; row < 5; row++) // For each row
                 {
@@ -135,27 +135,67 @@ namespace ChunkReader
                                 // Check if there is a block to land on in all other chunks
                                 for (int nextChunkIndex = 1; nextChunkIndex < numberOfChunks; nextChunkIndex++)
                                 {
-                                    bool isCompatibleWithThisChunk = true;
-
                                     if (nextChunkIndex != currentChunkIndex) // Do not compare chunks to themselves, only other chunks
                                     {
                                         Chunk nextChunk = chunkMap[nextChunkIndex];
                                         int[,] nextChunkLowRows = nextChunk.GetLowRows();
+                                        bool isCompatibleWithThisChunk = false;
 
                                         for (int nextRow = 0; nextRow < 7; nextRow++)
                                         {
-                                            if (nextRow >= (row + 2)) // If next row is reachable from current row
+                                            if (nextRow >= (row + 3)) // If next row is reachable from current row
                                             {
+                                                int heightDifference = 7 + row - nextRow;
+                                                int maximumDistance = 15 - (2 * heightDifference);
+
                                                 for (int nextColumn = 0; nextColumn < 50; nextColumn++)
                                                 {
                                                     int currentBlockInNextChunk = nextChunkLowRows[nextRow, nextColumn]; // 0 if no block, 1 if block
-                                                
 
+                                                    // If there is a block, check that the two columns above are clear for landing
+                                                    // Also check that block is within jumping distance
+                                                    // Don't need to check that nextRow >= 2 because it always will be here
+                                                    if (currentBlockInNextChunk == 1 && 
+                                                        nextChunkLowRows[nextRow - 1, nextColumn] == 0 &&
+                                                        nextChunkLowRows[nextRow - 2, nextColumn] == 0 &&
+                                                        Math.Abs(nextColumn - column) < maximumDistance)
+                                                    {
+                                                        // Check for walls between [row, column] and [nextRow, nextColumn]
+                                                        int startingColumn;
+                                                        int endingColumn;
+
+                                                        if (column > nextColumn)
+                                                        {
+                                                            startingColumn = nextColumn;
+                                                            endingColumn = column;
+                                                        }
+                                                        else
+                                                        {
+                                                            startingColumn = column;
+                                                            endingColumn = nextColumn;
+                                                        }
+
+                                                        bool wallIsBlockingPath = false;
+
+                                                        // Check for walls between jumping point and ending point
+                                                        for (int wallRow = nextRow - 1; wallRow > nextRow - 2; wallRow--)
+                                                        {
+                                                            for (int wallColumn = startingColumn; wallColumn < endingColumn; wallColumn++)
+                                                            {
+                                                                if (nextChunkLowRows[wallRow, wallColumn] == 1)
+                                                                {
+                                                                    wallIsBlockingPath = true;
+                                                                }
+                                                            }
+                                                        }
+
+                                                        if (!wallIsBlockingPath) isCompatibleWithThisChunk = true;
+                                                    }
                                                 }
                                             }
                                         }
 
-                                        if (isCompatibleWithThisChunk) compatibleChunksForCurrentChunk.Add(nextChunk);
+                                        if (isCompatibleWithThisChunk) compatibleChunksForCurrentChunk.Add(nextChunkIndex);
                                     }
                                 }
                             }
@@ -163,7 +203,16 @@ namespace ChunkReader
                     }
                 }
 
-                compatibleChunks.Add(currentChunk, compatibleChunksForCurrentChunk);
+                compatibleChunks.Add(currentChunkIndex, compatibleChunksForCurrentChunk);
+            }
+
+            // Debug statements only, can safely erase
+            for (int i = 1; i < numberOfChunks; i++)
+            {
+                for (int j = 1; j < 8; j++)
+                {
+                    Debug.WriteLine("Compatible chunk for chunk " + i + ": " + compatibleChunks[i][j]);
+                }
             }
         }
 
@@ -178,6 +227,17 @@ namespace ChunkReader
             {
                 if (chunk.HasAttributes)
                 {
+                    if (previousChunkId > 0 && !compatibleChunks[previousChunkId].Contains(chunkId))
+                    {
+                        Random rnd = new Random();
+
+                        while (!compatibleChunks[previousChunkId].Contains(chunkId))
+                        {
+                            chunkId = rnd.Next(2, numberOfChunks);
+                        }
+                        // Need to get new chunk id since they're not compatible
+                    }
+
                     XAttribute id = chunk.Attribute("id");
                     
                     if (id != null && int.Parse(id.Value) == chunkId)

@@ -623,6 +623,10 @@
 					<row>1</row>
 					<column>32</column>
 				</stairBlock>
+				<stairBlock>
+					<row>2</row>
+					<column>26</column>
+				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
 			</hiddenBlocks>
