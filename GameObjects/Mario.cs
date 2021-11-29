@@ -166,9 +166,6 @@ namespace GameObjects
         {
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-
-            HandleBoundaryCollision();
-
             // Handle jump timer to allow higher jumping when button held
             if (actionState is JumpingState && JumpIsHeld) TimeJumpHeld += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -204,17 +201,6 @@ namespace GameObjects
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             Sprite.Update();
-        }
-        //if Mario touches bottom boundary, Mario dies.
-        private void HandleBoundaryCollision()
-        {
-            System.Diagnostics.Debug.WriteLine("Maxcoords Y: " + maxCoords.Y);
-            System.Diagnostics.Debug.WriteLine("Mario Y: " + AABB.Bottom);
-            /*if (this.AABB.Bottom > Graphics.GraphicsDevice.Viewport.Y + Graphics.GraphicsDevice.Viewport.Height)
-            {
-                SetLivesRemaining(0);
-                this.Damage();
-            }*/
         }
 
         private void HandleBlockCollision(int side, GameObject block)
