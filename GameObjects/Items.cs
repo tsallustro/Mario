@@ -189,6 +189,12 @@ namespace GameObjects
                 SetYAcceleration(defaultItemGravity);
             }
 
+            if (AABB != null && blockItemIsOn != null && blockItemIsOn.GetAABB() != null &&
+                AABB.Intersects(blockItemIsOn.GetAABB()))
+            {
+                Position = new Vector2(Position.X, Position.Y - 1);
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, itemState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
