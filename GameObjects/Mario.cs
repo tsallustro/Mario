@@ -187,6 +187,13 @@ namespace GameObjects
                 this.actionState.Fall();
             }
 
+            // Nudge Mario's position up if Mario is inside a block
+            if (AABB != null && BlockMarioIsOn != null && BlockMarioIsOn.GetAABB() != null &&
+                AABB.Intersects(BlockMarioIsOn.GetAABB()))
+            {
+                Position = new Vector2(Position.X, Position.Y - 1);
+            }
+
             /*
              * We need to keep track of which enemy Mario last collided with, so he doesn't continually
              * take damage and die immediately even when he is in Super or Fire state.
