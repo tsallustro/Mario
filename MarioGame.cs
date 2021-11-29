@@ -224,7 +224,7 @@ namespace Game1
             ICommand moveRight = new MoveRightCommand(mario);
             ICommand jump = new JumpCommand(mario);
             ICommand crouch = new CrouchCommand(mario);
-            //ICommand throwFireBall = new throwFireballCommand((FireBall)objects[1]);
+            ICommand throwFireBall = new throwFireballCommand((FireBall)chunks.GetObjects()[^2]);
             ICommand quit = new QuitCommand(this);
             ICommand standard = new StandardMarioCommand(mario);
             ICommand super = new SuperMarioCommand(mario);
@@ -239,7 +239,7 @@ namespace Game1
             commands.Add(moveRight);
             commands.Add(jump);
             commands.Add(crouch);
-            //commands.Add(throwFireBall);
+            commands.Add(throwFireBall);
             commands.Add(quit);
             commands.Add(standard);
             commands.Add(super);
@@ -261,7 +261,7 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.W, jump);
             keyboardController.AddMapping((int)Keys.Down, crouch);
             keyboardController.AddMapping((int)Keys.S, crouch);
-            //keyboardController.AddMapping((int)Keys.Space, throwFireBall);
+            keyboardController.AddMapping((int)Keys.Space, throwFireBall);
 
             // Power-up commands
             keyboardController.AddMapping((int)Keys.Y, standard);
@@ -274,7 +274,7 @@ namespace Game1
             gamepadController.AddMapping((int)Buttons.DPadRight, moveRight);
             gamepadController.AddMapping((int)Buttons.A, jump);
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
-            //gamepadController.AddMapping((int)Buttons.B, throwFireBall);
+            gamepadController.AddMapping((int)Buttons.B, throwFireBall);
 
             //Music Background Mute
             keyboardController.AddMapping((int)Keys.M, mute);
