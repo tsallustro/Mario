@@ -180,13 +180,14 @@ namespace ChunkReader
                 Chunk currentChunk = chunkMap[currentChunkIndex];
                 int[,] currentChunkHighRows = currentChunk.GetHighRows();
 
+                // Initialize everything in SolvableBlocksForEachChunk
                 SolvableBlocksForEachChunk.Add(currentChunkIndex, new Dictionary<int, bool[,]>());
-
                 for (int nextIndex = 1; nextIndex <= numberOfChunks; nextIndex++)
                 {
                     SolvableBlocksForEachChunk[currentChunkIndex].Add(nextIndex, new bool[5, 50]);
                 }
 
+                // Iterate over all blocks in current chunk's high rows
                 for (int row = 0; row < 5; row++)
                 {
                     for (int column = 0; column < 50; column++)
@@ -196,6 +197,7 @@ namespace ChunkReader
                             // Check if there is a block to land on in all other chunks
                             for (int nextChunkIndex = 1; nextChunkIndex <= numberOfChunks; nextChunkIndex++)
                             {
+                                // Construct matrix of all blocks that can reach blocks in nextChunk
                                 if (nextChunkIndex != currentChunkIndex)
                                 {
                                     SolvableBlocksForEachChunk[currentChunkIndex][nextChunkIndex][row, column] = NextChunkIsCompatibleAtBlock(nextChunkIndex, row, column);
@@ -209,6 +211,7 @@ namespace ChunkReader
                 }
             }
 
+            // Check which chunks are compatible based on the content of the matrices
             for (int currentChunkIndex = 1; currentChunkIndex <= numberOfChunks; currentChunkIndex++)
             {
                 List<int> chunksThatAreCompatibleWithCurrentChunk = new List<int>();
@@ -217,6 +220,7 @@ namespace ChunkReader
                 {
                     bool chunksAreCompatible = false;
 
+                    // If any block in the currentChnk is true, that means we can reach the comparingChunk
                     for (int row = 0; row < 5; row++)
                     {
                         for (int column = 0; column < 50; column++)
@@ -231,6 +235,7 @@ namespace ChunkReader
                     if (chunksAreCompatible) chunksThatAreCompatibleWithCurrentChunk.Add(comparingChunkIndex);
                 }
 
+                // Add list of compatible chunks for current chunk to dictionary
                 compatibleChunks[currentChunkIndex] = chunksThatAreCompatibleWithCurrentChunk;
             }
         }
@@ -254,7 +259,7 @@ namespace ChunkReader
                     {
                         Random rnd = new Random();
 
-                        while (!compatibleChunks[previousChunkId].Contains(chunkId))
+                        while (!compatibleChunks[previousChunkId].Contains(chunkId) && chunkId != previousChunkId)
                         {
                             chunkId = rnd.Next(2, numberOfChunks);
                         }
