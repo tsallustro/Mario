@@ -17,14 +17,14 @@ namespace Chunks
         {
             this.objects = new List<IGameObject>();
             highRows = new int[5, 50];
-            lowRows = new int[5, 50];
+            lowRows = new int[7, 50];
         }
 
         public Chunk(List<IGameObject> objects)
         {
             this.objects = objects;
             highRows = new int[5, 50];
-            lowRows = new int[5, 50];
+            lowRows = new int[7, 50];
         }
 
         public Chunk(List<IGameObject> objects, int[,] highRows, int[,] lowRows)

@@ -125,6 +125,10 @@ namespace Game1
             chunks = new ActiveChunkContainer();
             chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites, 0);
 
+            // Determine chunk compatibility
+            chunkParser.ParseAllChunksAndAddToDictionary();
+            chunkParser.DetermineCompatibleChunks();
+
             cameraAdjustment = 0;
             marioHeightToLoadNextChunk = 300;
             previousChunkId = 0;

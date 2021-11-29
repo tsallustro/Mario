@@ -27,13 +27,8 @@ namespace ChunkReader
         private Texture2D pipeSprite;
         private Texture2D itemSprites;
         private int baseHeight;
-
-        /*
-         *  TODO - At beginning of game, parse all chunks and store them in chunkMap, mapped
-         *  via their ID.
-         */
         private Dictionary<int, Chunk> chunkMap;
-        private Dictionary<Chunk, List<Chunk>> compatibleChunks;
+        private Dictionary<int, List<int>> compatibleChunks;
         private int numberOfChunks;
 
         Mario mario;
@@ -49,7 +44,7 @@ namespace ChunkReader
             this.itemSprites = itemSprites;
             this.baseHeight = baseHeight;
             chunkMap = new Dictionary<int, Chunk>();
-            compatibleChunks = new Dictionary<Chunk, List<Chunk>>();
+            compatibleChunks = new Dictionary<int, List<int>>();
             numberOfChunks = 0;
         }
 
@@ -83,6 +78,96 @@ namespace ChunkReader
             }
         }
 
+        private bool GapIsAboveCurrentBlockInCurrentChunk(int[,] currentChunkHighRows, int row, int column)
+        {
+            bool blockHasGapAbove = true;
+            bool blockHasGapOnLeft = true;
+            bool blockHasGapOnRight = true;
+
+            // Check if there is a gap in current chunk above the current block to jump
+            for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+            {
+                if (currentChunkHighRows[rowsAbove, column] == 1)
+                    blockHasGapAbove = false;
+            }
+
+            // If blockHasGapAbove is still true here, there is 1-block gap directly above block
+            // Now, we check if there is at least a 2-block gap to fit through
+            for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+            {
+                if (column < 49 && currentChunkHighRows[rowsAbove, column + 1] == 1)
+                    blockHasGapOnRight = false;
+
+                if (column > 0 && currentChunkHighRows[rowsAbove, column - 1] == 1)
+                    blockHasGapOnLeft = false;
+            }
+
+            return blockHasGapAbove && (blockHasGapOnLeft || blockHasGapOnRight);
+        }
+
+        private bool NextChunkIsCompatible(int nextChunkIndex, int row, int column)
+        {
+            Chunk nextChunk = chunkMap[nextChunkIndex];
+            int[,] nextChunkLowRows = nextChunk.GetLowRows();
+            bool isCompatibleWithThisChunk = false;
+
+            for (int nextRow = 0; nextRow < 7; nextRow++)
+            {
+                if (nextRow >= (row + 3)) // If next row is reachable from current row
+                {
+                    int heightDifference = 7 + row - nextRow;
+                    int maximumDistance = 14 - (2 * heightDifference);
+
+                    for (int nextColumn = 0; nextColumn < 50; nextColumn++)
+                    {
+                        int currentBlockInNextChunk = nextChunkLowRows[nextRow, nextColumn]; // 0 if no block, 1 if block
+
+                        // If there is a block, check that the two columns above are clear for landing
+                        // Also check that block is within jumping distance
+                        // Don't need to check that nextRow >= 2 because it always will be here
+                        if (currentBlockInNextChunk == 1 && 
+                            nextChunkLowRows[nextRow - 1, nextColumn] == 0 &&
+                            nextChunkLowRows[nextRow - 2, nextColumn] == 0 &&
+                            Math.Abs(nextColumn - column) < maximumDistance)
+                        {
+                            // Check for walls between [row, column] and [nextRow, nextColumn]
+                            int startingColumn;
+                            int endingColumn;
+                            bool wallIsBlockingPath = false;
+
+                            // Determine start and end columns to ease loop logic
+                            if (column > nextColumn)
+                            {
+                                startingColumn = nextColumn;
+                                endingColumn = column;
+                            }
+                            else
+                            {
+                                startingColumn = column;
+                                endingColumn = nextColumn;
+                            }
+
+                            // Check for walls between jumping point and ending point
+                            for (int wallRow = nextRow - 1; wallRow > nextRow - 2; wallRow--)
+                            {
+                                for (int wallColumn = startingColumn; wallColumn < endingColumn; wallColumn++)
+                                {
+                                    if (nextChunkLowRows[wallRow, wallColumn] == 1)
+                                    {
+                                        wallIsBlockingPath = true;
+                                    }
+                                }
+                            }
+
+                            if (!wallIsBlockingPath) isCompatibleWithThisChunk = true;
+                        }
+                    }
+                }
+            }
+
+            return isCompatibleWithThisChunk;
+        }
+
         // This is gonna be ugly...
         public void DetermineCompatibleChunks()
         {
@@ -90,56 +175,33 @@ namespace ChunkReader
             {
                 Chunk currentChunk = chunkMap[currentChunkIndex];
                 int[,] currentChunkHighRows = currentChunk.GetHighRows();
-                List<Chunk> compatibleChunks = new List<Chunk>();
+                List<int> compatibleChunksForCurrentChunk = new List<int>();
 
-                for (int row = 0; row < 5; row++) // For each row
+                for (int row = 0; row < 5; row++)
                 {
-                    for (int column = 0; column < 50; column++) // For each column
+                    for (int column = 0; column < 50; column++)
                     {
-                        int currentBlock = currentChunkHighRows[row, column]; // 0 if no block, 1 if block
-                        bool blockHasGapAbove = true;
-                        bool gapOnLeft = true;
-                        bool gapOnRight = true;
-
-                        if (currentBlock == 1) // Only check if there is a block
+                        if (currentChunkHighRows[row, column] == 1 && GapIsAboveCurrentBlockInCurrentChunk(currentChunkHighRows, row, column))
                         {
-                            // Check if there is a gap in current chunk above the current block to jump
-                            for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
+                            // Check if there is a block to land on in all other chunks
+                            for (int nextChunkIndex = 1; nextChunkIndex < numberOfChunks; nextChunkIndex++)
                             {
-                                if (currentChunkHighRows[rowsAbove, column] == 1)
-                                    blockHasGapAbove = false;
-                            }
-
-                            // If blockHasGapAbove is still true here, there is 1-block gap directly above block
-                            // Now, we check if there is at least a 2-block gap to fit through
-                            for (int rowsAbove = 0; rowsAbove < row; rowsAbove++)
-                            {
-                                if (column < 49 && currentChunkHighRows[rowsAbove, column + 1] == 1)
-                                    gapOnRight = false;
-
-                                if (column > 0 && currentChunkHighRows[rowsAbove, column - 1] == 1)
-                                    gapOnLeft = false;
-                            }
-
-                            // If there is a gap, check if there is a block to land on
-                            if (blockHasGapAbove && (gapOnRight || gapOnLeft))
-                            {
-                                // Check if there is a block to land on in all other chunks
-                                for (int nextChunkIndex = 1; nextChunkIndex < numberOfChunks; nextChunkIndex++)
-                                {
-                                    bool isCompatibleWithThisChunk = true;
-
-                                    if (nextChunkIndex != currentChunkIndex) // Do not compare chunks to themselves, only other chunks
-                                    {
-                                        Chunk nextChunk = chunkMap[nextChunkIndex];
-                                        int[,] nextChunkLowRows = nextChunk.GetLowRows();
-                                        
-                                        
-                                    }
-                                }
+                                if (nextChunkIndex != currentChunkIndex && NextChunkIsCompatible(nextChunkIndex, row, column))
+                                    compatibleChunksForCurrentChunk.Add(nextChunkIndex);
                             }
                         }
                     }
+                }
+
+                compatibleChunks.Add(currentChunkIndex, compatibleChunksForCurrentChunk);
+            }
+
+            // Debug statements only, can safely erase
+            for (int i = 1; i < numberOfChunks; i++)
+            {
+                for (int j = 1; j < 8; j++)
+                {
+                    Debug.WriteLine("Compatible chunk for chunk " + i + ": " + compatibleChunks[i][j]);
                 }
             }
         }
@@ -155,6 +217,17 @@ namespace ChunkReader
             {
                 if (chunk.HasAttributes)
                 {
+                    if (previousChunkId > 0 && !compatibleChunks[previousChunkId].Contains(chunkId))
+                    {
+                        Random rnd = new Random();
+
+                        while (!compatibleChunks[previousChunkId].Contains(chunkId))
+                        {
+                            chunkId = rnd.Next(2, numberOfChunks);
+                        }
+                        // Need to get new chunk id since they're not compatible
+                    }
+
                     XAttribute id = chunk.Attribute("id");
                     
                     if (id != null && int.Parse(id.Value) == chunkId)
@@ -197,16 +270,16 @@ namespace ChunkReader
 
         public int[,] GetLowRows(List<XElement> blocks)
         {
-            int[,] lowRows = new int[5, 50];
+            int[,] lowRows = new int[7, 50];
 
             foreach (XElement block in blocks)
             {
                 int Y = int.Parse(block.Element("row").Value);
 
-                if (Y >= 25 && Y < 30)
+                if (Y >= 23 && Y < 30)
                 {
                     int X = int.Parse(block.Element("column").Value);
-                    Y -= 25; // Ensure Y is in range of array
+                    Y -= 23; // Ensure Y is in range of array
                     if (X >= 0 && X < 49) lowRows[Y, X] = 1;
                 }
                 
