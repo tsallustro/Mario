@@ -171,7 +171,7 @@ namespace ChunkReader
         // This is gonna be ugly...
         public void DetermineCompatibleChunks()
         {
-            for (int currentChunkIndex = 1; currentChunkIndex < numberOfChunks; currentChunkIndex++)
+            for (int currentChunkIndex = 1; currentChunkIndex <= numberOfChunks; currentChunkIndex++)
             {
                 Chunk currentChunk = chunkMap[currentChunkIndex];
                 int[,] currentChunkHighRows = currentChunk.GetHighRows();
@@ -184,7 +184,7 @@ namespace ChunkReader
                         if (currentChunkHighRows[row, column] == 1 && GapIsAboveCurrentBlockInCurrentChunk(currentChunkHighRows, row, column))
                         {
                             // Check if there is a block to land on in all other chunks
-                            for (int nextChunkIndex = 1; nextChunkIndex < numberOfChunks; nextChunkIndex++)
+                            for (int nextChunkIndex = 1; nextChunkIndex <= numberOfChunks; nextChunkIndex++)
                             {
                                 if (nextChunkIndex != currentChunkIndex && NextChunkIsCompatible(nextChunkIndex, row, column))
                                     compatibleChunksForCurrentChunk.Add(nextChunkIndex);
@@ -197,7 +197,7 @@ namespace ChunkReader
             }
 
             // Debug statements only, can safely erase
-            for (int i = 1; i < numberOfChunks; i++)
+            for (int i = 1; i <= numberOfChunks; i++)
             {
                 for (int j = 1; j < 8; j++)
                 {
@@ -206,6 +206,10 @@ namespace ChunkReader
             }
         }
 
+        /*
+         *  IMPORTANT NOTE: This may not return the expected chunk. If the requested chunk is not
+         *  compatible with the previous chunk, a random chunk that is compatible will be loaded instead.
+         */
         public Chunk ParseChunk(int chunkId, int previousChunkId)
         {
             List<IGameObject> objects = new List<IGameObject>();
