@@ -86,7 +86,7 @@ namespace Game1
         private ISprite livesIcon;
 
         //Background textures
-        private BackgroundTwo background;
+        private Background background;
         private Camera camera;
         private Vector2 parallax;
 
@@ -140,7 +140,7 @@ namespace Game1
 
             InitializeCommands();
 
-            background = new BackgroundTwo(GraphicsDevice, spriteBatch, this, mario, camera);
+            background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
 
@@ -345,7 +345,7 @@ namespace Game1
 
             InitializeCommands();
             
-            background = new BackgroundTwo(GraphicsDevice, spriteBatch, this, mario, camera);
+            background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
         }
 
@@ -426,7 +426,7 @@ namespace Game1
                         if (obj is IEnemy) obj.Update(gameTime);
                     }
 
-                    background.Update();
+                    background.Update(gameTime);
 
                     //Removed all items that are queued for deletion
                     chunks.GetObjects().RemoveAll(delegate (IGameObject obj)
