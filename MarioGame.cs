@@ -23,6 +23,7 @@ using Sound;
 using Chunks;
 using ChunkContainer;
 using Microsoft.Xna.Framework.Audio;
+using CornetGame.Factories;
 
 namespace Game1
 {
@@ -349,7 +350,7 @@ namespace Game1
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
 
             AddNewChunk(1);
-
+            BossBeamSpriteFactory.Instance.LoadTextures(this);
             InitializeCommands();
             
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);

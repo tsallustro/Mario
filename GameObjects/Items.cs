@@ -261,7 +261,7 @@ namespace GameObjects
         public BossPowerUp(Vector2 position, Texture2D itemSprites, Mario mario)
             : base(position, itemSprites, mario)
         {
-            //POWERUP TEMPORARILY LOOKS LIKE A STAR
+            
             Sprite = spriteFactory.CreateBossPowerUp(position);
             itemState = new BossPowerUpState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
