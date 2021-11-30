@@ -16,6 +16,7 @@ namespace Factories
 		private ISprite oneUpMushroom;
 		private ISprite fireFlower;
 		private ISprite star;
+		private ISprite bossPowerUp;
 
 		public ItemSpriteFactory(Texture2D itemSprites)
 		{
@@ -42,7 +43,10 @@ namespace Factories
 			else if (itemState is FireFlowerState)
 			{
 				return CreateFireFlower(location);
-			}
+			}else if(itemState is BossPowerUpState)
+            {
+				return CreateBossPowerUp(location);
+            }
 			else
 			{
 				return CreateStar(location);
@@ -58,7 +62,7 @@ namespace Factories
 			}
 			else
 			{
-				coin = new Sprite(false, true, location, itemSprites, 1, 9, 7, 8);
+				coin = new Sprite(false, true, location, itemSprites, 1, 10, 7, 8);
 				return coin;
 			}
 		}
@@ -70,7 +74,7 @@ namespace Factories
 				return superMushroom;
             } else
             {
-				superMushroom = new Sprite(false, true, location, itemSprites, 1, 9, 0, 0);
+				superMushroom = new Sprite(false, true, location, itemSprites, 1, 10, 0, 0);
 				return superMushroom;
 			}
 		}
@@ -82,7 +86,7 @@ namespace Factories
 				return oneUpMushroom;
             } else
             {
-				oneUpMushroom = new Sprite(false, true, location, itemSprites, 1, 9, 1, 1);
+				oneUpMushroom = new Sprite(false, true, location, itemSprites, 1, 10, 1, 1);
 				return oneUpMushroom;
 			}
 		}
@@ -94,7 +98,7 @@ namespace Factories
 				return fireFlower;
             } else
             {
-				fireFlower = new Sprite(false, true, location, itemSprites, 1, 9, 2, 2);
+				fireFlower = new Sprite(false, true, location, itemSprites, 1, 10, 2, 2);
 				return fireFlower;
 			}
 		}
@@ -106,9 +110,22 @@ namespace Factories
 				return star;
             } else
             {
-				star = new Sprite(false, true, location, itemSprites, 1, 9, 3, 6);
+				star = new Sprite(false, true, location, itemSprites, 1, 10, 3, 6);
 				return star;
 			}
 		}
+
+		public ISprite CreateBossPowerUp(Vector2 location)
+        {
+			if(bossPowerUp != null)
+            {
+				return bossPowerUp;
+			}
+            else
+            {
+				bossPowerUp = new Sprite(false, true, location, itemSprites, 1, 10, 9, 9);
+				return bossPowerUp;
+            }
+        }
 	}
 }

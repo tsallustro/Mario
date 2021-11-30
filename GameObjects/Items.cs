@@ -262,7 +262,7 @@ namespace GameObjects
             : base(position, itemSprites, mario)
         {
             //POWERUP TEMPORARILY LOOKS LIKE A STAR
-            Sprite = spriteFactory.CreateStar(position);
+            Sprite = spriteFactory.CreateBossPowerUp(position);
             itemState = new BossPowerUpState(this);
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));

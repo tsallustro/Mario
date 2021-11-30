@@ -309,7 +309,7 @@ namespace Game1
             fireBallSpriteFactory.LoadTextures(this);
             flagSpriteFactory.LoadTextures(this);
 
-            coinsIcon = new Sprite(false, true, new Vector2(225, 54), Content.Load<Texture2D>("Items"), 1, 9, 7, 8);
+            coinsIcon = new Sprite(false, true, new Vector2(225, 54), Content.Load<Texture2D>("Items"), 1, 10, 7, 8);
             livesIcon = new Sprite(false, true, new Vector2(474, 54), Content.Load<Texture2D>("standardMario"), 1, 15, 0, 0);
 
             blockSprites = Content.Load<Texture2D>("BlocksV3");
@@ -544,9 +544,9 @@ namespace Game1
             else if (secondsRemaining >= 10) spriteBatch.DrawString(arial, "0" + secondsRemaining.ToString("F0"), new Vector2(740, 50), Color.White);
             else if (secondsRemaining >= 0) spriteBatch.DrawString(arial, "00" + secondsRemaining.ToString("F0"), new Vector2(740, 50), Color.White);
             else spriteBatch.DrawString(arial, "000", new Vector2(740, 50), Color.White); // Prevent displaying negative time
-
+           
             spriteBatch.End();
-
+           
             base.Draw(gameTime);
         }
 
