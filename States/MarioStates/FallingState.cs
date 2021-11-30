@@ -14,7 +14,7 @@ namespace States
         // Physics variables
         private int InitialFallingAcceleration { get; } = 275; // Must be consistent across files
         private int MaxRunningAcceleration { get; } = 100;
-        private float AccelerationIncrement { get; } = 5;
+        private float AccelerationIncrement { get; } = 10;
         private int OppositeDirectionMultiplier { get; } = 3;
 
 
