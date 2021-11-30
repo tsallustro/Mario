@@ -214,7 +214,7 @@ namespace Game1
             chunks = new ActiveChunkContainer();
 
             this.Window.Title = "Cornet Mario Game";
-            SoundManager.Instance.ToggleMute(); //REMOVE BEFORE SUBMITTING !!!!!
+           
             base.Initialize();
         }
 
