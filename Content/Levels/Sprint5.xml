@@ -11,8 +11,8 @@
 	</mario>
 	
 	<bowser>
-		<row>25</row>
-		<column>10</column>
+		<row>18</row>
+		<column>20</column>
 	</bowser>
 	
 	<!-- Row must be between 0 and 29 -->

@@ -8,7 +8,8 @@ namespace States
     {
         public void FaceRight();
         public void FaceLeft();
-        public void Damage();
+        public void TakeDamage();
+        public bool GetDirection();
 
     }
 }

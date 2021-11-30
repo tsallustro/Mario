@@ -13,24 +13,25 @@ namespace GameObjects
 {
     public class Bowser : GameObject, IBoss
     {
-        private readonly int boundaryAdjustment = 4;
+        private readonly int boundaryAdjustment = 8;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
          */
 
         private GameObject BlockEnemyIsOn { get; set; }
-        private readonly int numberOfSpritesOnSheet = 3;
+        private readonly int numberOfSpritesOnSheet = 10;
         private readonly double deathTimer = 1.5; 
         private double timeStomped = 0;
 
         private IBossState bowserState;
+        private BowserSpriteFactory spriteFactory;
         private bool introduced = false;
         Vector2 newPosition;
         List<IGameObject> objects;
         Camera camera;
 
-        Vector2 relativePos;
+        Vector2 relativePos = new Vector2(0,0);
         float startMovingTiming = 10;
         float interval = 20;
         int i = 1;
@@ -39,8 +40,14 @@ namespace GameObjects
             : base(position, velocity, acceleration)
         {
             //Initial position is placed top right
+            spriteFactory = BowserSpriteFactory.Instance;
+            Sprite = spriteFactory.CreateIdleBowser(position);
+            AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             Position = position;
             this.camera = camera;
+            bowserState = new IdleBowserState(this, false);
+            
         }
 
         //Reset
@@ -68,7 +75,7 @@ namespace GameObjects
         }
         public override void Damage()
         {
-            TempInvincible();
+            this.bowserState.TakeDamage();
         }
 
         //Handles Collision with other Objects
@@ -83,15 +90,25 @@ namespace GameObjects
         //Update
         public override void Update(GameTime GameTime)
         {
-            SetMoveTiming(GameTime);
+            float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+            base.Update(GameTime);
+            newPosition = Position + Velocity * timeElapsed;
+            Position = newPosition;
             UpdateRelativePos();
             MoveAlongWithCamera(GameTime);
+            SetMoveTiming(GameTime);
+            Sprite = spriteFactory.GetCurrentSprite(Position, bowserState);
+            AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+            Sprite.Update();
         }
 
         //Draw
         public override void Draw(SpriteBatch spriteBatch)
         {
-
+            Sprite.location = Position;
+            Sprite.Draw(spriteBatch, bowserState.GetDirection());
+            DrawAABBIfVisible(Color.Yellow, spriteBatch);
         }
         public void UpdateRelativePos()
         {
@@ -109,7 +126,7 @@ namespace GameObjects
         //Bowser should be temporarily invincible when damaged.
         public void TempInvincible()
         {
-            bowserState.Damage();
+
         }
         public void SetMoveTiming(GameTime GameTime)
         {

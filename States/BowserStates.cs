@@ -24,33 +24,13 @@ namespace States
         {
             this.left = false;
         }
-        public void Damage()
+        public void TakeDamage()
         {
-
+            bowser.SetBowserState(new DamagedOneBowserState(bowser, left));
         }
-        
-    }
-    public class MovingBowserState : IBossState
-    {
-        private Bowser bowser;
-        private bool left;
-
-        public MovingBowserState(Bowser bowser, bool left)
+        public bool GetDirection()
         {
-            this.bowser = bowser;
-            this.left = left;
-        }
-        public void FaceLeft()
-        {
-            this.left = true;
-        }
-        public void FaceRight()
-        {
-            this.left = false;
-        }
-        public void Damage()
-        {
-
+            return this.left;
         }
 
     }
@@ -73,9 +53,13 @@ namespace States
         {
             this.left = false;
         }
-        public void Damage()
+        public void TakeDamage()
         {
-
+            bowser.SetBowserState(new DamagedTwoBowserState(bowser, left));
+        }
+        public bool GetDirection()
+        {
+            return this.left;
         }
 
     }
@@ -97,9 +81,13 @@ namespace States
         {
             this.left = false;
         }
-        public void Damage()
+        public void TakeDamage()
         {
-
+            bowser.SetBowserState(new DeadBowserState(bowser, left));
+        }
+        public bool GetDirection()
+        {
+            return this.left;
         }
 
     }
@@ -121,9 +109,13 @@ namespace States
         {
             this.left = false;
         }
-        public void Damage()
+        public void TakeDamage()
         {
-
+            //Do nothing
+        }
+        public bool GetDirection()
+        {
+            return this.left;
         }
 
     }
