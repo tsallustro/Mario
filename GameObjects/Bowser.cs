@@ -21,15 +21,19 @@ namespace GameObjects
 
         private GameObject BlockEnemyIsOn { get; set; }
         private readonly int numberOfSpritesOnSheet = 3;
-        private readonly double deathTimer = 1.5; // Timer for stomped Goomba disappearing
+        private readonly double deathTimer = 1.5; 
         private double timeStomped = 0;
 
         private IBossState bowserState;
-        //private GoombaSpriteFactory spriteFactory;
         private bool introduced = false;
         Vector2 newPosition;
         List<IGameObject> objects;
         Camera camera;
+
+        Vector2 relativePos;
+        float startMovingTiming = 10;
+        float interval = 20;
+        int i = 1;
 
         public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs, Camera camera)
             : base(position, velocity, acceleration)
@@ -38,7 +42,8 @@ namespace GameObjects
             Position = position;
             this.camera = camera;
         }
-        // reset goomba to default state using initial data
+
+        //Reset
         public override void ResetObject()
         {
 
@@ -65,12 +70,6 @@ namespace GameObjects
         {
             TempInvincible();
         }
-        
-        //Handle Collision with Block
-        private void HandleBlockCollision(int side, Block block)
-        {
-          //Do nothing. Bowser doesn't collide with blocks.
-        }
 
         //Handles Collision with other Objects
         public override void Collision(int side, GameObject Collidee)
@@ -81,27 +80,30 @@ namespace GameObjects
 
         }
 
-        //Update all of Goomba's members
+        //Update
         public override void Update(GameTime GameTime)
         {
-
+            SetMoveTiming(GameTime);
+            UpdateRelativePos();
+            MoveAlongWithCamera(GameTime);
         }
 
-        //Draw Goomba
+        //Draw
         public override void Draw(SpriteBatch spriteBatch)
         {
 
         }
+        public void UpdateRelativePos()
+        {
+            //Bowser's relative position within viewport needs to be updated constantly.
+            relativePos.Y = Position.Y - camera.Position.Y;
+            relativePos.X = Position.X;
+        }
 
         //Bowser position is fixed relative to the position of camera
-        public void MoveAlongWithCamera(GameTime gameTime)
+        public void MoveAlongWithCamera(GameTime GameTime)
         {
-            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            float yOffset = Position.Y - camera.Position.Y;
-            float xOffset = Position.X - camera.Position.X;
-
-            Position = new Vector2(Position.X + xOffset, Position.Y + yOffset);
-
+            Position = new Vector2(Position.X, camera.Position.Y + relativePos.Y);
         }
         
         //Bowser should be temporarily invincible when damaged.
@@ -109,13 +111,40 @@ namespace GameObjects
         {
             bowserState.Damage();
         }
-        
+        public void SetMoveTiming(GameTime GameTime)
+        {
+            float gameTime = (float)GameTime.TotalGameTime.TotalSeconds;
+            if (!(bowserState is DeadBowserState))
+            {
+                if (gameTime > startMovingTiming + (interval * 2) * i && gameTime <= (startMovingTiming + interval) + (interval * 2)*i)
+                {
+                    MoveLeft();
+                }
+                else if (gameTime > (startMovingTiming + interval) + (interval * 2) * i && gameTime <= (startMovingTiming + 2 * interval) + (interval * 2) * i)
+                {
+                    MoveRight();
+                }
+                if (gameTime > startMovingTiming * 15)
+                {
+                    MoveUp();
+                }
+                else if (gameTime > startMovingTiming * 15)
+                {
+                    MoveDown();
+                }
+                if (gameTime - (startMovingTiming + (2 * interval * (i + 1))) > 0)
+                {
+                    i++;
+                }
+            }
+
+        }
         //Move Bowser toward left until it reaches certain x position
         public void MoveLeft()
         {
             if (Position.X > 10)
             {
-                SetXVelocity(-20);
+                SetXVelocity(-100);
                 //Change bowser state to Moving bowser
             } else
             {
@@ -129,7 +158,7 @@ namespace GameObjects
         {
             if (Position.X < 780)
             {
-                SetXVelocity(20);
+                SetXVelocity(100);
                 //Change bowser state to Moving bowser
             }
             else
@@ -142,9 +171,9 @@ namespace GameObjects
         //Move bowser towards up until it reaches ceratin height relative to camera position
         public void MoveUp()
         {
-            if (Position.Y - camera.Position.Y > -200)
+            if (relativePos.Y > 200)
             {
-                SetYVelocity(20);
+                SetYVelocity(100);
             }
             else
             {
@@ -154,9 +183,9 @@ namespace GameObjects
         //Move bowser towards down until it reaches ceratin height relative to camera position
         public void MoveDown()
         {
-            if (Position.Y - camera.Position.Y < 200)
+            if (relativePos.Y < 200)
             {
-                SetYVelocity(20);
+                SetYVelocity(100);
             }
             else
             {

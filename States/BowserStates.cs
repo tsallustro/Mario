@@ -55,12 +55,36 @@ namespace States
 
     }
 
-    public class DamagedBowserState : IBossState
+    public class DamagedOneBowserState : IBossState
     {
         private Bowser bowser;
         private bool left;
 
-        public DamagedBowserState(Bowser bowser, bool left)
+        public DamagedOneBowserState(Bowser bowser, bool left)
+        {
+            this.bowser = bowser;
+            this.left = left;
+        }
+        public void FaceLeft()
+        {
+            this.left = true;
+        }
+        public void FaceRight()
+        {
+            this.left = false;
+        }
+        public void Damage()
+        {
+
+        }
+
+    }
+    public class DamagedTwoBowserState : IBossState
+    {
+        private Bowser bowser;
+        private bool left;
+
+        public DamagedTwoBowserState(Bowser bowser, bool left)
         {
             this.bowser = bowser;
             this.left = left;

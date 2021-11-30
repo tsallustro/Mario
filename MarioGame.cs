@@ -362,6 +362,8 @@ namespace Game1
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
 
+
+
             AddNewChunk(1);
             
             InitializeCommands();
