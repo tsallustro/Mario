@@ -13,6 +13,7 @@ namespace States
         void FireFlower();
         void Mushroom();
         void TakeDamage();
+        void BossPowerUp();
 
         //For sprint 1 proof of concept
         void SmallMario();
@@ -60,6 +61,11 @@ namespace States
         {
             mario.SetPowerState(new FireMario(mario));
         }
+
+        public void BossPowerUp()
+        {
+            mario.SetPowerState(new BossMario(mario));
+        }
     }
 
     public class SuperMario : IMarioPowerState
@@ -102,6 +108,11 @@ namespace States
         {
             mario.SetPowerState(new FireMario(mario));
         }
+
+        public void BossPowerUp()
+        {
+            mario.SetPowerState(new BossMario(mario));
+        }
     }
 
     public class FireMario : IMarioPowerState
@@ -143,6 +154,58 @@ namespace States
         public void FlameMario()
         {
             //Do nothing, already Fire Mario
+        }
+
+        public void BossPowerUp()
+        {
+            mario.SetPowerState(new BossMario(mario));
+        }
+    }
+
+    public class BossMario : IMarioPowerState
+    {
+        private Mario mario;
+
+        public BossMario(Mario mario)
+        {
+            this.mario = mario;
+
+            //Construct sprite
+        }
+
+        public void FireFlower()
+        {
+            //Do nothing, already Boss Mario
+        }
+
+        public void Mushroom()
+        {
+            //Do nothing, already Boss Mario
+        }
+
+        public void TakeDamage()
+        {
+            mario.SetPowerState(new SuperMario(mario));
+        }
+
+        public void SmallMario()
+        {
+            mario.SetPowerState(new StandardMario(mario));
+        }
+
+        public void BigMario()
+        {
+            mario.SetPowerState(new SuperMario(mario));
+        }
+
+        public void FlameMario()
+        {
+            //Do nothing, already Boss Mario
+        }
+
+        public void BossPowerUp()
+        {
+            //Do nothing, already Boss Mario
         }
     }
 
@@ -187,6 +250,12 @@ namespace States
         {
             //Do nothing, dead
         }
+
+        public void BossPowerUp()
+        {
+            //Do nothing, dead
+        }
+
         public void Update()
         {
             
