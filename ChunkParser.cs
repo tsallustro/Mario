@@ -33,6 +33,7 @@ namespace ChunkReader
         private bool fireBallsLoaded;
 
         Mario mario;
+        Bowser bowser;
 
         public ChunkParser(string levelPath, GraphicsDeviceManager graphics, Point maxCoords, Camera camera, Texture2D blockSprites, Texture2D pipeSprite, Texture2D itemSprites, int baseHeight)
         {
@@ -343,6 +344,19 @@ namespace ChunkReader
             mario = new Mario(marioPos, new Vector2(0, 0), new Vector2(0, 0), graphics, maxCoords);
 
             return mario;
+        }
+
+        public Bowser ParseBowser()
+        {
+            Vector2 bowserPos = new Vector2
+            {
+                X = 16 * int.Parse(level.Element("mario").Element("column").Value),
+                Y = 16 * int.Parse(level.Element("mario").Element("row").Value)
+            };
+
+            bowser = new Bowser(bowserPos, new Vector2(0, 0), new Vector2(0, 0), camera);
+
+            return bowser;
         }
 
         private void ParseFireballs(List<IGameObject> list)
