@@ -33,7 +33,7 @@
 					<row>20</row>
 					<column>9</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>16</row>
 					<column>10</column>
 				</brickBlock>
@@ -49,7 +49,7 @@
 					<row>9</row>
 					<column>22</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>9</row>
 					<column>23</column>
 				</brickBlock>
@@ -77,7 +77,7 @@
 					<row>20</row>
 					<column>30</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>20</row>
 					<column>31</column>
 				</brickBlock>
@@ -89,7 +89,7 @@
 					<row>16</row>
 					<column>27</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>16</row>
 					<column>26</column>
 				</brickBlock>
@@ -314,7 +314,7 @@
 					<row>20</row>
 					<column>9</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>16</row>
 					<column>10</column>
 				</brickBlock>
@@ -326,7 +326,7 @@
 					<row>8</row>
 					<column>12</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>4</row>
 					<column>13</column>
 				</brickBlock>
@@ -370,7 +370,7 @@
 					<row>8</row>
 					<column>35</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>8</row>
 					<column>36</column>
 				</brickBlock>
@@ -398,7 +398,7 @@
 					<row>26</row>
 					<column>39</column>
 				</brickBlock>
-					<brickBlock>
+				<brickBlock coinCount="1">
 					<row>26</row>
 					<column>40</column>
 				</brickBlock>
@@ -414,7 +414,7 @@
 					<row>23</row>
 					<column>21</column>
 				</brickBlock>
-						<brickBlock>
+				<brickBlock coinCount="1">
 					<row>23</row>
 					<column>22</column>
 				</brickBlock>
@@ -438,7 +438,7 @@
 					<row>6</row>
 					<column>23</column>
 				</brickBlock>
-					<brickBlock>
+				<brickBlock coinCount="1">
 					<row>6</row>
 					<column>24</column>
 				</brickBlock>
@@ -448,7 +448,7 @@
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
-				<questionBlock item="fire">
+				<questionBlock item="boss">
 					<row>21</row>
 					<column>27</column>
 				</questionBlock>
@@ -648,7 +648,7 @@
 					<row>24</row>
 					<column>15</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>20</row>
 					<column>16</column>
 				</brickBlock>
@@ -684,7 +684,7 @@
 					<row>28</row>
 					<column>21</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>28</row>
 					<column>19</column>
 				</brickBlock>
@@ -962,7 +962,7 @@
 					<row>29</row>
 					<column>15</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>17</row>
 					<column>33</column>
 				</brickBlock>
@@ -1014,7 +1014,7 @@
 					<row>7</row>
 					<column>1</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>7</row>
 					<column>2</column>
 				</brickBlock>
@@ -1058,7 +1058,7 @@
 					<row>8</row>
 					<column>27</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>8</row>
 					<column>26</column>
 				</brickBlock>
@@ -1080,7 +1080,7 @@
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
-				<questionBlock item="boss"> <!-- Should be new power-up! -->
+				<questionBlock item="boss">
 					<row>29</row>
 					<column>12</column>
 				</questionBlock>
@@ -1348,7 +1348,7 @@
 			<floorBlocks>
 			</floorBlocks>
 			<brickBlocks>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>2</row>
 					<column>10</column>
 				</brickBlock>
@@ -1360,7 +1360,7 @@
 					<row>2</row>
 					<column>12</column>
 				</brickBlock>
-						<brickBlock>
+				<brickBlock coinCount="1">
 					<row>2</row>
 					<column>13</column>
 				</brickBlock>
@@ -1404,7 +1404,7 @@
 					<row>7</row>
 					<column>12</column>
 				</brickBlock>
-			<brickBlock>
+				<brickBlock coinCount="1">
 					<row>7</row>
 					<column>13</column>
 				</brickBlock>
@@ -1412,7 +1412,7 @@
 					<row>7</row>
 					<column>14</column>
 				</brickBlock>
-						<brickBlock>
+				<brickBlock coinCount="1">
 					<row>7</row>
 					<column>15</column>
 				</brickBlock>
@@ -1488,7 +1488,7 @@
 					<row>19</row>
 					<column>23</column>
 				</brickBlock>
-						<brickBlock>
+				<brickBlock coinCount="1">
 					<row>19</row>
 					<column>24</column>
 				</brickBlock>
@@ -1536,7 +1536,7 @@
 					<row>24</row>
 					<column>16</column>
 				</brickBlock>
-						<brickBlock>
+				<brickBlock coinCount="1">
 					<row>24</row>
 					<column>17</column>
 				</brickBlock>
@@ -1594,15 +1594,15 @@
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
-				<questionBlock>
+				<questionBlock item="oneUp">
 					<row>2</row>
 					<column>16</column>
 				</questionBlock>
-				<questionBlock>
+				<questionBlock item="boss">
 					<row>10</row>
 					<column>27</column>
 				</questionBlock>
-				<questionBlock>
+				<questionBlock item="mushroom">
 					<row>24</row>
 					<column>12</column>
 				</questionBlock>
@@ -1978,7 +1978,7 @@
 					<row>3</row>
 					<column>35</column>
 				</brickBlock>
-						<brickBlock>
+				<brickBlock coinCount="1">
 					<row>3</row>
 					<column>38</column>
 				</brickBlock>
@@ -2062,7 +2062,7 @@
 					<row>10</row>
 					<column>44</column>
 				</brickBlock>
-					<brickBlock>
+				<brickBlock coinCount="1">
 					<row>10</row>
 					<column>45</column>
 				</brickBlock>
@@ -2094,7 +2094,7 @@
 					<row>16</row>
 					<column>40</column>
 				</brickBlock>
-			<brickBlock>
+			<brickBlock coinCount="1">
 					<row>16</row>
 					<column>41</column>
 				</brickBlock>
@@ -2142,7 +2142,7 @@
 					<row>19</row>
 					<column>11</column>
 				</brickBlock>
-			<brickBlock>
+				<brickBlock coinCount="1">
 					<row>19</row>
 					<column>12</column>
 				</brickBlock>
@@ -2226,7 +2226,7 @@
 					<row>23</row>
 					<column>18</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>23</row>
 					<column>20</column>
 				</brickBlock>
@@ -2292,7 +2292,7 @@
 					<row>23</row>
 					<column>19</column>
 				</questionBlock>
-				<questionBlock>
+				<questionBlock item="boss">
 					<row>22</row>
 					<column>28</column>
 				</questionBlock>
@@ -2800,7 +2800,7 @@
 					<row>5</row>
 					<column>11</column>
 				</brickBlock>
-			<brickBlock>
+				<brickBlock coinCount="1">
 					<row>5</row>
 					<column>12</column>
 				</brickBlock>
@@ -2852,7 +2852,7 @@
 					<row>8</row>
 					<column>27</column>
 				</brickBlock>
-					<brickBlock>
+				<brickBlock coinCount="1">
 					<row>8</row>
 					<column>28</column>
 				</brickBlock>
@@ -2912,7 +2912,7 @@
 					<row>16</row>
 					<column>17</column>
 				</brickBlock>
-			<brickBlock>
+				<brickBlock coinCount="1">
 					<row>16</row>
 					<column>39</column>
 				</brickBlock>
@@ -3012,7 +3012,7 @@
 					<row>22</row>
 					<column>29</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>22</row>
 					<column>30</column>
 				</brickBlock>
@@ -3036,7 +3036,7 @@
 					<row>22</row>
 					<column>39</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>22</row>
 					<column>40</column>
 				</brickBlock>
@@ -3072,7 +3072,7 @@
 					<row>26</row>
 					<column>21</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>26</row>
 					<column>28</column>
 				</brickBlock>
@@ -3214,11 +3214,11 @@
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
-				<questionBlock>
+				<questionBlock item="oneUp">
 					<row>1</row>
 					<column>1</column>
 				</questionBlock>
-				<questionBlock>
+				<questionBlock item="boss">
 					<row>12</row>
 					<column>15</column>
 				</questionBlock>
@@ -3542,7 +3542,7 @@
 					<row>3</row>
 					<column>10</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>3</row>
 					<column>11</column>
 				</brickBlock>
@@ -3582,7 +3582,7 @@
 					<row>5</row>
 					<column>43</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>8</row>
 					<column>49</column>
 				</brickBlock>
@@ -3598,7 +3598,7 @@
 					<row>9</row>
 					<column>32</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>9</row>
 					<column>35</column>
 				</brickBlock>
@@ -3650,7 +3650,7 @@
 					<row>11</row>
 					<column>19</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>11</row>
 					<column>20</column>
 				</brickBlock>
@@ -3674,7 +3674,7 @@
 					<row>11</row>
 					<column>25</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>11</row>
 					<column>26</column>
 				</brickBlock>
@@ -3714,7 +3714,7 @@
 					<row>23</row>
 					<column>16</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>23</row>
 					<column>17</column>
 				</brickBlock>
@@ -3738,7 +3738,7 @@
 					<row>24</row>
 					<column>36</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>24</row>
 					<column>37</column>
 				</brickBlock>
@@ -3748,7 +3748,7 @@
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
-				<questionBlock>
+				<questionBlock item="fire">
 					<row>11</row>
 					<column>17</column>
 				</questionBlock>
@@ -3756,7 +3756,7 @@
 					<row>21</row>
 					<column>10</column>
 				</questionBlock>
-				<questionBlock>
+				<questionBlock item="boss">
 					<row>29</row>
 					<column>36</column>
 				</questionBlock>
@@ -4616,7 +4616,7 @@
 			<floorBlocks>
 			</floorBlocks>
 			<brickBlocks>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>0</row>
 					<column>3</column>
 				</brickBlock>
@@ -4744,7 +4744,7 @@
 					<row>6</row>
 					<column>3</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>6</row>
 					<column>4</column>
 				</brickBlock>
@@ -4772,7 +4772,7 @@
 					<row>7</row>
 					<column>42</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>7</row>
 					<column>43</column>
 				</brickBlock>
@@ -4860,7 +4860,7 @@
 					<row>13</row>
 					<column>4</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>13</row>
 					<column>5</column>
 				</brickBlock>
@@ -4996,7 +4996,7 @@
 					<row>19</row>
 					<column>7</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>19</row>
 					<column>8</column>
 				</brickBlock>
@@ -5120,7 +5120,7 @@
 					<row>24</row>
 					<column>43</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>24</row>
 					<column>44</column>
 				</brickBlock>
@@ -5152,7 +5152,7 @@
 					<row>29</row>
 					<column>8</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>29</row>
 					<column>9</column>
 				</brickBlock>
@@ -5188,7 +5188,7 @@
 					<row>29</row>
 					<column>36</column>
 				</brickBlock>
-				<brickBlock>
+				<brickBlock coinCount="1">
 					<row>29</row>
 					<column>37</column>
 				</brickBlock>
@@ -5226,7 +5226,7 @@
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
-				<questionBlock>
+				<questionBlock item="boss">
 					<row>13</row>
 					<column>8</column>
 				</questionBlock>
@@ -5234,7 +5234,7 @@
 					<row>29</row>
 					<column>10</column>
 				</questionBlock>
-				<questionBlock>
+				<questionBlock item="oneUp">
 					<row>29</row>
 					<column>40</column>
 				</questionBlock>
