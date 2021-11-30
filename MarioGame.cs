@@ -351,7 +351,7 @@ namespace Game1
             mario = chunkParser.ParseMario();
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
             BossBeamSpriteFactory.Instance.LoadTextures(this);
-            BossBeam.Instance.InitializeBeam(mario);
+            BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
 
             AddNewChunk(1);

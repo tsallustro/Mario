@@ -16,7 +16,7 @@ namespace GameObjects
         {
             get
             {
-                if(instance == null)
+                if (instance == null)
                 {
                     instance = new BossBeam();
                 }
@@ -28,8 +28,10 @@ namespace GameObjects
 
         private Boolean left;
         private Mario mario;
-        public bool isActive = false;
-      
+        private Camera cam;
+
+        public bool isActive { get; private set; } = false;
+
         public BossBeam() : base(new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0))
         {
             this.Sprite = BossBeamSpriteFactory.Instance.CreateBeam(Position);
@@ -37,36 +39,44 @@ namespace GameObjects
                        (Sprite.texture.Width / 6) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
 
         }
-        public void InitializeBeam(Mario mario)
+        public void InitializeBeam(Mario mario, Camera camera)
         {
             this.mario = mario;
+            this.cam = camera;
         }
         public override void Damage()
         {
-            return;
+            return; //The raw, god-like power of the beam precludes it from being damaged
         }
         public override void Update(GameTime gameTime)
         {
-            if(isActive)
+            if (isActive)
             {
                 base.Update(gameTime);
                 Position += Velocity;
                 Sprite.location += Velocity;
                 Sprite.Update();
-
-               
-                
+                if (cam.Limits is Rectangle rec && !rec.Contains(Position.X, Position.Y)) MakeInactive();
             }
 
-           
+
         }
         public override void Collision(int side, GameObject Collidee)
         {
-            base.Collision(side, Collidee);
-            if(Collidee is Bowser)
-            {
-                ((Bowser)Collidee).Damage();
+            if (isActive) {
+                base.Collision(side, Collidee);
+                if (Collidee is Bowser)
+                {
+                    ((Bowser)Collidee).Damage();
+                    MakeInactive();
+                }
+                else if (Collidee is IEnemy)
+                {
+                    ((IEnemy)Collidee).Stomped();
+                    MakeInactive();
+                }
             }
+
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -76,7 +86,7 @@ namespace GameObjects
                 DrawAABBIfVisible(Color.Red, spriteBatch);
             }
         }
-        
+
         public override void Halt()
         {
             this.SetXVelocity(0);
@@ -87,11 +97,20 @@ namespace GameObjects
         {
             isActive = true;
             this.left = mario.isFacingLeft();
-            this.Position = new Vector2(mario.GetPosition().X, mario.GetPosition().Y-16);
+            this.Position = new Vector2(mario.GetPosition().X, mario.GetPosition().Y - 16);
             this.Sprite.location = this.Position;
-            float XSpeed= BEAM_SPEED;
+            float XSpeed = BEAM_SPEED;
             if (left) XSpeed *= -1;
             this.SetXVelocity(XSpeed);
+            System.Diagnostics.Debug.WriteLine("The Beam is now active.");
+        }
+
+        private void MakeInactive()
+        {
+            isActive = false;
+            Halt();
+            System.Diagnostics.Debug.WriteLine("The Beam is now inactive.");
+
         }
     }
 }
