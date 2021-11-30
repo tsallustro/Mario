@@ -73,6 +73,7 @@ namespace Game1
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
         private FireBallSpriteFactory fireBallSpriteFactory;
         private FlagSpriteFactory flagSpriteFactory;
+        private BowserSpriteFactory bowserSpriteFactory;
 
         //For level parser
         private Texture2D blockSprites;
@@ -98,6 +99,9 @@ namespace Game1
         private Vector2 secondCheckPointPos = new Vector2(2400, 400);
 
         private Mario mario;
+
+        private Bowser bowser;
+
         private int coinsCollected = 0;
 
         private int lastFireBallIndex;
@@ -208,6 +212,7 @@ namespace Game1
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
             fireBallSpriteFactory = FireBallSpriteFactory.Instance;
             flagSpriteFactory = FlagSpriteFactory.Instance;
+            bowserSpriteFactory = BowserSpriteFactory.Instance;
 
             camera = new Camera(GraphicsDevice.Viewport);
             camera.Limits = new Rectangle(0, -cameraAdjustment, levelWidth, levelHeight + cameraAdjustment);
@@ -313,6 +318,7 @@ namespace Game1
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             fireBallSpriteFactory.LoadTextures(this);
             flagSpriteFactory.LoadTextures(this);
+            bowserSpriteFactory.LoadTextures(this);
 
             coinsIcon = new Sprite(false, true, new Vector2(225, 54), Content.Load<Texture2D>("Items"), 1, 10, 7, 8);
             livesIcon = new Sprite(false, true, new Vector2(474, 54), Content.Load<Texture2D>("standardMario"), 1, 15, 0, 0);
@@ -355,6 +361,8 @@ namespace Game1
             BossBeamSpriteFactory.Instance.LoadTextures(this);
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
+            bowser = chunkParser.ParseBowser();
+            chunks.AddObject(bowser);
 
 
 

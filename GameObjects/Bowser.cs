@@ -35,7 +35,7 @@ namespace GameObjects
         float interval = 20;
         int i = 1;
 
-        public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs, Camera camera)
+        public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, Camera camera)
             : base(position, velocity, acceleration)
         {
             //Initial position is placed top right
