@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Factories;
 using States;
+using Cameras;
 
 namespace GameObjects
 {
@@ -12,6 +13,7 @@ namespace GameObjects
         private readonly int numberOfSpritesOnSheet = 4;
         private readonly int HorizontalVelocity = 130;
         private readonly int boundaryAdjustment = 8;
+        private Camera camera;
 
 
         private Boolean left;   // Direction the fireball is facing/going
@@ -20,12 +22,14 @@ namespace GameObjects
 
         private Mario mario;
 
-        public FireBall(Boolean Left, Mario Mario)       // Constructer for fireball
+        public FireBall(Boolean Left, Mario Mario, Camera camera)       // Constructer for fireball
            : base(new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 250))
         {
             left = Left;
             active = false;
             mario = Mario;
+            this.camera = camera;
+
             if (left)       // Set X Velocity based on direction
             {
                 this.SetXVelocity(HorizontalVelocity);
@@ -97,19 +101,19 @@ namespace GameObjects
         // Updating Methods
         private void CheckAndHandleIfAtScreenBoundary() // ripped from mario.cs, handles if fireball goes outside of screen
         {
-            if (mario.GetPosition().X - Position.X > 400)       // default screen height is 800 px
+            if (Position.X - (Sprite.texture.Width / numberOfSpritesOnSheet) > camera.Position.X + 800)       // default screen height is 800 px
             {
                 this.active = false;
             }
-            else if (mario.GetPosition().X - Position.X < -400)
+            else if (Position.X + (Sprite.texture.Width / numberOfSpritesOnSheet) < camera.Position.X)
             {
                 this.active = false;
             }
-            if (Position.Y > 480)       // default screen Width is 480 px
+            if (Position.Y > (camera.Position.Y + 480))       // default screen Width is 480 px
             {
                 this.active = false;
             }
-            else if (Position.Y < 0)
+            else if (Position.Y < camera.Position.Y)
             {
                 this.active = false;
             }
@@ -129,6 +133,7 @@ namespace GameObjects
                     if (((IEnemy)Collidee).IsDead())    // short on dead enemies
                     {
                         // Do Nothing
+                        
                     }
                     else
                     {

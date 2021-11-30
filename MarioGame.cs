@@ -99,6 +99,8 @@ namespace Game1
         private Mario mario;
         private int coinsCollected = 0;
 
+        private int lastFireBallIndex;
+
         public MarioGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -215,6 +217,11 @@ namespace Game1
             base.Initialize();
         }
 
+        private static bool IsFireball(IGameObject obj)
+        {
+            return obj is FireBall;
+        }
+
         private void InitializeCommands()
         {
             commands = new List<ICommand>();
@@ -224,7 +231,7 @@ namespace Game1
             ICommand moveRight = new MoveRightCommand(mario);
             ICommand jump = new JumpCommand(mario);
             ICommand crouch = new CrouchCommand(mario);
-            ICommand throwFireBall = new throwFireballCommand((FireBall)chunks.GetObjects()[^2]);
+            ICommand throwFireBall = new throwFireballCommand((FireBall)chunks.GetObjects()[lastFireBallIndex - 1]);
             ICommand quit = new QuitCommand(this);
             ICommand standard = new StandardMarioCommand(mario);
             ICommand super = new SuperMarioCommand(mario);
@@ -354,6 +361,7 @@ namespace Game1
             chunks.AddChunk(chunkParser.ParseChunk(chunkId, previousChunkId));
             previousChunkId = chunkId;
             cameraAdjustment += 480;
+            lastFireBallIndex = chunks.GetObjects().FindLastIndex(IsFireball);
         }
 
         private void AddRandomNewChunk()
@@ -372,6 +380,7 @@ namespace Game1
             chunks.AddChunk(chunkParser.ParseChunk(randomChunkId, previousChunkId));
             cameraAdjustment += 480;
             marioHeightToLoadNextChunk -= 480;
+            lastFireBallIndex = chunks.GetObjects().FindLastIndex(IsFireball);
         }
 
         protected override void Update(GameTime gameTime)
