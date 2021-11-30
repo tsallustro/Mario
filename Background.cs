@@ -80,7 +80,7 @@ namespace View
         }
         public void Update(GameTime gameTime)
         {
-            if (mario.GetPosition().Y > (camera.Position.Y + 480))
+            if ((mario.GetPosition().Y + mario.Sprite.texture.Height) > (camera.Position.Y + 480))
             {
                 mario.SetPowerState(new DeadMario(mario));
             }

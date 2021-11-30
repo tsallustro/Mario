@@ -118,12 +118,8 @@ namespace Sprites
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
             
             if (isVisible) {
-                if (!isCollided && !left) 
+                if (!left) 
                     spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-                else if (isCollided && left) 
-                    spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.Red, 0f, new Vector2(0f, 0f), SpriteEffects.FlipHorizontally, 0f);
-                else if (isCollided && !left) 
-                    spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.Red);
                 else
                     spriteBatch.Draw(texture, destinationRectangle, sourceRectangle,
                     Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.FlipHorizontally, 0f);
