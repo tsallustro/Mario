@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using States;
-using Sprites;
 using Factories;
 using Cameras;
-using Sound;
 
 namespace GameObjects
 {
@@ -18,10 +15,13 @@ namespace GameObjects
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
          */
+        
+        private float missileTimer = 0;
+        private List<Missile> missileList = new List<Missile>();
+
 
         private GameObject BlockEnemyIsOn { get; set; }
         private readonly int numberOfSpritesOnSheet = 10;
-        private readonly double deathTimer = 1.5; 
         private double timeStomped = 0;
 
         private IBossState bowserState;
@@ -36,7 +36,7 @@ namespace GameObjects
         float interval = 20;
         int i = 1;
 
-        public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, Camera camera)
+        public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, Camera camera, List<IGameObject> objs)
             : base(position, velocity, acceleration)
         {
             //Initial position is placed top right
@@ -47,7 +47,7 @@ namespace GameObjects
             Position = position;
             this.camera = camera;
             bowserState = new IdleBowserState(this, false);
-            
+            objects = objs;
         }
 
         //Reset
@@ -97,6 +97,12 @@ namespace GameObjects
             UpdateRelativePos();
             MoveAlongWithCamera(GameTime);
             SetMoveTiming(GameTime);
+            this.missileTimer += timeElapsed;
+            if (missileTimer > 5)
+            {
+                this.Attack(GameTime);
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, bowserState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
@@ -210,9 +216,20 @@ namespace GameObjects
             }
         }
 
-        public void Attack ()
+        public void Attack(GameTime gametime)
         {
-            //Shoot fire
+            Missile newMissile = new Missile(this.GetBowserState().GetDirection(), this, camera);
+            objects.Add(newMissile);
+            missileList.Add(newMissile);
+            foreach (Missile missile in missileList.ToArray())            // we only need to check this periodically so here it goes
+            {
+                if (!missile.getActive())
+                {
+                    missile.SetQueuedForDeletion(true);
+                    missileList.Remove(missile);
+                }
+                missile.Update(gametime);
+            }
         }
 
         public bool IsDead()

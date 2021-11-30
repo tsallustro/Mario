@@ -12,7 +12,7 @@ namespace GameObjects
         private MissileSpriteFactory spriteFactory;
         private readonly int numberOfSpritesOnSheet = 4;
         private readonly int HorizontalVelocity = 50;
-        private readonly int boundaryAdjustment = 8;
+        private readonly int boundaryAdjustment = -10;
         private Camera camera;
 
 
@@ -25,7 +25,7 @@ namespace GameObjects
            : base(new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 250))
         {
             left = Left;
-            active = false;
+            active = true;
             sender = Sender;
             this.camera = camera;
 
@@ -55,6 +55,7 @@ namespace GameObjects
         public override void Damage()
         {
             active = false;
+            this.SetQueuedForDeletion(true);
         }
         public override void Halt()
         {
@@ -64,6 +65,8 @@ namespace GameObjects
 
         public void ThrowMissile()
         {
+            System.Diagnostics.Debug.WriteLine("Missile Thrown");
+
             this.Position = sender.GetPosition();
             if (left)
                 this.Position = new Vector2(this.Position.X - 50, this.Position.Y);
@@ -99,6 +102,7 @@ namespace GameObjects
         {
             if (this.active)
             {
+                System.Diagnostics.Debug.WriteLine("Missile Collided");
                 if (Collidee is Mario)          // We're only concerned about colliding with Mario
                 {
                     this.Damage();
@@ -116,7 +120,7 @@ namespace GameObjects
                 this.CheckAndHandleIfAtScreenBoundary();
 
                 // Move missile
-                Position += Velocity * timeElapsed;
+                this.Position += Velocity * timeElapsed;
 
                 base.Update(GameTime);
 
@@ -138,7 +142,7 @@ namespace GameObjects
 
         public override void ResetObject()
         {
-            // Do nothing
+            this.SetQueuedForDeletion(true);
         }
     }
 }

@@ -295,12 +295,12 @@ namespace LevelParser
                 {
                     case "bowser":
 
-                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera);
+                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, list);
                         break;
 
                     default:
                         //default to goomba on invalid type
-                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera);
+                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, list);
                         break;
 
                 }

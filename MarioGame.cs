@@ -72,6 +72,7 @@ namespace Game1
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
         private FireBallSpriteFactory fireBallSpriteFactory;
+        private MissileSpriteFactory missileSpriteFactory;
         private FlagSpriteFactory flagSpriteFactory;
         private BowserSpriteFactory bowserSpriteFactory;
 
@@ -221,6 +222,7 @@ namespace Game1
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
             fireBallSpriteFactory = FireBallSpriteFactory.Instance;
+            missileSpriteFactory = MissileSpriteFactory.Instance;
             flagSpriteFactory = FlagSpriteFactory.Instance;
             bowserSpriteFactory = BowserSpriteFactory.Instance;
 
@@ -326,6 +328,7 @@ namespace Game1
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             fireBallSpriteFactory.LoadTextures(this);
+            missileSpriteFactory.LoadTextures(this);
             flagSpriteFactory.LoadTextures(this);
             bowserSpriteFactory.LoadTextures(this);
 
@@ -370,7 +373,7 @@ namespace Game1
             BossBeamSpriteFactory.Instance.LoadTextures(this);
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
-            bowser = chunkParser.ParseBowser();
+            bowser = chunkParser.ParseBowser(objects);
             chunks.AddObject(bowser);
 
 
