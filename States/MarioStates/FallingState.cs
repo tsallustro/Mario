@@ -13,7 +13,9 @@ namespace States
 
         // Physics variables
         private int InitialFallingAcceleration { get; } = 275; // Must be consistent across files
-        private int RunningAcceleration { get; } = 100;
+        private int MaxRunningAcceleration { get; } = 100;
+        private float AccelerationIncrement { get; } = 5;
+        private int OppositeDirectionMultiplier { get; } = 3;
 
 
         public FallingState(Mario mario, bool left)
@@ -44,10 +46,9 @@ namespace States
             {
                 left = !left;
             }
-            else
-            {
-                mario.SetXAcceleration(RunningAcceleration);
-            }
+
+            if (mario.Acceleration.X < MaxRunningAcceleration) mario.SetXAcceleration(mario.Acceleration.X + AccelerationIncrement);
+            else if (mario.Acceleration.X < 0) mario.SetXAcceleration(mario.Acceleration.X + (OppositeDirectionMultiplier * AccelerationIncrement));
         }
 
         public void MoveLeft()
@@ -56,10 +57,9 @@ namespace States
             {
                 left = !left;
             }
-            else
-            {
-                mario.SetXAcceleration(-RunningAcceleration);
-            }
+
+            if (mario.Acceleration.X > -MaxRunningAcceleration) mario.SetXAcceleration(mario.Acceleration.X - AccelerationIncrement);
+            else if (mario.Acceleration.X > 0) mario.SetXAcceleration(mario.Acceleration.X - (OppositeDirectionMultiplier * AccelerationIncrement));
         }
 
         public void Crouch()

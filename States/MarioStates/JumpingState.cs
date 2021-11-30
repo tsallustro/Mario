@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 using GameObjects;
 using Sound;
 
@@ -15,7 +16,9 @@ namespace States
         // Physics variables
         private int InitialJumpingVelocity { get; } = -200;
         private int InitialJumpingAcceleration { get; } = 275; // Must be consistent across files
-        private int RunningAcceleration { get; } = 100;
+        private int MaxRunningAcceleration { get; } = 100;
+        private float AccelerationIncrement { get; } = 5;
+        private int OppositeDirectionMultiplier { get; } = 3;
 
         public JumpingState(Mario mario, bool left, IMarioActionState previousState)
         {
@@ -48,10 +51,10 @@ namespace States
             if (left)
             {
                 left = !left;
-            } else
-            {
-                mario.SetXAcceleration(RunningAcceleration);
             }
+
+            if (mario.Acceleration.X < MaxRunningAcceleration) mario.SetXAcceleration(mario.Acceleration.X + AccelerationIncrement);
+            else if (mario.Acceleration.X < 0) mario.SetXAcceleration(mario.Acceleration.X + (OppositeDirectionMultiplier * AccelerationIncrement));
         }
 
         public void MoveLeft()
@@ -59,9 +62,10 @@ namespace States
             if (!left)
             {
                 left = !left;
-            } else {
-                mario.SetXAcceleration(-RunningAcceleration);
             }
+
+            if (mario.Acceleration.X > -MaxRunningAcceleration) mario.SetXAcceleration(mario.Acceleration.X - AccelerationIncrement);
+            else if (mario.Acceleration.X > 0) mario.SetXAcceleration(mario.Acceleration.X - (OppositeDirectionMultiplier * AccelerationIncrement));
         }
 
         public void Crouch()
