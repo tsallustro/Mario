@@ -107,8 +107,7 @@
 					<row>24</row>
 					<column>9</column>
 				</questionBlock>
-				<!-- This block should contain the new power-up! It's early and can introduce new feature to user. -->
-				<questionBlock item="star">
+				<questionBlock item="boss">
 					<row>14</row>
 					<column>32</column>
 				</questionBlock>
@@ -747,7 +746,7 @@
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
-				<questionBlock item="mushroom"> <!-- Should be new power-up! -->
+				<questionBlock item="boss">
 					<row>1</row>
 					<column>11</column>
 				</questionBlock>
@@ -1081,7 +1080,7 @@
 				</brickBlock>
 			</brickBlocks>
 			<questionBlocks>
-				<questionBlock item="mushroom"> <!-- Should be new power-up! -->
+				<questionBlock item="boss"> <!-- Should be new power-up! -->
 					<row>29</row>
 					<column>12</column>
 				</questionBlock>

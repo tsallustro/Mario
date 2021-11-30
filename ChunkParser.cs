@@ -669,6 +669,9 @@ namespace ChunkReader
                 case "coin":
                     item = new Coin(new Vector2(blockPos.X, blockPos.Y), itemSprites, mario);
                     break;
+                case "boss":
+                    item = new BossPowerUp(new Vector2(blockPos.X, blockPos.Y), itemSprites, mario);
+                    break;
                 default:
                     item = null;
                     break;

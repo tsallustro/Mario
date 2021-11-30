@@ -286,6 +286,11 @@ namespace GameObjects
                     //Implement invicibility
                     score.IncreaseScore(1000);
                 }
+                else if (item is BossPowerUp)
+                {
+                    powerState.BossPowerUp();
+                    score.IncreaseScore(1000);
+                }
                 
             }
             else if (Collidee is WarpPipe pipe)
