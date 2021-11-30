@@ -30,6 +30,7 @@ namespace ChunkReader
         private Dictionary<int, Chunk> chunkMap;
         private Dictionary<int, List<int>> compatibleChunks;
         private int numberOfChunks;
+        private bool fireBallsLoaded;
 
         Mario mario;
 
@@ -46,6 +47,7 @@ namespace ChunkReader
             chunkMap = new Dictionary<int, Chunk>();
             compatibleChunks = new Dictionary<int, List<int>>();
             numberOfChunks = 0;
+            fireBallsLoaded = false;
         }
 
         public void ParseAllChunksAndAddToDictionary()
@@ -69,7 +71,6 @@ namespace ChunkReader
                     ParseItems(chunk, objects);
                     allBlocks.AddRange(ParseStairBlocks(chunk, objects));
                     ParseEnemies(chunk, objects);
-                    ParseFireballs(objects);
 
                     // After this method, chunkMap will contain all possible chunks
                     chunkMap.Add(int.Parse(id.Value), new Chunk(objects, GetHighRows(allBlocks), GetLowRows(allBlocks)));
@@ -278,7 +279,12 @@ namespace ChunkReader
                         ParseItems(chunk, objects);
                         allBlocks.AddRange(ParseStairBlocks(chunk, objects));
                         ParseEnemies(chunk, objects);
-                        ParseFireballs(objects);
+
+                        if (!fireBallsLoaded)
+                        {
+                            ParseFireballs(objects);
+                            fireBallsLoaded = true;
+                        }
                     }
                 }
             }
@@ -346,7 +352,7 @@ namespace ChunkReader
 
             for (int i = 1; i <= numOfFireBalls; i++)           // add fireballs to object list
             {
-                FireBall fireball = new FireBall(true, mario);
+                FireBall fireball = new FireBall(true, mario, camera);
                 list.Add(fireball);
             }
 
