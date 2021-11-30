@@ -9,10 +9,10 @@
 		<row>27</row>
 		<column>4</column>
 	</mario>
-	
+
 	<bowser>
-		<row>18</row>
-		<column>20</column>
+		<row>5</row>
+		<column>40</column>
 	</bowser>
 	
 	<!-- Row must be between 0 and 29 -->
