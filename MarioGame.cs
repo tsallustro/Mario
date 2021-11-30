@@ -92,6 +92,12 @@ namespace Game1
         private Camera camera;
         private Vector2 parallax;
 
+        // Initialize background color to Cornflower Blue
+        private float redVal = 100;
+        private float greenVal = 149;
+        private float blueVal = 237;
+        private Vector2 previousCameraPosition;
+
         //Checkpoints
         private Vector2 checkPoint = new Vector2(0,400);
         private int lastCheckpointPassed = 0;
@@ -145,6 +151,10 @@ namespace Game1
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
             AddNewChunk(1);
+
+            redVal = 100;
+            greenVal = 149;
+            blueVal = 237;
 
             InitializeCommands();
 
@@ -485,8 +495,17 @@ namespace Game1
                 mario.SetLivesRemaining(prevLivesRemaining);
             }
 
+            // Make screen darker as Mario goes higher;
+            if (previousCameraPosition.Y > camera.Position.Y && mario.GetPosition().Y < -500)
+            {
+                if (redVal > 0) redVal -= 0.125f;
+                if (greenVal > 0) greenVal -= 0.125f;
+                if (blueVal > 0) blueVal -= 0.125f;
+            }
+
             coinsIcon.Update();
             base.Update(gameTime);
+            previousCameraPosition = camera.Position;
         }
         public void SetCheckPoint()
         {
@@ -510,7 +529,7 @@ namespace Game1
             if (mario.hasWarped) GraphicsDevice.Clear(Color.Black);
             else
             {
-                GraphicsDevice.Clear(Color.CornflowerBlue);
+                GraphicsDevice.Clear(new Color((int)redVal, (int)greenVal, (int)blueVal));
                 background.Draw();
             }
 
