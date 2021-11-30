@@ -262,7 +262,6 @@ namespace Game1
             ICommand dead = new DeadMarioCommand(mario);
             ICommand mute = new MuteCommand(this);
             ICommand reset = new LevelResetCommand(this);
-            ICommand borderVis = new BorderVisibleCommand(chunks.GetObjects());
             ICommand pause = new PauseGameCommand(this);
             ICommand throwBossBeam = new ThrowBossBeamCommand(mario);
            

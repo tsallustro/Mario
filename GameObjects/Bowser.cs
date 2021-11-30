@@ -10,7 +10,7 @@ namespace GameObjects
 {
     public class Bowser : GameObject, IBoss
     {
-        private readonly int boundaryAdjustment = 8;
+        private readonly int boundaryAdjustment = 11;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
