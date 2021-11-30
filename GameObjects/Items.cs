@@ -285,6 +285,20 @@ namespace GameObjects
         }
     }
 
+    public class BossPowerUp : Item
+    {
+        public BossPowerUp(Vector2 position, Texture2D itemSprites, Mario mario)
+            : base(position, itemSprites, mario)
+        {
+            //NOTE ITEM SHOWS UP AS A STAR RIGHT NOW SINCE A SPRITE IS NOT IMPLEMENTED
+            Sprite = spriteFactory.CreateStar(position);
+            itemState = new BossPowerUpState(this);
+            AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+
+        }
+    }
+
     public class OneUpMushroom : Item
     {
 

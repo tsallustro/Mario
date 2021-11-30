@@ -113,7 +113,7 @@ namespace GameObjects
 
         public bool IsDead()
         {
-
+            return false;
         }
 
 

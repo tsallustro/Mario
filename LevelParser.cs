@@ -173,6 +173,9 @@ namespace LevelParser
                             case "coin":
                                 hiddenObj = new Coin(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
                                 break;
+                            case "boss_powerup":
+                                hiddenObj = new BossPowerUp(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
+                                break;
                             default:
                                 //default to goomba on invalid type
                                 hiddenObj = new Goomba(objPos, new Vector2(0, 0), new Vector2(0, 0), list, camera);

@@ -18,6 +18,7 @@ namespace States
         void SmallMario();
         void BigMario();
         void FlameMario();
+        void BossPowerUp();
     }
 
     public class StandardMario : IMarioPowerState
@@ -59,6 +60,11 @@ namespace States
         public void FlameMario()
         {
             mario.SetPowerState(new FireMario(mario));
+        }
+
+        public void BossPowerUp()
+        {
+            mario.SetPowerState(new BossPowerUpMario(mario));
         }
     }
 
@@ -102,6 +108,11 @@ namespace States
         {
             mario.SetPowerState(new FireMario(mario));
         }
+
+        public void BossPowerUp()
+        {
+            mario.SetPowerState(new BossPowerUpMario(mario));
+        }
     }
 
     public class FireMario : IMarioPowerState
@@ -144,6 +155,58 @@ namespace States
         {
             //Do nothing, already Fire Mario
         }
+
+        public void BossPowerUp()
+        {
+            mario.SetPowerState(new BossPowerUpMario(mario));
+        }
+    }
+
+    public class BossPowerUpMario : IMarioPowerState
+    {
+        private Mario mario;
+
+        public BossPowerUpMario(Mario mario)
+        {
+            this.mario = mario;
+
+            //Construct sprite
+        }
+
+        public void FireFlower()
+        {
+            //Do nothing
+        }
+
+        public void Mushroom()
+        {
+            //Do nothing
+        }
+
+        public void TakeDamage()
+        {
+            mario.SetPowerState(new SuperMario(mario));
+        }
+
+        public void SmallMario()
+        {
+            mario.SetPowerState(new StandardMario(mario));
+        }
+
+        public void BigMario()
+        {
+            mario.SetPowerState(new SuperMario(mario));
+        }
+
+        public void FlameMario()
+        {
+            //Do nothing
+        }
+
+        public void BossPowerUp()
+        {
+            //Do nothing, already Boss Powerup
+        }
     }
 
     public class DeadMario : IMarioPowerState
@@ -184,6 +247,11 @@ namespace States
         }
 
         public void FlameMario()
+        {
+            //Do nothing, dead
+        }
+
+        public void BossPowerUp()
         {
             //Do nothing, dead
         }

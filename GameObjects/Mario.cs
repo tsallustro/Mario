@@ -273,6 +273,11 @@ namespace GameObjects
                 {
                     IncrementLivesRemaining();
                 }
+                else if (item is BossPowerUp)
+                {
+                    powerState.BossPowerUp();
+                    score.IncreaseScore(1000);
+                }
                 else if (item is Star)
                 {
                     //Implement invicibility
