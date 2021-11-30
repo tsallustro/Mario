@@ -601,6 +601,26 @@
 			<row>20</row>
 			<column>23</column>
 		</questionBlock>
+		<questionBlock item="coin">
+			<row>16</row>
+			<column>24</column>
+		</questionBlock>
+		<questionBlock item="coin">
+			<row>12</row>
+			<column>25</column>
+		</questionBlock>
+		<questionBlock item="coin">
+			<row>8</row>
+			<column>26</column>
+		</questionBlock>
+		<questionBlock item="coin">
+			<row>4</row>
+			<column>27</column>
+		</questionBlock>
+		<questionBlock item="coin">
+			<row>0</row>
+			<column>28</column>
+		</questionBlock>
 		<questionBlock>
 			<row>24</row>
 			<column>24</column>

@@ -27,6 +27,7 @@ namespace GameObjects
         void UnPipe();
         void ResetObject();
         public bool isQueuedForDeletion();
+        public void SetQueuedForDeletion(bool isQueuedForDeletion);
     }
 }  
 

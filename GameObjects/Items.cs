@@ -189,6 +189,12 @@ namespace GameObjects
                 SetYAcceleration(defaultItemGravity);
             }
 
+            if (AABB != null && blockItemIsOn != null && blockItemIsOn.GetAABB() != null &&
+                AABB.Intersects(blockItemIsOn.GetAABB()))
+            {
+                Position = new Vector2(Position.X, Position.Y - 1);
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, itemState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
@@ -282,20 +288,6 @@ namespace GameObjects
                     SetXVelocity(mushroomSpeed);
                 }
             }
-        }
-    }
-
-    public class BossPowerUp : Item
-    {
-        public BossPowerUp(Vector2 position, Texture2D itemSprites, Mario mario)
-            : base(position, itemSprites, mario)
-        {
-            //NOTE ITEM SHOWS UP AS A STAR RIGHT NOW SINCE A SPRITE IS NOT IMPLEMENTED
-            Sprite = spriteFactory.CreateStar(position);
-            itemState = new BossPowerUpState(this);
-            AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2),
-                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
-
         }
     }
 

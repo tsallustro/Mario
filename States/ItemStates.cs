@@ -41,17 +41,6 @@ namespace States
             this.item = item;
         }
     }
-
-    public class BossPowerUpState : IItemState
-    {
-        private IItem item;
-
-        public BossPowerUpState(IItem item)
-        {
-            this.item = item;
-        }
-    }
-
     public class StarState : IItemState
     {
         private IItem item;

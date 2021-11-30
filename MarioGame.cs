@@ -15,21 +15,33 @@ using System;
 using Sprites;
 using Collisions;
 using LevelParser;
+using ChunkReader;
 using View;
 using Cameras;
 using Microsoft.Xna.Framework.Media;
 using Sound;
+using Chunks;
+using ChunkContainer;
 using Microsoft.Xna.Framework.Audio;
 
 namespace Game1
 {
     public class MarioGame : Game
     {
-        private readonly int levelWidth = 3500;
+        private readonly int levelWidth = 800;
         private readonly int levelHeight = 480;
-        private readonly string levelToLoad = "level11";
+        private readonly string levelToLoad = "Sprint5";
         private readonly double timeLimit = 400;
         private double secondsRemaining = 400;
+        
+        /* Increase cameraAdjustment by 480 for each chunk that is added */
+        private int cameraAdjustment = 0; // Used to increase limit for vertical camera movement
+        private ActiveChunkContainer chunks;
+        private ChunkParser chunkParser;
+        private int marioHeightToLoadNextChunk = 300;
+        private readonly int numberOfChunksInLevelDefinition = 8;
+        private int previousChunkId = 0;
+
         private bool playedWarningSound = false;
         private Point maxCoords; 
         private List<IGameObject> objects;
@@ -107,15 +119,26 @@ namespace Game1
             playedWarningSound = false;
 
             camera = new Camera(GraphicsDevice.Viewport);
-            camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+            camera.Limits = new Rectangle(0, -cameraAdjustment, levelWidth, levelHeight + cameraAdjustment);
             background.SetCamera(camera);
 
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
-            mario = (Mario)objects[0];
+            chunks = new ActiveChunkContainer();
+            chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites, 0);
+
+            // Determine chunk compatibility
+            chunkParser.ParseAllChunksAndAddToDictionary();
+            chunkParser.DetermineCompatibleChunks();
+
+            cameraAdjustment = 0;
+            marioHeightToLoadNextChunk = 300;
+            previousChunkId = 0;
+
+            mario = chunkParser.ParseMario();
+            chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
+
+            AddNewChunk(1);
 
             InitializeCommands();
-            if (lastCheckpointPassed == 1) checkPoint = firstCheckPointPos;
-            else if (lastCheckpointPassed == 2) checkPoint = secondCheckPointPos;
 
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
@@ -182,8 +205,10 @@ namespace Game1
             flagSpriteFactory = FlagSpriteFactory.Instance;
 
             camera = new Camera(GraphicsDevice.Viewport);
-            camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+            camera.Limits = new Rectangle(0, -cameraAdjustment, levelWidth, levelHeight + cameraAdjustment);
             maxCoords = new Point(levelWidth, levelHeight);
+            objects = new List<IGameObject>();
+            chunks = new ActiveChunkContainer();
 
             this.Window.Title = "Cornet Mario Game";
             
@@ -199,7 +224,7 @@ namespace Game1
             ICommand moveRight = new MoveRightCommand(mario);
             ICommand jump = new JumpCommand(mario);
             ICommand crouch = new CrouchCommand(mario);
-            ICommand throwFireBall = new throwFireballCommand((FireBall)objects[1]);
+            ICommand throwFireBall = new throwFireballCommand((FireBall)chunks.GetObjects()[^2]);
             ICommand quit = new QuitCommand(this);
             ICommand standard = new StandardMarioCommand(mario);
             ICommand super = new SuperMarioCommand(mario);
@@ -207,7 +232,7 @@ namespace Game1
             ICommand dead = new DeadMarioCommand(mario);
             ICommand mute = new MuteCommand(this);
             ICommand reset = new LevelResetCommand(this);
-            ICommand borderVis = new BorderVisibleCommand(objects);
+            ICommand borderVis = new BorderVisibleCommand(chunks.GetObjects());
             ICommand pause = new PauseGameCommand(this);
 
             commands.Add(moveLeft);
@@ -307,17 +332,46 @@ namespace Game1
 
             // Load from Level file
             levelPath = Path.GetFullPath(Content.RootDirectory+ "\\Levels\\" + levelToLoad + ".xml");
-            objects = LevelParser.LevelParser.ParseLevel(levelPath, graphics, blockSprites, maxCoords, pipeSprite, itemSprites, flagSprite, castleSprite, camera);
+            chunkParser = new ChunkParser(levelPath, graphics, maxCoords, camera, blockSprites, pipeSprite, itemSprites, 0);
 
-            mario = (Mario) objects[0];
+            // Determine chunk compatibility
+            chunkParser.ParseAllChunksAndAddToDictionary();
+            chunkParser.DetermineCompatibleChunks();
+
+            mario = chunkParser.ParseMario();
+            chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
+
+            AddNewChunk(1);
+
             InitializeCommands();
             
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
             background.LoadContent();
+        }
 
-            //Background Music
-            
-            
+        private void AddNewChunk(int chunkId)
+        {
+            chunks.AddChunk(chunkParser.ParseChunk(chunkId, previousChunkId));
+            previousChunkId = chunkId;
+            cameraAdjustment += 480;
+        }
+
+        private void AddRandomNewChunk()
+        {
+            Random random = new Random();
+            int randomChunkId = random.Next(2, numberOfChunksInLevelDefinition + 1);
+
+            // TODO - uncomment this and change 8 above to 2 after testing
+
+            while (randomChunkId == previousChunkId)
+            {
+                randomChunkId = random.Next(2, numberOfChunksInLevelDefinition + 1);
+            }
+
+            previousChunkId = randomChunkId;
+            chunks.AddChunk(chunkParser.ParseChunk(randomChunkId, previousChunkId));
+            cameraAdjustment += 480;
+            marioHeightToLoadNextChunk -= 480;
         }
 
         protected override void Update(GameTime gameTime)
@@ -330,6 +384,8 @@ namespace Game1
             {
                 if (!paused)
                 {
+                    if (mario.GetPosition().Y <= marioHeightToLoadNextChunk) AddRandomNewChunk();
+
                     if (!mario.WinningStateReached) EnableAllCommands();
                     else SetCommandsForWinningState();
 
@@ -339,7 +395,7 @@ namespace Game1
                         maxCoords = new Point(levelWidth + 3000, levelHeight);
                     } else
                     {
-                        camera.Limits = new Rectangle(0, 0, levelWidth, levelHeight);
+                        camera.Limits = new Rectangle(0, -cameraAdjustment, levelWidth, levelHeight + cameraAdjustment);
                         maxCoords = new Point(levelWidth, levelHeight);
                     }
 
@@ -358,22 +414,22 @@ namespace Game1
                     }
 
                     // Make sure to put update collisiondetection before object update
-                    collisionHandler.Update(gameTime, objects);
+                    collisionHandler.Update(gameTime, chunks.GetObjects());
 
-                    foreach (var obj in objects)
+                    foreach (var obj in chunks.GetObjects())
                     {
                         if (!(obj is IEnemy)) obj.Update(gameTime);
                     }
 
-                    foreach (var obj in objects)
+                    foreach (var obj in chunks.GetObjects())
                     {
                         if (obj is IEnemy) obj.Update(gameTime);
                     }
 
-                    background.Update();
+                    background.Update(gameTime);
 
                     //Removed all items that are queued for deletion
-                    objects.RemoveAll(delegate (IGameObject obj)
+                    chunks.GetObjects().RemoveAll(delegate (IGameObject obj)
                     {
                         if (obj.isQueuedForDeletion() && obj is Coin) CoinCollected();
                         return obj.isQueuedForDeletion();
@@ -437,7 +493,7 @@ namespace Game1
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.GetViewMatrix(parallax));
 
             // call draw methods from each sprite and pass in sprite batch
-            foreach (var obj in objects)
+            foreach (var obj in chunks.GetObjects())
             {
                 obj.Draw(spriteBatch);
             }

@@ -75,6 +75,8 @@ namespace LevelParser
 
             ParseEnd(list, level, flagSprite, castleSprite);
 
+            list.Remove(mario);
+
             return list;
         }
 
@@ -172,9 +174,6 @@ namespace LevelParser
                                 break;
                             case "coin":
                                 hiddenObj = new Coin(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
-                                break;
-                            case "boss_powerup":
-                                hiddenObj = new BossPowerUp(new Vector2(objPos.X, objPos.Y), itemSprites, mario);
                                 break;
                             default:
                                 //default to goomba on invalid type

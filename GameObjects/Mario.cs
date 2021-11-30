@@ -5,6 +5,7 @@ using Sound;
 using Sprites;
 using States;
 using System.Collections.Generic;
+using View;
 
 namespace GameObjects
 {
@@ -186,6 +187,13 @@ namespace GameObjects
                 this.actionState.Fall();
             }
 
+            // Nudge Mario's position up if Mario is inside a block
+            if (AABB != null && BlockMarioIsOn != null && BlockMarioIsOn.GetAABB() != null &&
+                AABB.Intersects(BlockMarioIsOn.GetAABB()))
+            {
+                Position = new Vector2(Position.X, Position.Y - 1);
+            }
+
             /*
              * We need to keep track of which enemy Mario last collided with, so he doesn't continually
              * take damage and die immediately even when he is in Super or Fire state.
@@ -272,11 +280,6 @@ namespace GameObjects
                 else if (item is OneUpMushroom)
                 {
                     IncrementLivesRemaining();
-                }
-                else if (item is BossPowerUp)
-                {
-                    powerState.BossPowerUp();
-                    score.IncreaseScore(1000);
                 }
                 else if (item is Star)
                 {
@@ -444,14 +447,16 @@ namespace GameObjects
 
         private void CheckAndHandleIfAtScreenBoundary()
         {
+            float halfSpriteWidth = Sprite.texture.Width / numberOfSpritesOnSheet / 2;
+
             //This prevents Mario from going outside the screen
-            if (newPosition.X > maxCoords.X)
+            if (newPosition.X > maxCoords.X + halfSpriteWidth)
             {
-                this.SetXVelocity(0);
+                newPosition = new Vector2(-halfSpriteWidth, Position.Y);
             }
-            else if (newPosition.X < 0)
+            else if (newPosition.X < -halfSpriteWidth)
             {
-                this.SetXVelocity(0);
+                newPosition = new Vector2(maxCoords.X + halfSpriteWidth, Position.Y);
             }
 
             if (newPosition.Y > maxCoords.Y)

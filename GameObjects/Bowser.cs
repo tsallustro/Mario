@@ -11,9 +11,8 @@ using Sound;
 
 namespace GameObjects
 {
-    public class Bowser : GameObject, IEnemy
+    public class Bowser : GameObject, IBoss
     {
-        private readonly float gravityAcceleration = 275;
         private readonly int boundaryAdjustment = 4;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
@@ -25,8 +24,8 @@ namespace GameObjects
         private readonly double deathTimer = 1.5; // Timer for stomped Goomba disappearing
         private double timeStomped = 0;
 
-        private IEnemyState bowserState;
-        private GoombaSpriteFactory spriteFactory;
+        private IBossState bowserState;
+        //private GoombaSpriteFactory spriteFactory;
         private bool introduced = false;
         Vector2 newPosition;
         List<IGameObject> objects;
@@ -35,7 +34,9 @@ namespace GameObjects
         public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, List<IGameObject> objs, Camera camera)
             : base(position, velocity, acceleration)
         {
-
+            //Initial position is placed top right
+            Position = position;
+            this.camera = camera;
         }
         // reset goomba to default state using initial data
         public override void ResetObject()
@@ -44,16 +45,16 @@ namespace GameObjects
 
         }
 
-        //Get Goomba State
-        public IEnemyState GetBowserState()
+        //Get Bowser State
+        public IBossState GetBowserState()
         {
             return this.bowserState;
         }
 
-        //Set Goomba State
-        public void SetBowserState(IEnemyState goombaState)
+        //Set Bowser State
+        public void SetBowserState(IBossState bowserState)
         {
-            //this.goombaState = goombaState;
+            this.bowserState = bowserState;
         }
 
         public override void Halt()
@@ -62,22 +63,21 @@ namespace GameObjects
         }
         public override void Damage()
         {
-            
-            
+            TempInvincible();
         }
         
-
         //Handle Collision with Block
         private void HandleBlockCollision(int side, Block block)
         {
-          
-
+          //Do nothing. Bowser doesn't collide with blocks.
         }
 
         //Handles Collision with other Objects
         public override void Collision(int side, GameObject Collidee)
         {
             const int TOP = 1, BOTTOM = 2, LEFT = 3, RIGHT = 4;
+
+            //When hit by Mario attack get damaged.
 
         }
 
@@ -93,27 +93,85 @@ namespace GameObjects
 
         }
 
-        //Change Goomba state to stomped mode
-        public void Stomped()
+        //Bowser position is fixed relative to the position of camera
+        public void MoveAlongWithCamera(GameTime gameTime)
         {
+            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float yOffset = Position.Y - camera.Position.Y;
+            float xOffset = Position.X - camera.Position.X;
+
+            Position = new Vector2(Position.X + xOffset, Position.Y + yOffset);
 
         }
-
-        //Change Goomba state to moving mode
-        public void Move()
+        
+        //Bowser should be temporarily invincible when damaged.
+        public void TempInvincible()
         {
-
+            bowserState.Damage();
+        }
+        
+        //Move Bowser toward left until it reaches certain x position
+        public void MoveLeft()
+        {
+            if (Position.X > 10)
+            {
+                SetXVelocity(-20);
+                //Change bowser state to Moving bowser
+            } else
+            {
+                SetXVelocity(0);
+                //Set sprite to look towards right
+                bowserState.FaceRight();
+            }
+        }
+        //Move Bowser toward right until it reaches certain x position
+        public void MoveRight()
+        {
+            if (Position.X < 780)
+            {
+                SetXVelocity(20);
+                //Change bowser state to Moving bowser
+            }
+            else
+            {
+                SetXVelocity(0);
+                //Set sprite to look towards left
+                bowserState.FaceLeft();
+            }
+        }
+        //Move bowser towards up until it reaches ceratin height relative to camera position
+        public void MoveUp()
+        {
+            if (Position.Y - camera.Position.Y > -200)
+            {
+                SetYVelocity(20);
+            }
+            else
+            {
+                SetYVelocity(0);
+            }
+        }
+        //Move bowser towards down until it reaches ceratin height relative to camera position
+        public void MoveDown()
+        {
+            if (Position.Y - camera.Position.Y < 200)
+            {
+                SetYVelocity(20);
+            }
+            else
+            {
+                SetYVelocity(0);
+            }
         }
 
-        //Change Goomba state to idle mode
-        public void StayIdle()
+        public void Attack ()
         {
-
+            //Shoot fire
         }
 
         public bool IsDead()
         {
-            return false;
+            return true;
         }
 
 
