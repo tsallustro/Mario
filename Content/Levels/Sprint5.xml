@@ -9,6 +9,15 @@
 		<row>27</row>
 		<column>4</column>
 	</mario>
+	<bowser>
+		
+	</bowser>
+	<bosses>
+		<boss type="bowser">
+			<row>25</row>
+			<column>10</column>
+		</boss>
+	</bosses>
 	
 	<!-- Row must be between 0 and 29 -->
 	<chunks>

@@ -348,6 +348,8 @@ namespace Game1
             mario = chunkParser.ParseMario();
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
 
+
+
             AddNewChunk(1);
 
             InitializeCommands();
