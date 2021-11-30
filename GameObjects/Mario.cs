@@ -63,7 +63,7 @@ namespace GameObjects
             AABB = (new Rectangle((int)position.X + (boundaryAdjustment / 2), (int)position.Y + (boundaryAdjustment / 2), 
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             
-            powerState = new StandardMario(this);
+            powerState = new BossMario(this);
             actionState = new FallingState(this, false);
             previousAction = new FallingState(this, false);
             Graphics = graphics;

@@ -24,7 +24,7 @@ namespace GameObjects
             }
         }
         private static readonly int BEAM_SPEED = 5;
-        protected readonly static int boundaryAdjustment = 0;
+        protected readonly static int boundaryAdjustment = 5;
 
         private Boolean left;
         private Mario mario;
@@ -52,11 +52,14 @@ namespace GameObjects
         {
             if (isActive)
             {
+                AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
+                      (Sprite.texture.Width / 6) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
                 base.Update(gameTime);
                 Position += Velocity;
                 Sprite.location += Velocity;
                 Sprite.Update();
                 if (cam.Limits is Rectangle rec && !rec.Contains(Position.X, Position.Y)) MakeInactive();
+                System.Diagnostics.Debug.WriteLine("Beam pos: " + Position);
             }
 
 
@@ -72,6 +75,7 @@ namespace GameObjects
                 }
                 else if (Collidee is IEnemy)
                 {
+                    System.Diagnostics.Debug.WriteLine("Beam collided with a " + Collidee.GetType());
                     ((IEnemy)Collidee).Stomped();
                     MakeInactive();
                 }
