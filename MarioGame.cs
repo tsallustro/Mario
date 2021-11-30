@@ -23,6 +23,7 @@ using Sound;
 using Chunks;
 using ChunkContainer;
 using Microsoft.Xna.Framework.Audio;
+using CornetGame.Factories;
 
 namespace Game1
 {
@@ -213,7 +214,7 @@ namespace Game1
             chunks = new ActiveChunkContainer();
 
             this.Window.Title = "Cornet Mario Game";
-            
+            SoundManager.Instance.ToggleMute(); //REMOVE BEFORE SUBMITTING !!!!!
             base.Initialize();
         }
 
@@ -241,7 +242,8 @@ namespace Game1
             ICommand reset = new LevelResetCommand(this);
             ICommand borderVis = new BorderVisibleCommand(chunks.GetObjects());
             ICommand pause = new PauseGameCommand(this);
-
+            ICommand throwBossBeam = new ThrowBossBeamCommand(mario);
+           
             commands.Add(moveLeft);
             commands.Add(moveRight);
             commands.Add(jump);
@@ -256,6 +258,7 @@ namespace Game1
             commands.Add(reset);
             commands.Add(borderVis);
             commands.Add(pause);
+            commands.Add(throwBossBeam);
 
             // Initialize keyboard controller mappinqgs
             // Action commands
@@ -269,7 +272,7 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.Down, crouch);
             keyboardController.AddMapping((int)Keys.S, crouch);
             keyboardController.AddMapping((int)Keys.Space, throwFireBall);
-
+            keyboardController.AddMapping((int)Keys.B, throwBossBeam);
             // Power-up commands
             keyboardController.AddMapping((int)Keys.Y, standard);
             keyboardController.AddMapping((int)Keys.U, super);
@@ -282,7 +285,7 @@ namespace Game1
             gamepadController.AddMapping((int)Buttons.A, jump);
             gamepadController.AddMapping((int)Buttons.DPadDown, crouch);
             gamepadController.AddMapping((int)Buttons.B, throwFireBall);
-
+            gamepadController.AddMapping((int)Buttons.X, throwBossBeam);
             //Music Background Mute
             keyboardController.AddMapping((int)Keys.M, mute);
 
@@ -347,9 +350,12 @@ namespace Game1
 
             mario = chunkParser.ParseMario();
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
+            BossBeamSpriteFactory.Instance.LoadTextures(this);
+            BossBeam.Instance.InitializeBeam(mario);
+            chunks.AddObject(BossBeam.Instance);
 
             AddNewChunk(1);
-
+            
             InitializeCommands();
             
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
