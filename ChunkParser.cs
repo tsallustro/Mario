@@ -213,6 +213,13 @@ namespace ChunkReader
                 }
             }
 
+            /*
+             *  Note: This implementation is pretty inefficient. The quad-nested for loop
+             *  below isn't really needed and can be replaced by improved logic in the above
+             *  for loops. But this works and doesn't run into any performance issues, so it
+             *  will be left as is for now.
+             */
+
             // Check which chunks are compatible based on the content of the matrices
             for (int currentChunkIndex = 1; currentChunkIndex <= numberOfChunks; currentChunkIndex++)
             {
@@ -257,6 +264,7 @@ namespace ChunkReader
             {
                 if (chunk.HasAttributes)
                 {
+                    // If chunks aren't compatible, get a compatible one instead
                     if (previousChunkId > 0 && !compatibleChunks[previousChunkId].Contains(chunkId))
                     {
                         Random rnd = new Random();
@@ -265,7 +273,6 @@ namespace ChunkReader
                         {
                             chunkId = rnd.Next(2, numberOfChunks);
                         }
-                        // Need to get new chunk id since they're not compatible
                     }
 
                     XAttribute id = chunk.Attribute("id");
