@@ -491,7 +491,8 @@ namespace GameObjects
                 else actionState.MoveRight();
             } else if (actionState is FallingState || actionState is JumpingState || actionState is CrouchingState)
             {
-                actionState.MoveLeft();
+                if (pressType == 1 || pressType == 2) actionState.MoveLeft();
+                else SetXAcceleration(0);
             }
 
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
@@ -512,7 +513,8 @@ namespace GameObjects
             }
             else if (actionState is FallingState || actionState is JumpingState || actionState is CrouchingState)
             {
-                actionState.MoveRight();
+                if (pressType == 1 || pressType == 2) actionState.MoveRight();
+                else SetXAcceleration(0);
             }
 
             Sprite = spriteFactory.GetCurrentSprite(Position, actionState, powerState);
