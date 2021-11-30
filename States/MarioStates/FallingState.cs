@@ -15,7 +15,7 @@ namespace States
         private int InitialFallingAcceleration { get; } = 275; // Must be consistent across files
         private int MaxRunningAcceleration { get; } = 100;
         private float AccelerationIncrement { get; } = 15;
-        private int OppositeDirectionMultiplier { get; } = 3;
+        private int OppositeDirectionMultiplier { get; } = 5;
 
 
         public FallingState(Mario mario, bool left)
