@@ -75,7 +75,7 @@ namespace GameObjects
                 }
                 else if (Collidee is IEnemy)
                 {
-                    System.Diagnostics.Debug.WriteLine("Beam collided with a " + Collidee.GetType());
+                    
                     ((IEnemy)Collidee).Stomped();
                     MakeInactive();
                 }
@@ -106,14 +106,14 @@ namespace GameObjects
             float XSpeed = BEAM_SPEED;
             if (left) XSpeed *= -1;
             this.SetXVelocity(XSpeed);
-            System.Diagnostics.Debug.WriteLine("The Beam is now active.");
+            
         }
 
         private void MakeInactive()
         {
             isActive = false;
             Halt();
-            System.Diagnostics.Debug.WriteLine("The Beam is now inactive.");
+           
 
         }
     }
