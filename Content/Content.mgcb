@@ -32,6 +32,18 @@
 /processorParam:TextureFormat=Color
 /build:BlocksV3.png
 
+#begin boss_fireball.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:boss_fireball.png
+
 #begin bowser.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -277,6 +289,9 @@
 
 #begin Levels/sprint2Map.xml
 /copy:Levels/sprint2Map.xml
+
+#begin Levels/Sprint5.xml
+/copy:Levels/Sprint5.xml
 
 #begin Levels/test.xml
 /copy:Levels/test.xml
