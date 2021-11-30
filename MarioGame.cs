@@ -484,7 +484,7 @@ namespace Game1
             }
 
             // Make screen darker as Mario goes higher;
-            if (marioPreviousPosition.Y > mario.GetPosition().Y && mario.GetPosition().Y < -400)
+            if (marioPreviousPosition.Y > mario.GetPosition().Y && mario.GetPosition().Y < -500)
             {
                 if (redVal > 0) redVal -= 0.125f;
                 if (greenVal > 0) greenVal -= 0.125f;
