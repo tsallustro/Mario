@@ -256,6 +256,7 @@ namespace Game1
             ICommand standard = new StandardMarioCommand(mario);
             ICommand super = new SuperMarioCommand(mario);
             ICommand fire = new FireMarioCommand(mario);
+            ICommand boss = new BossMarioCommand(mario);
             ICommand dead = new DeadMarioCommand(mario);
             ICommand mute = new MuteCommand(this);
             ICommand reset = new LevelResetCommand(this);
@@ -272,10 +273,10 @@ namespace Game1
             commands.Add(standard);
             commands.Add(super);
             commands.Add(fire);
+            commands.Add(boss);
             commands.Add(dead);
             commands.Add(mute);
             commands.Add(reset);
-            commands.Add(borderVis);
             commands.Add(pause);
             commands.Add(throwBossBeam);
 
@@ -296,6 +297,7 @@ namespace Game1
             keyboardController.AddMapping((int)Keys.Y, standard);
             keyboardController.AddMapping((int)Keys.U, super);
             keyboardController.AddMapping((int)Keys.I, fire);
+            keyboardController.AddMapping((int)Keys.K, boss);
             keyboardController.AddMapping((int)Keys.O, dead);
 
             // Initialize gamepad controller mappings
@@ -310,9 +312,6 @@ namespace Game1
 
             // Level Reset
             keyboardController.AddMapping((int)Keys.R, reset);
-
-            // AABB Visualization
-            keyboardController.AddMapping((int)Keys.C, borderVis);
 
             // Pause
             keyboardController.AddMapping((int)Keys.P, pause);
@@ -421,6 +420,7 @@ namespace Game1
             {
                 if (!paused)
                 {
+                    if (bowser.IsDead()) gameIsOver = true;
                     if (mario.GetPosition().Y <= marioHeightToLoadNextChunk) AddRandomNewChunk();
 
                     if (!mario.WinningStateReached) EnableAllCommands();
