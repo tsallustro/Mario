@@ -622,5 +622,7 @@ namespace GameObjects
                 Sprite.ToggleVisibility();
             }
         }
+
+       
     }
 }
