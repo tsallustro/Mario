@@ -490,9 +490,9 @@ namespace Game1
             // Make screen darker as Mario goes higher;
             if (previousCameraPosition.Y > camera.Position.Y && mario.GetPosition().Y < -500)
             {
-                if (redVal > 0) redVal -= 0.125f;
+                if (redVal > 5) redVal -= 0.125f;
                 if (greenVal > 0) greenVal -= 0.125f;
-                if (blueVal > 0) blueVal -= 0.125f;
+                if (blueVal > 50) blueVal -= 0.125f;
             }
 
             coinsIcon.Update();
