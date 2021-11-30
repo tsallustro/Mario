@@ -415,6 +415,7 @@ namespace Game1
             {
                 if (!paused)
                 {
+                    if (bowser.IsDead()) gameIsOver = true;
                     if (mario.GetPosition().Y <= marioHeightToLoadNextChunk) AddRandomNewChunk();
 
                     if (!mario.WinningStateReached) EnableAllCommands();

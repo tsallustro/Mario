@@ -217,7 +217,7 @@ namespace GameObjects
 
         public bool IsDead()
         {
-            return true;
+            return this.bowserState is DeadBowserState;
         }
 
 
