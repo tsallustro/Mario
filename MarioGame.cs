@@ -273,7 +273,6 @@ namespace Game1
             commands.Add(dead);
             commands.Add(mute);
             commands.Add(reset);
-            commands.Add(borderVis);
             commands.Add(pause);
             commands.Add(throwBossBeam);
 
@@ -308,9 +307,6 @@ namespace Game1
 
             // Level Reset
             keyboardController.AddMapping((int)Keys.R, reset);
-
-            // AABB Visualization
-            keyboardController.AddMapping((int)Keys.C, borderVis);
 
             // Pause
             keyboardController.AddMapping((int)Keys.P, pause);
