@@ -118,7 +118,7 @@ namespace ChunkReader
                 if (nextRow >= (row + 3)) // If next row is reachable from current row
                 {
                     int heightDifference = 7 + row - nextRow;
-                    int maximumDistance = (int) Math.Round(13 - (1.5 * heightDifference));
+                    int maximumDistance = (int) Math.Round(14 - (1.5 * heightDifference));
 
                     for (int nextColumn = 0; nextColumn < 50; nextColumn++)
                     {
