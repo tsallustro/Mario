@@ -4248,10 +4248,6 @@
 				</stairBlock>
 				<stairBlock>
 					<row>20</row>
-					<column>10</column>
-				</stairBlock>
-				<stairBlock>
-					<row>20</row>
 					<column>11</column>
 				</stairBlock>
 				<stairBlock>
@@ -4541,10 +4537,6 @@
 				<stairBlock>
 					<row>28</row>
 					<column>35</column>
-				</stairBlock>
-				<stairBlock>
-					<row>28</row>
-					<column>36</column>
 				</stairBlock>
 				<stairBlock>
 					<row>28</row>
