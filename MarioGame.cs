@@ -151,7 +151,7 @@ namespace Game1
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
-            bowser = chunkParser.ParseBowser();
+            bowser = chunkParser.ParseBowser(objects);
             chunks.AddObject(bowser);
             AddNewChunk(1);
 

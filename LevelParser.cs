@@ -1,18 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
-using Controllers;
-using Commands;
+﻿using Cameras;
 using GameObjects;
-using Factories;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Sprites;
 using States;
 using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using System.IO;
-using System.Diagnostics;
-using Sprites;
-using Cameras;
+using System.Xml.Linq;
 
 namespace LevelParser
 {
@@ -44,7 +39,7 @@ namespace LevelParser
                 FireBall fireball = new FireBall(true, mario, camera);
                 list.Add(fireball);
             }
-            for (int i = 1; i <= numOfFireBalls-1; i++)         // Add reference to next fireball to all fireballs in list but last
+            for (int i = 1; i <= numOfFireBalls - 1; i++)         // Add reference to next fireball to all fireballs in list but last
             {
                 ((FireBall)list[i]).setNextFireBall((FireBall)list[i + 1]);
             }
@@ -142,7 +137,8 @@ namespace LevelParser
                     {
                         yPos = 16 * Int32.Parse(yPosAttribute.Value);
                     }
-                    if (objAttribute != null) {
+                    if (objAttribute != null)
+                    {
 
                         Vector2 objPos = new Vector2
                         {
@@ -192,7 +188,7 @@ namespace LevelParser
                     X = 16 * Int32.Parse(pipe.Element("column").Value)
                 };
 
-                if (!canWarp) pipeToAdd = new WarpPipe(pipePos, new Vector2(0,0), new Vector2(0,0), camera);
+                if (!canWarp) pipeToAdd = new WarpPipe(pipePos, new Vector2(0, 0), new Vector2(0, 0), camera);
                 else pipeToAdd = new WarpPipe(pipePos, new Vector2(0, 0), new Vector2(0, 0), true, new Vector2(xPos, yPos), camera);
 
                 if (hiddenObj != null)
@@ -201,15 +197,15 @@ namespace LevelParser
                     pipeToAdd.setPipedObject(hiddenObj);
                 }
 
-                pipeToAdd.Sprite = new Sprite(false, true, pipePos, pipeSprite,1,1,0,0);
+                pipeToAdd.Sprite = new Sprite(false, true, pipePos, pipeSprite, 1, 1, 0, 0);
                 list.Add(pipeToAdd);
-                
+
             }
         }
         private static void ParseFloorBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario)
         {
             IEnumerable<XElement> floorRows = level.Element("floorBlocks").Element("rows").Elements();
-           
+
 
             //Handle each individual row
             foreach (XElement floor in floorRows)
@@ -225,17 +221,17 @@ namespace LevelParser
                         Vector2 floorBlockPos = new Vector2
                         {
                             X = 16 * Int32.Parse(column),
-                            Y = 16 * int.Parse( floor.Attribute("num").Value)
+                            Y = 16 * int.Parse(floor.Attribute("num").Value)
                         };
 
                         Block tempFloor = new Block(floorBlockPos, blockSprites, mario);
                         tempFloor.SetBlockState(new FloorBlockState(tempFloor));
                         list.Add(tempFloor);
-                        
+
                     }
                 }
 
-                
+
             }
         }
         private static void ParseEnemies(List<IGameObject> list, XElement level, Camera camera)
@@ -277,7 +273,7 @@ namespace LevelParser
                 list.Add(tempEnemy);
             }
         }
-        private static void ParseBoss (List<IGameObject> list, XElement level, Camera camera, GraphicsDeviceManager graphics)
+        private static void ParseBoss(List<IGameObject> list, XElement level, Camera camera, GraphicsDeviceManager graphics)
         {
             IEnumerable<XElement> bosses = level.Element("boss").Elements();
             foreach (XElement boss in bosses)
@@ -298,7 +294,7 @@ namespace LevelParser
 
                     default:
                         //default to goomba on invalid type
-                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, list));
+                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, list);
                         break;
 
                 }
@@ -339,7 +335,7 @@ namespace LevelParser
                 Block tempStair = new Block(stairBlockPos, blockSprites, mario);
                 tempStair.SetBlockState(new StairBlockState(tempStair));
                 list.Add(tempStair);
-                
+
             }
         }
         private static void ParseHiddenBlocks(Texture2D blockSprites, List<IGameObject> list, XElement level, Mario mario, Texture2D itemSprites)
@@ -356,13 +352,13 @@ namespace LevelParser
 
                 List<IItem> items = new List<IItem>();
 
-                if(hidden.HasAttributes)
+                if (hidden.HasAttributes)
                 {
                     XAttribute itemAttribute = hidden.Attribute("item");
                     if (itemAttribute != null)
                     {
                         items.Add(GetItemOfType(itemAttribute.Value, hiddenBlockPos, itemSprites, mario));
-                        
+
                     }
 
 
@@ -372,7 +368,7 @@ namespace LevelParser
                     {
                         for (int i = 0; i < numcoins; i++)
                         {
-                            
+
                             items.Add(GetItemOfType("coin", hiddenBlockPos, itemSprites, mario));
                         }
                     }
@@ -457,16 +453,17 @@ namespace LevelParser
                 if (brick.HasAttributes)
                 {
                     XAttribute itemAttribute = brick.Attribute("item");
-                    if (itemAttribute != null) {
+                    if (itemAttribute != null)
+                    {
                         items.Add(GetItemOfType(itemAttribute.Value, brickBlockPos, itemSprites, mario));
-                        
+
                     }
 
                     XAttribute coinCountAttribute = brick.Attribute("coinCount");
                     int numcoins;
-                    if(coinCountAttribute != null && int.TryParse(coinCountAttribute.Value, out numcoins))
+                    if (coinCountAttribute != null && int.TryParse(coinCountAttribute.Value, out numcoins))
                     {
-                        for(int i = 0; i < numcoins; i++)
+                        for (int i = 0; i < numcoins; i++)
                         {
                             System.Diagnostics.Debug.WriteLine("Adding coin " + i);
                             items.Add(GetItemOfType("coin", brickBlockPos, itemSprites, mario));
@@ -476,7 +473,7 @@ namespace LevelParser
 
                 Block tempBrick = new Block(brickBlockPos, blockSprites, mario, items);
                 tempBrick.SetBlockState(new BrickBlockState(tempBrick));
-                
+
                 list.AddRange(items);
                 list.Add(tempBrick);
             }
