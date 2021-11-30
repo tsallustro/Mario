@@ -44,6 +44,18 @@
 /processorParam:TextureFormat=Color
 /build:boss_fireball.png
 
+#begin BossMario.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BossMario.png
+
 #begin bowser.png
 /importer:TextureImporter
 /processor:TextureProcessor

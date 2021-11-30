@@ -13,6 +13,7 @@ namespace Factories
         private Texture2D standardMarioSprites;
 		private Texture2D superMarioSprites;
 		private Texture2D fireMarioSprites;
+		private Texture2D bossMarioSprites;
 
 		private static MarioSpriteFactory factoryInstance = new MarioSpriteFactory();
 
@@ -35,6 +36,12 @@ namespace Factories
 		private ISprite fireFall;
 		private ISprite fireJump;
 		private ISprite fireFlag;
+		private ISprite bossIdle;
+		private ISprite bossCrouch;
+		private ISprite bossRun;
+		private ISprite bossFall;
+		private ISprite bossJump;
+		private ISprite bossFlag;
 		private ISprite dead;
 
 		public static MarioSpriteFactory Instance
@@ -54,6 +61,7 @@ namespace Factories
 			standardMarioSprites = game.Content.Load<Texture2D>("StandardMario");
 			superMarioSprites = game.Content.Load<Texture2D>("SuperMario");
 			fireMarioSprites = game.Content.Load<Texture2D>("FireMario");
+			bossMarioSprites = game.Content.Load<Texture2D>("BossMario");
 		}
 
 		/*
@@ -76,13 +84,22 @@ namespace Factories
 				else if (actionState is RunningState) return CreateSuperRunningMario(location);
 				else if (actionState is JumpingState || actionState is FallingState) return CreateSuperJumpingMario(location);
 				else if (actionState is FlagState) return CreateSuperFlagMario(location);
-			} else if (powerState is FireMario)
-            {
+			}
+			else if (powerState is FireMario)
+			{
 				if (actionState is IdleState) return CreateFireIdleMario(location);
 				else if (actionState is CrouchingState) return CreateFireCrouchingMario(location);
 				else if (actionState is RunningState) return CreateFireRunningMario(location);
 				else if (actionState is JumpingState || actionState is FallingState) return CreateFireJumpingMario(location);
 				else if (actionState is FlagState) return CreateFireFlagMario(location);
+			}
+			else if (powerState is BossMario)
+			{
+				if (actionState is IdleState) return CreateBossIdleMario(location);
+				else if (actionState is CrouchingState) return CreateBossCrouchingMario(location);
+				else if (actionState is RunningState) return CreateBossRunningMario(location);
+				else if (actionState is JumpingState || actionState is FallingState) return CreateBossJumpingMario(location);
+				else if (actionState is FlagState) return CreateBossFlagMario(location);
 			}
 
 			return CreateDeadMario(location);
@@ -267,7 +284,67 @@ namespace Factories
 			}
 			else return fireFlag;
 		}
+		//_____________________________________________________________
+		public ISprite CreateBossIdleMario(Vector2 location)
+		{
+			if (bossIdle == null)
+			{
+				bossIdle = new Sprite(false, true, location, bossMarioSprites, 1, 15, 0, 0);
+				return bossIdle;
+			}
+			else return bossIdle;
+		}
 
+		public ISprite CreateBossCrouchingMario(Vector2 location)
+		{
+			if (bossCrouch == null)
+			{
+				bossCrouch = new Sprite(false, true, location, bossMarioSprites, 1, 15, 1, 1);
+				return bossCrouch;
+			}
+			else return bossCrouch;
+		}
+
+		public ISprite CreateBossRunningMario(Vector2 location)
+		{
+			if (bossRun == null)
+			{
+				bossRun = new Sprite(false, true, location, bossMarioSprites, 1, 15, 2, 4);
+				return bossRun;
+			}
+			else return bossRun;
+		}
+
+		public ISprite CreateBossFallingMario(Vector2 location)
+		{
+			if (bossFall == null)
+			{
+				bossFall = new Sprite(false, true, location, bossMarioSprites, 1, 15, 5, 5);
+				return bossFall;
+			}
+			else return bossFall;
+		}
+
+		public ISprite CreateBossJumpingMario(Vector2 location)
+		{
+			if (bossJump == null)
+			{
+				bossJump = new Sprite(false, true, location, bossMarioSprites, 1, 15, 5, 5);
+				return bossJump;
+			}
+			else return bossJump;
+		}
+
+		public ISprite CreateBossFlagMario(Vector2 location)
+		{
+			if (bossFlag == null)
+			{
+				bossFlag = new Sprite(false, true, location, bossMarioSprites, 1, 15, 12, 12);
+				return bossFlag;
+			}
+			else return bossFlag;
+		}
+		//_____________________________________________________
 		public ISprite CreateDeadMario(Vector2 location)
         {
 			if (dead == null)
