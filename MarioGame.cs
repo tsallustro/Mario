@@ -148,6 +148,10 @@ namespace Game1
             chunks.AddObject(BossBeam.Instance);
             AddNewChunk(1);
 
+            redVal = 100;
+            greenVal = 149;
+            blueVal = 237;
+
             InitializeCommands();
 
             background = new Background(GraphicsDevice, spriteBatch, this, mario, camera);
