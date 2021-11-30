@@ -32,9 +32,12 @@ namespace GameObjects
         Camera camera;
         GraphicsDeviceManager Graphics;
 
+        private Vector2 prevCameraPos;
+        private Vector2 cameraPos;
+
         Vector2 relativePos;
         float startMovingTiming = 0;
-        float interval = 20;
+        float interval = 10;
         int i = 0;
 
         public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, Camera camera, GraphicsDeviceManager graphics)
@@ -49,6 +52,8 @@ namespace GameObjects
             this.camera = camera;
             relativePos = new Vector2(0, Position.Y - camera.Position.Y);
             bowserState = new IdleBowserState(this, true);
+            prevCameraPos = camera.Position;
+            cameraPos = camera.Position;
             
         }
 
@@ -96,6 +101,7 @@ namespace GameObjects
         //Update
         public override void Update(GameTime GameTime)
         {
+            cameraPos = camera.Position;
             float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
             base.Update(GameTime);
             UpdateRelativePos();
@@ -107,6 +113,8 @@ namespace GameObjects
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
             Sprite.Update();
+            prevCameraPos = camera.Position;
+
         }
 
         //Draw
@@ -119,18 +127,14 @@ namespace GameObjects
         public void UpdateRelativePos()
         {
             //Bowser's relative position within viewport needs to be updated constantly.
-            if (Velocity == new Vector2(0,0))
-            {
-                relativePos.Y = Position.Y - camera.Position.Y;
-            }
-            
+            relativePos = cameraPos - prevCameraPos;
         }
 
         //Bowser position is fixed relative to the position of camera
         public void MoveAlongWithCamera()
         {
             //this.SetPosition(new Vector2(Position.X, camera.Position.Y + relativePos.Y));
-            Position -= relativePos;
+            Position += relativePos;
         }
         
         //Bowser should be temporarily invincible when damaged.
@@ -144,14 +148,23 @@ namespace GameObjects
             if (!(bowserState is DeadBowserState))
             {
 
-                if (gameTime > startMovingTiming + (interval * 2) * i && gameTime <= (startMovingTiming + interval) + (interval * 2)*i)
+                if (gameTime > startMovingTiming + (interval * 4) * i && gameTime <= (startMovingTiming + interval) + (interval * 4)*i)
                 {
                     MoveLeft();
                 }
-                else if (gameTime > (startMovingTiming + interval) + (interval * 2) * i && gameTime <= (startMovingTiming + 2 * interval) + (interval * 2) * i)
+                else if (gameTime > (startMovingTiming + interval) + (interval * 4) * i && gameTime <= (startMovingTiming + 2 * interval) + (interval * 4) * i)
                 {
                     MoveRight();
-                    //MoveDown();
+                    MoveDown();
+                }
+                else if (gameTime > (startMovingTiming + interval) + (interval * 4) * i && gameTime <= (startMovingTiming + 2 * interval) + (interval * 4) * i)
+                {
+                    MoveLeft();
+                }
+                else if (gameTime > (startMovingTiming + interval) + (interval * 4) * i && gameTime <= (startMovingTiming + 2 * interval) + (interval * 4) * i)
+                {
+                    MoveRight();
+                    MoveUp();
                 }
 
 
@@ -194,9 +207,9 @@ namespace GameObjects
         //Move bowser towards up until it reaches ceratin height relative to camera position
         public void MoveUp()
         {
-            if (relativePos.Y > 20)
+            if (Position.Y - camera.Position.Y > 30)
             {
-                SetYVelocity(100);
+                SetYVelocity(60);
             }
             else
             {
@@ -206,9 +219,9 @@ namespace GameObjects
         //Move bowser towards down until it reaches ceratin height relative to camera position
         public void MoveDown()
         {
-            if (relativePos.Y < 300)
+            if (Position.Y - camera.Position.Y < 350)
             {
-                SetYVelocity(100);
+                SetYVelocity(60);
             }
             else
             {
