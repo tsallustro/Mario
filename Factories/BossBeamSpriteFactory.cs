@@ -30,7 +30,9 @@ namespace CornetGame.Factories
 		}
 		public ISprite CreateBeam(Vector2 Location)
 		{
-			return new Sprite(false, true, Location, beamTexture, 2, 3, 0, 5);
+			ISprite spr =  new Sprite(false, true, Location, beamTexture, 2, 3, 0, 5);
+			((Sprite)spr).timePerFrame = 2;
+			return spr;
 		}
 		
 	}
