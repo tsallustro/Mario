@@ -24,7 +24,7 @@ namespace GameObjects
             }
         }
         private static readonly int BEAM_SPEED = 5;
-        protected readonly static int boundaryAdjustment = 5;
+        protected readonly static int boundaryAdjustment = 10;
 
         private Boolean left;
         private Mario mario;
@@ -36,7 +36,7 @@ namespace GameObjects
         {
             this.Sprite = BossBeamSpriteFactory.Instance.CreateBeam(Position);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
-                       (Sprite.texture.Width / 6) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+                       (Sprite.texture.Width / 3) - boundaryAdjustment, (Sprite.texture.Height / 2) - boundaryAdjustment));
 
         }
         public void InitializeBeam(Mario mario, Camera camera)
@@ -52,14 +52,14 @@ namespace GameObjects
         {
             if (isActive)
             {
-                AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
-                      (Sprite.texture.Width / 6) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
+                
                 base.Update(gameTime);
                 Position += Velocity;
                 Sprite.location += Velocity;
                 Sprite.Update();
                 if (cam.Limits is Rectangle rec && !rec.Contains(Position.X, Position.Y)) MakeInactive();
-                System.Diagnostics.Debug.WriteLine("Beam pos: " + Position);
+                AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
+                       (Sprite.texture.Width / 3) - boundaryAdjustment, (Sprite.texture.Height / 2) - boundaryAdjustment));
             }
 
 
