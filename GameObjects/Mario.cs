@@ -448,7 +448,27 @@ namespace GameObjects
                     SoundManager.Instance.PlaySound(SoundManager.GameSound.LEVEL_CLEAR);
                 }
                 WinningStateReached = true;
-                
+            } else if (Collidee is Bowser bowser)
+            {
+                switch (side)
+                {
+                    case TOP:
+                        this.Damage();
+                        this.actionState.Idle();
+                        break;
+                    case BOTTOM:
+                        actionState.Land();
+                        actionState.Jump();
+                        break;
+                    case LEFT:
+                        this.Damage();
+                        this.actionState.Idle();
+                        break;
+                    case RIGHT:
+                        this.Damage();
+                        this.actionState.Idle();
+                        break;
+                }
             }
         }
     

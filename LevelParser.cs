@@ -75,8 +75,6 @@ namespace LevelParser
 
             ParseEnd(list, level, flagSprite, castleSprite);
 
-            ParseBoss(list, level, camera);
-
             list.Remove(mario);
 
             return list;
@@ -279,7 +277,7 @@ namespace LevelParser
                 list.Add(tempEnemy);
             }
         }
-        private static void ParseBoss (List<IGameObject> list, XElement level, Camera camera)
+        private static void ParseBoss (List<IGameObject> list, XElement level, Camera camera, GraphicsDeviceManager graphics)
         {
             IEnumerable<XElement> bosses = level.Element("boss").Elements();
             foreach (XElement boss in bosses)
@@ -295,12 +293,12 @@ namespace LevelParser
                 {
                     case "bowser":
 
-                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, list);
+                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, list);
                         break;
 
                     default:
                         //default to goomba on invalid type
-                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, list);
+                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, list));
                         break;
 
                 }

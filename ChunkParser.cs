@@ -357,11 +357,11 @@ namespace ChunkReader
         {
             Vector2 bowserPos = new Vector2
             {
-                X = 16 * int.Parse(level.Element("mario").Element("column").Value),
-                Y = 16 * int.Parse(level.Element("mario").Element("row").Value)
+                X = 16 * int.Parse(level.Element("bowser").Element("column").Value),
+                Y = 16 * int.Parse(level.Element("bowser").Element("row").Value)
             };
 
-            bowser = new Bowser(bowserPos, new Vector2(0, 0), new Vector2(0, 0), camera, list);
+            bowser = new Bowser(bowserPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, list);
 
             return bowser;
         }
