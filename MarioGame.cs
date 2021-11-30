@@ -95,7 +95,7 @@ namespace Game1
         private float redVal = 100;
         private float greenVal = 149;
         private float blueVal = 237;
-        private Vector2 marioPreviousPosition;
+        private Vector2 previousCameraPosition;
 
         //Checkpoints
         private Vector2 checkPoint = new Vector2(0,400);
@@ -488,7 +488,7 @@ namespace Game1
             }
 
             // Make screen darker as Mario goes higher;
-            if (marioPreviousPosition.Y > mario.GetPosition().Y && mario.GetPosition().Y < -500)
+            if (previousCameraPosition.Y > camera.Position.Y && mario.GetPosition().Y < -500)
             {
                 if (redVal > 0) redVal -= 0.125f;
                 if (greenVal > 0) greenVal -= 0.125f;
@@ -497,7 +497,7 @@ namespace Game1
 
             coinsIcon.Update();
             base.Update(gameTime);
-            marioPreviousPosition = mario.GetPosition();
+            previousCameraPosition = camera.Position;
         }
         public void SetCheckPoint()
         {
