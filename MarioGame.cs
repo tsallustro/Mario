@@ -262,7 +262,6 @@ namespace Game1
             ICommand dead = new DeadMarioCommand(mario);
             ICommand mute = new MuteCommand(this);
             ICommand reset = new LevelResetCommand(this);
-            ICommand borderVis = new BorderVisibleCommand(chunks.GetObjects());
             ICommand pause = new PauseGameCommand(this);
             ICommand throwBossBeam = new ThrowBossBeamCommand(mario);
            
@@ -423,7 +422,7 @@ namespace Game1
             {
                 if (!paused)
                 {
-                    if (bowser.IsDead()) gameIsOver = true;
+                    if (bowser.IsDead()) gameIsWon = true;
                     if (mario.GetPosition().Y <= marioHeightToLoadNextChunk) AddRandomNewChunk();
 
                     if (!mario.WinningStateReached) EnableAllCommands();
@@ -552,7 +551,7 @@ namespace Game1
             if (gameIsWon)
             {
                 spriteBatch.Begin();
-                spriteBatch.DrawString(arial, "Winner!", new Vector2(338, 190), Color.White);
+                spriteBatch.DrawString(arial, "You won! Bowser is dead.", new Vector2(255, 190), Color.White);
                 spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 275), Color.White);
                 spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 275), Color.White);
                 spriteBatch.End();
