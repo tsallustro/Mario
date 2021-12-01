@@ -1,0 +1,22 @@
+﻿
+Author: Maxwell Ortwig
+
+Date: November 30, 2021
+
+Sprint Number: 5
+
+Name of file being reviewed: Chunk.cs
+
+Author of file being reviewed: Jessie Fowler
+
+Comments on Code Quality:
+	This Class is very thoughtful and simple. I really like simple! The gist of the code is to section off
+	GameObjects into chunks for the program to parse through. In terms of that it does everything very well
+	and very straightforward. Chunk also isn't entangled with other classes other than IGameObject.
+
+Minutes Taken to Review: 15 minutes.
+
+Hypothetical Change:
+	This wouldn't really serve a purpose for what we've done, but in the future if this code was to be reused,
+	it could be used to assign properties to everything in it. For example, if a chunk held a house that you wanted
+	to remove for whatever reason, then the entire chunk could be tagged for removal through the chunk.
