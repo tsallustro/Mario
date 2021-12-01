@@ -40,9 +40,13 @@ namespace GameObjects
         float interval = 15;
         int i = 0;
 
-        public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, Camera camera, GraphicsDeviceManager graphics, List<IGameObject> objs)
+        public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, Camera camera, GraphicsDeviceManager graphics, GameTime gameTime)
             : base(position, velocity, acceleration)
         {
+            // Save initial Data
+            resetState.pos = position;
+            resetState.vel = velocity;
+
             Graphics = graphics;
             spriteFactory = BowserSpriteFactory.Instance;
             Sprite = spriteFactory.CreateIdleBowser(position);
@@ -54,14 +58,22 @@ namespace GameObjects
             bowserState = new IdleBowserState(this, true);
             prevCameraPos = camera.Position;
             cameraPos = camera.Position;
-            objects = objs;
 
         }
 
         //Reset
         public override void ResetObject()
         {
+            this.Position = resetState.pos;
+            this.Velocity = resetState.vel;
+            bowserState = new IdleBowserState(this, true);
+            prevCameraPos = camera.Position;
+            cameraPos = camera.Position;
+            relativePos = new Vector2(0, Position.Y - camera.Position.Y);
 
+            Sprite = spriteFactory.CreateIdleBowser(resetState.pos);
+            AABB = (new Rectangle((int)resetState.pos.X + (boundaryAdjustment / 2), (int)resetState.pos.Y + (boundaryAdjustment / 2),
+                (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
 
         }
         public void SetPosition(Vector2 position)
@@ -151,6 +163,7 @@ namespace GameObjects
         {
 
         }
+        //Set Bowser movement pattern
         public void SetMoveTiming(GameTime GameTime)
         {
             float gameTime = (float)GameTime.TotalGameTime.TotalSeconds;
