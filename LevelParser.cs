@@ -1,4 +1,5 @@
 ﻿using Cameras;
+using ChunkContainer;
 using GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -273,7 +274,7 @@ namespace LevelParser
                 list.Add(tempEnemy);
             }
         }
-        private static void ParseBoss(List<IGameObject> list, XElement level, Camera camera, GraphicsDeviceManager graphics)
+        private static void ParseBoss(List<IGameObject> list, ActiveChunkContainer chunks, XElement level, Camera camera, GraphicsDeviceManager graphics, SpriteBatch spritebatch)
         {
             IEnumerable<XElement> bosses = level.Element("boss").Elements();
             foreach (XElement boss in bosses)
@@ -289,12 +290,12 @@ namespace LevelParser
                 {
                     case "bowser":
 
-                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, list);
+                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, spritebatch, chunks);
                         break;
 
                     default:
                         //default to goomba on invalid type
-                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, list);
+                        tempBoss = new Bowser(bossPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, spritebatch, chunks);
                         break;
 
                 }

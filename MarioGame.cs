@@ -151,7 +151,7 @@ namespace Game1
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
-            bowser = chunkParser.ParseBowser(objects);
+            bowser = chunkParser.ParseBowser(objects, spriteBatch, chunks);
             chunks.AddObject(bowser);
             AddNewChunk(1);
 
@@ -374,7 +374,7 @@ namespace Game1
             BossBeamSpriteFactory.Instance.LoadTextures(this);
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
-            bowser = chunkParser.ParseBowser(objects);
+            bowser = chunkParser.ParseBowser(objects, spriteBatch, chunks);
             chunks.AddObject(bowser);
 
 
@@ -422,7 +422,7 @@ namespace Game1
             {
                 if (!paused)
                 {
-                    if (bowser.IsDead()) gameIsOver = true;
+                    if (bowser.IsDead()) gameIsWon = true;
                     if (mario.GetPosition().Y <= marioHeightToLoadNextChunk) AddRandomNewChunk();
 
                     if (!mario.WinningStateReached) EnableAllCommands();
@@ -455,12 +455,12 @@ namespace Game1
                     // Make sure to put update collisiondetection before object update
                     collisionHandler.Update(gameTime, chunks.GetObjects());
 
-                    foreach (var obj in chunks.GetObjects())
+                    foreach (var obj in chunks.GetObjects().ToArray())
                     {
                         if (!(obj is IEnemy)) obj.Update(gameTime);
                     }
 
-                    foreach (var obj in chunks.GetObjects())
+                    foreach (var obj in chunks.GetObjects().ToArray())
                     {
                         if (obj is IEnemy) obj.Update(gameTime);
                     }
@@ -551,7 +551,7 @@ namespace Game1
             if (gameIsWon)
             {
                 spriteBatch.Begin();
-                spriteBatch.DrawString(arial, "Winner!", new Vector2(338, 190), Color.White);
+                spriteBatch.DrawString(arial, "You won! Bowser is dead.", new Vector2(255, 190), Color.White);
                 spriteBatch.DrawString(arial, "Replay [R]", new Vector2(200, 275), Color.White);
                 spriteBatch.DrawString(arial, "Quit [Q]", new Vector2(470, 275), Color.White);
                 spriteBatch.End();

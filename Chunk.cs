@@ -5,7 +5,7 @@ using GameObjects;
 
 namespace Chunks
 {
-    class Chunk
+    public class Chunk
     {
         private List<IGameObject> objects;
 
