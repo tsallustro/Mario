@@ -1,0 +1,31 @@
+Author: Michael Lavelle
+
+Date: November 30th, 2021
+
+Sprint #: 5
+
+File Reviewed: ChunkParser.cs
+
+Author of File Reviewed: Jesse Fowler
+
+Code Quality:
+	The code is a development of our original Sprint 1-4 Level Parser
+	to include the preloaded level chunks. This class has fundamentally
+	high coupling due to the marriage of our level "language" and the
+	level of logic interpereted by the code. I suppose that it is necessary
+	at some level, but something is off-putting about the arbitrarity of the
+	order of parsing. I have no suggestion on how to improve this factor (if
+	at all possible), this just gives my gut a feeling that this process
+	can be optimized in some way that gives more purpose to the order of
+	level loading. The introduction of the chunks follows the similar
+	conventions of our level language as before. As said in the file,
+	the 4-level deep for loop within the file could for sure be cleaned
+	up to tighten up the file.
+
+Time Length of Review: 20 min
+
+Hypothetical Change:
+	The change I would make would for sure to be improve the logic around
+	line 224 to match chunks. It's possible that a data structure would
+	improve chunk matching organization.
+	

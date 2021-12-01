@@ -304,7 +304,7 @@ namespace GameObjects
             } else if (Collidee is Missile missile && missile.getActive())
             {
                 this.Damage();
-                this.actionState.Idle();
+                this.actionState.Fall();
             }
             else if (Collidee is Goomba goomba)
             {
