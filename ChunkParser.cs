@@ -14,6 +14,7 @@ using System.Diagnostics;
 using Sprites;
 using Cameras;
 using Chunks;
+using ChunkContainer;
 
 namespace ChunkReader
 {
@@ -114,11 +115,11 @@ namespace ChunkReader
             int[,] nextChunkLowRows = nextChunk.GetLowRows();
             bool isCompatibleWithThisChunk = false;
 
-            for (int nextRow = 0; nextRow < 7; nextRow++)
+            for (int nextRow = 0; nextRow < 8; nextRow++)
             {
                 if (nextRow >= (row + 3)) // If next row is reachable from current row
                 {
-                    int heightDifference = 7 + row - nextRow;
+                    int heightDifference = 8 + row - nextRow;
                     int maximumDistance = (int) Math.Round(14 - (1.5 * heightDifference));
 
                     for (int nextColumn = 0; nextColumn < 50; nextColumn++)
@@ -127,10 +128,11 @@ namespace ChunkReader
 
                         // If there is a block, check that the two columns above are clear for landing
                         // Also check that block is within jumping distance
-                        // Don't need to check that nextRow >= 2 because it always will be here
+                        // Don't need to check that nextRow >= 3 because it always will be here
                         if (currentBlockInNextChunk == 1 && 
                             nextChunkLowRows[nextRow - 1, nextColumn] == 0 &&
                             nextChunkLowRows[nextRow - 2, nextColumn] == 0 &&
+                            nextChunkLowRows[nextRow - 3, nextColumn] == 0 &&
                             Math.Abs(nextColumn - column) < maximumDistance)
                         {
                             // Check for walls between [row, column] and [nextRow, nextColumn]
@@ -151,7 +153,7 @@ namespace ChunkReader
                             }
 
                             // Check for walls between jumping point and ending point
-                            for (int wallRow = nextRow - 1; wallRow >= nextRow - 2; wallRow--)
+                            for (int wallRow = nextRow - 1; wallRow >= nextRow - 3; wallRow--)
                             {
                                 for (int wallColumn = startingColumn; wallColumn < endingColumn; wallColumn++)
                                 {
@@ -322,16 +324,16 @@ namespace ChunkReader
 
         public int[,] GetLowRows(List<XElement> blocks)
         {
-            int[,] lowRows = new int[7, 50];
+            int[,] lowRows = new int[8, 50];
 
             foreach (XElement block in blocks)
             {
                 int Y = int.Parse(block.Element("row").Value);
 
-                if (Y >= 23 && Y < 30)
+                if (Y >= 22 && Y < 30)
                 {
                     int X = int.Parse(block.Element("column").Value);
-                    Y -= 23; // Ensure Y is in range of array
+                    Y -= 22; // Ensure Y is in range of array
                     if (X >= 0 && X < 49) lowRows[Y, X] = 1;
                 }
                 
@@ -353,7 +355,7 @@ namespace ChunkReader
             return mario;
         }
 
-        public Bowser ParseBowser(List<IGameObject> list)
+        public Bowser ParseBowser(List<IGameObject> list, SpriteBatch spritebatch, ActiveChunkContainer chunks)
         {
             Vector2 bowserPos = new Vector2
             {
@@ -361,7 +363,7 @@ namespace ChunkReader
                 Y = 16 * int.Parse(level.Element("bowser").Element("row").Value)
             };
 
-            bowser = new Bowser(bowserPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, list);
+            bowser = new Bowser(bowserPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, spritebatch, chunks);
 
             return bowser;
         }

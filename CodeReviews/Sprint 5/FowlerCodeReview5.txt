@@ -5,14 +5,26 @@ Date: November 30, 2021
 
 Sprint Number: 5
 
-Name of file being reviewed:
+Name of file being reviewed: BossBeam.cs
 
-Author of file being reviewed:
+Author of file being reviewed: Tony Sallustro
 
 Comments on Code Quality:
-	
+	This class is really well written and easy to understand. It's a singleton, which
+	makes sense since only one beam may exist at a time. The velocity is easy to adjust
+	and the other class variables are only what is needed and nothing extraneous. The only
+	change that I would make to this class is to assign 3 to a variable "numberOfSpritesOnSheet"
+	like in other GameObjects, just to get rid of the magic number and make it easier to change
+	if the spritesheet is updated. All of the methods do exactly what one would expect and
+	nothing else, so it's easy to modify.
 
-Minutes Taken to Review:
+Minutes Taken to Review: 20 minutes.
 
 Hypothetical Change:
-	
+	A hypothetical change to the game might be allowing the collection of multiple Beams, so
+	they essentially stack on top of each other. Since this class is a singleton, it wouldn't
+	support this change very well. However, it wouldn't be difficult nor time consuming to make 
+	it a normal class instead. The other changes required to support this gameplay change would
+	likely need to be made in other classes. If this change was made, it would likely be possible 
+	to remove the ResetObject() method since there would be multiple Beams and each one would
+	only be used once.

@@ -11,8 +11,8 @@ namespace GameObjects
     {
         private MissileSpriteFactory spriteFactory;
         private readonly int numberOfSpritesOnSheet = 4;
-        private readonly int HorizontalVelocity = 50;
-        private readonly int boundaryAdjustment = -10;
+        private readonly int HorizontalVelocity = 110;
+        private readonly int boundaryAdjustment = 0;
         private Camera camera;
 
 
@@ -22,21 +22,14 @@ namespace GameObjects
         private GameObject sender;
 
         public Missile(Boolean Left, GameObject Sender, Camera camera)       // Constructer for missile
-           : base(new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 250))
+           : base(new Vector2(0, 0), new Vector2(150, 0), new Vector2(50, -30))
         {
             left = Left;
             active = true;
             sender = Sender;
             this.camera = camera;
 
-            if (left)       // Set X Velocity based on direction
-            {
-                this.SetXVelocity(HorizontalVelocity);
-            }
-            else
-            {
-                this.SetXVelocity(-1 * HorizontalVelocity);
-            }
+            
             spriteFactory = MissileSpriteFactory.Instance;
             Sprite = spriteFactory.CreateMissile(this.Position);
             AABB = (new Rectangle((int)Position.X, (int)Position.Y,
@@ -55,7 +48,6 @@ namespace GameObjects
         public override void Damage()
         {
             active = false;
-            this.SetQueuedForDeletion(true);
         }
         public override void Halt()
         {
@@ -65,14 +57,18 @@ namespace GameObjects
 
         public void ThrowMissile()
         {
-            System.Diagnostics.Debug.WriteLine("Missile Thrown");
-
             this.Position = sender.GetPosition();
-            if (left)
-                this.Position = new Vector2(this.Position.X - 50, this.Position.Y);
-            else
-                this.Position = new Vector2(this.Position.X + 50, this.Position.Y);
             this.active = true;
+
+            if (left)       // Set X Velocity based on direction
+            {
+                this.Position = new Vector2(sender.GetPosition().X - 16, sender.GetPosition().Y);
+                this.SetXVelocity(HorizontalVelocity);
+            }
+            else
+            {
+                this.SetXVelocity(-1 * HorizontalVelocity);
+            }
         }
 
 
@@ -102,9 +98,9 @@ namespace GameObjects
         {
             if (this.active)
             {
-                System.Diagnostics.Debug.WriteLine("Missile Collided");
                 if (Collidee is Mario)          // We're only concerned about colliding with Mario
                 {
+                    System.Diagnostics.Debug.WriteLine("Missile Collided");
                     this.Damage();
                 }
             }
@@ -120,8 +116,14 @@ namespace GameObjects
                 this.CheckAndHandleIfAtScreenBoundary();
 
                 // Move missile
-                this.Position += Velocity * timeElapsed;
-
+                if (left)
+                {
+                    this.SetXVelocity(this.Velocity.X + Acceleration.X * timeElapsed);
+                } else {
+                    this.SetXVelocity(this.Velocity.X - Acceleration.X * timeElapsed);
+                }
+                this.SetYVelocity(this.Velocity.Y + Acceleration.Y * timeElapsed);
+                this.Position -= Velocity * timeElapsed;
                 base.Update(GameTime);
 
                 // Update Sprite
@@ -135,7 +137,8 @@ namespace GameObjects
         {
             if (active)
             {
-                Sprite.Draw(spriteBatch, true);
+                Sprite = spriteFactory.GetCurrentSprite(Position); // TODO
+                Sprite.Draw(spriteBatch, left);
                 DrawAABBIfVisible(Color.Red, spriteBatch);
             }
         }
