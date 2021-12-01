@@ -911,7 +911,7 @@
 				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
-				<hiddenBlock item="mushroom">
+				<hiddenBlock item="boss">
 					<row>15</row>
 					<column>25</column>
 				</hiddenBlock>
@@ -1931,7 +1931,7 @@
 				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
-				<hiddenBlock>
+				<hiddenBlock item="boss">
 					<row>2</row>
 					<column>40</column>
 				</hiddenBlock>
@@ -2757,7 +2757,7 @@
 				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
-				<hiddenBlock>
+				<hiddenBlock item="boss">
 					<row>14</row>
 					<column>28</column>
 				</hiddenBlock>
@@ -3519,7 +3519,7 @@
 				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
-				<hiddenBlock>
+				<hiddenBlock item="boss">
 					<row>12</row>
 					<column>26</column>
 				</hiddenBlock>
@@ -4605,7 +4605,7 @@
 				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
-				<hiddenBlock>
+				<hiddenBlock item="boss">
 					<row>16</row>
 					<column>17</column>
 				</hiddenBlock>
@@ -5419,7 +5419,7 @@
 				</stairBlock>
 			</stairBlocks>
 			<hiddenBlocks>
-				<hiddenBlock>
+				<hiddenBlock item="boss">
 					<row>20</row>
 					<column>25</column>
 				</hiddenBlock>
