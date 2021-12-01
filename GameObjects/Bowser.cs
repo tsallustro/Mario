@@ -37,7 +37,7 @@ namespace GameObjects
 
         Vector2 relativePos;
         float startMovingTiming = 0;
-        float interval = 10;
+        float interval = 15;
         int i = 0;
 
         public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, Camera camera, GraphicsDeviceManager graphics)
@@ -148,27 +148,27 @@ namespace GameObjects
             if (!(bowserState is DeadBowserState))
             {
 
-                if (gameTime > startMovingTiming + (interval * 4) * i && gameTime <= (startMovingTiming + interval) + (interval * 4)*i)
+                if (gameTime > (startMovingTiming + 0 * interval) + (interval * 4) * i && gameTime <= (startMovingTiming + 1 * interval) + (interval * 4)*i)
                 {
                     MoveLeft();
                 }
-                else if (gameTime > (startMovingTiming + interval) + (interval * 4) * i && gameTime <= (startMovingTiming + 2 * interval) + (interval * 4) * i)
+                else if (gameTime > (startMovingTiming + 1 * interval) + (interval * 4) * i && gameTime <= (startMovingTiming + 2 * interval) + (interval * 4) * i)
                 {
                     MoveRight();
                     MoveDown();
                 }
-                else if (gameTime > (startMovingTiming + interval) + (interval * 4) * i && gameTime <= (startMovingTiming + 2 * interval) + (interval * 4) * i)
+                else if (gameTime > (startMovingTiming + 2 * interval) + (interval * 4) * i && gameTime <= (startMovingTiming + 3 * interval) + (interval * 4) * i)
                 {
                     MoveLeft();
                 }
-                else if (gameTime > (startMovingTiming + interval) + (interval * 4) * i && gameTime <= (startMovingTiming + 2 * interval) + (interval * 4) * i)
+                else if (gameTime > (startMovingTiming + 3 * interval) + (interval * 4) * i && gameTime <= (startMovingTiming + 4 * interval) + (interval * 4) * i)
                 {
                     MoveRight();
                     MoveUp();
                 }
 
 
-                if (gameTime - (startMovingTiming + (2 * interval * (i + 1))) > 0)
+                if (gameTime - ((startMovingTiming + (4 * interval * (i + 1)))) > 0)
                 {
                     i++;
                 }
@@ -181,7 +181,6 @@ namespace GameObjects
             if (Position.X > 10)
             {
                 SetXVelocity(-100);
-                //Change bowser state to Moving bowser
             } else
             {
                 SetXVelocity(0);
@@ -195,7 +194,6 @@ namespace GameObjects
             if (Position.X < 700)
             {
                 SetXVelocity(100);
-                //Change bowser state to Moving bowser
             }
             else
             {
@@ -209,7 +207,7 @@ namespace GameObjects
         {
             if (Position.Y - camera.Position.Y > 30)
             {
-                SetYVelocity(60);
+                SetYVelocity(-43);
             }
             else
             {
@@ -221,7 +219,7 @@ namespace GameObjects
         {
             if (Position.Y - camera.Position.Y < 350)
             {
-                SetYVelocity(60);
+                SetYVelocity(43);
             }
             else
             {
