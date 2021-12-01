@@ -105,25 +105,28 @@ namespace GameObjects
         //Update
         public override void Update(GameTime GameTime)
         {
-            cameraPos = camera.Position;
-            float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            base.Update(GameTime);
-            UpdateRelativePos();
-            SetMoveTiming(GameTime);
-
-            MoveAlongWithCamera();
-            newPosition = Position + Velocity * timeElapsed;
-            Position = newPosition;
-
-            this.missileTimer += timeElapsed;
-            if (missileTimer > 4)
+            if (!(bowserState is DeadBowserState))
             {
-                this.Attack(GameTime);
-                this.missileTimer = 0;
-            }
-            foreach (Missile missile in missileList.ToArray())              // Update missiles
-            {
-                missile.Update(GameTime);
+                cameraPos = camera.Position;
+                float timeElapsed = (float)GameTime.ElapsedGameTime.TotalSeconds;
+                base.Update(GameTime);
+                UpdateRelativePos();
+                SetMoveTiming(GameTime);
+
+                MoveAlongWithCamera();
+                newPosition = Position + Velocity * timeElapsed;
+                Position = newPosition;
+
+                this.missileTimer += timeElapsed;
+                if (missileTimer > 4)
+                {
+                    this.Attack(GameTime);
+                    this.missileTimer = 0;
+                }
+                foreach (Missile missile in missileList.ToArray())              // Update missiles
+                {
+                    missile.Update(GameTime);
+                }
             }
 
             Sprite = spriteFactory.GetCurrentSprite(Position, bowserState);
