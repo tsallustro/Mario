@@ -1,0 +1,28 @@
+﻿Author: Tony Sallustro
+
+Date: 30 November 2021
+
+Sprint #: 5
+
+File being Reviewed: Missile.cs
+
+Author of the file: Maxwell Ortwig
+
+Code Quality: Overall pretty simple. Not a lot to say about this one, mostly general "housekeeping" stuff.
+ 
+-The explicit definition of the GetActve method. Not really a big deal, but I don't understand why it isn't defined with the variable itself (perhaps make the get method 
+	public), such as "public Boolean left {get; private set;}". 
+-The sender variable: this is sort of beyond the scope of the Missile class, but were Bowser a singleton the sender field would be unnecessary. 
+-A reference to the MissileSpriteFactory is saved as a private field despite MissileSpriteFactory being a singleton; not sure why.
+-All the ResetObject method does is call IGameObject's SetQueuedForDeletion method. Why not just call that?
+-The CheckAndHandleIfAtScreenBoundary method seems like it is too low-level, and the magic numbers 800 and 400 are even commented as the DEFAULT screen size. For
+	maintainability, these numbers should be grabbed directly from the GraphicsDevice or Camera. However, the whole
+	method could be simplified (see below).
+	
+
+Number of minutes taken to complete the review: 
+
+Hypothetical change: The change I would make is to the CheckAndHandleIfAtScreenBoundary method. Instead of doing so many checks directly, it would be a lot easier to
+	use the camera field's Limits Rectangle, and check if the rectangle contains the missile's current position. It would make it a lot easier to not only read,
+	but to maintain too, since that eliminates the need for the Missile class to know the screen size (default or otherwise) at all, since the Camera class is bound
+	to the Viewport.
