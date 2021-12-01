@@ -116,7 +116,7 @@ namespace GameObjects
             Position = newPosition;
 
             this.missileTimer += timeElapsed;
-            if (missileTimer > 2)
+            if (missileTimer > 4)
             {
                 this.Attack(GameTime);
                 this.missileTimer = 0;
