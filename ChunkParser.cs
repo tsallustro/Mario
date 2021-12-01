@@ -14,6 +14,7 @@ using System.Diagnostics;
 using Sprites;
 using Cameras;
 using Chunks;
+using ChunkContainer;
 
 namespace ChunkReader
 {
@@ -353,7 +354,7 @@ namespace ChunkReader
             return mario;
         }
 
-        public Bowser ParseBowser(List<IGameObject> list)
+        public Bowser ParseBowser(List<IGameObject> list, SpriteBatch spritebatch, ActiveChunkContainer chunks)
         {
             Vector2 bowserPos = new Vector2
             {
@@ -361,7 +362,7 @@ namespace ChunkReader
                 Y = 16 * int.Parse(level.Element("bowser").Element("row").Value)
             };
 
-            bowser = new Bowser(bowserPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, list);
+            bowser = new Bowser(bowserPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, spritebatch, chunks);
 
             return bowser;
         }

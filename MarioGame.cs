@@ -151,7 +151,7 @@ namespace Game1
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
-            bowser = chunkParser.ParseBowser(objects);
+            bowser = chunkParser.ParseBowser(objects, spriteBatch, chunks);
             chunks.AddObject(bowser);
             AddNewChunk(1);
 
@@ -375,7 +375,7 @@ namespace Game1
             BossBeamSpriteFactory.Instance.LoadTextures(this);
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
-            bowser = chunkParser.ParseBowser(objects);
+            bowser = chunkParser.ParseBowser(objects, spriteBatch, chunks);
             chunks.AddObject(bowser);
 
 
@@ -456,12 +456,12 @@ namespace Game1
                     // Make sure to put update collisiondetection before object update
                     collisionHandler.Update(gameTime, chunks.GetObjects());
 
-                    foreach (var obj in chunks.GetObjects())
+                    foreach (var obj in chunks.GetObjects().ToArray())
                     {
                         if (!(obj is IEnemy)) obj.Update(gameTime);
                     }
 
-                    foreach (var obj in chunks.GetObjects())
+                    foreach (var obj in chunks.GetObjects().ToArray())
                     {
                         if (obj is IEnemy) obj.Update(gameTime);
                     }

@@ -6,7 +6,7 @@ using GameObjects;
 
 namespace ChunkContainer
 {
-    class ActiveChunkContainer
+    public class ActiveChunkContainer
     {
         Queue<Chunk> activeChunks;
         List<IGameObject> objects; // This is the list of objects we update and draw in MarioGame

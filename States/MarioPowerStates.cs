@@ -200,7 +200,7 @@ namespace States
 
         public void FlameMario()
         {
-            //Do nothing, already Boss Mario
+            mario.SetPowerState(new FireMario(mario));
         }
 
         public void BossPowerUp()
