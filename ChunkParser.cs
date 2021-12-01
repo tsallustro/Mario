@@ -353,7 +353,7 @@ namespace ChunkReader
             return mario;
         }
 
-        public Bowser ParseBowser()
+        public Bowser ParseBowser(List<IGameObject> list)
         {
             Vector2 bowserPos = new Vector2
             {
@@ -361,7 +361,7 @@ namespace ChunkReader
                 Y = 16 * int.Parse(level.Element("bowser").Element("row").Value)
             };
 
-            bowser = new Bowser(bowserPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics);
+            bowser = new Bowser(bowserPos, new Vector2(0, 0), new Vector2(0, 0), camera, graphics, list);
 
             return bowser;
         }

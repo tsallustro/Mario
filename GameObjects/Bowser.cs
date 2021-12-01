@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using States;
-using Sprites;
 using Factories;
 using Cameras;
-using Sound;
 
 namespace GameObjects
 {
     public class Bowser : GameObject, IBoss
     {
-        private readonly int boundaryAdjustment = 8;
+        private readonly int boundaryAdjustment = 11;
         /* 
          * IMPORTANT: When establishing AABB, you must divide sprite texture width by number of sprites
          * on that sheet!
          */
+        
+        private float missileTimer = 0;
+        private List<Missile> missileList = new List<Missile>();
+
 
         private GameObject BlockEnemyIsOn { get; set; }
         private readonly int numberOfSpritesOnSheet = 10;
-        private readonly double deathTimer = 1.5; 
         private double timeStomped = 0;
 
         private IBossState bowserState;
@@ -40,7 +40,7 @@ namespace GameObjects
         float interval = 15;
         int i = 0;
 
-        public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, Camera camera, GraphicsDeviceManager graphics)
+        public Bowser(Vector2 position, Vector2 velocity, Vector2 acceleration, Camera camera, GraphicsDeviceManager graphics, List<IGameObject> objs)
             : base(position, velocity, acceleration)
         {
             Graphics = graphics;
@@ -54,7 +54,8 @@ namespace GameObjects
             bowserState = new IdleBowserState(this, true);
             prevCameraPos = camera.Position;
             cameraPos = camera.Position;
-            
+            objects = objs;
+
         }
 
         //Reset
@@ -106,9 +107,17 @@ namespace GameObjects
             base.Update(GameTime);
             UpdateRelativePos();
             SetMoveTiming(GameTime);
+
             MoveAlongWithCamera();
             newPosition = Position + Velocity * timeElapsed;
             Position = newPosition;
+
+            this.missileTimer += timeElapsed;
+            if (missileTimer > 5)
+            {
+                this.Attack(GameTime);
+            }
+
             Sprite = spriteFactory.GetCurrentSprite(Position, bowserState);
             AABB = (new Rectangle((int)Position.X + (boundaryAdjustment / 2), (int)Position.Y + (boundaryAdjustment / 2),
                 (Sprite.texture.Width / numberOfSpritesOnSheet) - boundaryAdjustment, Sprite.texture.Height - boundaryAdjustment));
@@ -227,9 +236,20 @@ namespace GameObjects
             }
         }
 
-        public void Attack ()
+        public void Attack(GameTime gametime)
         {
-            //Shoot fire
+            Missile newMissile = new Missile(this.GetBowserState().GetDirection(), this, camera);
+            objects.Add(newMissile);
+            missileList.Add(newMissile);
+            foreach (Missile missile in missileList.ToArray())            // we only need to check this periodically so here it goes
+            {
+                if (!missile.getActive())
+                {
+                    missile.SetQueuedForDeletion(true);
+                    missileList.Remove(missile);
+                }
+                missile.Update(gametime);
+            }
         }
 
         public bool IsDead()

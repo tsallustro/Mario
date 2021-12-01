@@ -72,6 +72,7 @@ namespace Game1
         private KoopaTroopaSpriteFactory koopaTroopaSpriteFactory;
         private RedKoopaTroopaSpriteFactory redKoopaTroopaSpriteFactory;
         private FireBallSpriteFactory fireBallSpriteFactory;
+        private MissileSpriteFactory missileSpriteFactory;
         private FlagSpriteFactory flagSpriteFactory;
         private BowserSpriteFactory bowserSpriteFactory;
 
@@ -150,7 +151,7 @@ namespace Game1
             chunks.AddObject(mario); // Need to add Mario to list of objects in chunks
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
-            bowser = chunkParser.ParseBowser();
+            bowser = chunkParser.ParseBowser(objects);
             chunks.AddObject(bowser);
             AddNewChunk(1);
 
@@ -223,6 +224,7 @@ namespace Game1
             koopaTroopaSpriteFactory = KoopaTroopaSpriteFactory.Instance;
             redKoopaTroopaSpriteFactory = RedKoopaTroopaSpriteFactory.Instance;
             fireBallSpriteFactory = FireBallSpriteFactory.Instance;
+            missileSpriteFactory = MissileSpriteFactory.Instance;
             flagSpriteFactory = FlagSpriteFactory.Instance;
             bowserSpriteFactory = BowserSpriteFactory.Instance;
 
@@ -260,7 +262,6 @@ namespace Game1
             ICommand dead = new DeadMarioCommand(mario);
             ICommand mute = new MuteCommand(this);
             ICommand reset = new LevelResetCommand(this);
-            ICommand borderVis = new BorderVisibleCommand(chunks.GetObjects());
             ICommand pause = new PauseGameCommand(this);
             ICommand throwBossBeam = new ThrowBossBeamCommand(mario);
            
@@ -328,6 +329,7 @@ namespace Game1
             koopaTroopaSpriteFactory.LoadTextures(this);
             redKoopaTroopaSpriteFactory.LoadTextures(this);
             fireBallSpriteFactory.LoadTextures(this);
+            missileSpriteFactory.LoadTextures(this);
             flagSpriteFactory.LoadTextures(this);
             bowserSpriteFactory.LoadTextures(this);
 
@@ -372,7 +374,7 @@ namespace Game1
             BossBeamSpriteFactory.Instance.LoadTextures(this);
             BossBeam.Instance.InitializeBeam(mario, camera);
             chunks.AddObject(BossBeam.Instance);
-            bowser = chunkParser.ParseBowser();
+            bowser = chunkParser.ParseBowser(objects);
             chunks.AddObject(bowser);
 
 

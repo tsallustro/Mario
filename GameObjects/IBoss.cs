@@ -11,7 +11,7 @@ namespace GameObjects
 		public void MoveLeft();
 		public void MoveUp();
 		public void MoveDown();
-		public void Attack();
+		public void Attack(GameTime gametime);
 		public bool IsDead();
 
 	}
