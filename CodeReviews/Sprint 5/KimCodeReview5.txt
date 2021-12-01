@@ -1,15 +1,22 @@
 ﻿Author: Tae Kim
 
-Date: 11/09
+Date: 11/30
 
-Sprint #: 4
+Sprint #: 5
 
 File being Reviewed: BossBeam.cs
 
 Author of the file: Tony Sallustro
 
-Code Quality: 
+Code Quality: The code looks simple and clean. But it lacks the description of what each method and functions
+	do. It's hard to understand what's going without having to read each method and determine what they do.
+	There's also one method that doesn't do anything: Damage(). 
 
-Number of minutes taken to complete the review: 
+Number of minutes taken to complete the review: 20
 
-Hypothetical change: 
+Hypothetical change: It could have more desciption of each methods, so we don't have to read the entire code in
+	order to know what it does. This is actually needed in most of our codes. Damage() is not a problem for only
+	this file, but for several others. Damage() is an abstract method from GameObject, which in fact is not being
+	used in several objects, thus only taking place in the code. We probably need to add this method to abstract
+	classes/interface that actually use this method such as IEnemy and IBoss instead of including IGameObject which
+	includes a lot of objects that don't use the method.
