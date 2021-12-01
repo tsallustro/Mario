@@ -20,7 +20,7 @@ Code Quality: Overall pretty simple. Not a lot to say about this one, mostly gen
 	method could be simplified (see below).
 	
 
-Number of minutes taken to complete the review: 
+Number of minutes taken to complete the review: 20
 
 Hypothetical change: The change I would make is to the CheckAndHandleIfAtScreenBoundary method. Instead of doing so many checks directly, it would be a lot easier to
 	use the camera field's Limits Rectangle, and check if the rectangle contains the missile's current position. It would make it a lot easier to not only read,
