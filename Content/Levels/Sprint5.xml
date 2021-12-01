@@ -5246,16 +5246,24 @@
 			</questionBlocks>
 			<stairBlocks>
 				<stairBlock>
+					<row>21</row>
+					<column>1</column>
+				</stairBlock>
+				<stairBlock>
 					<row>22</row>
 					<column>1</column>
 				</stairBlock>
 				<stairBlock>
-					<row>23</row>
-					<column>1</column>
+					<row>22</row>
+					<column>2</column>
 				</stairBlock>
 				<stairBlock>
 					<row>23</row>
 					<column>2</column>
+				</stairBlock>
+				<stairBlock>
+					<row>23</row>
+					<column>3</column>
 				</stairBlock>
 				<stairBlock>
 					<row>24</row>
@@ -5266,15 +5274,7 @@
 					<column>3</column>
 				</stairBlock>
 				<stairBlock>
-					<row>25</row>
-					<column>2</column>
-				</stairBlock>
-				<stairBlock>
-					<row>25</row>
-					<column>3</column>
-				</stairBlock>
-				<stairBlock>
-					<row>25</row>
+					<row>24</row>
 					<column>4</column>
 				</stairBlock>
 				<stairBlock>
@@ -5286,23 +5286,23 @@
 					<column>25</column>
 				</stairBlock>
 				<stairBlock>
-					<row>26</row>
+					<row>25</row>
 					<column>1</column>
 				</stairBlock>
 				<stairBlock>
-					<row>26</row>
+					<row>25</row>
 					<column>2</column>
 				</stairBlock>
 				<stairBlock>
-					<row>26</row>
+					<row>25</row>
 					<column>3</column>
 				</stairBlock>
 				<stairBlock>
-					<row>26</row>
+					<row>25</row>
 					<column>4</column>
 				</stairBlock>
 				<stairBlock>
-					<row>26</row>
+					<row>25</row>
 					<column>5</column>
 				</stairBlock>
 				<stairBlock>
