@@ -266,7 +266,7 @@ namespace GameObjects
             newMissile.ThrowMissile();
             foreach (Missile missile in missileList.ToArray())            // we only need to check this periodically so here it goes
             {
-                if (!missile.getActive())
+                if (!missile.GetActive())
                 {
                     missile.SetQueuedForDeletion(true);
                     missileList.Remove(missile);

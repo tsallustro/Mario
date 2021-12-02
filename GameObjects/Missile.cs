@@ -38,7 +38,7 @@ namespace GameObjects
         }
 
         // Get Methods
-        public Boolean getActive()
+        public Boolean GetActive()
         {
             return active;
         }

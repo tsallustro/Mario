@@ -301,7 +301,7 @@ namespace GameObjects
             {
                 this.Damage();
                 this.actionState.Idle();
-            } else if (Collidee is Missile missile && missile.getActive())
+            } else if (Collidee is Missile missile && missile.GetActive())
             {
                 this.Damage();
                 this.actionState.Fall();
