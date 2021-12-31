@@ -1,1 +1,18 @@
-Fill out this README with useful things.
+A Super Mario Bros clone featuring a game similar to level 1-1 of Super Mario Bros, including scoring, time limits, and music. Created in 2021 for CSE 3902 Project: Design, Development, and Documentation of Interactive Systems at The Ohio State University. The development was driven using the Scrum design framework in Microsoft Asure Devops. Credit also goes to my teammates who worked on this project with me.
+
+GAME CONTROLS
+Move left- Left arrow / A
+Move right - Right arrow / D
+Crouch - Down Arrow / S
+Jump - Up arrow / W
+Throw Fireball- Space
+Mute - M
+Reset - R
+Quit - Q
+Pause - P
+DEBUG CONTROLS
+Standard Mario - Y
+Super Mario - U
+Fire Mario - I
+Dead Mario - O
+View AABB - C
